@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chris Gantt | SNF Marketing & Community Liaison</title>
+    <title>Chris Gantt — Strategic Healthcare Liaison</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -15,7 +15,11 @@
             --white: #ffffff;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -25,8 +29,12 @@
             scroll-behavior: smooth;
         }
 
-        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
 
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -40,136 +48,185 @@
             border-bottom: 1px solid rgba(197, 160, 89, 0.2);
         }
 
-        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--ink); text-decoration: none; }
-        .nav-links a { margin-left: 2rem; text-decoration: none; color: var(--ink); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-logo-container {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
 
+        .nav-logo-img {
+            height: 3.5rem; /* Scaled for a clean nav bar */
+            width: auto;
+        }
+
+        .nav-links a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--ink);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        /* Hero Section */
         header {
             height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 50/50 split for text and photo */
+            align-items: center;
             padding: 0 10%;
-            background: linear-gradient(to right, var(--cream) 60%, #eeebe3);
+            background: var(--cream);
         }
 
-        .hero-label { color: var(--gold); text-transform: uppercase; letter-spacing: 3px; font-weight: 600; margin-bottom: 1rem; display: block; }
-        header h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 1.5rem; max-width: 800px; }
-        .hero-sub { font-size: 1.2rem; max-width: 600px; margin-bottom: 2.5rem; color: #4a4a4a; }
+        .hero-text {
+            max-width: 600px;
+        }
 
-        .btn { display: inline-block; padding: 1rem 2.5rem; background-color: var(--ink); color: var(--white); text-decoration: none; font-weight: 600; transition: 0.3s; }
-        .btn:hover { background-color: var(--gold); transform: translateY(-3px); }
+        header h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+        }
 
-        #about { padding: 100px 10%; background-color: var(--white); }
-        .section-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
-        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .stat-box h3 { font-size: 2rem; color: var(--gold); margin-bottom: 0.5rem; }
+        .hero-sub {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            color: #4a4a4a;
+        }
 
-        #expertise { padding: 100px 10%; }
-        .expertise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
-        .card { background: var(--white); padding: 2.5rem; border-bottom: 3px solid transparent; transition: 0.3s; }
-        .card:hover { border-color: var(--gold); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: var(--ink);
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, background-color 0.3s;
+        }
 
-        #contact { padding: 100px 10%; background-color: var(--ink); color: var(--white); text-align: center; }
-        .contact-info { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); text-decoration: none; display: block; margin-bottom: 1rem; }
-        .phone-link { font-family: 'Inter', sans-serif; color: var(--white); text-decoration: none; font-size: 1.2rem; display: block; margin-bottom: 2rem; letter-spacing: 1px; }
+        .btn:hover {
+            background-color: var(--gold);
+            transform: translateY(-3px);
+        }
 
-        footer { padding: 2rem 10%; background: var(--ink); color: rgba(255,255,255,0.5); font-size: 0.8rem; text-align: center; }
+        /* Swapped Monogram Panel for Headshot */
+        .hero-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-profile-img {
+            width: 80%; /* Prominent but scaled portrait */
+            max-width: 400px;
+            border-radius: 50%; /* Soft circular profile panel */
+            border: 4px solid rgba(197, 160, 89, 0.3); /* Soft gold accent border */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* About Section */
+        #about {
+            padding: 100px 10%;
+            background-color: var(--white);
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .stat-box h3 {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-box p {
+            color: #4a4a4a;
+        }
+
+        /* Expertise Grid */
+        #expertise {
+            padding: 100px 10%;
+        }
+
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            color: #4a4a4a;
+        }
+
+        /* Contact Section */
+        #contact {
+            padding: 100px 10%;
+            background-color: var(--ink);
+            color: var(--white);
+            text-align: center;
+        }
+
+        #contact h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .email-link {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 3rem;
+        }
+
+        footer {
+            padding: 2rem 10%;
+            background: var(--ink);
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
 
         @media (max-width: 768px) {
+            header { grid-template-columns: 1fr; text-align: center; height: auto; padding: 100px 10% 50px 10%; }
             header h1 { font-size: 2.5rem; }
-            .section-grid { grid-template-columns: 1fr; }
-            .nav-links { display: none; }
-        }
-    </style>
-</head>
-<body>
-
-    <nav>
-        <a href="#" class="logo">CG</a>
-        <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#expertise">Expertise</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </nav>
-
-    <header>
-        <span class="hero-label">SNF Liaison & Community Marketing</span>
-        <h1>Chris Gantt</h1>
-        <p class="hero-sub">Driving strategic growth and census development for Arbor Lake Skilled Nursing & Long Term Care throughout North Louisiana.</p>
-        <a href="#contact" class="btn">Connect with Me</a>
-    </header>
-
-    <section id="about">
-        <div class="section-grid">
-            <div>
-                <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">SNF Specialist & Community Liaison</h2>
-                <p>Based in Ruston, I specialize in the North Louisiana healthcare corridor, with a heavy focus on Skilled Nursing (SNF) operations and Long Term Care advocacy.</p>
-                <br>
-                <p>I serve as the primary bridge between Arbor Lake and the medical community—ensuring hospital discharge planners, physicians, and families have a seamless connection to the specialized post-acute care and long-term services we provide.</p>
-            </div>
-            <div class="stats">
-                <div class="stat-box">
-                    <h3>SNF Focus</h3>
-                    <p>Skilled Nursing & Rehabilitation</p>
-                </div>
-                <div class="stat-box">
-                    <h3>Arbor Lake</h3>
-                    <p>Primary Facility Representation</p>
-                </div>
-                <div class="stat-box">
-                    <h3>Liaison</h3>
-                    <p>Clinical & Community Outreach</p>
-                </div>
-                <div class="stat-box">
-                    <h3>Tech-Forward</h3>
-                    <p>Modern Solutions for Census Growth</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="expertise">
-        <h2 style="font-size: 2.2rem; text-align: center;">Strategic SNF Expertise</h2>
-        <div class="expertise-grid">
-            <div class="card">
-                <h3>Post-Acute Transitions</h3>
-                <p>Specializing in the seamless movement of patients from hospital to Skilled Nursing care settings.</p>
-            </div>
-            <div class="card">
-                <h3>Census Development</h3>
-                <p>Executing high-impact marketing strategies to maintain and grow occupancy for Arbor Lake.</p>
-            </div>
-            <div class="card">
-                <h3>Long Term Care Liaison</h3>
-                <p>Acting as a dedicated resource for families navigating the complexities of long-term placement.</p>
-            </div>
-            <div class="card">
-                <h3>Clinical Networking</h3>
-                <p>Building high-trust relationships with local hospitals, physicians, and referral coordinators.</p>
-            </div>
-            <div class="card">
-                <h3>Community Events</h3>
-                <p>Planning and executing professional networking luncheons and public-facing community festivals.</p>
-            </div>
-            <div class="card">
-                <h3>Tech-Forward Outreach</h3>
-                <p>Leveraging modern tools and workflows to optimize follow-ups and referral tracking.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact">
-        <h2>Get in Touch.</h2>
-        <p style="margin-bottom: 1.5rem; opacity: 0.8;">Serving the SNF and Long Term Care needs of North Louisiana.</p>
-        <a href="mailto:cgantt@paramounthcla.com" class="contact-info">cgantt@paramounthcla.com</a>
-        <a href="tel:3182453887" class="phone-link">318.245.3887</a>
-        <a href="https://linkedin.com" style="color: var(--white); text-decoration: none; border-bottom: 1px solid var(--gold);">LinkedIn Profile</a>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 Chris Gantt. SNF & Community Liaison Services.</p>
-    </footer>
-
-</body>
-</html>
+            .hero-profile-img { width: 60%; margin-top
