@@ -1,1 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chris Gantt | Healthcare Marketing & Community Liaison</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a1a;
+            --gold: #c5a059;
+            --cream: #f9f7f2;
+            --white: #ffffff;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--cream);
+            color: var(--ink);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 10%;
+            background: rgba(249, 247, 242, 0.95);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--ink);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        /* Hero Section */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+            background: linear-gradient(to right, var(--cream) 60%, #eeebe3);
+        }
+
+        .hero-label {
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        header h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+        }
+
+        .hero-sub {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            color: #4a4a4a;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: var(--ink);
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--gold);
+            transform: translateY(-3px);
+        }
+
+        /* About Section */
+        #about {
+            padding: 100px 10%;
+            background-color: var(--white);
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .stat-box h3 {
+            font-size: 2.5rem;
+            color: var(--gold);
+        }
+
+        /* Expertise Grid */
+        #expertise {
+            padding: 100px 10%;
+        }
+
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* Contact Section */
+        #contact {
+            padding: 100px 10%;
+            background-color: var(--ink);
+            color: var(--white);
+            text-align: center;
+        }
+
+        #contact h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .email-link {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 3rem;
+        }
+
+        footer {
+            padding: 2rem 10%;
+            background: var(--ink);
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            .section-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">CG</a>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#expertise">Expertise</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <header>
+        <span class="hero-label">Healthcare Marketing & Liaison</span>
+        <h1>Chris Gantt</h1>
+        <p class="hero-sub">Bridging the gap between clinical excellence and community awareness. Specializing in SNF marketing and professional outreach across North Louisiana.</p>
+        <a href="#contact" class="btn">Get in Touch</a>
+    </header>
+
+    <section id="about">
+        <div class="section-grid">
+            <div>
+                <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Strategic Growth & Community Focus</h2>
+                <p>Based in Ruston, I operate within the heart of North Louisiana—from Farmerville to Monroe. My approach combines data-driven marketing strategies with an "introvert's insight" into building genuine, long-term professional relationships.</p>
+                <br>
+                <p>I currently serve as the marketing liaison for Arbor Lake Skilled Nursing Facility, driving occupancy and coordinating outreach that matters.</p>
+            </div>
+            <div class="stats">
+                <div class="stat-box">
+                    <h3>50+</h3>
+                    <p>Mile Radius Expertise</p>
+                </div>
+                <div class="stat-box">
+                    <h3>SNF</h3>
+                    <p>Focus Area</p>
+                </div>
+                <div class="stat-box)
+                    <h3>100%</h3>
+                    <p>Community Driven</p>
+                </div>
+                <div class="stat-box">
+                    <h3>LA</h3>
+                    <p>Regional Focus</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="expertise">
+        <h2 style="font-size: 2.5rem; text-align: center;">Core Expertise</h2>
+        <div class="expertise-grid">
+            <div class="card">
+                <h3>Referral Development</h3>
+                <p>Building high-trust pipelines with local hospitals and physicians to ensure steady admissions.</p>
+            </div>
+            <div class="card">
+                <h3>Community Outreach</h3>
+                <p>Organizing impactful events that connect healthcare facilities with the families they serve.</p>
+            </div>
+            <div class="card">
+                <h3>Admissions Strategy</h3>
+                <p>Streamlining the intake process and managing marketing plans for maximum facility efficiency.</p>
+            </div>
+            <div class="card">
+                <h3>Digital Presence</h3>
+                <p>Leveraging AI and modern tools to automate outreach and stay ahead of local market trends.</p>
+            </div>
+            <div class="card">
+                <h3>Brand Liaison</h3>
+                <p>Acting as the professional face for Paramount Healthcare Consultants in North Louisiana.</p>
+            </div>
+            <div class="card">
+                <h3>Relationship Management</h3>
+                <p>Utilizing targeted networking scripts and thoughtful follow-ups to maintain key accounts.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Let's connect.</h2>
+        <p style="margin-bottom: 1rem; opacity: 0.8;">Currently serving Ruston, Monroe, and Farmerville areas.</p>
+        <a href="mailto:your-email@example.com" class="email-link">Email Chris Gantt</a>
+        <a href="https://linkedin.com" style="color: var(--white); text-decoration: none; border-bottom: 1px solid var(--gold);">Follow on LinkedIn</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Chris Gantt. Professional Healthcare Marketing.</p>
+    </footer>
+
+</body>
+</html>
