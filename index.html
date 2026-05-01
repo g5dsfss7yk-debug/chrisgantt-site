@@ -106,28 +106,6 @@
         .focus-list li { margin-bottom: 1.2rem; font-weight: 600; font-size: 1.1rem; padding-left: 25px; position: relative; }
         .focus-list li::before { content: "•"; color: var(--teal); position: absolute; left: 0; font-size: 1.5rem; }
 
-        /* Activity Gallery Section */
-        #gallery { padding: 100px 10%; background-color: var(--cream); border-top: 1px solid rgba(107, 164, 170, 0.2); }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        .gallery-img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            border-radius: 8px;
-            transition: transform 0.3s;
-            border: 1px solid rgba(107, 164, 170, 0.3);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        .gallery-img:hover {
-            transform: scale(1.03);
-            border-color: var(--gold);
-        }
-
         /* Metro Areas Section */
         #metro { padding: 120px 10%; background-color: var(--ink); color: var(--white); }
         .metro-title { text-align: center; margin-bottom: 4rem; }
@@ -195,8 +173,8 @@
         </a>
         <div class="nav-links">
             <a href="#about">Liaison</a>
-            <a href="#gallery">Activity</a>
             <a href="#metro">Metro Areas</a>
+            <a href="#expertise">Focus</a>
             <a href="#contact">Contact</a>
         </div>
     </nav>
@@ -227,18 +205,6 @@
                     <li>Clinical Liaison Operations</li>
                 </ul>
             </div>
-        </div>
-    </section>
-
-    <section id="gallery">
-        <div style="text-align: center;">
-            <h2 style="font-size: 3rem; color: var(--ink);">Community in Action</h2>
-            <p style="color: var(--teal); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 10px; font-size: 1.2rem;">On the ground across North Louisiana</p>
-        </div>
-        <div class="gallery-grid">
-            <img src="activity1.jpg" alt="Community Event 1" class="gallery-img" onerror="this.src='https://via.placeholder.com/400x300?text=Upload+activity1.jpg'">
-            <img src="activity2.jpg" alt="Community Event 2" class="gallery-img" onerror="this.src='https://via.placeholder.com/400x300?text=Upload+activity2.jpg'">
-            <img src="activity3.jpg" alt="Community Event 3" class="gallery-img" onerror="this.style.display='none'">
         </div>
     </section>
 
