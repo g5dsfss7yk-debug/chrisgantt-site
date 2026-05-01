@@ -9,9 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --ink: #0f1112; /* Richer Black */
-            --gold: #b38b45; /* Metallic Gold */
-            --teal: #3a7d87; /* Deep Teal from your logo */
+            --ink: #0a0c0d; 
+            --gold: #b38b45; 
+            --teal: #3a7d87; /* The Teal from your logo */
             --cream: #f4f1ea;
             --white: #ffffff;
         }
@@ -28,7 +28,7 @@
 
         h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; }
 
-        /* Navigation */
+        /* Navigation - Deep & Professional */
         nav {
             position: fixed;
             top: 0;
@@ -39,21 +39,30 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            border-bottom: 3px solid var(--teal); /* Teal Accent Line */
+            border-bottom: 3px solid var(--teal);
         }
 
         .nav-logo-link {
             display: flex;
             align-items: center;
+            gap: 12px;
             text-decoration: none;
             transition: 0.3s;
         }
 
-        .nav-logo-link:hover { opacity: 0.8; }
+        /* This is the Arbor Lake Logo recreation in code */
+        .arbor-icon {
+            width: 45px;
+            height: 45px;
+            fill: var(--teal);
+        }
 
-        .logo-img {
-            height: 60px; /* Sized for the logo you provided */
-            width: auto;
+        .nav-logo-link span {
+            font-family: 'Playfair Display', serif;
+            color: var(--white);
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .nav-links a { 
@@ -67,7 +76,7 @@
         }
         .nav-links a:hover { color: var(--gold); }
 
-        /* Hero Section */
+        /* Hero Section - Bold & Darker */
         header {
             height: 100vh;
             display: flex;
@@ -75,50 +84,61 @@
             justify-content: center;
             padding: 0 10%;
             background: linear-gradient(135deg, var(--cream) 0%, #e0ddd3 100%);
+            border-bottom: 1px solid rgba(58, 125, 135, 0.2);
         }
 
         .hero-label { color: var(--teal); text-transform: uppercase; letter-spacing: 4px; font-weight: 600; font-size: 0.9rem; margin-bottom: 1.5rem; display: block; }
-        header h1 { font-size: 5rem; line-height: 1; margin-bottom: 1rem; color: var(--ink); }
-        .hero-sub { font-size: 1.6rem; color: var(--ink); font-family: 'Playfair Display', serif; font-style: italic; margin-bottom: 2rem; }
+        header h1 { font-size: 5.5rem; line-height: 0.9; margin-bottom: 1.5rem; color: var(--ink); }
+        .hero-sub { font-size: 1.8rem; color: var(--ink); font-family: 'Playfair Display', serif; font-style: italic; margin-bottom: 2rem; }
 
         /* About Section */
-        #about { padding: 120px 10%; background-color: var(--white); }
-        .section-title { font-size: 3rem; margin-bottom: 1.5rem; color: var(--ink); }
-        .accent-line { width: 80px; height: 5px; background: var(--teal); margin-bottom: 2rem; }
+        #about { padding: 140px 10%; background-color: var(--white); }
+        .section-title { font-size: 3.5rem; margin-bottom: 1.5rem; color: var(--ink); }
+        .accent-line { width: 100px; height: 6px; background: var(--teal); margin-bottom: 3rem; }
 
-        .about-content { display: grid; grid-template-columns: 1.4fr 1fr; gap: 5rem; }
-        .about-text p { font-size: 1.2rem; color: #333; margin-bottom: 1.5rem; }
+        .about-content { display: grid; grid-template-columns: 1.4fr 1fr; gap: 6rem; }
+        .about-text p { font-size: 1.25rem; color: #222; margin-bottom: 2rem; }
 
-        .focus-box {
-            background: var(--cream);
-            padding: 2.5rem;
-            border-left: 4px solid var(--gold);
+        .focus-card {
+            background: var(--ink);
+            color: var(--white);
+            padding: 3rem;
+            border-top: 5px solid var(--gold);
         }
 
         .focus-list { list-style: none; }
-        .focus-list li { margin-bottom: 1rem; font-weight: 700; color: var(--ink); padding-left: 20px; position: relative; }
-        .focus-list li::before { content: "›"; color: var(--teal); position: absolute; left: 0; font-size: 1.5rem; top: -5px; }
+        .focus-list li { margin-bottom: 1.2rem; font-weight: 600; font-size: 1.1rem; padding-left: 25px; position: relative; }
+        .focus-list li::before { content: "•"; color: var(--teal); position: absolute; left: 0; font-size: 1.5rem; }
 
-        /* Metro Areas Section */
-        #metro { padding: 100px 10%; background-color: var(--ink); color: var(--white); }
-        .metro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
-        .metro-card { border: 1px solid rgba(58, 125, 135, 0.4); padding: 2.5rem; transition: 0.3s; }
-        .metro-card:hover { border-color: var(--gold); background: rgba(255,255,255,0.02); }
-        .metro-card h3 { color: var(--gold); margin-bottom: 0.5rem; }
+        /* Metro Areas - The "Fuller" Section */
+        #metro { padding: 120px 10%; background-color: var(--ink); color: var(--white); }
+        .metro-title { text-align: center; margin-bottom: 4rem; }
+        .metro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        
+        .metro-card { 
+            border: 1px solid rgba(58, 125, 135, 0.4); 
+            padding: 3.5rem; 
+            transition: 0.4s; 
+            background: rgba(255,255,255,0.02);
+        }
+        .metro-card:hover { border-color: var(--gold); transform: scale(1.02); background: rgba(255,255,255,0.05); }
+        .metro-card h3 { color: var(--gold); font-size: 2rem; margin-bottom: 1rem; }
+        .metro-card p { opacity: 0.8; font-size: 1rem; }
 
-        /* Expertise Section */
-        #expertise { padding: 120px 10%; }
-        .expertise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
-        .card { padding: 2.5rem; background: var(--white); border-bottom: 4px solid var(--cream); transition: 0.4s; }
-        .card:hover { border-bottom-color: var(--teal); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .card h4 { color: var(--teal); font-size: 1.3rem; margin-bottom: 0.8rem; }
+        /* Specialization Section */
+        #expertise { padding: 140px 10%; background-color: var(--cream); }
+        .expertise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .card { padding: 3rem; background: var(--white); border-bottom: 5px solid transparent; transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        .card:hover { border-bottom-color: var(--teal); }
+        .card h4 { color: var(--teal); font-size: 1.5rem; margin-bottom: 1rem; }
 
         /* Contact Section */
-        #contact { padding: 120px 10%; background-color: var(--white); text-align: center; border-top: 4px solid var(--teal); }
-        .contact-email { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--ink); text-decoration: none; display: block; margin-bottom: 1rem; }
-        .contact-phone { font-size: 1.8rem; color: var(--teal); text-decoration: none; font-weight: 600; display: block; margin-bottom: 3rem; }
+        #contact { padding: 140px 10%; background-color: var(--white); text-align: center; border-top: 5px solid var(--teal); }
+        .contact-email { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--ink); text-decoration: none; display: block; margin-bottom: 1rem; }
+        .contact-email:hover { color: var(--teal); }
+        .contact-phone { font-size: 2rem; color: var(--gold); text-decoration: none; font-weight: 700; display: block; }
 
-        footer { padding: 4rem 10%; background: var(--ink); color: rgba(255,255,255,0.3); font-size: 0.8rem; text-align: center; }
+        footer { padding: 4rem 10%; background: var(--ink); color: rgba(255,255,255,0.3); font-size: 0.85rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
 
         @media (max-width: 768px) {
             header h1 { font-size: 3.5rem; }
@@ -132,93 +152,97 @@
 
     <nav>
         <a href="https://arborlakerehab.com" target="_blank" class="nav-logo-link">
-            <img src="2A268F2E-6497-4653-A684-8F3D21E06114.png" alt="Arbor Lake Logo" class="logo-img">
+            <svg class="arbor-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg>
+            <span>Arbor Lake</span>
         </a>
         <div class="nav-links">
-            <a href="#about">Liaison</a>
+            <a href="#about">The Liaison</a>
             <a href="#metro">Metro Areas</a>
             <a href="#expertise">Focus</a>
-            <a href="#contact">Connect</a>
+            <a href="#contact">Contact</a>
         </div>
     </nav>
 
     <header>
-        <span class="hero-label">North Louisiana Outreach</span>
+        <span class="hero-label">North Louisiana Territory</span>
         <h1>Chris Gantt</h1>
-        <p class="hero-sub">Strategic Community Liaison & SNF Specialist</p>
-        <p style="max-width: 600px; opacity: 0.7;">Leading professional census development and clinical networking for Arbor Lake Skilled Nursing & Long Term Care.</p>
+        <p class="hero-sub">Strategic Community Liaison | SNF Specialist</p>
+        <p style="max-width: 600px; opacity: 0.8; font-size: 1.1rem;">Executing professional marketing and clinical networking strategies for Arbor Lake Skilled Nursing & Long Term Care.</p>
     </header>
 
     <section id="about">
         <div class="accent-line"></div>
-        <h2 class="section-title">Strategic Outreach & Census Growth</h2>
+        <h2 class="section-title">Professional Advocacy & Census Growth</h2>
         <div class="about-content">
             <div class="about-text">
-                <p>Focused on the North Louisiana healthcare corridor, I operate as the primary bridge between Arbor Lake and regional medical hubs. My role is centered on executing high-impact marketing strategies and fostering long-term clinical partnerships.</p>
-                <p>I bring a tech-forward approach to healthcare networking, ensuring our SNF and Long Term Care services are the first choice for providers and families in the Shreveport, Monroe, and Ruston areas.</p>
+                <p>Operating across the heart of North Louisiana, I serve as the primary connection point between Arbor Lake and regional medical centers. My role is built on deep-rooted professional relationships and the execution of strategic outreach plans.</p>
+                <p>I focus on a modern, tech-forward approach to census development—ensuring that hospital discharge planners, providers, and families have an efficient, trusted path to our Skilled Nursing (SNF) and rehabilitation services.</p>
             </div>
-            <div class="focus-box">
-                <h4 style="margin-bottom: 1.5rem; color: var(--teal); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">Key Specialization</h4>
+            <div class="focus-card">
+                <h4 style="margin-bottom: 2rem; color: var(--gold); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 3px;">Key Specializations</h4>
                 <ul class="focus-list">
                     <li>Skilled Nursing (SNF)</li>
                     <li>Long Term Care (LTC)</li>
                     <li>Census Development</li>
                     <li>Clinical Liaison Operations</li>
-                    <li>Professional Networking</li>
+                    <li>Community Networking</li>
                 </ul>
             </div>
         </div>
     </section>
 
     <section id="metro">
-        <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 3rem;">Strategic Metro Coverage</h2>
+        <div class="metro-title">
+            <h2 style="font-size: 3rem;">Strategic Metro Coverage</h2>
+            <p style="color: var(--teal); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 10px;">North Louisiana Healthcare Corridor</p>
+        </div>
         <div class="metro-grid">
             <div class="metro-card">
                 <h3>Monroe / West Monroe</h3>
-                <p>Coordinating discharge and SNF placement with major regional medical centers.</p>
+                <p>Coordinating complex hospital discharges and SNF transitions for the major medical hubs in the twin cities.</p>
             </div>
             <div class="metro-card">
                 <h3>Shreveport / Bossier</h3>
-                <p>Strategic clinical liaison services across the Shreveport-Bossier healthcare network.</p>
+                <p>Leading extended clinical outreach and professional referral networking across the Ark-La-Tex region.</p>
             </div>
             <div class="metro-card">
                 <h3>Ruston / Farmerville</h3>
-                <p>Deep-rooted community engagement and local provider relationship management.</p>
+                <p>Managing core community engagement and local provider relationship pipelines within the local parishes.</p>
             </div>
         </div>
     </section>
 
     <section id="expertise">
-        <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 4rem;">Core Liaison Services</h2>
+        <h2 style="font-size: 3rem; text-align: center; margin-bottom: 5rem;">Core Liaison Services</h2>
         <div class="expertise-grid">
             <div class="card">
-                <h4>Discharge Planning</h4>
-                <p>Facilitating seamless transitions from acute hospital settings to Arbor Lake rehab.</p>
+                <h4>Post-Acute Support</h4>
+                <p>Driving the seamless hand-off from hospital clinical teams to Arbor Lake's specialized rehab setting.</p>
             </div>
             <div class="card">
-                <h4>Provider Outreach</h4>
-                <p>Building high-trust referral pipelines with physicians and hospital systems.</p>
+                <h4>Provider Relations</h4>
+                <p>Building high-trust referral networks with physicians, specialists, and hospital administrators.</p>
             </div>
             <div class="card">
-                <h4>Market Presence</h4>
-                <p>Representing our care teams at monthly networking luncheons and community festivals.</p>
+                <h4>Market Advocacy</h4>
+                <p>Representing our care teams at monthly industry luncheons and community festivals across the region.</p>
             </div>
             <div class="card">
-                <h4>Family Advocacy</h4>
-                <p>Guiding families through the clinical and logistical path to long-term care residency.</p>
+                <h4>Modern Outreach</h4>
+                <p>Utilizing tech-forward workflows to optimize follow-up, referral tracking, and census reporting.</p>
             </div>
         </div>
     </section>
 
     <section id="contact">
-        <h2 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 2rem;">Direct Liaison Access</h2>
+        <h2 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 4px; color: var(--teal); margin-bottom: 2rem;">Direct Liaison Access</h2>
         <a href="mailto:cgantt@paramounthcla.com" class="contact-email">cgantt@paramounthcla.com</a>
         <a href="tel:3182453887" class="contact-phone">318.245.3887</a>
-        <p style="opacity: 0.6; font-size: 0.9rem; max-width: 500px; margin: 0 auto;">Available for provider site visits and facility tours across North Louisiana.</p>
+        <p style="opacity: 0.6; font-size: 1rem; max-width: 500px; margin: 2rem auto 0 auto;">Available for hospital visits, provider meetings, and facility tours across North Louisiana.</p>
     </section>
 
     <footer>
-        <p>&copy; 2026 Chris Gantt. Arbor Lake Community Liaison.</p>
+        <p>&copy; 2026 Chris Gantt. Arbor Lake Community Liaison Services.</p>
     </footer>
 
 </body>
