@@ -9,10 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --ink: #0d0f10; 
-            --gold: #b38b45; 
-            --teal: #6ba4aa; 
-            --cream: #f4f1ea;
+            --bg-deep: #0a0c0d;      /* Deepest black */
+            --bg-panel: #161a1d;     /* Slightly lighter charcoal for cards */
+            --teal: #3bbab1;         /* Bright, glowing teal for maximum pop */
+            --gold: #d4a350;         /* Vibrant gold */
+            --text-main: #e8e6e3;    /* Soft off-white for easy reading */
             --white: #ffffff;
         }
 
@@ -20,27 +21,28 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--cream);
-            color: var(--ink);
+            background-color: var(--bg-deep);
+            color: var(--text-main);
             line-height: 1.7;
             scroll-behavior: smooth;
         }
 
-        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--white); }
 
-        /* Navigation */
+        /* Navigation - Dark Mode */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
             padding: 1rem 10%;
-            background: var(--cream);
+            background: rgba(10, 12, 13, 0.95);
+            backdrop-filter: blur(10px);
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
             border-bottom: 3px solid var(--teal);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px rgba(59, 186, 177, 0.15); /* Teal glow */
         }
 
         .nav-logo-link {
@@ -52,15 +54,20 @@
 
         .nav-logo-link:hover { opacity: 0.8; }
 
+        /* Sleek white background so your logo doesn't disappear into the black */
         .actual-logo {
-            height: 70px; 
+            height: 65px; 
             width: auto;
+            background-color: var(--white);
+            padding: 5px 15px;
+            border-radius: 6px;
+            box-shadow: 0 0 15px rgba(255,255,255,0.1);
         }
 
         .nav-links a { 
             margin-left: 2rem; 
             text-decoration: none; 
-            color: var(--ink); 
+            color: var(--text-main); 
             font-size: 0.8rem; 
             font-weight: 700; 
             text-transform: uppercase; 
@@ -76,18 +83,18 @@
             flex-direction: column;
             justify-content: center;
             padding: 0 10%;
-            background: linear-gradient(135deg, var(--cream) 0%, #e0ddd3 100%);
-            border-bottom: 1px solid rgba(107, 164, 170, 0.2);
+            background: radial-gradient(circle at center, #1a2327 0%, var(--bg-deep) 100%);
+            border-bottom: 1px solid rgba(59, 186, 177, 0.2);
         }
 
         .hero-label { color: var(--teal); text-transform: uppercase; letter-spacing: 4px; font-weight: 600; font-size: 0.9rem; margin-bottom: 1.5rem; display: block; }
-        header h1 { font-size: 5.5rem; line-height: 0.9; margin-bottom: 1.5rem; color: var(--ink); }
-        .hero-sub { font-size: 1.8rem; color: var(--ink); font-family: 'Playfair Display', serif; font-style: italic; margin-bottom: 0.5rem; }
+        header h1 { font-size: 5.5rem; line-height: 0.9; margin-bottom: 1.5rem; color: var(--white); }
+        .hero-sub { font-size: 1.8rem; color: var(--white); font-family: 'Playfair Display', serif; font-style: italic; margin-bottom: 0.5rem; }
         .hero-tagline { font-size: 1.3rem; color: var(--gold); font-weight: 600; margin-bottom: 2rem; }
 
         /* About & Profile Section */
-        #about { padding: 140px 10%; background-color: var(--white); }
-        .section-title { font-size: 3.5rem; margin-bottom: 1.5rem; color: var(--ink); }
+        #about { padding: 140px 10%; background-color: var(--bg-panel); }
+        .section-title { font-size: 3.5rem; margin-bottom: 1.5rem; color: var(--white); }
         .accent-line { width: 100px; height: 6px; background: var(--teal); margin-bottom: 3rem; }
 
         .about-content { display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start; }
@@ -96,47 +103,49 @@
             width: 100%;
             max-width: 450px;
             border-radius: 8px;
-            box-shadow: -15px 15px 0px var(--teal);
+            box-shadow: -15px 15px 0px var(--teal); /* Vibrant teal shadow */
             object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.1);
         }
 
-        .about-text p { font-size: 1.25rem; color: #222; margin-bottom: 2rem; }
+        .about-text p { font-size: 1.25rem; color: var(--text-main); margin-bottom: 2rem; }
 
         .focus-list { list-style: none; margin-top: 2rem; }
-        .focus-list li { margin-bottom: 1.2rem; font-weight: 600; font-size: 1.1rem; padding-left: 25px; position: relative; }
+        .focus-list li { margin-bottom: 1.2rem; font-weight: 600; font-size: 1.1rem; padding-left: 25px; position: relative; color: var(--white); }
         .focus-list li::before { content: "•"; color: var(--teal); position: absolute; left: 0; font-size: 1.5rem; }
 
         /* Metro Areas Section */
-        #metro { padding: 120px 10%; background-color: var(--ink); color: var(--white); }
+        #metro { padding: 120px 10%; background-color: var(--bg-deep); }
         .metro-title { text-align: center; margin-bottom: 4rem; }
         .metro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
         
         .metro-card { 
-            border: 1px solid rgba(107, 164, 170, 0.4); 
+            border: 1px solid rgba(59, 186, 177, 0.3); 
             padding: 3.5rem; 
             transition: 0.4s; 
-            background: rgba(255,255,255,0.02);
+            background: var(--bg-panel);
+            border-radius: 6px;
         }
-        .metro-card:hover { border-color: var(--gold); transform: scale(1.02); background: rgba(255,255,255,0.05); }
-        .metro-card h3 { color: var(--gold); font-size: 2rem; margin-bottom: 1rem; }
+        .metro-card:hover { border-color: var(--teal); transform: scale(1.02); background: #1c2126; box-shadow: 0 10px 30px rgba(59, 186, 177, 0.1); }
+        .metro-card h3 { color: var(--teal); font-size: 2rem; margin-bottom: 1rem; }
 
         /* Expertise Section */
-        #expertise { padding: 140px 10%; background-color: var(--cream); }
+        #expertise { padding: 140px 10%; background-color: var(--bg-panel); }
         .expertise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
-        .card { padding: 3rem; background: var(--white); border-bottom: 5px solid transparent; transition: 0.3s; }
-        .card:hover { border-bottom-color: var(--teal); }
-        .card h4 { color: var(--teal); font-size: 1.5rem; margin-bottom: 1rem; }
+        .card { padding: 3rem; background: var(--bg-deep); border-bottom: 5px solid transparent; transition: 0.3s; border-radius: 6px; }
+        .card:hover { border-bottom-color: var(--teal); transform: translateY(-5px); }
+        .card h4 { color: var(--gold); font-size: 1.5rem; margin-bottom: 1rem; }
 
         /* Advanced Contact Board */
-        #contact { padding: 140px 10%; background-color: var(--white); border-top: 5px solid var(--teal); }
+        #contact { padding: 140px 10%; background-color: var(--bg-deep); border-top: 5px solid var(--teal); }
         .contact-header { text-align: center; margin-bottom: 4rem; }
         .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; }
         
-        .contact-box { background: var(--cream); padding: 3rem; border-top: 4px solid var(--gold); }
-        .contact-box h3 { color: var(--ink); font-size: 1.6rem; margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; }
-        .contact-box p, .contact-box a { font-size: 1.1rem; color: #444; text-decoration: none; display: block; margin-bottom: 0.8rem; }
+        .contact-box { background: var(--bg-panel); padding: 3rem; border-top: 4px solid var(--teal); border-radius: 6px; }
+        .contact-box h3 { color: var(--white); font-size: 1.6rem; margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; }
+        .contact-box p, .contact-box a { font-size: 1.1rem; color: var(--text-main); text-decoration: none; display: block; margin-bottom: 0.8rem; }
         .contact-box a.highlight { font-weight: 700; color: var(--teal); font-size: 1.2rem; }
-        .contact-box a:hover { color: var(--gold); }
+        .contact-box a.highlight:hover { color: var(--white); }
 
         /* Rock Solid Facebook Button CSS */
         .fb-button {
@@ -151,12 +160,12 @@
             border-radius: 4px;
             margin-top: 1rem;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: background-color 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.3s, transform 0.2s;
         }
-        .fb-button:hover { background-color: #166fe5; }
+        .fb-button:hover { background-color: #166fe5; transform: translateY(-2px); }
 
-        footer { padding: 4rem 10%; background: var(--ink); color: rgba(255,255,255,0.3); font-size: 0.85rem; text-align: center; }
+        footer { padding: 4rem 10%; background: var(--bg-deep); color: rgba(255,255,255,0.4); font-size: 0.85rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
 
         @media (max-width: 768px) {
             header h1 { font-size: 3.5rem; }
@@ -211,7 +220,7 @@
     <section id="metro">
         <div class="metro-title">
             <h2 style="font-size: 3rem;">Strategic Metro Areas</h2>
-            <p style="color: var(--teal); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 10px;">North Louisiana Healthcare Corridor</p>
+            <p style="color: var(--gold); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 10px;">North Louisiana Healthcare Corridor</p>
         </div>
         <div class="metro-grid">
             <div class="metro-card">
@@ -254,7 +263,7 @@
     <section id="contact">
         <div class="contact-header">
             <h2 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 4px; color: var(--teal); margin-bottom: 1rem;">Get In Touch</h2>
-            <h3 style="font-size: 3.5rem; color: var(--ink);">Contact Information</h3>
+            <h3 style="font-size: 3.5rem; color: var(--white);">Contact Information</h3>
         </div>
         
         <div class="contact-grid">
@@ -270,7 +279,7 @@
                 <h3>Facility Referrals</h3>
                 <p>New dedicated lines for referrals only. We welcome all referrals for insurance verification.</p>
                 <br>
-                <p style="font-weight: 700; color: var(--teal); font-size: 1.2rem; margin-bottom: 0.8rem;">F: 318-703-3421</p>
+                <p style="font-weight: 700; color: var(--white); font-size: 1.2rem; margin-bottom: 0.8rem;">F: 318-703-3421</p>
                 <a href="mailto:AL-Referral-Faxes@paramounthcla.com" class="highlight" style="font-size: 1.05rem;">AL-Referral-Faxes@paramounthcla.com</a>
             </div>
 
