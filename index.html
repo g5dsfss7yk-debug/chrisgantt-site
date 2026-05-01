@@ -28,7 +28,7 @@
 
         h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; }
 
-        /* Navigation - Cream background so your logo shows up clearly */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -52,7 +52,6 @@
 
         .nav-logo-link:hover { opacity: 0.8; }
 
-        /* Sizing for your actual uploaded image */
         .actual-logo {
             height: 70px; 
             width: auto;
@@ -85,24 +84,48 @@
         header h1 { font-size: 5.5rem; line-height: 0.9; margin-bottom: 1.5rem; color: var(--ink); }
         .hero-sub { font-size: 1.8rem; color: var(--ink); font-family: 'Playfair Display', serif; font-style: italic; margin-bottom: 2rem; }
 
-        /* About Section */
+        /* About & Profile Section */
         #about { padding: 140px 10%; background-color: var(--white); }
         .section-title { font-size: 3.5rem; margin-bottom: 1.5rem; color: var(--ink); }
         .accent-line { width: 100px; height: 6px; background: var(--teal); margin-bottom: 3rem; }
 
-        .about-content { display: grid; grid-template-columns: 1.4fr 1fr; gap: 6rem; }
-        .about-text p { font-size: 1.25rem; color: #222; margin-bottom: 2rem; }
-
-        .focus-card {
-            background: var(--ink);
-            color: var(--white);
-            padding: 3rem;
-            border-top: 5px solid var(--gold);
+        .about-content { display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start; }
+        
+        .profile-img {
+            width: 100%;
+            max-width: 450px;
+            border-radius: 8px;
+            box-shadow: -15px 15px 0px var(--teal);
+            object-fit: cover;
         }
 
-        .focus-list { list-style: none; }
+        .about-text p { font-size: 1.25rem; color: #222; margin-bottom: 2rem; }
+
+        .focus-list { list-style: none; margin-top: 2rem; }
         .focus-list li { margin-bottom: 1.2rem; font-weight: 600; font-size: 1.1rem; padding-left: 25px; position: relative; }
         .focus-list li::before { content: "•"; color: var(--teal); position: absolute; left: 0; font-size: 1.5rem; }
+
+        /* Activity Gallery Section */
+        #gallery { padding: 100px 10%; background-color: var(--cream); border-top: 1px solid rgba(107, 164, 170, 0.2); }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .gallery-img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s;
+            border: 1px solid rgba(107, 164, 170, 0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .gallery-img:hover {
+            transform: scale(1.03);
+            border-color: var(--gold);
+        }
 
         /* Metro Areas Section */
         #metro { padding: 120px 10%; background-color: var(--ink); color: var(--white); }
@@ -117,13 +140,6 @@
         }
         .metro-card:hover { border-color: var(--gold); transform: scale(1.02); background: rgba(255,255,255,0.05); }
         .metro-card h3 { color: var(--gold); font-size: 2rem; margin-bottom: 1rem; }
-
-        /* Expertise Section */
-        #expertise { padding: 140px 10%; background-color: var(--cream); }
-        .expertise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
-        .card { padding: 3rem; background: var(--white); border-bottom: 5px solid transparent; transition: 0.3s; }
-        .card:hover { border-bottom-color: var(--teal); }
-        .card h4 { color: var(--teal); font-size: 1.5rem; margin-bottom: 1rem; }
 
         /* Contact Section */
         #contact { padding: 140px 10%; background-color: var(--white); text-align: center; border-top: 5px solid var(--teal); }
@@ -145,12 +161,12 @@
 
     <nav>
         <a href="https://arborlakerehab.com" target="_blank" class="nav-logo-link">
-            <img src="Arbor Lake RBG.png" alt="Arbor Lake Skilled Nursing" class="actual-logo">
+            <img src="Arbor Lake RBG.png" alt="Arbor Lake Skilled Nursing" class="actual-logo" onerror="this.style.display='none'">
         </a>
         <div class="nav-links">
             <a href="#about">Liaison</a>
+            <a href="#gallery">Activity</a>
             <a href="#metro">Metro Areas</a>
-            <a href="#expertise">Focus</a>
             <a href="#contact">Contact</a>
         </div>
     </nav>
@@ -159,27 +175,39 @@
         <span class="hero-label">North Louisiana Territory</span>
         <h1>Chris Gantt</h1>
         <p class="hero-sub">Community Liaison | Skilled Nursing & Long-Term Care</p>
-        <p style="max-width: 600px; opacity: 0.8; font-size: 1.1rem;">Supporting clinical networking and community outreach for Arbor Lake Skilled Nursing & Rehabilitation Center.</p>
+        <p style="max-width: 600px; opacity: 0.8; font-size: 1.1rem;">Supporting clinical networking and executing community outreach for Arbor Lake Skilled Nursing & Rehabilitation Center.</p>
     </header>
 
     <section id="about">
         <div class="accent-line"></div>
-        <h2 class="section-title">Community Advocacy & Outreach Support</h2>
         <div class="about-content">
-            <div class="about-text">
-                <p>Operating across the heart of North Louisiana, I serve as a bridge between Arbor Lake and our regional medical hubs. My role is built on maintaining genuine professional relationships and supporting our ongoing community outreach efforts.</p>
-                <p>By utilizing a tech-forward approach to clinical networking, I help ensure that hospital discharge planners, providers, and local families have a clear, reliable connection to our Skilled Nursing (SNF) and rehabilitation services when they need them most.</p>
+            <div>
+                <img src="profile.jpg" alt="Chris Gantt" class="profile-img" onerror="this.src='https://via.placeholder.com/450x550?text=Upload+profile.jpg+to+GitHub'">
             </div>
-            <div class="focus-card">
-                <h4 style="margin-bottom: 2rem; color: var(--gold); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 3px;">Core Focus Areas</h4>
+            <div class="about-text">
+                <h2 class="section-title">Community Advocacy</h2>
+                <p>Operating across the heart of North Louisiana, I serve as a bridge between Arbor Lake and our regional medical hubs. My role is built on maintaining genuine professional relationships and directly supporting our community outreach events.</p>
+                <p>By utilizing a modern approach to clinical networking, I help ensure that hospital discharge planners, providers, and local families have a clear, reliable connection to our Skilled Nursing (SNF) and rehabilitation services when they need them most.</p>
+                
                 <ul class="focus-list">
                     <li>Skilled Nursing (SNF) Connections</li>
                     <li>Long Term Care (LTC) Advocacy</li>
-                    <li>Community Outreach Support</li>
+                    <li>Community Outreach Execution</li>
                     <li>Clinical Liaison Operations</li>
-                    <li>Professional Networking</li>
                 </ul>
             </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <div style="text-align: center;">
+            <h2 style="font-size: 3rem; color: var(--ink);">Community in Action</h2>
+            <p style="color: var(--teal); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 10px; font-size: 1.2rem;">On the ground across North Louisiana</p>
+        </div>
+        <div class="gallery-grid">
+            <img src="activity1.jpg" alt="Community Event 1" class="gallery-img" onerror="this.src='https://via.placeholder.com/400x300?text=Upload+activity1.jpg'">
+            <img src="activity2.jpg" alt="Community Event 2" class="gallery-img" onerror="this.src='https://via.placeholder.com/400x300?text=Upload+activity2.jpg'">
+            <img src="activity3.jpg" alt="Community Event 3" class="gallery-img" onerror="this.style.display='none'">
         </div>
     </section>
 
@@ -200,28 +228,6 @@
             <div class="metro-card">
                 <h3>Ruston / Farmerville</h3>
                 <p>Fostering steady community engagement and managing local provider relationships within our home parishes.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="expertise">
-        <h2 style="font-size: 3rem; text-align: center; margin-bottom: 5rem;">Core Liaison Focus</h2>
-        <div class="expertise-grid">
-            <div class="card">
-                <h4>Post-Acute Support</h4>
-                <p>Helping facilitate the seamless hand-off from hospital clinical teams to Arbor Lake's specialized rehab setting.</p>
-            </div>
-            <div class="card">
-                <h4>Provider Relations</h4>
-                <p>Building trusted, long-term referral networks with local physicians, specialists, and hospital administrators.</p>
-            </div>
-            <div class="card">
-                <h4>Market Advocacy</h4>
-                <p>Representing our care teams at industry luncheons, networking groups, and community events across the region.</p>
-            </div>
-            <div class="card">
-                <h4>Modern Outreach</h4>
-                <p>Utilizing streamlined workflows to ensure consistent follow-up, reliable communication, and prompt service.</p>
             </div>
         </div>
     </section>
