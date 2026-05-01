@@ -45,6 +45,13 @@
             box-shadow: 0 4px 20px rgba(59, 186, 177, 0.15); 
         }
 
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
         .nav-logo-link {
             display: flex;
             align-items: center;
@@ -61,6 +68,21 @@
             padding: 5px 15px;
             border-radius: 6px;
             box-shadow: 0 0 15px rgba(255,255,255,0.1);
+        }
+
+        .click-hint {
+            font-size: 0.65rem;
+            color: var(--teal);
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            opacity: 0.9;
+            transition: color 0.3s;
+        }
+
+        .nav-logo-link:hover + .click-hint {
+            color: var(--white);
         }
 
         .nav-links {
@@ -163,6 +185,14 @@
         .contact-box a.highlight { font-weight: 700; color: var(--teal); font-size: 1.2rem; }
         .contact-box a.highlight:hover { color: var(--white); }
 
+        /* QR Code & Facility Links */
+        .facility-link { margin-top: 1rem; font-weight: 600; color: var(--gold); text-decoration: none; display: inline-block; }
+        .facility-link:hover { color: var(--white); }
+        
+        .qr-wrapper { margin-top: 1.5rem; margin-bottom: 1.5rem; }
+        .qr-text { font-size: 0.8rem; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 8px; display: block; }
+        .qr-image { border-radius: 4px; width: 110px; height: 110px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+
         /* Facebook Button with Icon CSS */
         .fb-button {
             display: inline-flex;
@@ -177,9 +207,9 @@
             font-weight: 700;
             text-decoration: none;
             border-radius: 4px;
-            margin-top: 1rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             transition: background-color 0.3s, transform 0.2s;
+            width: fit-content;
         }
         .fb-button:hover { background-color: #166fe5; transform: translateY(-2px); }
         .fb-icon { width: 22px; height: 22px; fill: #ffffff; }
@@ -198,9 +228,12 @@
 <body>
 
     <nav>
-        <a href="https://arborlakerehab.com" target="_blank" class="nav-logo-link">
-            <img src="Arbor Lake RBG.png" alt="Arbor Lake Skilled Nursing" class="actual-logo" onerror="this.style.display='none'">
-        </a>
+        <div class="logo-container">
+            <a href="https://arborlakerehab.com" target="_blank" class="nav-logo-link" title="Visit Arbor Lake Website">
+                <img src="Arbor Lake RBG.png" alt="Arbor Lake Skilled Nursing" class="actual-logo" onerror="this.style.display='none'">
+            </a>
+            <span class="click-hint">Click For Facility Info</span>
+        </div>
         <div class="nav-links">
             <a href="#about">Liaison</a>
             <a href="#coverage">Coverage</a>
@@ -334,7 +367,12 @@
                 <br>
                 <p>Main Phone: 318-368-3103</p>
                 <p>Main Fax: 318-368-7471</p>
-                <a href="https://paramounthcla.com" target="_blank" style="margin-top: 1rem; font-weight: 600; color: var(--gold);">paramounthcla.com</a>
+                <a href="https://arborlakerehab.com" target="_blank" class="facility-link">arborlakerehab.com</a>
+                
+                <div class="qr-wrapper">
+                    <span class="qr-text">Scan for Facility Site</span>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://arborlakerehab.com&margin=10" alt="Arbor Lake QR Code" class="qr-image">
+                </div>
                 
                 <a href="https://facebook.com" target="_blank" class="fb-button">
                     <svg class="fb-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
