@@ -28,11 +28,12 @@
 
         h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; }
 
+        /* Navigation with Embedded Logo */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 1rem 10%;
+            padding: 0.8rem 10%;
             background: var(--ink);
             display: flex;
             justify-content: space-between;
@@ -44,26 +45,16 @@
         .nav-logo-link {
             display: flex;
             align-items: center;
-            gap: 12px;
             text-decoration: none;
             transition: 0.3s;
         }
 
         .nav-logo-link:hover { opacity: 0.8; }
 
-        /* Code-based Tree Logo */
-        .arbor-tree {
-            width: 40px;
-            height: 40px;
-            fill: var(--gold);
-        }
-
-        .nav-logo-link span {
-            font-family: 'Playfair Display', serif;
-            color: var(--white);
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+        /* The actual Arbor Lake logo is embedded here */
+        .logo-img {
+            height: 70px;
+            width: auto;
         }
 
         .nav-links a { 
@@ -77,6 +68,7 @@
         }
         .nav-links a:hover { color: var(--gold); }
 
+        /* Hero Section */
         header {
             height: 90vh;
             display: flex;
@@ -91,6 +83,7 @@
         header h1 { font-size: 5.5rem; line-height: 0.9; margin-bottom: 1.5rem; color: var(--ink); }
         .hero-sub { font-size: 1.8rem; color: var(--ink); font-family: 'Playfair Display', serif; font-style: italic; margin-bottom: 2rem; }
 
+        /* About Section */
         #about { padding: 140px 10%; background-color: var(--white); }
         .section-title { font-size: 3.5rem; margin-bottom: 1.5rem; color: var(--ink); }
         .accent-line { width: 100px; height: 6px; background: var(--teal); margin-bottom: 3rem; }
@@ -109,6 +102,7 @@
         .focus-list li { margin-bottom: 1.2rem; font-weight: 600; font-size: 1.1rem; padding-left: 25px; position: relative; }
         .focus-list li::before { content: "•"; color: var(--teal); position: absolute; left: 0; font-size: 1.5rem; }
 
+        /* Metro Areas Section */
         #metro { padding: 120px 10%; background-color: var(--ink); color: var(--white); }
         .metro-title { text-align: center; margin-bottom: 4rem; }
         .metro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
@@ -119,20 +113,23 @@
             transition: 0.4s; 
             background: rgba(255,255,255,0.02);
         }
-        .metro-card:hover { border-color: var(--gold); background: rgba(255,255,255,0.05); }
+        .metro-card:hover { border-color: var(--gold); transform: scale(1.02); background: rgba(255,255,255,0.05); }
         .metro-card h3 { color: var(--gold); font-size: 2rem; margin-bottom: 1rem; }
 
+        /* Expertise Section */
         #expertise { padding: 140px 10%; background-color: var(--cream); }
         .expertise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
         .card { padding: 3rem; background: var(--white); border-bottom: 5px solid transparent; transition: 0.3s; }
         .card:hover { border-bottom-color: var(--teal); }
         .card h4 { color: var(--teal); font-size: 1.5rem; margin-bottom: 1rem; }
 
+        /* Contact Section */
         #contact { padding: 140px 10%; background-color: var(--white); text-align: center; border-top: 5px solid var(--teal); }
-        .contact-email { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--ink); text-decoration: none; display: block; margin-bottom: 1rem; }
+        .contact-email { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--ink); text-decoration: none; display: block; margin-bottom: 1rem; transition: 0.3s; }
+        .contact-email:hover { color: var(--teal); }
         .contact-phone { font-size: 2rem; color: var(--gold); text-decoration: none; font-weight: 700; display: block; }
 
-        footer { padding: 4rem 10%; background: var(--ink); color: rgba(255,255,255,0.3); font-size: 0.85rem; text-align: center; }
+        footer { padding: 4rem 10%; background: var(--ink); color: rgba(255,255,255,0.3); font-size: 0.85rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
 
         @media (max-width: 768px) {
             header h1 { font-size: 3.5rem; }
@@ -146,97 +143,4 @@
 
     <nav>
         <a href="https://arborlakerehab.com" target="_blank" class="nav-logo-link">
-            <svg class="arbor-tree" viewBox="0 0 24 24"><path d="M11 21V18H13V21H11M12 2L1 18H23L12 2M12 5.33L18.78 16H5.22L12 5.33M12 8L10 11H14L12 8Z"/></svg>
-            <span>Arbor Lake</span>
-        </a>
-        <div class="nav-links">
-            <a href="#about">Liaison</a>
-            <a href="#metro">Metro Areas</a>
-            <a href="#expertise">Focus</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </nav>
-
-    <header>
-        <span class="hero-label">North Louisiana Outreach</span>
-        <h1>Chris Gantt</h1>
-        <p class="hero-sub">Strategic Community Liaison | SNF Specialist</p>
-        <p style="max-width: 600px; opacity: 0.8; font-size: 1.1rem;">Leading professional census development and clinical networking for Arbor Lake Skilled Nursing & Long Term Care.</p>
-    </header>
-
-    <section id="about">
-        <div class="accent-line"></div>
-        <h2 class="section-title">Professional Advocacy & Census Growth</h2>
-        <div class="about-content">
-            <div class="about-text">
-                <p>Operating across the heart of North Louisiana, I serve as the primary connection point between Arbor Lake and regional medical hubs. My role is centered on executing high-impact marketing strategies and fostering long-term clinical partnerships.</p>
-                <p>I focus on a tech-forward approach to census development—ensuring that hospital discharge planners, providers, and families have an efficient, trusted path to our Skilled Nursing (SNF) and rehabilitation services.</p>
-            </div>
-            <div class="focus-card">
-                <h4 style="margin-bottom: 2rem; color: var(--gold); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 3px;">Key Specializations</h4>
-                <ul class="focus-list">
-                    <li>Skilled Nursing (SNF)</li>
-                    <li>Long Term Care (LTC)</li>
-                    <li>Census Development</li>
-                    <li>Clinical Liaison Operations</li>
-                    <li>Professional Networking</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section id="metro">
-        <div class="metro-title">
-            <h2 style="font-size: 3rem;">Strategic Metro Areas</h2>
-            <p style="color: var(--teal); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 10px;">North Louisiana Healthcare Corridor</p>
-        </div>
-        <div class="metro-grid">
-            <div class="metro-card">
-                <h3>Monroe / West Monroe</h3>
-                <p>Coordinating complex discharges and transitions for the major medical hubs in the twin cities.</p>
-            </div>
-            <div class="metro-card">
-                <h3>Shreveport / Bossier</h3>
-                <p>Strategic clinical liaison services across the regional Shreveport-Bossier healthcare networks.</p>
-            </div>
-            <div class="metro-card">
-                <h3>Ruston / Farmerville</h3>
-                <p>Deep-rooted community engagement and local provider relationship management across local parishes.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="expertise">
-        <h2 style="font-size: 3rem; text-align: center; margin-bottom: 5rem;">Core Liaison Services</h2>
-        <div class="expertise-grid">
-            <div class="card">
-                <h4>Post-Acute Support</h4>
-                <p>Driving the seamless hand-off from hospital clinical teams to specialized rehab settings.</p>
-            </div>
-            <div class="card">
-                <h4>Provider Relations</h4>
-                <p>Building high-trust referral networks with physicians and hospital systems.</p>
-            </div>
-            <div class="card">
-                <h4>Market Advocacy</h4>
-                <p>Representing our care teams at monthly industry luncheons and community festivals.</p>
-            </div>
-            <div class="card">
-                <h4>Modern Outreach</h4>
-                <p>Utilizing tech-forward workflows to optimize follow-up and census reporting efficiency.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact">
-        <h2 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 4px; color: var(--teal); margin-bottom: 2rem;">Direct Liaison Access</h2>
-        <a href="mailto:cgantt@paramounthcla.com" class="contact-email">cgantt@paramounthcla.com</a>
-        <a href="tel:3182453887" class="contact-phone">318.245.3887</a>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 Chris Gantt. Arbor Lake Community Liaison Services.</p>
-    </footer>
-
-</body>
-</html>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAtAAAAEOCAYAAAB8Wq7VAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj33vRRxw76YYq790toBU9OEZEAVREUCclFwRIz0ETCkqcMSQ7KEjRVpIE9REAsSft4EScGGBoKAS8OVCa7F6GOMq0ffXV07897767n7785n888985G9G9SAnGNE7Lx0nWAdWixB1Oly40mcNLR0mMCALMDBYOnYw0UdAn6RDMaBv8M4MSfS4S2CU9G7V7f09257CscLpC9v768f76VjMCR0SBBmg7SBAzgWBAwCSOACFMBGBYAsA4imCJoVBCIhiYJICiUIhSREIEREYSJAKYREmBCRSisREUogREpIHCClFIJFEg6E8EIKF8MCD0M89A8G3wN9YIBhDXYyfOHTZO+N765 fm/gK96onHj9fH6YfH+Sef/fE6T/8V8S09E18Kz8Rf8XPxT/xf+f/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8H/8
