@@ -105,28 +105,6 @@
         .focus-list li { margin-bottom: 1.2rem; font-weight: 600; font-size: 1.1rem; padding-left: 25px; position: relative; }
         .focus-list li::before { content: "•"; color: var(--teal); position: absolute; left: 0; font-size: 1.5rem; }
 
-        /* Activity Gallery Section */
-        #gallery { padding: 100px 10%; background-color: var(--cream); border-top: 1px solid rgba(107, 164, 170, 0.2); }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        .gallery-img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            border-radius: 8px;
-            transition: transform 0.3s;
-            border: 1px solid rgba(107, 164, 170, 0.3);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        .gallery-img:hover {
-            transform: scale(1.03);
-            border-color: var(--gold);
-        }
-
         /* Metro Areas Section */
         #metro { padding: 120px 10%; background-color: var(--ink); color: var(--white); }
         .metro-title { text-align: center; margin-bottom: 4rem; }
@@ -140,6 +118,13 @@
         }
         .metro-card:hover { border-color: var(--gold); transform: scale(1.02); background: rgba(255,255,255,0.05); }
         .metro-card h3 { color: var(--gold); font-size: 2rem; margin-bottom: 1rem; }
+
+        /* Expertise Section */
+        #expertise { padding: 140px 10%; background-color: var(--cream); }
+        .expertise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .card { padding: 3rem; background: var(--white); border-bottom: 5px solid transparent; transition: 0.3s; }
+        .card:hover { border-bottom-color: var(--teal); }
+        .card h4 { color: var(--teal); font-size: 1.5rem; margin-bottom: 1rem; }
 
         /* Contact Section */
         #contact { padding: 140px 10%; background-color: var(--white); text-align: center; border-top: 5px solid var(--teal); }
@@ -165,8 +150,8 @@
         </a>
         <div class="nav-links">
             <a href="#about">Liaison</a>
-            <a href="#gallery">Activity</a>
             <a href="#metro">Metro Areas</a>
+            <a href="#expertise">Focus</a>
             <a href="#contact">Contact</a>
         </div>
     </nav>
@@ -182,7 +167,7 @@
         <div class="accent-line"></div>
         <div class="about-content">
             <div>
-                <img src="profile.jpg" alt="Chris Gantt" class="profile-img" onerror="this.src='https://via.placeholder.com/450x550?text=Upload+profile.jpg+to+GitHub'">
+                <img src="profile.jpeg" alt="Chris Gantt" class="profile-img" onerror="this.src='https://via.placeholder.com/450x550?text=Upload+profile.jpeg+to+GitHub'">
             </div>
             <div class="about-text">
                 <h2 class="section-title">Community Advocacy</h2>
@@ -196,18 +181,6 @@
                     <li>Clinical Liaison Operations</li>
                 </ul>
             </div>
-        </div>
-    </section>
-
-    <section id="gallery">
-        <div style="text-align: center;">
-            <h2 style="font-size: 3rem; color: var(--ink);">Community in Action</h2>
-            <p style="color: var(--teal); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 10px; font-size: 1.2rem;">On the ground across North Louisiana</p>
-        </div>
-        <div class="gallery-grid">
-            <img src="activity1.jpg" alt="Community Event 1" class="gallery-img" onerror="this.src='https://via.placeholder.com/400x300?text=Upload+activity1.jpg'">
-            <img src="activity2.jpg" alt="Community Event 2" class="gallery-img" onerror="this.src='https://via.placeholder.com/400x300?text=Upload+activity2.jpg'">
-            <img src="activity3.jpg" alt="Community Event 3" class="gallery-img" onerror="this.style.display='none'">
         </div>
     </section>
 
@@ -228,6 +201,28 @@
             <div class="metro-card">
                 <h3>Ruston / Farmerville</h3>
                 <p>Fostering steady community engagement and managing local provider relationships within our home parishes.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="expertise">
+        <h2 style="font-size: 3rem; text-align: center; margin-bottom: 5rem;">Core Liaison Focus</h2>
+        <div class="expertise-grid">
+            <div class="card">
+                <h4>Post-Acute Support</h4>
+                <p>Helping facilitate the seamless hand-off from hospital clinical teams to Arbor Lake's specialized rehab setting.</p>
+            </div>
+            <div class="card">
+                <h4>Provider Relations</h4>
+                <p>Building trusted, long-term referral networks with local physicians, specialists, and hospital administrators.</p>
+            </div>
+            <div class="card">
+                <h4>Market Advocacy</h4>
+                <p>Representing our care teams at industry luncheons, networking groups, and community events across the region.</p>
+            </div>
+            <div class="card">
+                <h4>Modern Outreach</h4>
+                <p>Utilizing streamlined workflows to ensure consistent follow-up, reliable communication, and prompt service.</p>
             </div>
         </div>
     </section>
