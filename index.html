@@ -106,6 +106,28 @@
         .focus-list li { margin-bottom: 1.2rem; font-weight: 600; font-size: 1.1rem; padding-left: 25px; position: relative; }
         .focus-list li::before { content: "•"; color: var(--teal); position: absolute; left: 0; font-size: 1.5rem; }
 
+        /* Activity Gallery Section (Restored!) */
+        #gallery { padding: 100px 10%; background-color: var(--cream); border-top: 1px solid rgba(107, 164, 170, 0.2); }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .gallery-img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s;
+            border: 1px solid rgba(107, 164, 170, 0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .gallery-img:hover {
+            transform: scale(1.03);
+            border-color: var(--gold);
+        }
+
         /* Metro Areas Section */
         #metro { padding: 120px 10%; background-color: var(--ink); color: var(--white); }
         .metro-title { text-align: center; margin-bottom: 4rem; }
@@ -137,22 +159,24 @@
         .contact-box p, .contact-box a { font-size: 1.1rem; color: #444; text-decoration: none; display: block; margin-bottom: 0.8rem; }
         .contact-box a.highlight { font-weight: 700; color: var(--teal); font-size: 1.2rem; }
         .contact-box a:hover { color: var(--gold); }
-        
-        /* Facebook Link Styling */
-        .fb-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 1.5rem;
-            padding: 10px 15px;
-            background-color: #1877F2; 
-            color: var(--white) !important;
-            border-radius: 5px;
-            font-weight: 600;
+
+        /* Rock Solid Facebook Button CSS */
+        .fb-button {
+            display: inline-block;
+            background-color: #1877F2;
+            color: #ffffff !important;
+            padding: 12px 24px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: background-color 0.3s;
         }
-        .fb-link:hover { background-color: #166fe5; }
-        .fb-icon { fill: var(--white); width: 20px; height: 20px; }
+        .fb-button:hover { background-color: #166fe5; }
 
         footer { padding: 4rem 10%; background: var(--ink); color: rgba(255,255,255,0.3); font-size: 0.85rem; text-align: center; }
 
@@ -171,8 +195,8 @@
         </a>
         <div class="nav-links">
             <a href="#about">Liaison</a>
+            <a href="#gallery">Activity</a>
             <a href="#metro">Metro Areas</a>
-            <a href="#expertise">Focus</a>
             <a href="#contact">Contact</a>
         </div>
     </nav>
@@ -182,7 +206,7 @@
         <h1>Chris Gantt</h1>
         <p class="hero-sub">Community Liaison | Skilled Nursing & Long-Term Care</p>
         <p class="hero-tagline">Specializing in your recovery between hospital & home.</p>
-        <p style="max-width: 600px; opacity: 0.8; font-size: 1.1rem;">Supporting clinical networking and executing community outreach for Arbor Lake Skilled Nursing & Rehabilitation Center.</p>
+        <p style="max-width: 600px; opacity: 0.8; font-size: 1.1rem;">Supporting clinical networking and executing community outreach for Arbor Lake Skilled Nursing and Arbor Rose Assisted Living.</p>
     </header>
 
     <section id="about">
@@ -194,15 +218,27 @@
             <div class="about-text">
                 <h2 class="section-title">Community Advocacy</h2>
                 <p>Operating across the heart of North Louisiana, I serve as a bridge between Arbor Lake and our regional medical hubs. My role is built on maintaining genuine professional relationships and directly supporting our community outreach events.</p>
-                <p>By utilizing a modern approach to clinical networking, I help ensure that hospital discharge planners, providers, and local families have a clear, reliable connection to our Skilled Nursing (SNF) and rehabilitation services when they need them most.</p>
+                <p>By utilizing a modern approach to clinical networking, I help ensure that hospital discharge planners, providers, and local families have a clear, reliable connection to our Skilled Nursing (SNF), rehabilitation, and assisted living services when they need them most.</p>
                 
                 <ul class="focus-list">
                     <li>Skilled Nursing (SNF) Connections</li>
-                    <li>Long Term Care (LTC) Advocacy</li>
+                    <li>Arbor Rose Assisted Living Advocacy</li>
                     <li>Community Outreach Execution</li>
                     <li>Clinical Liaison Operations</li>
                 </ul>
             </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <div style="text-align: center;">
+            <h2 style="font-size: 3rem; color: var(--ink);">Community in Action</h2>
+            <p style="color: var(--teal); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 10px; font-size: 1.2rem;">On the ground across North Louisiana</p>
+        </div>
+        <div class="gallery-grid">
+            <img src="activity1.jpg" alt="Community Event 1" class="gallery-img" onerror="this.src='https://via.placeholder.com/400x300?text=Upload+activity1.jpg'">
+            <img src="activity2.jpg" alt="Community Event 2" class="gallery-img" onerror="this.src='https://via.placeholder.com/400x300?text=Upload+activity2.jpg'">
+            <img src="activity3.jpg" alt="Community Event 3" class="gallery-img" onerror="this.style.display='none'">
         </div>
     </section>
 
@@ -273,12 +309,21 @@
             </div>
 
             <div class="contact-box">
-                <h3>Arbor Lake</h3>
+                <h3>Arbor Lake & Arbor Rose</h3>
                 <p>1155 Sterlington Hwy<br>Farmerville, LA 71241</p>
                 <br>
                 <p>Main Phone: 318-368-3103</p>
                 <p>Main Fax: 318-368-7471</p>
                 <a href="https://paramounthcla.com" target="_blank" style="margin-top: 1rem; font-weight: 600; color: var(--gold);">paramounthcla.com</a>
                 
-                <a href="https://facebook.com" target="_blank" class="fb-link">
-                    <svg class="fb-icon" viewBox="0 0 24 24">
+                <a href="https://facebook.com" target="_blank" class="fb-button">Follow on Facebook</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Chris Gantt. Paramount Healthcare Consultants.</p>
+    </footer>
+
+</body>
+</html>
