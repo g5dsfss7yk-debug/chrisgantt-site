@@ -9,11 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #0a0c0d;      /* Deepest black */
-            --bg-panel: #161a1d;     /* Slightly lighter charcoal for cards */
-            --teal: #3bbab1;         /* Bright, glowing teal for maximum pop */
-            --gold: #d4a350;         /* Vibrant gold */
-            --text-main: #e8e6e3;    /* Soft off-white for easy reading */
+            --bg-deep: #0a0c0d;      
+            --bg-panel: #161a1d;     
+            --teal: #3bbab1;         
+            --gold: #d4a350;         
+            --text-main: #e8e6e3;    
             --white: #ffffff;
         }
 
@@ -42,7 +42,7 @@
             align-items: center;
             z-index: 1000;
             border-bottom: 3px solid var(--teal);
-            box-shadow: 0 4px 20px rgba(59, 186, 177, 0.15); /* Teal glow */
+            box-shadow: 0 4px 20px rgba(59, 186, 177, 0.15); 
         }
 
         .nav-logo-link {
@@ -54,7 +54,6 @@
 
         .nav-logo-link:hover { opacity: 0.8; }
 
-        /* Sleek white background so your logo doesn't disappear into the black */
         .actual-logo {
             height: 65px; 
             width: auto;
@@ -103,7 +102,7 @@
             width: 100%;
             max-width: 450px;
             border-radius: 8px;
-            box-shadow: -15px 15px 0px var(--teal); /* Vibrant teal shadow */
+            box-shadow: -15px 15px 0px var(--teal); 
             object-fit: cover;
             border: 2px solid rgba(255,255,255,0.1);
         }
@@ -147,23 +146,26 @@
         .contact-box a.highlight { font-weight: 700; color: var(--teal); font-size: 1.2rem; }
         .contact-box a.highlight:hover { color: var(--white); }
 
-        /* Rock Solid Facebook Button CSS */
+        /* Facebook Button with Icon CSS */
         .fb-button {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             background-color: #1877F2;
             color: #ffffff !important;
-            padding: 12px 24px;
+            padding: 10px 20px;
             font-family: 'Inter', sans-serif;
             font-size: 1rem;
             font-weight: 700;
             text-decoration: none;
             border-radius: 4px;
             margin-top: 1rem;
-            text-align: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             transition: background-color 0.3s, transform 0.2s;
         }
         .fb-button:hover { background-color: #166fe5; transform: translateY(-2px); }
+        .fb-icon { width: 22px; height: 22px; fill: #ffffff; }
 
         footer { padding: 4rem 10%; background: var(--bg-deep); color: rgba(255,255,255,0.4); font-size: 0.85rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
 
@@ -291,7 +293,12 @@
                 <p>Main Fax: 318-368-7471</p>
                 <a href="https://paramounthcla.com" target="_blank" style="margin-top: 1rem; font-weight: 600; color: var(--gold);">paramounthcla.com</a>
                 
-                <a href="https://facebook.com" target="_blank" class="fb-button">Follow on Facebook</a>
+                <a href="https://facebook.com" target="_blank" class="fb-button">
+                    <svg class="fb-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    Follow on Facebook
+                </a>
             </div>
         </div>
     </section>
