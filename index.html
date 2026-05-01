@@ -9,9 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --ink: #0a0c0d; 
+            --ink: #0d0f10; 
             --gold: #b38b45; 
-            --teal: #3a7d87; 
+            --teal: #3a7d87; /* The Teal from your logo */
             --cream: #f4f1ea;
             --white: #ffffff;
         }
@@ -28,6 +28,7 @@
 
         h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; }
 
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -44,16 +45,32 @@
         .nav-logo-link {
             display: flex;
             align-items: center;
+            gap: 15px;
             text-decoration: none;
             transition: 0.3s;
         }
 
         .nav-logo-link:hover { opacity: 0.8; }
 
-        .logo-img {
-            height: 60px;
-            width: auto;
-            filter: brightness(0) invert(1); /* Makes the logo white to stand out on black nav */
+        /* Reconstructed Arbor Lake Logo in Code */
+        .arbor-svg { width: 50px; height: 50px; fill: var(--teal); }
+
+        .nav-logo-link div { display: flex; flex-direction: column; }
+        .nav-logo-link .main-title { 
+            color: var(--white); 
+            font-size: 1.2rem; 
+            font-weight: 700; 
+            letter-spacing: 1px; 
+            text-transform: uppercase;
+            font-family: 'Playfair Display', serif;
+            line-height: 1;
+        }
+        .nav-logo-link .sub-title { 
+            color: var(--gold); 
+            font-size: 0.6rem; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px;
+            margin-top: 2px;
         }
 
         .nav-links a { 
@@ -67,6 +84,7 @@
         }
         .nav-links a:hover { color: var(--gold); }
 
+        /* Hero Section */
         header {
             height: 100vh;
             display: flex;
@@ -81,6 +99,7 @@
         header h1 { font-size: 5.5rem; line-height: 0.9; margin-bottom: 1.5rem; color: var(--ink); }
         .hero-sub { font-size: 1.8rem; color: var(--ink); font-family: 'Playfair Display', serif; font-style: italic; margin-bottom: 2rem; }
 
+        /* About Section */
         #about { padding: 140px 10%; background-color: var(--white); }
         .section-title { font-size: 3.5rem; margin-bottom: 1.5rem; color: var(--ink); }
         .accent-line { width: 100px; height: 6px; background: var(--teal); margin-bottom: 3rem; }
@@ -99,6 +118,7 @@
         .focus-list li { margin-bottom: 1.2rem; font-weight: 600; font-size: 1.1rem; padding-left: 25px; position: relative; }
         .focus-list li::before { content: "•"; color: var(--teal); position: absolute; left: 0; font-size: 1.5rem; }
 
+        /* Metro Areas Section */
         #metro { padding: 120px 10%; background-color: var(--ink); color: var(--white); }
         .metro-title { text-align: center; margin-bottom: 4rem; }
         .metro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
@@ -112,17 +132,20 @@
         .metro-card:hover { border-color: var(--gold); transform: scale(1.02); background: rgba(255,255,255,0.05); }
         .metro-card h3 { color: var(--gold); font-size: 2rem; margin-bottom: 1rem; }
 
+        /* Expertise Section */
         #expertise { padding: 140px 10%; background-color: var(--cream); }
         .expertise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
         .card { padding: 3rem; background: var(--white); border-bottom: 5px solid transparent; transition: 0.3s; }
         .card:hover { border-bottom-color: var(--teal); }
         .card h4 { color: var(--teal); font-size: 1.5rem; margin-bottom: 1rem; }
 
+        /* Contact Section */
         #contact { padding: 140px 10%; background-color: var(--white); text-align: center; border-top: 5px solid var(--teal); }
-        .contact-email { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--ink); text-decoration: none; display: block; margin-bottom: 1rem; }
+        .contact-email { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--ink); text-decoration: none; display: block; margin-bottom: 1rem; transition: 0.3s; }
+        .contact-email:hover { color: var(--teal); }
         .contact-phone { font-size: 2rem; color: var(--gold); text-decoration: none; font-weight: 700; display: block; }
 
-        footer { padding: 4rem 10%; background: var(--ink); color: rgba(255,255,255,0.3); font-size: 0.85rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
+        footer { padding: 4rem 10%; background: var(--ink); color: rgba(255,255,255,0.3); font-size: 0.85rem; text-align: center; }
 
         @media (max-width: 768px) {
             header h1 { font-size: 3.5rem; }
@@ -136,10 +159,19 @@
 
     <nav>
         <a href="https://arborlakerehab.com" target="_blank" class="nav-logo-link">
-            <img src="https://arborlakerehab.com/wp-content/uploads/2021/04/Arbor-Lake-Logo.png" alt="Arbor Lake Skilled Nursing" class="logo-img">
+            <svg class="arbor-svg" viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="95" fill="none" stroke="#b38b45" stroke-width="2"/>
+                <path d="M100 30 L140 140 L60 140 Z" fill="#3a7d87"/>
+                <rect x="92" y="140" width="16" height="30" fill="#b38b45"/>
+                <path d="M40 150 Q100 130 160 150" fill="none" stroke="#b38b45" stroke-width="3"/>
+            </svg>
+            <div>
+                <span class="main-title">Arbor Lake</span>
+                <span class="sub-title">Skilled Nursing & Rehab</span>
+            </div>
         </a>
         <div class="nav-links">
-            <a href="#about">The Liaison</a>
+            <a href="#about">Liaison</a>
             <a href="#metro">Metro Areas</a>
             <a href="#expertise">Focus</a>
             <a href="#contact">Contact</a>
@@ -149,8 +181,8 @@
     <header>
         <span class="hero-label">North Louisiana Territory</span>
         <h1>Chris Gantt</h1>
-        <p class="hero-sub">Strategic Community Liaison & SNF Specialist</p>
-        <p style="max-width: 600px; opacity: 0.8; font-size: 1.1rem;">Leading professional census development and clinical networking for Arbor Lake Skilled Nursing & Long Term Care.</p>
+        <p class="hero-sub">Strategic Community Liaison | SNF Specialist</p>
+        <p style="max-width: 600px; opacity: 0.8; font-size: 1.1rem;">Executing professional marketing and clinical networking strategies for Arbor Lake Skilled Nursing & Long Term Care.</p>
     </header>
 
     <section id="about">
@@ -159,7 +191,7 @@
         <div class="about-content">
             <div class="about-text">
                 <p>Operating across the heart of North Louisiana, I serve as the primary connection point between Arbor Lake and regional medical hubs. My role is built on deep-rooted professional relationships and the execution of strategic outreach plans.</p>
-                <p>I focus on a tech-forward approach to census development—ensuring that hospital discharge planners, providers, and families have an efficient, trusted path to our Skilled Nursing (SNF) and rehabilitation services.</p>
+                <p>I focus on a modern, tech-forward approach to census development—ensuring that hospital discharge planners, providers, and families have an efficient, trusted path to our Skilled Nursing (SNF) and rehabilitation services.</p>
             </div>
             <div class="focus-card">
                 <h4 style="margin-bottom: 2rem; color: var(--gold); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 3px;">Key Specializations</h4>
@@ -168,7 +200,7 @@
                     <li>Long Term Care (LTC)</li>
                     <li>Census Development</li>
                     <li>Clinical Liaison Operations</li>
-                    <li>Community Networking</li>
+                    <li>Professional Networking</li>
                 </ul>
             </div>
         </div>
