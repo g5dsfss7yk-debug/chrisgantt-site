@@ -21,17 +21,22 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        /* Moved smooth scrolling to HTML to prevent screen-lock */
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-page);
             color: var(--text-main);
             line-height: 1.7;
-            scroll-behavior: smooth;
+            overflow-x: hidden; /* Prevents trackpad scrolling lockups */
         }
 
         h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--text-dark); }
 
-        /* Navigation */
+        /* Navigation - Light Mode */
         nav {
             position: fixed;
             top: 0;
@@ -93,7 +98,7 @@
         }
         .nav-links a:hover { color: var(--teal); }
 
-        /* Hero Section */
+        /* Split-Screen Hero Section */
         header {
             min-height: 100vh;
             display: flex;
@@ -134,7 +139,7 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
-        /* About Section */
+        /* Centered About Section */
         #about { padding: 120px 10%; background-color: var(--bg-panel); text-align: center; }
         .about-inner { max-width: 1000px; margin: 0 auto; }
         .section-title { font-size: 3.5rem; margin-bottom: 1.5rem; color: var(--text-dark); }
@@ -283,4 +288,117 @@
             <p class="hero-desc">Supporting clinical networking and executing community outreach for Arbor Lake Skilled Nursing & Rehabilitation Center.</p>
         </div>
         <div class="hero-visual">
-            <img src="profile.jpeg" alt="Chris Gantt" class="profile-img" onerror="this.src='https://via
+            <img src="profile.jpeg" alt="Chris Gantt" class="profile-img" onerror="this.src='https://via.placeholder.com/500x600?text=Upload+profile.jpeg+to+GitHub'">
+        </div>
+    </header>
+
+    <section id="about">
+        <div class="about-inner">
+            <div class="accent-line-center"></div>
+            <h2 class="section-title">A Seamless Team Approach</h2>
+            <div class="about-text">
+                <p>Operating across the heart of North Louisiana, I serve as your initial connection point between regional medical hubs and Arbor Lake. However, the true strength of our facility is the incredible internal team waiting to coordinate your care.</p>
+                <p>A successful transition from hospital to home requires flawless execution. I work directly alongside our internal leadership to ensure that the entire admissions and clinical intake process is effortless for hospital discharge planners, medical providers, and local families.</p>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-card">
+                    <h4>Kayla Hill</h4>
+                    <span class="role">Director of Nursing (DON)</span>
+                    <p>Overseeing all clinical intake and medical reviews to ensure our specialized rehab staff is fully prepared for your arrival and specific care requirements.</p>
+                </div>
+                <div class="team-card">
+                    <h4>Amber Alford</h4>
+                    <span class="role">Business Office Manager (BOM)</span>
+                    <p>Expertly managing the financial transition, including rapid insurance verification for Medicare, Medicaid, Humana, Peoples Health, and other plans.</p>
+                </div>
+                <div class="team-card">
+                    <h4>Sherry Jones</h4>
+                    <span class="role">Social Services Director (SSD)</span>
+                    <p>Coordinating the psychosocial aspects of care, assisting with discharge planning, and acting as a dedicated advocate for our residents and their families.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="coverage">
+        <div class="section-header-center">
+            <h2 style="font-size: 3rem; color: var(--text-dark);">Strategic Coverage Areas</h2>
+            <p style="color: var(--gold); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 10px; font-size: 1.2rem;">North Louisiana Healthcare Corridor</p>
+        </div>
+        <div class="coverage-grid">
+            <div class="coverage-card">
+                <h3>Monroe / West Monroe</h3>
+                <p>Assisting with hospital discharges and smooth SNF transitions for the major medical hubs in the twin cities.</p>
+            </div>
+            <div class="coverage-card">
+                <h3>Shreveport / Bossier</h3>
+                <p>Supporting clinical outreach and professional referral networking across the regional Shreveport-Bossier areas.</p>
+            </div>
+            <div class="coverage-card">
+                <h3>Ruston / Farmerville</h3>
+                <p>Fostering steady community engagement and managing local provider relationships across our home parishes.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="outreach">
+        <div class="section-header-center">
+            <h2 style="font-size: 3rem; color: var(--text-dark);">Community & Civic Outreach</h2>
+            <p style="color: var(--teal); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 10px; font-size: 1.2rem;">Active Community Partnerships</p>
+        </div>
+        <div class="outreach-grid">
+            <div class="outreach-card">
+                <h3 style="color: var(--teal);">Farmerville Council on Aging</h3>
+                <p>Partnering closely with the Council to provide health education, resources, and continuous support to our local seniors right here at home.</p>
+            </div>
+            <div class="outreach-card">
+                <h3 style="color: var(--teal);">Regional Senior Centers</h3>
+                <p>Extending our dedicated outreach and educational events to centers in Marion, Spearsville & Bernice, ensuring all residents stay connected to long-term care options.</p>
+            </div>
+            <div class="outreach-card">
+                <h3 style="color: var(--teal);">Civic & Chamber Leadership</h3>
+                <p>As active members of the Chamber of Commerce and proud partners with the Union Parish Community Outreach organization, we are deeply invested in the growth of our home parishes.</p>
+            </div>
+            <div class="outreach-card">
+                <h3 style="color: var(--teal);">Festivals & Sponsorships</h3>
+                <p>From participating in local parades and holiday festivals to sponsoring regional athletics and tournaments, we believe in showing up and actively supporting the community events that bring us together.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="expertise">
+        <div class="section-header-center">
+            <h2 style="font-size: 3rem; color: var(--text-dark); margin-bottom: 5rem;">Core Liaison Focus</h2>
+        </div>
+        <div class="expertise-grid">
+            <div class="card">
+                <h4>Post-Acute Support</h4>
+                <p>Driving a seamless hand-off from hospital clinical teams directly to our Director of Nursing, Kayla Hill, and our specialized rehab staff.</p>
+            </div>
+            <div class="card">
+                <h4>Provider Relations</h4>
+                <p>Building trusted, long-term referral networks with local physicians, specialists, and hospital administrators.</p>
+            </div>
+            <div class="card">
+                <h4>Admissions & Insurance</h4>
+                <p>Expertly managed by Amber Alford and Sherry Jones, we welcome all referrals for insurance verification. Accepting Humana, Peoples Health, Medicare, and Medicaid.</p>
+            </div>
+            <div class="card">
+                <h4>Modern Outreach</h4>
+                <p>Utilizing streamlined workflows to ensure consistent follow-up, reliable communication, and prompt service for all our partners.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="section-header-center">
+            <h2 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 4px; color: var(--teal); margin-bottom: 1rem;">Get In Touch</h2>
+            <h3 style="font-size: 3.5rem; color: var(--text-dark);">Contact Information</h3>
+        </div>
+        
+        <div class="contact-grid">
+            <div class="contact-box">
+                <h3>Direct Liaison Access</h3>
+                <p>Available for hospital visits, provider meetings, and facility tours across North Louisiana.</p>
+                <br>
