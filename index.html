@@ -21,17 +21,12 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* Moved smooth scrolling to HTML to prevent screen-lock */
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-page);
             color: var(--text-main);
             line-height: 1.7;
-            overflow-x: hidden; /* Prevents trackpad scrolling lockups */
+            scroll-behavior: smooth;
         }
 
         h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--text-dark); }
@@ -146,11 +141,12 @@
         .accent-line-center { width: 100px; height: 6px; background: var(--teal); margin: 0 auto 3rem; border-radius: 3px; }
         
         .about-text p { font-size: 1.25rem; color: var(--text-main); margin-bottom: 1.5rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .highlight-name { font-weight: 700; color: var(--teal); }
 
         /* Admissions Team Grid */
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 2rem;
             margin-top: 4rem;
             text-align: left;
@@ -298,10 +294,15 @@
             <h2 class="section-title">A Seamless Team Approach</h2>
             <div class="about-text">
                 <p>Operating across the heart of North Louisiana, I serve as your initial connection point between regional medical hubs and Arbor Lake. However, the true strength of our facility is the incredible internal team waiting to coordinate your care.</p>
-                <p>A successful transition from hospital to home requires flawless execution. I work directly alongside our internal leadership to ensure that the entire admissions and clinical intake process is effortless for hospital discharge planners, medical providers, and local families.</p>
+                <p>A successful transition from hospital to home requires flawless execution. I work directly alongside our Administrator, <span class="highlight-name">Matthew</span>, <span class="highlight-name">Kayla Hill (DON)</span>, <span class="highlight-name">Amber Alford (BOM)</span>, and <span class="highlight-name">Sherry Jones (SSD)</span> to ensure that the entire admissions and clinical intake process is effortless for hospital discharge planners, medical providers, and local families.</p>
             </div>
             
             <div class="team-grid">
+                <div class="team-card">
+                    <h4>Matthew</h4>
+                    <span class="role">Facility Administrator</span>
+                    <p>Acting as the spear tip for our facility, she runs the entire internal process to ensure every department works in perfect sync for your transition and care.</p>
+                </div>
                 <div class="team-card">
                     <h4>Kayla Hill</h4>
                     <span class="role">Director of Nursing (DON)</span>
@@ -353,52 +354,4 @@
                 <p>Partnering closely with the Council to provide health education, resources, and continuous support to our local seniors right here at home.</p>
             </div>
             <div class="outreach-card">
-                <h3 style="color: var(--teal);">Regional Senior Centers</h3>
-                <p>Extending our dedicated outreach and educational events to centers in Marion, Spearsville & Bernice, ensuring all residents stay connected to long-term care options.</p>
-            </div>
-            <div class="outreach-card">
-                <h3 style="color: var(--teal);">Civic & Chamber Leadership</h3>
-                <p>As active members of the Chamber of Commerce and proud partners with the Union Parish Community Outreach organization, we are deeply invested in the growth of our home parishes.</p>
-            </div>
-            <div class="outreach-card">
-                <h3 style="color: var(--teal);">Festivals & Sponsorships</h3>
-                <p>From participating in local parades and holiday festivals to sponsoring regional athletics and tournaments, we believe in showing up and actively supporting the community events that bring us together.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="expertise">
-        <div class="section-header-center">
-            <h2 style="font-size: 3rem; color: var(--text-dark); margin-bottom: 5rem;">Core Liaison Focus</h2>
-        </div>
-        <div class="expertise-grid">
-            <div class="card">
-                <h4>Post-Acute Support</h4>
-                <p>Driving a seamless hand-off from hospital clinical teams directly to our Director of Nursing, Kayla Hill, and our specialized rehab staff.</p>
-            </div>
-            <div class="card">
-                <h4>Provider Relations</h4>
-                <p>Building trusted, long-term referral networks with local physicians, specialists, and hospital administrators.</p>
-            </div>
-            <div class="card">
-                <h4>Admissions & Insurance</h4>
-                <p>Expertly managed by Amber Alford and Sherry Jones, we welcome all referrals for insurance verification. Accepting Humana, Peoples Health, Medicare, and Medicaid.</p>
-            </div>
-            <div class="card">
-                <h4>Modern Outreach</h4>
-                <p>Utilizing streamlined workflows to ensure consistent follow-up, reliable communication, and prompt service for all our partners.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact">
-        <div class="section-header-center">
-            <h2 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 4px; color: var(--teal); margin-bottom: 1rem;">Get In Touch</h2>
-            <h3 style="font-size: 3.5rem; color: var(--text-dark);">Contact Information</h3>
-        </div>
-        
-        <div class="contact-grid">
-            <div class="contact-box">
-                <h3>Direct Liaison Access</h3>
-                <p>Available for hospital visits, provider meetings, and facility tours across North Louisiana.</p>
-                <br>
+                <h3 style="color: var(--teal);">
