@@ -1,452 +1,451 @@
+That is an important distinction to make. It tells the hospitals that Sherry isn't just a point of contact—she actively drives the entire process from the very first phone call all the way through to the final admission, making their jobs infinitely easier.
+I have updated her card to explicitly state that she initiates, coordinates, and completes the entire referral and admissions process, while still keeping her crucial social services and advocacy roles in the description.
+Here is the updated code. Remember, click the "Copy" icon in the top right of the box below so it grabs perfectly without any extra formatting! ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chris Gantt | Arbor Lake Community Liaison</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-page: #f4f7f6;      
-            --bg-panel: #ffffff;     
-            --teal: #1e7a75;         
-            --teal-light: #e6f2f1;   
-            --gold: #b8860b;         
-            --text-main: #4a5568;    
-            --text-dark: #1a202c;    
-            --white: #ffffff;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chris Gantt | Arbor Lake Community Liaison</title>
+<link rel="preconnect" href="https://www.google.com/search?q=https://fonts.googleapis.com">
+<link rel="preconnect" href="https://www.google.com/search?q=https://fonts.gstatic.com" crossorigin>
+<link href="https://www.google.com/search?q=https://fonts.googleapis.com/css2%3Ffamily%3DPlayfair%2BDisplay:ital,wght%400,400%3B0,700%3B1,400%26family%3DInter:wght%40300%3B400%3B600%3B700%26display%3Dswap" rel="stylesheet">
+<style>
+:root {
+--bg-page: #f4f7f6;
+--bg-panel: #ffffff;
+--teal: #1e7a75;
+--teal-light: #e6f2f1;
+--gold: #b8860b;
+--text-main: #4a5568;
+--text-dark: #1a202c;
+--white: #ffffff;
+}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-page);
+        color: var(--text-main);
+        line-height: 1.7;
+        scroll-behavior: smooth;
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-page);
-            color: var(--text-main);
-            line-height: 1.7;
-            scroll-behavior: smooth;
-        }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--text-dark); }
 
-        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--text-dark); }
+    /* Navigation - Light Mode */
+    nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 1rem 10%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        border-bottom: 3px solid var(--teal);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+    }
 
-        /* Navigation - Light Mode */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1rem 10%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            border-bottom: 3px solid var(--teal);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
-        }
+    .logo-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 
-        .logo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+    .nav-logo-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        transition: 0.3s;
+    }
 
-        .nav-logo-link {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            transition: 0.3s;
-        }
+    .nav-logo-link:hover { opacity: 0.7; }
 
-        .nav-logo-link:hover { opacity: 0.7; }
+    .actual-logo {
+        height: 65px; 
+        width: auto;
+        border-radius: 6px;
+    }
 
-        .actual-logo {
-            height: 65px; 
-            width: auto;
-            border-radius: 6px;
-        }
+    .click-hint {
+        font-size: 0.65rem;
+        color: var(--teal);
+        margin-top: 6px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+        transition: color 0.3s;
+    }
 
-        .click-hint {
-            font-size: 0.65rem;
-            color: var(--teal);
-            margin-top: 6px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
-            transition: color 0.3s;
-        }
+    .nav-logo-link:hover + .click-hint { color: var(--text-dark); }
 
-        .nav-logo-link:hover + .click-hint { color: var(--text-dark); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { 
+        text-decoration: none; 
+        color: var(--text-dark); 
+        font-size: 0.8rem; 
+        font-weight: 700; 
+        text-transform: uppercase; 
+        letter-spacing: 1.5px; 
+        transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--teal); }
 
-        .nav-links { display: flex; gap: 2rem; }
-        .nav-links a { 
-            text-decoration: none; 
-            color: var(--text-dark); 
-            font-size: 0.8rem; 
-            font-weight: 700; 
-            text-transform: uppercase; 
-            letter-spacing: 1.5px; 
-            transition: color 0.3s;
-        }
-        .nav-links a:hover { color: var(--teal); }
+    /* Split-Screen Hero Section */
+    header {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 120px 10% 40px;
+        background: linear-gradient(135deg, var(--bg-page) 0%, var(--bg-panel) 100%);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        gap: 4rem;
+    }
 
-        /* Split-Screen Hero Section */
-        header {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 120px 10% 40px;
-            background: linear-gradient(135deg, var(--bg-page) 0%, var(--bg-panel) 100%);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            gap: 4rem;
-        }
+    .hero-text { flex: 1; }
+    .hero-label { color: var(--teal); text-transform: uppercase; letter-spacing: 4px; font-weight: 700; font-size: 0.9rem; margin-bottom: 1.5rem; display: block; }
+    .hero-text h1 { font-size: 5.5rem; line-height: 0.9; margin-bottom: 1.5rem; color: var(--text-dark); }
+    .hero-sub { font-size: 1.8rem; color: var(--text-dark); font-family: 'Playfair Display', serif; font-style: italic; margin-bottom: 0.5rem; }
+    .hero-tagline { font-size: 1.3rem; color: var(--gold); font-weight: 600; margin-bottom: 2rem; }
+    .hero-desc { max-width: 550px; font-size: 1.1rem; color: var(--text-main); }
 
-        .hero-text { flex: 1; }
-        .hero-label { color: var(--teal); text-transform: uppercase; letter-spacing: 4px; font-weight: 700; font-size: 0.9rem; margin-bottom: 1.5rem; display: block; }
-        .hero-text h1 { font-size: 5.5rem; line-height: 0.9; margin-bottom: 1.5rem; color: var(--text-dark); }
-        .hero-sub { font-size: 1.8rem; color: var(--text-dark); font-family: 'Playfair Display', serif; font-style: italic; margin-bottom: 0.5rem; }
-        .hero-tagline { font-size: 1.3rem; color: var(--gold); font-weight: 600; margin-bottom: 2rem; }
-        .hero-desc { max-width: 550px; font-size: 1.1rem; color: var(--text-main); }
+    .hero-visual { flex: 0.8; position: relative; }
+    .hero-visual::before {
+        content: '';
+        position: absolute;
+        top: 25px;
+        left: -25px;
+        width: 100%;
+        height: 100%;
+        background: var(--teal-light);
+        border-radius: 8px;
+        z-index: 0;
+    }
+    .profile-img {
+        width: 100%;
+        max-width: 500px;
+        border-radius: 8px;
+        object-fit: cover;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
 
-        .hero-visual { flex: 0.8; position: relative; }
-        .hero-visual::before {
-            content: '';
-            position: absolute;
-            top: 25px;
-            left: -25px;
-            width: 100%;
-            height: 100%;
-            background: var(--teal-light);
-            border-radius: 8px;
-            z-index: 0;
-        }
-        .profile-img {
-            width: 100%;
-            max-width: 500px;
-            border-radius: 8px;
-            object-fit: cover;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
+    /* Centered About Section */
+    #about { padding: 120px 10%; background-color: var(--bg-panel); text-align: center; }
+    .about-inner { max-width: 1100px; margin: 0 auto; }
+    .section-title { font-size: 3.5rem; margin-bottom: 1.5rem; color: var(--text-dark); }
+    .accent-line-center { width: 100px; height: 6px; background: var(--teal); margin: 0 auto 3rem; border-radius: 3px; }
+    
+    .about-text p { font-size: 1.25rem; color: var(--text-main); margin-bottom: 1.5rem; max-width: 800px; margin-left: auto; margin-right: auto; }
 
-        /* Centered About Section */
-        #about { padding: 120px 10%; background-color: var(--bg-panel); text-align: center; }
-        .about-inner { max-width: 1100px; margin: 0 auto; }
-        .section-title { font-size: 3.5rem; margin-bottom: 1.5rem; color: var(--text-dark); }
-        .accent-line-center { width: 100px; height: 6px; background: var(--teal); margin: 0 auto 3rem; border-radius: 3px; }
-        
-        .about-text p { font-size: 1.25rem; color: var(--text-main); margin-bottom: 1.5rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+    /* Admissions & Leadership Team Grid */
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 4rem;
+        text-align: left;
+    }
+    .team-card {
+        background: var(--bg-page);
+        padding: 2.5rem;
+        border-radius: 8px;
+        border-left: 4px solid var(--teal);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .team-card.leadership {
+        border-left-color: var(--gold);
+    }
+    .team-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(30, 122, 117, 0.08);
+    }
+    .team-card h4 { font-size: 1.4rem; margin-bottom: 0.3rem; color: var(--text-dark); }
+    .team-card .role { display: block; font-size: 0.85rem; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+    .team-card.leadership .role { color: var(--gold); }
+    .team-card p { font-size: 1.05rem; margin-bottom: 0; }
 
-        /* Admissions & Leadership Team Grid */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
-            text-align: left;
-        }
-        .team-card {
-            background: var(--bg-page);
-            padding: 2.5rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--teal);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .team-card.leadership {
-            border-left-color: var(--gold);
-        }
-        .team-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(30, 122, 117, 0.08);
-        }
-        .team-card h4 { font-size: 1.4rem; margin-bottom: 0.3rem; color: var(--text-dark); }
-        .team-card .role { display: block; font-size: 0.85rem; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
-        .team-card.leadership .role { color: var(--gold); }
-        .team-card p { font-size: 1.05rem; margin-bottom: 0; }
+    /* Coverage Areas Section */
+    #coverage { padding: 120px 10%; background-color: var(--bg-page); }
+    .section-header-center { text-align: center; margin-bottom: 4rem; }
+    .coverage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    
+    .coverage-card { 
+        border: 1px solid rgba(0, 0, 0, 0.05); 
+        padding: 3.5rem; 
+        transition: 0.4s; 
+        background: var(--bg-panel);
+        border-radius: 8px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.02);
+    }
+    .coverage-card:hover { border-color: var(--teal); transform: translateY(-10px); box-shadow: 0 15px 30px rgba(30, 122, 117, 0.08); }
+    .coverage-card h3 { color: var(--teal); font-size: 2rem; margin-bottom: 1rem; }
 
-        /* Coverage Areas Section */
-        #coverage { padding: 120px 10%; background-color: var(--bg-page); }
-        .section-header-center { text-align: center; margin-bottom: 4rem; }
-        .coverage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        
-        .coverage-card { 
-            border: 1px solid rgba(0, 0, 0, 0.05); 
-            padding: 3.5rem; 
-            transition: 0.4s; 
-            background: var(--bg-panel);
-            border-radius: 8px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.02);
-        }
-        .coverage-card:hover { border-color: var(--teal); transform: translateY(-10px); box-shadow: 0 15px 30px rgba(30, 122, 117, 0.08); }
-        .coverage-card h3 { color: var(--teal); font-size: 2rem; margin-bottom: 1rem; }
+    /* Community Outreach Section */
+    #outreach { padding: 120px 10%; background-color: var(--bg-panel); border-top: 1px solid rgba(0,0,0,0.03); border-bottom: 1px solid rgba(0,0,0,0.03); }
+    .outreach-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; }
+    .outreach-card {
+        background: var(--bg-page); 
+        padding: 3.5rem; 
+        transition: 0.3s; 
+        border-radius: 8px; 
+        border-left: 6px solid var(--gold);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+    }
+    .outreach-card:hover { border-left-color: var(--teal); transform: translateY(-5px); box-shadow: 0 15px 25px rgba(0,0,0,0.06); }
+    .outreach-card h3 { color: var(--text-dark); font-size: 1.5rem; margin-bottom: 1rem; line-height: 1.3; }
 
-        /* Community Outreach Section */
-        #outreach { padding: 120px 10%; background-color: var(--bg-panel); border-top: 1px solid rgba(0,0,0,0.03); border-bottom: 1px solid rgba(0,0,0,0.03); }
-        .outreach-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; }
-        .outreach-card {
-            background: var(--bg-page); 
-            padding: 3.5rem; 
-            transition: 0.3s; 
-            border-radius: 8px; 
-            border-left: 6px solid var(--gold);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-        }
-        .outreach-card:hover { border-left-color: var(--teal); transform: translateY(-5px); box-shadow: 0 15px 25px rgba(0,0,0,0.06); }
-        .outreach-card h3 { color: var(--text-dark); font-size: 1.5rem; margin-bottom: 1rem; line-height: 1.3; }
+    /* Expertise Section */
+    #expertise { padding: 140px 10%; background-color: var(--bg-page); }
+    .expertise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+    .card { padding: 3rem; background: var(--bg-panel); border-bottom: 5px solid transparent; transition: 0.3s; border-radius: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03); }
+    .card:hover { border-bottom-color: var(--teal); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(30, 122, 117, 0.08); }
+    .card h4 { color: var(--gold); font-size: 1.5rem; margin-bottom: 1rem; }
 
-        /* Expertise Section */
-        #expertise { padding: 140px 10%; background-color: var(--bg-page); }
-        .expertise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
-        .card { padding: 3rem; background: var(--bg-panel); border-bottom: 5px solid transparent; transition: 0.3s; border-radius: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03); }
-        .card:hover { border-bottom-color: var(--teal); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(30, 122, 117, 0.08); }
-        .card h4 { color: var(--gold); font-size: 1.5rem; margin-bottom: 1rem; }
+    /* Contact Board */
+    #contact { padding: 140px 10%; background-color: var(--bg-panel); border-top: 5px solid var(--teal); }
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; }
+    
+    .contact-box { background: var(--bg-page); padding: 3rem; border-top: 4px solid var(--teal); border-radius: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.03); border-left: 1px solid rgba(0,0,0,0.03); border-right: 1px solid rgba(0,0,0,0.03); border-bottom: 1px solid rgba(0,0,0,0.03); }
+    .contact-box h3 { color: var(--text-dark); font-size: 1.6rem; margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; }
+    .contact-box p, .contact-box a { font-size: 1.1rem; color: var(--text-main); text-decoration: none; display: block; margin-bottom: 0.8rem; }
+    .contact-box a.highlight { font-weight: 700; color: var(--teal); font-size: 1.2rem; }
+    .contact-box a.highlight:hover { color: var(--text-dark); }
 
-        /* Contact Board */
-        #contact { padding: 140px 10%; background-color: var(--bg-panel); border-top: 5px solid var(--teal); }
-        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; }
-        
-        .contact-box { background: var(--bg-page); padding: 3rem; border-top: 4px solid var(--teal); border-radius: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.03); border-left: 1px solid rgba(0,0,0,0.03); border-right: 1px solid rgba(0,0,0,0.03); border-bottom: 1px solid rgba(0,0,0,0.03); }
-        .contact-box h3 { color: var(--text-dark); font-size: 1.6rem; margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; }
-        .contact-box p, .contact-box a { font-size: 1.1rem; color: var(--text-main); text-decoration: none; display: block; margin-bottom: 0.8rem; }
-        .contact-box a.highlight { font-weight: 700; color: var(--teal); font-size: 1.2rem; }
-        .contact-box a.highlight:hover { color: var(--text-dark); }
+    /* QR Code & Facility Links */
+    .facility-link { margin-top: 1rem; font-weight: 700; color: var(--gold); text-decoration: none; display: inline-block; }
+    .facility-link:hover { color: var(--text-dark); }
+    
+    .qr-wrapper { margin-top: 1.5rem; margin-bottom: 1.5rem; }
+    .qr-text { font-size: 0.8rem; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 8px; display: block; }
+    .qr-image { border-radius: 4px; width: 110px; height: 110px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 2px solid var(--white); }
 
-        /* QR Code & Facility Links */
-        .facility-link { margin-top: 1rem; font-weight: 700; color: var(--gold); text-decoration: none; display: inline-block; }
-        .facility-link:hover { color: var(--text-dark); }
-        
-        .qr-wrapper { margin-top: 1.5rem; margin-bottom: 1.5rem; }
-        .qr-text { font-size: 0.8rem; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 8px; display: block; }
-        .qr-image { border-radius: 4px; width: 110px; height: 110px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 2px solid var(--white); }
+    /* Facebook Button */
+    .fb-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background-color: #1877F2;
+        color: #ffffff !important;
+        padding: 10px 20px;
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        text-decoration: none;
+        border-radius: 6px;
+        box-shadow: 0 4px 10px rgba(24, 119, 242, 0.3);
+        transition: background-color 0.3s, transform 0.2s;
+        width: fit-content;
+    }
+    .fb-button:hover { background-color: #166fe5; transform: translateY(-2px); }
+    .fb-icon { width: 22px; height: 22px; fill: #ffffff; }
 
-        /* Facebook Button */
-        .fb-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background-color: #1877F2;
-            color: #ffffff !important;
-            padding: 10px 20px;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            text-decoration: none;
-            border-radius: 6px;
-            box-shadow: 0 4px 10px rgba(24, 119, 242, 0.3);
-            transition: background-color 0.3s, transform 0.2s;
-            width: fit-content;
-        }
-        .fb-button:hover { background-color: #166fe5; transform: translateY(-2px); }
-        .fb-icon { width: 22px; height: 22px; fill: #ffffff; }
+    footer { padding: 4rem 10%; background: var(--text-dark); color: rgba(255,255,255,0.7); font-size: 0.85rem; text-align: center; }
 
-        footer { padding: 4rem 10%; background: var(--text-dark); color: rgba(255,255,255,0.7); font-size: 0.85rem; text-align: center; }
+    @media (max-width: 900px) {
+        .nav-links { display: none; }
+        header { flex-direction: column; padding-top: 150px; text-align: center; }
+        .hero-visual::before { display: none; }
+        .hero-desc { margin: 0 auto; }
+    }
+    @media (max-width: 768px) {
+        .hero-text h1 { font-size: 3.5rem; }
+        .outreach-grid { grid-template-columns: 1fr; }
+    }
+</style>
 
-        @media (max-width: 900px) {
-            .nav-links { display: none; }
-            header { flex-direction: column; padding-top: 150px; text-align: center; }
-            .hero-visual::before { display: none; }
-            .hero-desc { margin: 0 auto; }
-        }
-        @media (max-width: 768px) {
-            .hero-text h1 { font-size: 3.5rem; }
-            .outreach-grid { grid-template-columns: 1fr; }
-        }
-    </style>
 </head>
 <body>
+<nav>
+    <div class="logo-container">
+        <a href="https://arborlakerehab.com" target="_blank" class="nav-logo-link" title="Visit Arbor Lake Website">
+            <img src="Arbor Lake RBG.png" alt="Arbor Lake Skilled Nursing" class="actual-logo" onerror="this.style.display='none'">
+        </a>
+        <span class="click-hint">Click For Facility Info</span>
+    </div>
+    <div class="nav-links">
+        <a href="#about">Liaison</a>
+        <a href="#coverage">Coverage</a>
+        <a href="#outreach">Outreach</a>
+        <a href="#expertise">Focus</a>
+        <a href="#contact">Contact</a>
+    </div>
+</nav>
 
-    <nav>
-        <div class="logo-container">
-            <a href="https://arborlakerehab.com" target="_blank" class="nav-logo-link" title="Visit Arbor Lake Website">
-                <img src="Arbor Lake RBG.png" alt="Arbor Lake Skilled Nursing" class="actual-logo" onerror="this.style.display='none'">
-            </a>
-            <span class="click-hint">Click For Facility Info</span>
-        </div>
-        <div class="nav-links">
-            <a href="#about">Liaison</a>
-            <a href="#coverage">Coverage</a>
-            <a href="#outreach">Outreach</a>
-            <a href="#expertise">Focus</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </nav>
+<header>
+    <div class="hero-text">
+        <span class="hero-label">Paramount Healthcare Consultants</span>
+        <h1>Chris Gantt</h1>
+        <p class="hero-sub">Community Liaison | Skilled Nursing & Long-Term Care</p>
+        <p class="hero-tagline">Specializing in your recovery between hospital & home.</p>
+        <p class="hero-desc">Supporting clinical networking and executing community outreach for Arbor Lake Skilled Nursing & Rehabilitation Center.</p>
+    </div>
+    <div class="hero-visual">
+        <img src="profile.jpeg" alt="Chris Gantt" class="profile-img" onerror="this.src='https://via.placeholder.com/500x600?text=Upload+profile.jpeg+to+GitHub'">
+    </div>
+</header>
 
-    <header>
-        <div class="hero-text">
-            <span class="hero-label">Paramount Healthcare Consultants</span>
-            <h1>Chris Gantt</h1>
-            <p class="hero-sub">Community Liaison | Skilled Nursing & Long-Term Care</p>
-            <p class="hero-tagline">Specializing in your recovery between hospital & home.</p>
-            <p class="hero-desc">Supporting clinical networking and executing community outreach for Arbor Lake Skilled Nursing & Rehabilitation Center.</p>
-        </div>
-        <div class="hero-visual">
-            <img src="profile.jpeg" alt="Chris Gantt" class="profile-img" onerror="this.src='https://via.placeholder.com/500x600?text=Upload+profile.jpeg+to+GitHub'">
-        </div>
-    </header>
-
-    <section id="about">
-        <div class="about-inner">
-            <div class="accent-line-center"></div>
-            <h2 class="section-title">A Seamless Team Approach</h2>
-            <div class="about-text">
-                <p>Operating across the heart of North Louisiana, I serve as your initial connection point between regional medical hubs and Arbor Lake. However, the true strength of our facility is the incredible internal team waiting to coordinate your care.</p>
-                <p>A successful transition from hospital to home requires flawless execution. I work directly alongside our internal leadership to ensure that the entire admissions and clinical intake process is effortless for hospital discharge planners, medical providers, and local families.</p>
-            </div>
-            
-            <div class="team-grid">
-                <div class="team-card leadership">
-                    <h4>Matthew Hall, NFA</h4>
-                    <span class="role">Facility Administrator</span>
-                    <p>Guiding the overarching vision and operational excellence of Arbor Lake, ensuring our entire team has the resources and support needed to provide top-tier care to the community.</p>
-                </div>
-                <div class="team-card">
-                    <h4>Sherry Jones</h4>
-                    <span class="role">Social Services Director (SSD)</span>
-                    <p>The tip of the spear for our referral process. Sherry is your primary contact for coordinating the psychosocial aspects of care, assisting with discharge planning, and acting as a dedicated advocate for families.</p>
-                </div>
-                <div class="team-card">
-                    <h4>Kayla Hill</h4>
-                    <span class="role">Director of Nursing (DON)</span>
-                    <p>Overseeing all clinical intake and medical reviews to ensure our specialized rehab staff is fully prepared for your arrival and specific care requirements.</p>
-                </div>
-                <div class="team-card">
-                    <h4>Amber Alford</h4>
-                    <span class="role">Business Office Manager (BOM)</span>
-                    <p>Expertly managing the financial transition, including rapid insurance verification for Medicare, Medicaid, Humana, Peoples Health, and other plans.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="coverage">
-        <div class="section-header-center">
-            <h2 style="font-size: 3rem; color: var(--text-dark);">Strategic Coverage Areas</h2>
-            <p style="color: var(--gold); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 10px; font-size: 1.2rem;">North Louisiana Healthcare Corridor</p>
-        </div>
-        <div class="coverage-grid">
-            <div class="coverage-card">
-                <h3>Monroe / West Monroe</h3>
-                <p>Assisting with hospital discharges and smooth SNF transitions for the major medical hubs in the twin cities.</p>
-            </div>
-            <div class="coverage-card">
-                <h3>Shreveport / Bossier</h3>
-                <p>Supporting clinical outreach and professional referral networking across the regional Shreveport-Bossier areas.</p>
-            </div>
-            <div class="coverage-card">
-                <h3>Ruston / Farmerville</h3>
-                <p>Fostering steady community engagement and managing local provider relationships across our home parishes.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="outreach">
-        <div class="section-header-center">
-            <h2 style="font-size: 3rem; color: var(--text-dark);">Community & Civic Outreach</h2>
-            <p style="color: var(--teal); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 10px; font-size: 1.2rem;">Active Community Partnerships</p>
-        </div>
-        <div class="outreach-grid">
-            <div class="outreach-card">
-                <h3 style="color: var(--teal);">Farmerville Council on Aging</h3>
-                <p>Partnering closely with the Council to provide health education, resources, and continuous support to our local seniors right here at home.</p>
-            </div>
-            <div class="outreach-card">
-                <h3 style="color: var(--teal);">Regional Senior Centers</h3>
-                <p>Extending our dedicated outreach and educational events to centers in Marion, Spearsville & Bernice, ensuring all residents stay connected to long-term care options.</p>
-            </div>
-            <div class="outreach-card">
-                <h3 style="color: var(--teal);">Civic & Chamber Leadership</h3>
-                <p>As active members of the Chamber of Commerce and proud partners with the Union Parish Community Outreach organization, we are deeply invested in the growth of our home parishes.</p>
-            </div>
-            <div class="outreach-card">
-                <h3 style="color: var(--teal);">Festivals & Sponsorships</h3>
-                <p>From participating in local parades and holiday festivals to sponsoring regional athletics and tournaments, we believe in showing up and actively supporting the community events that bring us together.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="expertise">
-        <div class="section-header-center">
-            <h2 style="font-size: 3rem; color: var(--text-dark); margin-bottom: 5rem;">Core Liaison Focus</h2>
-        </div>
-        <div class="expertise-grid">
-            <div class="card">
-                <h4>Post-Acute Support</h4>
-                <p>Driving a seamless hand-off from hospital clinical teams directly to our Director of Nursing, Kayla Hill, and our specialized rehab staff.</p>
-            </div>
-            <div class="card">
-                <h4>Provider Relations</h4>
-                <p>Building trusted, long-term referral networks with local physicians, specialists, and hospital administrators.</p>
-            </div>
-            <div class="card">
-                <h4>Admissions & Insurance</h4>
-                <p>Expertly managed by Amber Alford and Sherry Jones, we welcome all referrals for insurance verification. Accepting Humana, Peoples Health, Medicare, and Medicaid.</p>
-            </div>
-            <div class="card">
-                <h4>Modern Outreach</h4>
-                <p>Utilizing streamlined workflows to ensure consistent follow-up, reliable communication, and prompt service for all our partners.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact">
-        <div class="section-header-center">
-            <h2 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 4px; color: var(--teal); margin-bottom: 1rem;">Get In Touch</h2>
-            <h3 style="font-size: 3.5rem; color: var(--text-dark); margin-bottom: 1.5rem;">Contact Information</h3>
-            <p style="font-size: 1.15rem; color: var(--text-main); max-width: 700px; margin: 0 auto 4rem;">
-                Want to learn more about our facility? Click the links below to explore the official Arbor Lake website. To see our vibrant daily activities, resident events, and community participation, click <strong>Follow on Facebook</strong>!
-            </p>
+<section id="about">
+    <div class="about-inner">
+        <div class="accent-line-center"></div>
+        <h2 class="section-title">A Seamless Team Approach</h2>
+        <div class="about-text">
+            <p>Operating across the heart of North Louisiana, I serve as your initial connection point between regional medical hubs and Arbor Lake. However, the true strength of our facility is the incredible internal team waiting to coordinate your care.</p>
+            <p>A successful transition from hospital to home requires flawless execution. I work directly alongside our internal leadership to ensure that the entire admissions and clinical intake process is effortless for hospital discharge planners, medical providers, and local families.</p>
         </div>
         
-        <div class="contact-grid">
-            <div class="contact-box">
-                <h3>Direct Liaison Access</h3>
-                <p>Available for hospital visits, provider meetings, and facility tours across North Louisiana.</p>
-                <br>
-                <a href="tel:3182453887" class="highlight">P: 318-245-3887</a>
-                <a href="mailto:cgantt@paramounthcla.com" class="highlight">cgantt@paramounthcla.com</a>
+        <div class="team-grid">
+            <div class="team-card leadership">
+                <h4>Matthew Hall, NFA</h4>
+                <span class="role">Facility Administrator</span>
+                <p>Guiding the overarching vision and operational excellence of Arbor Lake, ensuring our entire team has the resources and support needed to provide top-tier care to the community.</p>
             </div>
-            
-            <div class="contact-box">
-                <h3>Facility Referrals</h3>
-                <p>New dedicated lines for referrals only. We welcome all referrals for insurance verification.</p>
-                <br>
-                <p style="font-weight: 700; color: var(--text-dark); font-size: 1.2rem; margin-bottom: 0.8rem;">F: 318-703-3421</p>
-                <a href="mailto:AL-Referral-Faxes@paramounthcla.com" class="highlight" style="font-size: 1.05rem;">AL-Referral-Faxes@paramounthcla.com</a>
+            <div class="team-card">
+                <h4>Sherry Jones</h4>
+                <span class="role">Social Services Director (SSD)</span>
+                <p>The tip of the spear for initiating and coordinating the entire referral process and completing the admissions process. Sherry also coordinates the psychosocial aspects of care, assists with discharge planning, and acts as a dedicated advocate for families.</p>
             </div>
-
-            <div class="contact-box">
-                <h3>Arbor Lake</h3>
-                <p>1155 Sterlington Hwy<br>Farmerville, LA 71241</p>
-                <br>
-                <p>Main Phone: 318-368-3103</p>
-                <p>Main Fax: 318-368-7471</p>
-                <a href="https://arborlakerehab.com" target="_blank" class="facility-link">arborlakerehab.com</a>
-                
-                <div class="qr-wrapper">
-                    <span class="qr-text">Scan for Facility Site</span>
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://arborlakerehab.com&margin=10" alt="Arbor Lake QR Code" class="qr-image">
-                </div>
-                
-                <a href="https://facebook.com" target="_blank" class="fb-button">
-                    <svg class="fb-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                    </svg>
-                    Follow on Facebook
-                </a>
+            <div class="team-card">
+                <h4>Kayla Hill</h4>
+                <span class="role">Director of Nursing (DON)</span>
+                <p>Overseeing all clinical intake and medical reviews to ensure our specialized rehab staff is fully prepared for your arrival and specific care requirements.</p>
+            </div>
+            <div class="team-card">
+                <h4>Amber Alford</h4>
+                <span class="role">Business Office Manager (BOM)</span>
+                <p>Expertly managing the financial transition, including rapid insurance verification for Medicare, Medicaid, Humana, Peoples Health, and other plans.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <footer>
-        <p>&copy; 2026 CG Clinical Communications. All rights reserved.</p>
-    </footer>
+<section id="coverage">
+    <div class="section-header-center">
+        <h2 style="font-size: 3rem; color: var(--text-dark);">Strategic Coverage Areas</h2>
+        <p style="color: var(--gold); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 10px; font-size: 1.2rem;">North Louisiana Healthcare Corridor</p>
+    </div>
+    <div class="coverage-grid">
+        <div class="coverage-card">
+            <h3>Monroe / West Monroe</h3>
+            <p>Assisting with hospital discharges and smooth SNF transitions for the major medical hubs in the twin cities.</p>
+        </div>
+        <div class="coverage-card">
+            <h3>Shreveport / Bossier</h3>
+            <p>Supporting clinical outreach and professional referral networking across the regional Shreveport-Bossier areas.</p>
+        </div>
+        <div class="coverage-card">
+            <h3>Ruston / Farmerville</h3>
+            <p>Fostering steady community engagement and managing local provider relationships across our home parishes.</p>
+        </div>
+    </div>
+</section>
+
+<section id="outreach">
+    <div class="section-header-center">
+        <h2 style="font-size: 3rem; color: var(--text-dark);">Community & Civic Outreach</h2>
+        <p style="color: var(--teal); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 10px; font-size: 1.2rem;">Active Community Partnerships</p>
+    </div>
+    <div class="outreach-grid">
+        <div class="outreach-card">
+            <h3 style="color: var(--teal);">Farmerville Council on Aging</h3>
+            <p>Partnering closely with the Council to provide health education, resources, and continuous support to our local seniors right here at home.</p>
+        </div>
+        <div class="outreach-card">
+            <h3 style="color: var(--teal);">Regional Senior Centers</h3>
+            <p>Extending our dedicated outreach and educational events to centers in Marion, Spearsville & Bernice, ensuring all residents stay connected to long-term care options.</p>
+        </div>
+        <div class="outreach-card">
+            <h3 style="color: var(--teal);">Civic & Chamber Leadership</h3>
+            <p>As active members of the Chamber of Commerce and proud partners with the Union Parish Community Outreach organization, we are deeply invested in the growth of our home parishes.</p>
+        </div>
+        <div class="outreach-card">
+            <h3 style="color: var(--teal);">Festivals & Sponsorships</h3>
+            <p>From participating in local parades and holiday festivals to sponsoring regional athletics and tournaments, we believe in showing up and actively supporting the community events that bring us together.</p>
+        </div>
+    </div>
+</section>
+
+<section id="expertise">
+    <div class="section-header-center">
+        <h2 style="font-size: 3rem; color: var(--text-dark); margin-bottom: 5rem;">Core Liaison Focus</h2>
+    </div>
+    <div class="expertise-grid">
+        <div class="card">
+            <h4>Post-Acute Support</h4>
+            <p>Driving a seamless hand-off from hospital clinical teams directly to our Director of Nursing, Kayla Hill, and our specialized rehab staff.</p>
+        </div>
+        <div class="card">
+            <h4>Provider Relations</h4>
+            <p>Building trusted, long-term referral networks with local physicians, specialists, and hospital administrators.</p>
+        </div>
+        <div class="card">
+            <h4>Admissions & Insurance</h4>
+            <p>Expertly managed by Amber Alford and Sherry Jones, we welcome all referrals for insurance verification. Accepting Humana, Peoples Health, Medicare, and Medicaid.</p>
+        </div>
+        <div class="card">
+            <h4>Modern Outreach</h4>
+            <p>Utilizing streamlined workflows to ensure consistent follow-up, reliable communication, and prompt service for all our partners.</p>
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="section-header-center">
+        <h2 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 4px; color: var(--teal); margin-bottom: 1rem;">Get In Touch</h2>
+        <h3 style="font-size: 3.5rem; color: var(--text-dark);">Contact Information</h3>
+    </div>
+    
+    <div class="contact-grid">
+        <div class="contact-box">
+            <h3>Direct Liaison Access</h3>
+            <p>Available for hospital visits, provider meetings, and facility tours across North Louisiana.</p>
+            <br>
+            <a href="tel:3182453887" class="highlight">P: 318-245-3887</a>
+            <a href="mailto:cgantt@paramounthcla.com" class="highlight">cgantt@paramounthcla.com</a>
+        </div>
+        
+        <div class="contact-box">
+            <h3>Facility Referrals</h3>
+            <p>New dedicated lines for referrals only. We welcome all referrals for insurance verification.</p>
+            <br>
+            <p style="font-weight: 700; color: var(--text-dark); font-size: 1.2rem; margin-bottom: 0.8rem;">F: 318-703-3421</p>
+            <a href="mailto:AL-Referral-Faxes@paramounthcla.com" class="highlight" style="font-size: 1.05rem;">AL-Referral-Faxes@paramounthcla.com</a>
+        </div>
+
+        <div class="contact-box">
+            <h3>Arbor Lake</h3>
+            <p>1155 Sterlington Hwy<br>Farmerville, LA 71241</p>
+            <br>
+            <p>Main Phone: 318-368-3103</p>
+            <p>Main Fax: 318-368-7471</p>
+            <a href="https://arborlakerehab.com" target="_blank" class="facility-link">arborlakerehab.com</a>
+            
+            <div class="qr-wrapper">
+                <span class="qr-text">Scan for Facility Site</span>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://arborlakerehab.com&margin=10" alt="Arbor Lake QR Code" class="qr-image">
+            </div>
+            
+            <a href="https://facebook.com" target="_blank" class="fb-button">
+                <svg class="fb-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                Follow on Facebook
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 CG Clinical Communications. All rights reserved.</p>
+</footer>
 
 </body>
 </html>
