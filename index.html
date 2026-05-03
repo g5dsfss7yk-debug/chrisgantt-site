@@ -1,287 +1,638 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chris Gantt | Arbor Lake Community Liaison</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --arbor-teal: #2a8a84;      /* Signature Arbor Lake Teal */
-            --arbor-navy: #1a2a3a;      /* Professional Navy */
-            --arbor-gold: #c5a059;      /* Subtle Gold Accent */
-            --bg-light: #f9fbfb;        /* Fresh Clinical White */
-            --bg-white: #ffffff;
-            --text-dark: #2d3748;
-            --text-gray: #718096;
-            --soft-shadow: 0 10px 30px rgba(42, 138, 132, 0.08);
-        }
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chris Gantt | Arbor Lake Skilled Nursing &amp; Rehabilitation Community Liaison</title>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<!-- =================================================================
+     GOOGLE ANALYTICS 4
+     Replace G-XXXXXXXXXX below with your real Measurement ID after
+     creating a free GA4 property at https://analytics.google.com
+     ================================================================= -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX', {
+    page_title: 'Chris Gantt - Arbor Lake Liaison',
+    anonymize_ip: true
+  });
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            line-height: 1.8;
-            scroll-behavior: smooth;
-        }
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href^="tel:"]').forEach(function(a){
+      a.addEventListener('click', function(){
+        gtag('event', 'phone_click', {
+          phone_number: a.getAttribute('href').replace('tel:',''),
+          location: a.closest('section') ? a.closest('section').id : 'header'
+        });
+      });
+    });
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){
+      a.addEventListener('click', function(){
+        gtag('event', 'email_click', {
+          email: a.getAttribute('href').replace('mailto:',''),
+          location: a.closest('section') ? a.closest('section').id : 'header'
+        });
+      });
+    });
+    document.querySelectorAll('a[target="_blank"]').forEach(function(a){
+      a.addEventListener('click', function(){
+        var url = a.getAttribute('href') || '';
+        gtag('event', 'outbound_click', {
+          destination: url,
+          is_facebook: url.indexOf('facebook') > -1,
+          is_arbor_lake: url.indexOf('arborlake') > -1
+        });
+      });
+    });
+  });
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#c8a864;--gold-dk:#a48748;--gold-lt:#e0c585;--mustard:#d9b961;--mustard-soft:#e8cf8b;--mustard-pale:#f3e4b8;--teal:#7fa8a6;--teal-dk:#5e8a87;--teal-lt:#a9c5c3;--cream:#fbf8f2;--ivory:#f4ede0;--bronze:#3f3527;--bronze-soft:#7a6d5a;--muted:#9b8f78;--text:#3f3527;--sh:0 12px 40px rgba(63,53,39,.08);--sh2:0 4px 16px rgba(63,53,39,.06)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--mustard-pale);color:var(--text);line-height:1.75;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;color:var(--teal-dk);line-height:1.2}
+#hero h1,.hi h1{color:var(--bronze)}
+.tc h4,.svc-card h3,.oc h3,.nc h3,.refer-card .rc-value{color:var(--bronze)}
+a{text-decoration:none}
 
-        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--arbor-navy); }
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(251,248,242,.97);backdrop-filter:blur(8px);border-bottom:3px solid var(--gold);box-shadow:0 2px 12px rgba(63,53,39,.08);display:flex;align-items:center;justify-content:space-between;padding:0 6%;height:74px}
+.brand{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--bronze);letter-spacing:.5px}
+.brand em{color:var(--gold-dk);font-style:italic;font-weight:400;font-size:.95rem;display:block;margin-top:-4px;letter-spacing:1.5px;text-transform:uppercase}
+.nv{display:flex;gap:2rem;list-style:none}
+.nv a{color:var(--bronze);font-size:.78rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;transition:.2s}
+.nv a:hover{color:var(--gold-dk)}
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 0.8rem 10%;
-            background: rgba(255, 255, 255, 0.98);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            border-bottom: 4px solid var(--arbor-teal);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
+#hero{background:linear-gradient(165deg,var(--mustard-pale) 0%,var(--cream) 55%,var(--mustard-soft) 100%);display:flex;align-items:center;padding:110px 6% 60px;position:relative;overflow:hidden;min-height:auto}
+#hero::before{content:'';position:absolute;top:-80px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(200,168,100,.16),transparent 70%);border-radius:50%}
+#hero::after{content:'';position:absolute;bottom:-100px;left:-80px;width:450px;height:450px;background:radial-gradient(circle,rgba(224,197,133,.20),transparent 70%);border-radius:50%}
+.hero-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 380px;gap:4rem;align-items:center;position:relative;z-index:1;width:100%}
+.hi{}
+.eb{display:inline-flex;align-items:center;gap:10px;background:rgba(200,168,100,.12);border:1px solid rgba(200,168,100,.35);color:var(--gold-dk);font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:1.4rem}
+.eb i{width:6px;height:6px;background:var(--gold);border-radius:50%;display:inline-block}
+#hero h1{font-size:clamp(2.8rem,5.5vw,4.8rem);font-weight:700;margin-bottom:.3rem;letter-spacing:-1px;color:var(--bronze)}
+.hs{display:block;font-size:clamp(1.2rem,2.2vw,1.7rem);font-style:italic;font-weight:400;color:var(--gold-dk);margin-bottom:1.3rem}
+.hb{width:60px;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-lt));border-radius:2px;margin-bottom:1.4rem}
+.hd{font-size:1.08rem;color:var(--bronze-soft);max-width:560px;line-height:1.85;margin-bottom:2rem}
+.ha{display:flex;flex-wrap:wrap;gap:.9rem}
 
-        .logo-box { text-align: center; }
-        .actual-logo { height: 60px; width: auto; border-radius: 4px; }
-        .click-hint { font-size: 0.6rem; color: var(--arbor-teal); text-transform: uppercase; letter-spacing: 1px; font-weight: 800; display: block; margin-top: 2px; }
+.portrait{position:relative;width:100%;aspect-ratio:4/5;border-radius:18px;overflow:hidden;box-shadow:0 24px 60px rgba(63,53,39,.22);border:1px solid rgba(200,168,100,.3);background:linear-gradient(135deg,var(--ivory),#e6d4a8)}
+.portrait::after{content:'';position:absolute;inset:8px;border:2px solid var(--gold);border-radius:12px;pointer-events:none;z-index:2}
+.portrait img{width:100%;height:100%;object-fit:cover;display:block}
+.portrait .placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--ivory),var(--cream));color:var(--gold-dk);text-align:center;padding:2rem}
+.portrait .placeholder svg{width:88px;height:88px;margin-bottom:1rem;opacity:.5}
+.portrait .placeholder strong{font-family:'Cormorant Garamond',serif;font-size:1.4rem;display:block;margin-bottom:.3rem}
+.portrait .placeholder span{font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;opacity:.7}
+.portrait .placeholder code{background:rgba(200,168,100,.15);padding:3px 8px;border-radius:4px;font-size:.7rem;margin-top:.6rem;color:var(--bronze)}
 
-        .nav-links { display: flex; gap: 2.5rem; }
-        .nav-links a { 
-            text-decoration: none; 
-            color: var(--arbor-navy); 
-            font-size: 0.85rem; 
-            font-weight: 600; 
-            text-transform: uppercase; 
-            transition: 0.3s;
-        }
-        .nav-links a:hover { color: var(--arbor-teal); }
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:13px 26px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;transition:.2s;cursor:pointer;border:none;white-space:nowrap}
+.bp{background:linear-gradient(135deg,var(--gold),var(--gold-dk));color:#fff;box-shadow:0 4px 14px rgba(200,168,100,.3)}
+.bp:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(200,168,100,.45)}
+.bo{background:transparent;color:var(--bronze);border:2px solid var(--bronze)}
+.bo:hover{background:var(--bronze);color:var(--cream);transform:translateY(-1px)}
+.bg{background:var(--bronze);color:var(--cream)}
+.bg:hover{background:#23190d;transform:translateY(-1px)}
+.bf{background:#1877F2;color:#fff}
+.bf:hover{background:#1464d0;transform:translateY(-1px);box-shadow:0 6px 20px rgba(24,119,242,.3)}
+.bgh{background:var(--ivory);color:var(--muted);cursor:default;pointer-events:none;border:1px dashed rgba(200,168,100,.4)}
+.bb{width:100%}
+.fb-svg{width:18px;height:18px;flex-shrink:0;fill:#fff}
 
-        /* Hero Section - Centered & Professional */
-        header {
-            padding: 180px 10% 100px;
-            background: linear-gradient(to bottom, #eef6f5 0%, var(--bg-light) 100%);
-            text-align: center;
-            border-bottom: 1px solid rgba(42, 138, 132, 0.1);
-        }
+section{padding:70px 6%}
+section > .sl,section > .gb,section > .sh,section > .ss{max-width:1100px;margin-left:auto;margin-right:auto;width:100%}
+section > .ss{margin-bottom:2rem}
+.sl{display:inline-flex;align-items:center;gap:8px;font-size:.7rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:.6rem}
+.sl::before{content:'';width:20px;height:2px;background:var(--gold);border-radius:2px}
+.sh{font-size:clamp(1.9rem,3.5vw,2.9rem);margin-bottom:.6rem}
+.ss{font-size:1rem;color:var(--bronze-soft);max-width:640px;margin-bottom:2rem;line-height:1.8}
+.gb{width:50px;height:4px;background:linear-gradient(90deg,var(--gold),var(--gold-lt));border-radius:2px;margin-bottom:1rem}
 
-        .hero-label { color: var(--arbor-teal); font-weight: 700; text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; margin-bottom: 1rem; display: block; }
-        header h1 { font-size: 4.5rem; margin-bottom: 1rem; }
-        .hero-sub { font-size: 1.8rem; font-family: 'Playfair Display', serif; font-style: italic; color: var(--arbor-navy); margin-bottom: 1.5rem; }
-        .hero-desc { max-width: 750px; margin: 0 auto; color: var(--text-gray); font-size: 1.2rem; }
+#about{background:linear-gradient(180deg,var(--mustard-pale) 0%,#f7e9c8 100%)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;max-width:1100px;margin:0 auto}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1.5rem}
+.stat{background:#fff;border:1px solid rgba(200,168,100,.25);border-radius:14px;padding:1.5rem 1.4rem;position:relative;overflow:hidden}
+.stat::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--gold),var(--gold-lt))}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--gold-dk);line-height:1;margin-bottom:.3rem}
+.stat-label{font-size:.78rem;color:var(--bronze-soft);font-weight:600;letter-spacing:.5px}
 
-        /* General Section Styling */
-        section { padding: 100px 10%; }
-        .section-title { font-size: 3rem; text-align: center; margin-bottom: 1rem; }
-        .accent-line { width: 80px; height: 5px; background: var(--arbor-teal); margin: 0 auto 3.5rem; border-radius: 10px; }
+#connect{background:linear-gradient(160deg,#f7e9c8 0%,var(--mustard-pale) 100%);position:relative;overflow:hidden}
+#connect::before{content:'';position:absolute;top:-100px;right:-120px;width:500px;height:500px;background:radial-gradient(circle,rgba(200,168,100,.15),transparent 70%);border-radius:50%}
+.connect-wrap{max-width:1100px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.gb-center{margin-left:auto;margin-right:auto}
+.connect-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem;margin-top:2rem}
+.cnc{background:#fff;border-radius:20px;padding:2.4rem 2rem;box-shadow:var(--sh);border:1px solid rgba(200,168,100,.2);transition:.3s;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center}
+.cnc:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(63,53,39,.18)}
+.cnc-logo{width:100%;max-width:280px;min-height:90px;border-radius:14px;background:var(--cream);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;overflow:hidden;padding:18px 20px}
+.cnc-logo img{max-width:100%;max-height:60px;width:auto;height:auto;object-fit:contain}
+.cnc-logo.fb{background:#1877F2;border-color:#1464d0;width:100px;height:100px;border-radius:50%;padding:0;min-height:100px}
+.cnc-logo .ph-mark{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--gold-dk)}
+.cnc h3{font-size:1.7rem;margin-bottom:.5rem}
+.cnc p{font-size:.95rem;color:var(--bronze-soft);line-height:1.7;margin-bottom:1.5rem;max-width:340px}
 
-        /* Team Section - Clean Round Cards */
-        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; }
-        .team-card { 
-            background: var(--bg-white); 
-            padding: 2.5rem; 
-            border-radius: 20px; 
-            box-shadow: var(--soft-shadow); 
-            border: 1px solid rgba(42, 138, 132, 0.05);
-            transition: 0.3s;
-        }
-        .team-card:hover { transform: translateY(-8px); border-color: var(--arbor-teal); }
-        .team-card h4 { font-size: 1.4rem; margin-bottom: 0.2rem; }
-        .role-tag { color: var(--arbor-teal); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 1rem; }
-        .team-card p { font-size: 1rem; color: var(--text-gray); line-height: 1.6; }
+#team{background:var(--mustard-pale)}
+.tg{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;max-width:1100px;margin:0 auto}
+@media(max-width:600px){.tg{grid-template-columns:1fr;max-width:480px}}
 
-        /* Outreach Grid - 4 Columns */
-        .outreach-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
-        .outreach-card { background: var(--arbor-navy); color: white; padding: 2.5rem; border-radius: 20px; transition: 0.3s; }
-        .outreach-card h3 { color: white; font-size: 1.3rem; margin-bottom: 1rem; }
-        .outreach-card:hover { background: var(--arbor-teal); }
+.lead-card{max-width:1100px;margin:0 auto 1.5rem;background:linear-gradient(135deg,#fff 0%,var(--cream) 100%);border:2px solid var(--gold);border-radius:20px;padding:2.4rem 2.2rem;box-shadow:0 14px 40px rgba(200,168,100,.18);position:relative;overflow:hidden}
+.lead-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:6px;background:linear-gradient(180deg,var(--gold),var(--gold-lt),var(--gold))}
+.lead-card::after{content:'';position:absolute;bottom:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(200,168,100,.12),transparent 70%);border-radius:50%;pointer-events:none}
+.lead-grid{display:grid;grid-template-columns:auto 1fr auto;gap:2rem;align-items:center;position:relative;z-index:1}
+.lead-avatar{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dk));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:#fff;box-shadow:0 6px 18px rgba(200,168,100,.4);flex-shrink:0;border:3px solid #fff}
+.lead-text{min-width:0}
+.lead-tag{display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold-dk));color:#fff;font-size:.62rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:.6rem;box-shadow:0 3px 10px rgba(200,168,100,.3)}
+.lead-name{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--bronze);font-weight:700;margin-bottom:.2rem;line-height:1.1}
+.lead-role{font-size:.78rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:.7rem}
+.lead-bio{font-size:.97rem;color:var(--bronze-soft);line-height:1.65;max-width:520px}
+.lead-cta{display:flex;flex-direction:column;gap:.6rem;flex-shrink:0;min-width:200px}
+.lead-cta .btn{width:100%;padding:11px 18px;font-size:.85rem}
+.lead-meta{margin-top:1.4rem;padding-top:1.2rem;border-top:1px solid rgba(200,168,100,.25);font-size:.85rem;color:var(--bronze-soft);font-style:italic;text-align:center;position:relative;z-index:1}
+.lead-meta strong{color:var(--gold-dk);font-style:normal;font-weight:700}
+.support-label{text-align:center;font-size:.65rem;font-weight:800;letter-spacing:2.2px;text-transform:uppercase;color:var(--muted);margin:2.5rem 0 1rem;display:flex;align-items:center;justify-content:center;gap:14px}
+.support-label::before,.support-label::after{content:'';width:60px;height:1px;background:linear-gradient(90deg,transparent,rgba(200,168,100,.4),transparent)}
 
-        /* Action Buttons - Rounded Pill Style */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 14px 28px;
-            border-radius: 50px; /* Pill Shape */
-            font-weight: 700;
-            text-decoration: none;
-            transition: 0.3s;
-            width: 100%;
-            margin-bottom: 12px;
-            font-size: 1rem;
-        }
-        .btn-teal { background: var(--arbor-teal); color: white !important; }
-        .btn-teal:hover { background: var(--arbor-navy); transform: scale(1.02); }
-        
-        .btn-gold { background: var(--arbor-gold); color: white !important; }
-        .btn-gold:hover { opacity: 0.9; transform: scale(1.02); }
+.tc{background:#fff;border:1px solid rgba(200,168,100,.25);border-radius:16px;padding:2rem 1.75rem;transition:.25s;position:relative;overflow:hidden}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-lt));transform:scaleX(0);transform-origin:left;transition:.3s}
+.tc:hover::before{transform:scaleX(1)}
+.tc:hover{transform:translateY(-5px);box-shadow:var(--sh);border-color:var(--gold-lt)}
+.tc h4{font-size:1.3rem;margin-bottom:3px}
+.r{font-size:.7rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold-dk);display:block;margin-bottom:.9rem}
+.tc p,.oc p{font-size:.92rem;color:var(--bronze-soft);line-height:1.65}
 
-        .btn-fb { background: #1877F2; color: white !important; }
+#coverage{background:linear-gradient(180deg,#f7e9c8 0%,var(--mustard-pale) 100%)}
+.cg{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;max-width:1100px;margin:0 auto}
+@media(max-width:600px){.cg{grid-template-columns:1fr;max-width:420px}}
+.cc{background:linear-gradient(150deg,#fff 0%,var(--ivory) 100%);border-radius:16px;padding:2.2rem 2rem;transition:.25s;position:relative;overflow:hidden;border:1.5px solid rgba(200,168,100,.35);box-shadow:0 6px 20px rgba(63,53,39,.06)}
+.cc::after{content:'';position:absolute;bottom:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(127,168,166,.18),transparent 70%);border-radius:50%}
+.cc:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(127,168,166,.25);border-color:var(--teal)}
+.cc h3{font-size:1.4rem;color:var(--teal-dk);margin-bottom:.7rem;position:relative;z-index:1;font-weight:700}
+.cc p{font-size:.92rem;color:var(--bronze-soft);line-height:1.65;position:relative;z-index:1}
 
-        /* Contact Section */
-        #contact { background: var(--bg-white); }
-        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; }
-        .contact-box { background: var(--bg-light); padding: 3rem; border-radius: 25px; box-shadow: var(--soft-shadow); display: flex; flex-direction: column; }
-        .contact-box h3 { margin-bottom: 1.5rem; font-size: 1.8rem; }
-        .cta-label { font-weight: 800; font-size: 0.75rem; text-transform: uppercase; color: var(--arbor-teal); margin-bottom: 10px; display: block; text-align: center; }
+#outreach{background:var(--mustard-pale)}
+.og{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;max-width:1000px;margin:0 auto}
+@media(max-width:600px){.og{grid-template-columns:1fr;max-width:420px}}
+.oc{background:#fff;border:1px solid rgba(200,168,100,.25);border-radius:16px;padding:2rem 1.75rem;transition:.25s}
+.oc:hover{border-color:var(--gold);box-shadow:var(--sh2);transform:translateY(-4px)}
+.oi{width:46px;height:46px;background:linear-gradient(135deg,rgba(200,168,100,.15),rgba(224,197,133,.25));border:1px solid rgba(200,168,100,.25);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem;font-size:1.3rem}
+.oc h3{font-size:1.2rem;margin-bottom:.5rem}
 
-        /* QR Section */
-        .qr-area { background: white; padding: 20px; border-radius: 15px; text-align: center; margin-top: 1.5rem; }
-        .qr-img { width: 120px; height: 120px; margin-bottom: 10px; }
-
-        footer { padding: 4rem; background: var(--arbor-navy); color: rgba(255,255,255,0.6); text-align: center; font-size: 0.9rem; }
-
-        @media (max-width: 768px) {
-            header h1 { font-size: 3rem; }
-            .nav-links { display: none; }
-        }
-    </style>
+#contact{background:var(--mustard-pale)}
+.ng{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1100px;margin:0 auto}
+@media(max-width:768px){.ng{grid-template-columns:1fr;max-width:480px}}
+.nc{background:#fff;border-radius:20px;padding:2.4rem 2rem;box-shadow:var(--sh2);border:1px solid rgba(200,168,100,.15);display:flex;flex-direction:column;position:relative;overflow:hidden}
+.nc::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--gold),var(--gold-lt),var(--gold))}
+.nc h3{font-size:1.6rem;margin-bottom:.5rem}
+.nc .p{font-size:.93rem;color:var(--bronze-soft);margin-bottom:1.5rem;line-height:1.7}
+.na{margin-top:auto;display:flex;flex-direction:column;gap:.7rem}
+.t{font-size:.62rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dk);text-align:center;display:block;margin-bottom:.1rem}
+.qr-block{background:var(--cream);border:1px solid rgba(200,168,100,.25);border-radius:12px;padding:1rem;text-align:center;margin-top:.5rem}
+.qr-block img{width:110px;height:110px;border-radius:6px;display:block;margin:0 auto 6px}
+.qr-block p{font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+</style>
 </head>
-<body>
+<body>**Part 2 of 2** — paste this directly after Part 1 in your GitHub editor, then commit:
 
-    <nav>
-        <div class="logo-box">
-            <a href="https://arborlakerehab.com" target="_blank" style="text-decoration: none;">
-                <img src="Arbor Lake RBG.png" alt="Arbor Lake" class="actual-logo" onerror="this.style.display='none'">
-                <span class="click-hint">Visit Facility Site</span>
-            </a>
-        </div>
-        <div class="nav-links">
-            <a href="#about">Liaison</a>
-            <a href="#coverage">Coverage</a>
-            <a href="#outreach">Outreach</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </nav>
+```html
+<style>
+footer{background:linear-gradient(150deg,#3a4f54 0%,#2c3a3e 100%);color:rgba(251,248,242,.6);padding:3rem 6%;text-align:center;border-top:3px solid var(--gold)}
+footer img{height:36px;filter:brightness(0) invert(1) opacity(.55);margin-bottom:1rem}
+footer p{font-size:.82rem;line-height:1.8}
+.fl{margin:.8rem 0 1.2rem;display:flex;justify-content:center;flex-wrap:wrap;gap:1.5rem}
+.fl a{color:rgba(251,248,242,.5);font-size:.78rem;transition:.2s}
+.fl a:hover{color:var(--gold-lt)}
 
-    <header>
-        <span class="hero-label">Paramount Healthcare Consultants</span>
-        <h1>Chris Gantt</h1>
-        <p class="hero-sub">Community Liaison | Skilled Nursing & Long-Term Care</p>
-        <p class="hero-desc">Connecting North Louisiana medical providers and families with the specialized rehabilitation and long-term care at Arbor Lake.</p>
-    </header>
+@media(max-width:900px){
+  .hero-wrap{grid-template-columns:1fr;gap:3rem;max-width:520px}
+  .portrait{max-width:340px;margin:0 auto}
+  .about-grid{grid-template-columns:1fr;gap:2rem}
+  .connect-cards{grid-template-columns:1fr}
+  .practice-mark{flex-direction:column;text-align:center;gap:1.5rem}
+  .practice-mark .pm-text{text-align:center}
+}
+@media(max-width:768px){
+  nav{padding:0 4%}
+  .nv{display:none}
+  #hero{padding:100px 4% 50px}
+  section{padding:55px 4%}
+  .stats{grid-template-columns:1fr}
+  .nav-brand-lockup .cg-mark{display:none}
+  .lead-grid{grid-template-columns:1fr;text-align:center;gap:1.2rem}
+  .lead-avatar{margin:0 auto}
+  .lead-bio{margin:0 auto}
+  .lead-cta{width:100%;max-width:300px;margin:0 auto}
+  .lead-tag{margin-left:auto;margin-right:auto}
+  #team .tg{grid-template-columns:repeat(2,1fr) !important}
+}
+@media(max-width:600px){
+  #team .tg{grid-template-columns:1fr !important;max-width:480px}
+}
 
-    <section id="about">
-        <h2 class="section-title">A Seamless Team Approach</h2>
-        <div class="accent-line"></div>
-        <p style="text-align: center; max-width: 800px; margin: 0 auto 4rem; font-size: 1.2rem; color: var(--text-gray);">
-            A successful transition from hospital to home requires flawless execution. I work directly alongside our internal leadership to ensure that the entire referral and intake process is effortless.
-        </p>
-        
-        <div class="team-grid">
-            <div class="team-card">
-                <h4>Matthew Hall, NFA</h4>
-                <span class="role-tag">Facility Administrator</span>
-                <p>Guiding the overarching vision and operational excellence of Arbor Lake, ensuring our team has the resources to provide top-tier care.</p>
-            </div>
-            <div class="team-card">
-                <h4>Sherry Jones</h4>
-                <span class="role-tag">SSD & Admissions Specialist</span>
-                <p>The tip of the spear for initiating and coordinating the entire referral process and completing the admissions journey for families.</p>
-            </div>
-            <div class="team-card">
-                <h4>Kayla Hill</h4>
-                <span class="role-tag">Director of Nursing (DON)</span>
-                <p>Overseeing clinical intake and medical reviews to ensure our staff is prepared for your specific care requirements.</p>
-            </div>
-            <div class="team-card">
-                <h4>Amber Alford</h4>
-                <span class="role-tag">Business Office Manager (BOM)</span>
-                <p>Expertly managing the financial transition, including rapid insurance verification for Medicare and private plans.</p>
-            </div>
-        </div>
-    </section>
+.cg-mark{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--gold);display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--cream),var(--ivory));font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--gold-dk);letter-spacing:.5px;flex-shrink:0;position:relative}
+.cg-mark::before{content:'';position:absolute;inset:3px;border:1px solid rgba(200,168,100,.35);border-radius:50%;pointer-events:none}
+.cg-mark.lg{width:96px;height:96px;font-size:2rem}
+.cg-mark.lg::before{inset:6px;border-width:1.5px}
+.nav-brand-lockup{display:flex;align-items:center;gap:14px}
+.brand-text{display:flex;flex-direction:column;line-height:1.1}
+.brand-text .name{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;color:var(--bronze);letter-spacing:.3px}
+.brand-text .practice{font-size:.6rem;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold-dk);margin-top:2px}
 
-    <section id="coverage" style="background: var(--bg-white);">
-        <h2 class="section-title">Regional Coverage</h2>
-        <div class="accent-line"></div>
-        <div class="team-grid">
-            <div class="team-card" style="text-align: center;">
-                <h3 style="color: var(--arbor-teal); margin-bottom: 10px;">Monroe & West Monroe</h3>
-                <p>Supporting the twin cities medical hubs and hospital discharge planners.</p>
-            </div>
-            <div class="team-card" style="text-align: center;">
-                <h3 style="color: var(--arbor-teal); margin-bottom: 10px;">Shreveport & Bossier</h3>
-                <p>Supporting regional clinical outreach and professional referral networking.</p>
-            </div>
-            <div class="team-card" style="text-align: center;">
-                <h3 style="color: var(--arbor-teal); margin-bottom: 10px;">Ruston & Farmerville</h3>
-                <p>Fostering engagement and provider relationships across our home parishes.</p>
-            </div>
-        </div>
-    </section>
+#services{background:linear-gradient(180deg,var(--mustard-pale) 0%,#f7e9c8 100%);position:relative}
+.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:1.5rem;max-width:1100px;margin-left:auto;margin-right:auto}
+@media(max-width:600px){.services-grid{grid-template-columns:1fr;max-width:480px}}
+.svc-card{background:#fff;border:1px solid rgba(200,168,100,.25);border-radius:18px;padding:2.2rem 1.9rem;transition:.3s;position:relative;overflow:hidden}
+.svc-card::after{content:'';position:absolute;bottom:-40px;right:-40px;width:120px;height:120px;background:radial-gradient(circle,rgba(200,168,100,.10),transparent 70%);border-radius:50%}
+.svc-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(63,53,39,.12);border-color:var(--gold);background:linear-gradient(155deg,#fff 0%,var(--cream) 100%)}
+.svc-icon{width:58px;height:58px;background:linear-gradient(135deg,rgba(200,168,100,.15),rgba(224,197,133,.30));border:1.5px solid rgba(200,168,100,.3);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:1.3rem;font-size:1.7rem;position:relative;z-index:1}
+.svc-card h3{font-size:1.35rem;margin-bottom:.7rem;position:relative;z-index:1}
+.svc-card p{font-size:.93rem;color:var(--bronze-soft);line-height:1.7;position:relative;z-index:1}
 
-    <section id="outreach">
-        <h2 class="section-title">Community & Civic Outreach</h2>
-        <div class="accent-line"></div>
-        <div class="outreach-grid">
-            <div class="outreach-card">
-                <h3>Council on Aging</h3>
-                <p>Partnering with Union Parish to provide resources and support to local seniors.</p>
-            </div>
-            <div class="outreach-card">
-                <h3>Regional Centers</h3>
-                <p>Educational events in Marion, Spearsville & Bernice to keep residents connected.</p>
-            </div>
-            <div class="outreach-card">
-                <h3>Civic Leadership</h3>
-                <p>Proud members of the Chamber of Commerce and Union Parish Community Outreach.</p>
-            </div>
-            <div class="outreach-card">
-                <h3>Community Support</h3>
-                <p>Sponsoring local athletics, festivals, and parades across the northern parishes.</p>
-            </div>
-        </div>
-    </section>
+.insurance-strip{margin-top:2.5rem;background:linear-gradient(135deg,#fff 0%,var(--cream) 100%);border:1px solid rgba(200,168,100,.25);border-radius:20px;padding:2.2rem 2.4rem 1.8rem;box-shadow:var(--sh2);max-width:1100px;margin-left:auto;margin-right:auto;position:relative;overflow:hidden}
+.insurance-strip::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--gold),var(--gold-lt),var(--gold))}
+.insurance-strip::after{content:'';position:absolute;bottom:-50px;right:-50px;width:160px;height:160px;background:radial-gradient(circle,rgba(200,168,100,.10),transparent 70%);border-radius:50%}
+.ins-header{display:flex;align-items:center;gap:14px;margin-bottom:1.2rem;position:relative;z-index:1}
+.ins-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--gold),var(--gold-dk));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;color:#fff}
+.ins-header h3{font-size:1.5rem;margin:0}
+.ins-header .ins-tag{font-size:.62rem;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold-dk);display:block;margin-bottom:2px}
+.ins-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem 2rem;position:relative;z-index:1;margin-top:1.3rem}
+.ins-block h4{font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:.6rem;display:flex;align-items:center;gap:8px}
+.ins-block h4::before{content:'';width:14px;height:2px;background:var(--gold);border-radius:2px}
+.ins-block p{font-size:.95rem;color:var(--bronze-soft);line-height:1.65;margin:0}
+.ins-block .ins-payer{display:inline-block;background:rgba(200,168,100,.12);border:1px solid rgba(200,168,100,.3);color:var(--bronze);font-weight:600;font-size:.82rem;padding:4px 12px;border-radius:100px;margin:3px 4px 3px 0}
+.ins-footnote{margin-top:1.4rem;padding-top:1.2rem;border-top:1px solid rgba(200,168,100,.18);font-size:.85rem;color:var(--bronze-soft);font-style:italic;line-height:1.6;text-align:center;position:relative;z-index:1}
+.ins-footnote strong{color:var(--gold-dk);font-style:normal;font-weight:700}
+@media(max-width:600px){.ins-grid{grid-template-columns:1fr;gap:1.2rem}}
 
-    <section id="contact">
-        <h2 class="section-title">Get In Touch</h2>
-        <div class="accent-line"></div>
-        <div class="contact-grid">
-            <div class="contact-box">
-                <h3>Liaison Access</h3>
-                <p>Available for hospital visits, provider meetings, and on-site tours at Arbor Lake.</p>
-                <div style="margin-top: auto;">
-                    <span class="cta-label">Direct Connection</span>
-                    <a href="tel:3182453887" class="btn btn-teal">📞 Call: 318-245-3887</a>
-                    <a href="mailto:cgantt@paramounthcla.com" class="btn btn-teal" style="font-size: 0.9rem;">✉️ Email Chris Gantt</a>
-                </div>
-            </div>
+#refer{background:#fff;padding:60px 6%;position:relative;overflow:hidden;border-top:1px solid rgba(200,168,100,.3);border-bottom:1px solid rgba(200,168,100,.3)}
+#refer::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(200,168,100,.10),transparent 70%);border-radius:50%}
+.refer-wrap{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.refer-eyebrow{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:1rem}
+.refer-eyebrow .ribbon{padding:6px 18px;background:linear-gradient(135deg,var(--gold),var(--gold-dk));color:#fff;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:100px;box-shadow:0 4px 12px rgba(200,168,100,.3)}
+.refer-heading{text-align:center;font-size:clamp(2rem,4vw,2.8rem);margin-bottom:.5rem}
+.refer-sub{text-align:center;font-size:1.05rem;color:var(--bronze-soft);max-width:620px;margin:0 auto 2.5rem;line-height:1.7}
+.refer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:1.5rem}
+.refer-card{background:#fff;border:1.5px solid rgba(200,168,100,.25);border-radius:16px;padding:1.6rem 1.4rem;text-align:center;transition:.25s;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.refer-card:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(63,53,39,.12);border-color:var(--gold);background:linear-gradient(155deg,#fff,var(--cream))}
+.refer-card.primary{background:linear-gradient(135deg,var(--gold),var(--gold-dk));border-color:var(--gold-dk);color:#fff}
+.refer-card.primary:hover{background:linear-gradient(135deg,var(--gold-dk),var(--gold));box-shadow:0 14px 32px rgba(200,168,100,.4);color:#fff}
+.refer-card.primary .rc-label,.refer-card.primary .rc-sub{color:rgba(255,255,255,.8)}
+.refer-card.primary .rc-value{color:#fff}
+.rc-icon{font-size:1.8rem;margin-bottom:.7rem;line-height:1}
+.rc-label{font-size:.62rem;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:.4rem}
+.rc-value{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:700;color:var(--bronze);line-height:1.2;margin-bottom:.3rem;word-break:break-word}
+.rc-sub{font-size:.78rem;color:var(--bronze-soft);line-height:1.4}
+.refer-meta{text-align:center;font-size:.85rem;color:var(--bronze-soft);font-style:italic;margin-top:1rem}
+.refer-meta strong{color:var(--gold-dk);font-style:normal;font-weight:700}
 
-            <div class="contact-box">
-                <h3>Referrals Only</h3>
-                <p>Dedicated lines for insurance verification and clinical referrals.</p>
-                <div style="margin-top: auto;">
-                    <span class="cta-label">Send Referrals</span>
-                    <div class="btn" style="background: #e2e8f0; color: #4a5568; cursor: default;">📠 Fax: 318-703-3421</div>
-                    <a href="mailto:AL-Referral-Faxes@paramounthcla.com" class="btn btn-teal" style="font-size: 0.85rem;">✉️ Referral Email</a>
-                </div>
-            </div>
+#glance{background:#fff;padding:50px 6%;position:relative;overflow:hidden;border-top:3px solid var(--gold);border-bottom:3px solid var(--gold)}
+#glance::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(224,197,133,.12),transparent 70%);border-radius:50%}
+.glance-wrap{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.glance-title{text-align:center;font-size:.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:.4rem}
+.glance-h{text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--teal-dk);margin-bottom:2rem;font-style:italic;font-weight:400}
+.glance-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+.glance-card{background:#fff;border:1.5px solid rgba(200,168,100,.3);border-radius:12px;padding:1.4rem 1.2rem;transition:.2s;box-shadow:0 4px 14px rgba(63,53,39,.05)}
+.glance-card:hover{background:linear-gradient(155deg,#fff,var(--cream));border-color:var(--gold);transform:translateY(-3px);box-shadow:0 10px 24px rgba(200,168,100,.18)}
+.gc-label{font-size:.6rem;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:.5rem}
+.gc-value{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--teal-dk);line-height:1.3;font-weight:700}
+.gc-detail{font-size:.78rem;color:var(--bronze-soft);margin-top:.3rem;line-height:1.4}
 
-            <div class="contact-box">
-                <h3>Arbor Lake</h3>
-                <p>1155 Sterlington Hwy<br>Farmerville, LA 71241</p>
-                <div style="margin-top: auto;">
-                    <span class="cta-label">Explore More</span>
-                    <a href="https://arborlakerehab.com" target="_blank" class="btn btn-gold">Visit Arbor Lake Site</a>
-                    <a href="https://facebook.com" target="_blank" class="btn btn-fb">Follow on Facebook</a>
-                    <div class="qr-area">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://arborlakerehab.com&margin=10" alt="QR" class="qr-img">
-                        <p style="font-size: 0.7rem; color: var(--text-gray); font-weight: 700;">SCAN FOR MOBILE SITE</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+@media(max-width:768px){
+  .refer-grid{grid-template-columns:1fr;gap:1rem}
+  .glance-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:420px){
+  .glance-grid{grid-template-columns:1fr}
+}
 
-    <footer>
-        <p>&copy; 2026 CG Clinical Communications. All rights reserved.</p>
-        <p style="font-size: 0.7rem; margin-top: 10px; opacity: 0.5;">A professional portal for Arbor Lake Skilled Nursing & Rehabilitation.</p>
-    </footer>
+.al-badge{display:inline-flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gold);border-radius:14px;padding:12px 18px 12px 14px;text-decoration:none;transition:.25s;box-shadow:0 6px 20px rgba(63,53,39,.08);margin-bottom:1.6rem;max-width:100%}
+.al-badge:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(200,168,100,.22);border-color:var(--gold-dk);background:linear-gradient(135deg,#fff,var(--cream))}
+.al-badge img{max-height:42px;max-width:170px;width:auto;height:auto;display:block;flex-shrink:0;object-fit:contain}
+.al-badge .al-text{display:flex;flex-direction:column;line-height:1.15;min-width:0;border-left:1px solid rgba(200,168,100,.3);padding-left:14px}
+.al-badge .al-label{font-size:.6rem;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:2px}
+.al-badge .al-name{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:700;color:var(--bronze);font-style:italic}
+.al-badge .al-fallback{height:48px;width:48px;background:linear-gradient(135deg,var(--gold),var(--gold-dk));border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:#fff;flex-shrink:0}
 
-</body>
-</html>
+.footer-al{display:inline-flex;align-items:center;gap:16px;background:rgba(251,248,242,.96);border:1px solid rgba(224,197,133,.4);border-radius:12px;padding:14px 20px;text-decoration:none;transition:.2s;margin-top:1.4rem;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.footer-al:hover{background:#fff;border-color:var(--gold);transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.2)}
+.footer-al img{max-height:42px;max-width:170px;width:auto;height:auto}
+.footer-al .fa-text{display:flex;flex-direction:column;line-height:1.2;text-align:left;border-left:1px solid rgba(200,168,100,.3);padding-left:14px}
+.footer-al .fa-label{font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold-dk)}
+.footer-al .fa-name{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--bronze);font-weight:600;margin-top:1px;font-style:italic}
+.footer-al .fa-fallback{height:42px;padding:0 14px;background:linear-gradient(135deg,var(--gold),var(--gold-dk));border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:#fff;letter-spacing:1px}
+
+.al-section-header{display:flex;align-items:center;gap:22px;margin-bottom:1rem;flex-wrap:wrap}
+.al-section-header img{max-height:62px;max-width:240px;width:auto;height:auto;flex-shrink:0;filter:drop-shadow(0 2px 6px rgba(63,53,39,.08))}
+.al-section-header .al-fallback-sm{height:54px;width:54px;background:linear-gradient(135deg,var(--gold),var(--gold-dk));border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:#fff;flex-shrink:0}
+.al-section-header .al-divider{width:1px;height:50px;background:linear-gradient(180deg,transparent,var(--gold),transparent);flex-shrink:0}
+.al-section-header .als-text{display:flex;flex-direction:column;flex:1;min-width:200px}
+.al-watermark{position:absolute;opacity:.05;pointer-events:none;z-index:0}
+.al-watermark img{width:380px;max-width:380px;height:auto}
+.connect-al-hero{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:2rem}
+.connect-al-hero img{max-height:80px;max-width:340px;width:auto;height:auto;filter:drop-shadow(0 4px 10px rgba(63,53,39,.12))}
+.connect-al-hero .cah-fb{height:70px;width:70px;background:linear-gradient(135deg,var(--gold),var(--gold-dk));border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#fff}
+.nc-al-logo{display:flex;align-items:center;gap:10px;margin-bottom:.8rem;padding-bottom:.8rem;border-bottom:1px solid rgba(200,168,100,.18)}
+.nc-al-logo img{max-height:40px;max-width:170px;width:auto;height:auto}
+.nc-al-logo .nc-al-fb{height:36px;padding:0 10px;background:linear-gradient(135deg,var(--gold),var(--gold-dk));border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:.9rem;font-weight:700;color:#fff;letter-spacing:.5px}
+</style>
+
+<nav>
+<div class="nav-brand-lockup">
+<span class="cg-mark">CG</span>
+<div class="brand-text">
+<span class="name">Chris Gantt</span>
+<span class="practice">Arbor Lake Community Liaison</span>
+</div>
+</div>
+<ul class="nv">
+<li><a href="#refer">Refer a Patient</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#services">Why Arbor Lake</a></li>
+<li><a href="#connect">Visit Arbor Lake</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</nav>
+
+<section id="hero">
+<div class="hero-wrap">
+<div class="hi">
+<div class="eb"><i></i>Arbor Lake Community Liaison</div>
+<h1>Chris Gantt<em class="hs">Your Connection to Arbor Lake</em></h1>
+<div class="hb"></div>
+<p class="hd">Whether you're a hospital discharge planner, a physician, or a family weighing your next step &mdash; I'm here to make sure the path to Arbor Lake is clear, simple, and personal. Specialized rehabilitation, skilled nursing, long-term care, and dementia care in Farmerville, Louisiana.</p>
+<a href="https://arborlakerehab.com" target="_blank" rel="noopener" class="al-badge">
+<img src="arbor-lake-logo.png" alt="Arbor Lake Skilled Nursing &amp; Rehabilitation" onerror="this.outerHTML='&lt;span class=al-fallback&gt;AL&lt;/span&gt;'">
+<div class="al-text">
+<span class="al-label">Proudly Representing</span>
+<span class="al-name">Visit the Facility &rarr;</span>
+</div>
+</a>
+<div class="ha">
+<a href="tel:3182453887" class="btn bp">&#128222;&nbsp; 318-245-3887</a>
+<a href="#refer" class="btn bo">Send a Referral &darr;</a>
+</div>
+</div>
+<div class="portrait">
+<img src="chris-gantt.jpg" alt="Chris Gantt" onerror="this.outerHTML='&lt;div class=placeholder&gt;&lt;svg viewBox=\&quot;0 0 24 24\&quot; fill=\&quot;currentColor\&quot;&gt;&lt;path d=\&quot;M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z\&quot;/&gt;&lt;/svg&gt;&lt;strong&gt;Your Photo Here&lt;/strong&gt;&lt;span&gt;Add Image File&lt;/span&gt;&lt;code&gt;chris-gantt.jpg&lt;/code&gt;&lt;/div&gt;'">
+</div>
+</div>
+</section>
+
+<section id="refer">
+<div class="refer-wrap">
+<div class="refer-eyebrow"><span class="ribbon">For Discharge Planners</span></div>
+<h2 class="refer-heading">Refer a Patient</h2>
+<p class="refer-sub">Three direct lines to start a referral. <strong>Within one hour</strong> you'll have a clear answer &mdash; accepted, pending clinical review, or what's needed next.</p>
+<div class="refer-grid">
+<a href="tel:3182453887" class="refer-card primary">
+<div class="rc-icon">&#128241;</div>
+<div class="rc-label">Call Chris Direct</div>
+<div class="rc-value">318-245-3887</div>
+<div class="rc-sub">Liaison &middot; cell &middot; 1-hr callback</div>
+</a>
+<a href="tel:3183683103" class="refer-card">
+<div class="rc-icon">&#127973;</div>
+<div class="rc-label">Arbor Lake Direct</div>
+<div class="rc-value">318-368-3103</div>
+<div class="rc-sub">Facility front desk &middot; admissions</div>
+</a>
+<a href="mailto:AL-Referral-Faxes@paramounthcla.com" class="refer-card">
+<div class="rc-icon">&#128224;</div>
+<div class="rc-label">Fax / Email Packet</div>
+<div class="rc-value">318-368-7471</div>
+<div class="rc-sub">Or email referral inbox</div>
+</a>
+</div>
+<p class="refer-meta">Need urgent placement? <strong>Call Chris first</strong> &mdash; I'll coordinate clinical review and bed availability while your packet is faxing.</p>
+</div>
+</section>
+
+<section id="glance">
+<div class="glance-wrap">
+<p class="glance-title">At a Glance</p>
+<h3 class="glance-h">Everything you need to know in five seconds.</h3>
+<div class="glance-grid">
+<div class="glance-card">
+<div class="gc-label">In-Network</div>
+<div class="gc-value">Humana &middot; Peoples Health</div>
+<div class="gc-detail">Plus Medicare, Medicaid, private pay</div>
+</div>
+<div class="glance-card">
+<div class="gc-label">Out-of-Network HMOs</div>
+<div class="gc-value">OON Benefits Pursued</div>
+<div class="gc-detail">We work directly with the insurer</div>
+</div>
+<div class="glance-card">
+<div class="gc-label">SNF Wing</div>
+<div class="gc-value">All Private Rooms</div>
+<div class="gc-detail">24/7 skilled nursing &amp; rehab</div>
+</div>
+<div class="glance-card">
+<div class="gc-label">Long-Term Care</div>
+<div class="gc-value">Private &amp; Semi-Private</div>
+<div class="gc-detail">Memory care &amp; hospice available</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="about">
+<div class="about-grid">
+<div>
+<p class="sl">About Chris</p>
+<div class="gb"></div>
+<h2 class="sh">Local Expertise. Personal Service.</h2>
+<p style="font-size:1.05rem;color:var(--bronze-soft);line-height:1.85;margin-bottom:1.2rem">I've spent my career building relationships across North Louisiana's healthcare community &mdash; physicians, discharge planners, social workers, and the families who count on them.</p>
+<p style="font-size:1.05rem;color:var(--bronze-soft);line-height:1.85">As Arbor Lake's community liaison, I'm the person you call first. I'll walk you through services and pricing, schedule a tour, answer your honest questions about the facility, and make sure the connection from hospital to recovery is handled with care.</p>
+<div class="stats">
+<div class="stat"><div class="stat-num">Decade+</div><div class="stat-label">Of Healthcare Experience</div></div>
+<div class="stat"><div class="stat-num">1 Hr</div><div class="stat-label">Referral Response Time</div></div>
+</div>
+</div>
+<div>
+<p class="sl">Specialties</p>
+<div class="gb"></div>
+<h3 style="font-size:1.7rem;margin-bottom:1.2rem">How I Help</h3>
+<ul style="list-style:none;padding:0">
+<li style="padding:.7rem 0;border-bottom:1px solid rgba(200,168,100,.18);display:flex;align-items:center;gap:12px"><span style="color:var(--gold);font-weight:700">&#10004;</span> Hospital discharge coordination &amp; case manager support</li>
+<li style="padding:.7rem 0;border-bottom:1px solid rgba(200,168,100,.18);display:flex;align-items:center;gap:12px"><span style="color:var(--gold);font-weight:700">&#10004;</span> Family consultations &amp; on-site facility tours</li>
+<li style="padding:.7rem 0;border-bottom:1px solid rgba(200,168,100,.18);display:flex;align-items:center;gap:12px"><span style="color:var(--gold);font-weight:700">&#10004;</span> Physician &amp; provider relationship building</li>
+<li style="padding:.7rem 0;border-bottom:1px solid rgba(200,168,100,.18);display:flex;align-items:center;gap:12px"><span style="color:var(--gold);font-weight:700">&#10004;</span> Insurance verification guidance (Medicare, Medicaid, Private)</li>
+<li style="padding:.7rem 0;display:flex;align-items:center;gap:12px"><span style="color:var(--gold);font-weight:700">&#10004;</span> Community education &amp; outreach events</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="services" style="position:relative;overflow:hidden">
+<div class="al-watermark" style="top:60px;right:-60px"><img src="arbor-lake-logo.png" alt="" onerror="this.parentElement.style.display='none'"></div>
+<p class="sl">Why Arbor Lake</p><div class="gb"></div>
+<div class="al-section-header">
+<a href="https://arborlakerehab.com" target="_blank" rel="noopener" style="display:flex;align-items:center"><img src="arbor-lake-logo.png" alt="Arbor Lake" onerror="this.outerHTML='&lt;span class=al-fallback-sm&gt;AL&lt;/span&gt;'"></a>
+<span class="al-divider"></span>
+<div class="als-text"><h2 class="sh" style="margin-bottom:0">Specialized Care in Farmerville</h2></div>
+</div>
+<p class="ss">Arbor Lake Skilled Nursing &amp; Rehabilitation has served North Louisiana for over a decade &mdash; offering a homelike atmosphere, an experienced clinical team, and the full spectrum of post-hospital care.</p>
+<div class="services-grid">
+<div class="svc-card"><div class="svc-icon">&#127973;</div><h3>Skilled Nursing &amp; Rehabilitation</h3><p>Our SNF wing features <strong>all private rooms</strong> with 24/7 skilled nursing &mdash; combined with on-site physical, occupational, and speech therapy to restore each resident to their highest level of independence after a hospital stay or surgery.</p></div>
+<div class="svc-card"><div class="svc-icon">&#127968;</div><h3>Long-Term Care</h3><p>A true home for residents who need ongoing care, with both <strong>private and semi-private rooms</strong> available &mdash; supported by the same skilled clinical team and the comfort of a community setting.</p></div>
+<div class="svc-card"><div class="svc-icon">&#127795;</div><h3>D'Arbonne Cove Memory Care</h3><p>A specialized, secured neighborhood for residents with Alzheimer's and dementia &mdash; staffed by team members specially trained in dignified, individualized memory care.</p></div>
+<div class="svc-card"><div class="svc-icon">&#129496;</div><h3>Hospice Support</h3><p>End-of-life care delivered with compassion. Hospice services &mdash; including nursing, emotional, and pastoral care &mdash; are available when qualifications are met, in coordination with the family's chosen hospice provider.</p></div>
+</div>
+
+<div class="insurance-strip">
+<div class="ins-header">
+<div class="ins-icon">&#128179;</div>
+<div><span class="ins-tag">Insurance &amp; Coverage</span><h3>We Accept &amp; Verify Most Payors</h3></div>
+</div>
+<div class="ins-grid">
+<div class="ins-block"><h4>In-Network Plans</h4><p><span class="ins-payer">Humana</span><span class="ins-payer">Peoples Health</span></p><p style="margin-top:.6rem">Plus traditional Medicare, Medicaid, and private pay.</p></div>
+<div class="ins-block"><h4>Other HMO Plans</h4><p>For HMOs we're not currently in-network with, we'll work directly with the insurer to <strong>pursue out-of-network benefits</strong> on your behalf.</p></div>
+</div>
+<div class="ins-footnote">Not sure if your plan is covered? <strong>Call Chris at 318-245-3887</strong> for a quick verification &mdash; or fax referral packets to <strong>318-368-7471</strong>.</div>
+</div>
+
+<div style="text-align:center;margin-top:2rem">
+<a href="https://arborlakerehab.com/services-amenities/" target="_blank" rel="noopener" class="btn bp" style="padding:14px 32px">See All Services at Arbor Lake &rarr;</a>
+</div>
+</section>
+
+<section id="connect">
+<div class="connect-wrap">
+<p class="sl" style="justify-content:center;display:inline-flex">Where I'll Connect You</p>
+<div class="gb gb-center"></div>
+<div class="connect-al-hero">
+<a href="https://arborlakerehab.com" target="_blank" rel="noopener" style="display:flex"><img src="arbor-lake-logo.png" alt="Arbor Lake" onerror="this.outerHTML='&lt;span class=cah-fb&gt;AL&lt;/span&gt;'"></a>
+</div>
+<h2 class="sh">Explore Arbor Lake</h2>
+<p class="ss" style="margin-left:auto;margin-right:auto;text-align:center">Once we connect, here's where you're headed. Click through to learn more about the facility, see photos, and follow along with our community.</p>
+<div class="connect-cards">
+<div class="cnc">
+<div class="cnc-logo"><img src="arbor-lake-logo.png" alt="Arbor Lake" onerror="this.outerHTML='&lt;span class=ph-mark&gt;AL&lt;/span&gt;'"></div>
+<h3>Arbor Lake</h3>
+<p>Skilled Nursing &amp; Rehabilitation in Farmerville, LA. Tour the facility, meet the team, and explore the services available to your loved one.</p>
+<a href="https://arborlakerehab.com" target="_blank" rel="noopener" class="btn bp bb" style="max-width:280px">Visit arborlakerehab.com &rarr;</a>
+</div>
+<div class="cnc">
+<div class="cnc-logo fb"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:60%;height:60%;fill:#fff"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.884v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></div>
+<h3>Follow on Facebook</h3>
+<p>Stay current with events, resident highlights, staff spotlights, and community stories from Arbor Lake.</p>
+<a href="https://www.facebook.com/arbor.lake" target="_blank" rel="noopener" class="btn bf bb" style="max-width:280px"><svg class="fb-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.884v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>Follow @arbor.lake</a>
+</div>
+</div>
+</div>
+</section>
+
+<section id="team" style="position:relative;overflow:hidden">
+<div class="al-watermark" style="bottom:40px;left:-80px;opacity:.04"><img src="arbor-lake-logo.png" alt="" onerror="this.parentElement.style.display='none'"></div>
+<p class="sl">The Admissions Team</p><div class="gb"></div>
+<h2 class="sh">Your Referral Lands Here</h2>
+<p class="ss">When a referral arrives at Arbor Lake, it goes straight to Sherry. She's the engine of the admissions process &mdash; clinically informed, family-focused, and fast.</p>
+<div class="lead-card">
+<div class="lead-grid">
+<div class="lead-avatar">SJ</div>
+<div class="lead-text">
+<span class="lead-tag">Lead Referral Coordinator</span>
+<div class="lead-name">Sherry Jones</div>
+<div class="lead-role">Social Services &amp; Admissions Director</div>
+<p class="lead-bio">Every referral that comes through Arbor Lake's doors goes directly to Sherry. She personally reviews each clinical packet, coordinates bed availability with the DON, walks families through what to expect, and keeps you updated at every step &mdash; from initial review to admission day.</p>
+</div>
+<div class="lead-cta">
+<a href="tel:3183683103" class="btn bp">&#128222;&nbsp; 318-368-3103</a>
+<a href="mailto:AL-Referral-Faxes@paramounthcla.com" class="btn bo">&#9993;&#65039;&nbsp; Email Referral</a>
+</div>
+</div>
+<div class="lead-meta">Need same-day placement? <strong>Call Chris first at 318-245-3887</strong> &mdash; he'll loop Sherry in immediately while your packet is faxing to <strong>318-368-7471</strong>.</div>
+</div>
+<div class="support-label">Supporting Team</div>
+<div class="tg" style="grid-template-columns:repeat(3,1fr);max-width:1100px">
+<div class="tc"><h4>Matthew Hall, NFA</h4><span class="r">Facility Administrator</span><p>Operational leadership ensuring the team has every resource needed to deliver top-tier care.</p></div>
+<div class="tc"><h4>Kayla Hill</h4><span class="r">Director of Nursing</span><p>Reviews each referral packet clinically alongside Sherry to confirm care needs match our capabilities.</p></div>
+<div class="tc"><h4>Amber Alford</h4><span class="r">Business Office Manager</span><p>Handles rapid insurance verification &mdash; Medicare, Medicaid, Humana, Peoples Health, and out-of-network HMO benefits.</p></div>
+</div>
+</section>
+
+<section id="coverage">
+<p class="sl">Service Area</p><div class="gb"></div>
+<h2 class="sh">Where I Serve</h2>
+<p class="ss">Available across North Louisiana &mdash; whether the conversation needs to happen at the hospital, in your office, or at a family kitchen table.</p>
+<div class="cg">
+<div class="cc"><h3>Farmerville &amp; Union Parish</h3><p>Our home parish &mdash; the heart of every relationship I build. Anchored at Arbor Lake with deep, daily ties to providers, clinics, and families across Bernice, Spearsville, Marion, and the surrounding communities.</p></div>
+<div class="cc"><h3>Ruston &amp; Lincoln Parish</h3><p>Our closest hospital partner. Working with Northern Louisiana Medical Center, area clinics, and discharge planners to support seamless transitions of care.</p></div>
+<div class="cc"><h3>Monroe &amp; West Monroe</h3><p>Supporting the Twin Cities medical hubs, hospital case managers, and discharge planning teams across Ouachita Parish.</p></div>
+<div class="cc"><h3>Shreveport &amp; Bossier</h3><p>Working directly with the region's medical hubs and hospital discharge planners to coordinate post-acute placements when families are headed our way.</p></div>
+</div>
+</section>
+
+<section id="outreach">
+<p class="sl">Community Involvement</p><div class="gb"></div>
+<h2 class="sh">Active in Our Community</h2>
+<p class="ss">Beyond referrals, I stay invested in the communities I serve &mdash; because strong communities and strong healthcare go hand in hand.</p>
+<div class="og">
+<div class="oc"><div class="oi">&#127963;&#65039;</div><h3>Council on Aging</h3><p>Partnering with Union Parish's Council on Aging to provide resources, information, and support to local seniors and their families.</p></div>
+<div class="oc"><div class="oi">&#128205;</div><h3>Regional Senior Centers</h3><p>Calling on senior centers in Marion, Spearsville, and Bernice to keep rural residents connected to skilled care options when they need them.</p></div>
+<div class="oc"><div class="oi">&#129309;</div><h3>Civic Leadership</h3><p>Active in the Chamber of Commerce and the Union Parish Community Outreach Organization, investing in the vitality of our region.</p></div>
+<div class="oc"><div class="oi">&#127881;</div><h3>Local Sponsorships</h3><p>Supporting athletics, festivals, and parades across the northern parishes &mdash; showing up where our community gathers.</p></div>
+</div>
+</section>
+
+<section id="contact">
+<p class="sl">Get In Touch</p><div class="gb"></div>
+<h2 class="sh">Let's Talk</h2>
+<p class="ss">Available for hospital visits, provider meetings, family consultations, and on-site tours at Arbor Lake. Reach out anytime &mdash; I respond personally.</p>
+<div class="ng">
+<div class="nc">
+<h3>Reach Chris</h3>
+<p class="p">Direct line for tours, questions, hospital visits, and provider meetings.</p>
+<div class="na">
+<span class="t">Direct Line</span>
+<a href="tel:3182453887" class="btn bp bb">&#128222;&nbsp; Call 318-245-3887</a>
+<a href="mailto:cgantt@paramounthcla.com" class="btn bo bb">&#9993;&#65039;&nbsp; Email Chris</a>
+</div></div>
+<div class="nc">
+<h3>Send a Referral</h3>
+<p class="p">Dedicated lines for clinical referral packets and insurance verification.</p>
+<div class="na">
+<span class="t">Submit a Referral</span>
+<a href="tel:3183683103" class="btn bp bb">&#128222;&nbsp; AL Direct: 318-368-3103</a>
+<div class="btn bgh bb">&#128224;&nbsp; Fax: 318-368-7471</div>
+<a href="mailto:AL-Referral-Faxes@paramounthcla.com" class="btn bo bb" style="font-size:.83rem">&#9993;&#65039;&nbsp; Referral Inbox</a>
+</div></div>
+<div class="nc">
+<div class="nc-al-logo"><img src="arbor-lake-logo.png" alt="Arbor Lake" onerror="this.outerHTML='&lt;span class=nc-al-fb&gt;AL&lt;/span&gt;'"></div>
+<h3>Visit Arbor Lake</h3>
+<p class="p">1155 Sterlington Hwy<br>Farmerville, LA 71241<br>Direct: (318) 368-3103 &middot; Fax: (318) 368-7471</p>
+<div class="na">
+<span class="t">Tour or Follow</span>
+<a href="https://arborlakerehab.com" target="_blank" rel="noopener" class="btn bg bb">&#127760;&nbsp; arborlakerehab.com</a>
+<a href="https://www.facebook.com/arbor.lake" target="_blank" rel="noopener" class="btn bf bb"><svg class="fb-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.884v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>Facebook</a>
+<div class="qr-block"><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://arborlakerehab.com&margin=10" alt="QR code to Arbor Lake website"><p>Scan for mobile site</p></div>
+</div></div>
+</div>
+</section>
+
+<footer>
+<div style="display:inline-flex;align-items:center;gap:14px;margin-bottom:.5rem">
+<span class="cg-mark" style="background:linear-gradient(135deg,var(--gold),var(--gold-dk));border-color:var(--gold-lt);color:#fff">CG</span>
+<div style="text-align:left">
+<div style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;color:var(--gold-lt)">Chris Gantt</div>
+<div style="font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(224,197,133,.6);margin-top:2px">Arbor Lake Community Liaison</div>
+</div>
+</div>
+<div><a href="https://arborlakerehab.com" target="_blank" rel="noopener" class="footer-al">
+<img src="arbor-lake-logo.png" alt="Arbor Lake" onerror="this.outerHTML='&lt;span class=fa-fallback&gt;Arbor Lake&lt;/span&gt;'">
+<div class="fa-text"><span class="fa-label">Visit the Facility</span><span class="fa-name">arborlakerehab.com</span></div>
+</a></div>
+<div class="fl"><a href="#about">About</a><a href="#services">Why Arbor Lake</a><a href="#connect">Get Connected</a><a href="#team">Team</a><a href="#contact">Contact</a></div>
+<p>&copy; 2026 Arbor Lake Skilled Nursing &amp; Rehabilitation &middot; Farmerville, Louisiana</p>
+<p style="font-size:.7rem;margin-top:6px;opacity:.6">Professional site of Chris Gantt &middot; CG Clinical Consultants</p>
+</footer>
+
+</body></html>
+```
+
+That's everything. Now commit and the page is live.
+
+**One thing to flag** — I wrapped Part 2 in an opening `<style>` tag because the CSS continued from Part 1. The structure ends correctly with `</body></html>`. If GitHub's preview shows anything broken after committing, it's almost always because Part 1 and Part 2 weren't pasted contiguously (one space or extra line break between them is fine; a missing chunk is what breaks it).
+
+Don't forget you still need `arbor-lake-logo.png` and `chris-gantt.jpg` uploaded to the **same folder** as `index.html` for the logo and your portrait to appear.
+    
