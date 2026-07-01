@@ -86,8 +86,13 @@ with **Raspberry Pi Imager**, which lets you bake in these settings:
 
 ## 5. Give the Pi a fixed IP address
 
-Your router must always know where to find the Pi, so its IP can't change. Easiest
-method: **DHCP reservation** in your router.
+Your network must always know where to find the Pi, so its IP can't change. The
+Pi-hole installer (Step 6) sets a static IP on the Pi itself, which covers this. You
+can *also* reserve it in your gateway for good measure.
+
+> **AT&T gateway:** reservations live at `http://192.168.1.254` → Home Network →
+> **IP Allocation**. (If you go with Option B in Step 7, Pi-hole runs DHCP anyway, so
+> just make sure the Pi's own static IP falls **outside** the range Pi-hole hands out.)
 
 1. Log into your router's admin page.
 2. Find **DHCP reservations** (sometimes "Address Reservation" / "Static Leases").
@@ -128,25 +133,58 @@ http://pihole.local/admin
 
 ## 7. Point your network at Pi-hole ⭐ (the step that makes it network-wide)
 
-This is what turns on ad-blocking for **every device**. Best method is at the router
-so you don't have to touch each device:
+> 🛑 **AT&T Fiber users read this.** AT&T gateways (BGW210 / BGW320 / BGW620
+> "All-Fi Hub") **do not let you change the DNS server** they hand out to devices —
+> that field is locked in AT&T's firmware. So the usual "set the router's DNS to the
+> Pi" trick **does not work** on AT&T. Use one of the three AT&T-specific methods
+> below instead.
 
-1. Log into your router.
-2. Find the **DNS server** setting (usually under **DHCP / LAN settings**, *not* the
-   internet/WAN section).
-3. Set the **Primary DNS** to your Pi-hole's IP (from Step 5).
-4. **Secondary DNS:** see the reliability note below.
-5. Save. Reboot the router (or just reconnect a device) so clients pick up the new DNS.
+### Option A — Per-device DNS (easiest, zero risk — great for a first test)
 
-> ⚠️ **Reliability note:** Whatever you set as DNS becomes critical infrastructure — if
-> it's down, the house "loses internet." Two safe choices:
-> - Leave the secondary DNS **blank** so all queries go through Pi-hole (best blocking),
->   accepting that if the Pi is off, you'll need to change it back, **or**
-> - Set a secondary like `1.1.1.1`. Note: devices may sometimes use the secondary and
->   bypass blocking, so it trades a little ad-blocking for resilience.
->
-> The bulletproof option is running a **second Pi-hole** as the secondary DNS, but
-> that's a later upgrade — not needed to get started.
+Leave the gateway untouched and point individual devices at Pi-hole manually.
+
+- On each device's Wi-Fi/network settings, set **DNS** to your Pi-hole's IP (Step 5).
+  - **Windows:** Network adapter → Properties → IPv4 → Preferred DNS = Pi IP
+  - **macOS:** System Settings → Network → Details → DNS → add Pi IP
+  - **iPhone/Android:** Wi-Fi → your network → configure DNS → Manual → Pi IP
+- ✅ Simple, nothing to break, easy to undo. Perfect for confirming Pi-hole works.
+- ❌ You repeat it per device; guests and IoT gadgets aren't covered.
+
+### Option B — Let Pi-hole run DHCP ⭐ (recommended whole-house fix, no extra hardware)
+
+Turn **off** the AT&T gateway's DHCP server and let Pi-hole hand out addresses + DNS.
+
+1. **In Pi-hole admin** (`http://pihole.local/admin`): Settings → **DHCP** →
+   enable "**DHCP server enabled**". Set a range (e.g. `192.168.1.150`–`192.168.1.250`)
+   and your gateway's IP as the router. Save.
+2. **On the AT&T gateway** (`http://192.168.1.254`, access code on the sticker):
+   Home Network → **Subnets & DHCP** → set "**Device IP address is assigned via** …"
+   / disable **DHCPv4** on the LAN. Save.
+3. Reconnect a device (toggle Wi-Fi off/on) — it should now get its address and DNS
+   from Pi-hole. Verify in the dashboard that queries appear.
+
+> ⚠️ **IPv6 caveat (AT&T-specific):** even with the above, AT&T gateways still
+> advertise *themselves* for **IPv6 DNS**, letting some devices bypass Pi-hole. The
+> common fix is to **disable IPv6** on the gateway (Home Network → IPv6 → off) so all
+> DNS is forced through Pi-hole over IPv4. If you'd rather keep IPv6, expect some
+> ad-blocking "leakage."
+
+### Option C — IP Passthrough + your own router (most bulletproof, costs money)
+
+Put the AT&T gateway in **IP Passthrough** mode and run your own router behind it,
+then set that router's DNS to the Pi (a normal router *does* allow this).
+
+- ✅ Cleanest, most reliable, full control over your LAN.
+- ❌ Requires buying a router (~$50–150) and extra setup. Only worth it if you want
+  your own router anyway.
+
+**Suggested path:** try **Option A** the first day to see it working, then switch to
+**Option B** for permanent, whole-network coverage.
+
+> ⚠️ **Reliability note:** Once Pi-hole is your DHCP/DNS (Option B), it becomes critical
+> infrastructure — if the Pi is off, devices can't get online. Keep the AT&T gateway's
+> DHCP toggle handy so you can flip it back on in a pinch, or add a **second Pi-hole**
+> later as a backup DNS. Not needed to get started.
 
 ---
 
@@ -183,7 +221,8 @@ so you don't have to touch each device:
 | Can't `ssh pihole.local` | Use the Pi's IP from the router's device list instead. |
 | A website/app breaks | Whitelist the domain it needs (dashboard → allowlist). |
 | Ads still showing | Confirm the device's DNS is the Pi (Step 8); some devices cache DNS — reconnect Wi-Fi. |
-| Whole network loses internet | Temporarily set router DNS back to `1.1.1.1`, then troubleshoot the Pi. |
+| Whole network loses internet (Option B) | Re-enable **DHCPv4** on the AT&T gateway (Home Network → Subnets & DHCP) to restore normal service, then troubleshoot the Pi. |
+| Ads leaking on some devices | Likely IPv6 bypass — disable IPv6 on the AT&T gateway (see Step 7, Option B caveat). |
 
 ---
 
