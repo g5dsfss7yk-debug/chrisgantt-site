@@ -218,7 +218,55 @@ long-term answer on AT&T fiber.
 
 ---
 
-## 9. Maintenance (occasional, optional)
+## 9. Recommended blocklists (optional upgrade)
+
+Pi-hole ships with a good default list (StevenBlack's unified hosts), so you're
+already blocking ads out of the box. If you want to block **more** — trackers, telemetry,
+malware domains — add one or two well-curated lists below. These two are the community
+favorites because they're aggressive *but* carefully maintained to minimize breaking
+legitimate sites:
+
+| List | URL | Notes |
+|---|---|---|
+| **OISD Big** | `https://big.oisd.nl` | Great all-round list; very low false-positives. A safe first add. |
+| **HaGeZi Multi PRO** | `https://raw.githubusercontent.com/hagezi/dns-blocklists/main/domains/pro.txt` | Blocks ads + tracking + some malware. Popular, well-maintained. |
+
+> 💡 **Start conservative.** Add **OISD Big** first, live with it a few days, then add
+> HaGeZi if you want more. Adding many overlapping lists at once just makes it harder to
+> tell which list broke a site if something stops working.
+
+### How to add a blocklist (Pi-hole v6 dashboard)
+
+1. Open the dashboard: `http://pihole.local/admin` (log in with your admin password).
+2. In the left sidebar, click **Lists** (older versions: *Group Management → Adlists*).
+3. Paste the list's URL into the **"Address"** field.
+4. (Optional) Add a comment like `OISD Big` so you remember what it is.
+5. Click **Add**.
+6. ⭐ **Important — apply it:** a new list isn't active until you rebuild the block
+   database ("gravity"). Click **Update Gravity** (Tools → Update Gravity), or from SSH:
+   ```bash
+   pihole -g
+   ```
+7. Done. Check the dashboard — your total "Domains on Lists" number should jump.
+
+### If a website or app breaks
+
+Occasionally a stricter list blocks something you need. Fix it without removing the list:
+
+1. Dashboard → **Domains** → add the domain to the **Allow** list, **or** from SSH:
+   ```bash
+   pihole allow example.com
+   ```
+2. Not sure which domain broke? Dashboard → **Query Log**, look for **red (blocked)**
+   entries right when the site failed, and allow the one it needs.
+
+### Removing a list
+
+Lists → find the row → toggle it off (or delete) → **Update Gravity** again.
+
+---
+
+## 10. Maintenance (occasional, optional)
 
 - **Update Pi-hole:** `pihole -up`
 - **Update the OS:** `sudo apt update && sudo apt full-upgrade -y`
