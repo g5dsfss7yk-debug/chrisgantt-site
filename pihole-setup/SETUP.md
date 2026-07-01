@@ -150,24 +150,37 @@ Leave the gateway untouched and point individual devices at Pi-hole manually.
 - ✅ Simple, nothing to break, easy to undo. Perfect for confirming Pi-hole works.
 - ❌ You repeat it per device; guests and IoT gadgets aren't covered.
 
-### Option B — Let Pi-hole run DHCP ⭐ (recommended whole-house fix, no extra hardware)
+### Option B — Let Pi-hole run DHCP (whole-house, no extra hardware)
 
 Turn **off** the AT&T gateway's DHCP server and let Pi-hole hand out addresses + DNS.
 
+> 🛑 **BGW320-505-specific warning — read first.** Fully disabling DHCP on the
+> BGW320-505 has a track record of problems: the gateway can misbehave, and people
+> have **locked themselves out** of the admin page (once DHCP is off, your PC no longer
+> gets an IP to reach `192.168.1.254`). Do it carefully or skip to Option C.
+>
+> **Two rules that prevent the lockout:**
+> 1. **Before** disabling the gateway's DHCP, set a **static IP on your admin
+>    computer** (e.g. `192.168.1.10`, subnet `255.255.255.0`, gateway `192.168.1.254`)
+>    so you can always reach the admin page.
+> 2. **Don't** also disable the Wi-Fi radios in the same session — that combination is
+>    what bricked people's access. Change one setting at a time.
+
+**Steps:**
+
 1. **In Pi-hole admin** (`http://pihole.local/admin`): Settings → **DHCP** →
    enable "**DHCP server enabled**". Set a range (e.g. `192.168.1.150`–`192.168.1.250`)
-   and your gateway's IP as the router. Save.
-2. **On the AT&T gateway** (`http://192.168.1.254`, access code on the sticker):
-   Home Network → **Subnets & DHCP** → set "**Device IP address is assigned via** …"
-   / disable **DHCPv4** on the LAN. Save.
-3. Reconnect a device (toggle Wi-Fi off/on) — it should now get its address and DNS
+   and gateway `192.168.1.254` as the router. Save.
+2. Set a **static IP on your admin computer** (see rule 1 above).
+3. **On the gateway** (`http://192.168.1.254`, Device Access Code from the sticker):
+   Home Network → **Subnets & DHCP** tab → **DHCP Server Enable → Off**. Save.
+4. Reconnect a device (toggle Wi-Fi off/on) — it should now get its address and DNS
    from Pi-hole. Verify in the dashboard that queries appear.
 
-> ⚠️ **IPv6 caveat (AT&T-specific):** even with the above, AT&T gateways still
-> advertise *themselves* for **IPv6 DNS**, letting some devices bypass Pi-hole. The
-> common fix is to **disable IPv6** on the gateway (Home Network → IPv6 → off) so all
-> DNS is forced through Pi-hole over IPv4. If you'd rather keep IPv6, expect some
-> ad-blocking "leakage."
+> ⚠️ **IPv6 caveat (AT&T-specific):** even with the above, the gateway still advertises
+> *itself* for **IPv6 DNS**, letting some devices bypass Pi-hole. The common fix is to
+> **disable IPv6** on the gateway (Home Network → IPv6 → off) so all DNS is forced
+> through Pi-hole over IPv4. If you'd rather keep IPv6, expect some ad-blocking "leakage."
 
 ### Option C — IP Passthrough + your own router (most bulletproof, costs money)
 
@@ -178,8 +191,11 @@ then set that router's DNS to the Pi (a normal router *does* allow this).
 - ❌ Requires buying a router (~$50–150) and extra setup. Only worth it if you want
   your own router anyway.
 
-**Suggested path:** try **Option A** the first day to see it working, then switch to
-**Option B** for permanent, whole-network coverage.
+**Suggested path (BGW320-505):** start with **Option A** to confirm everything works
+safely. For permanent whole-house coverage, **Option B** works with no new hardware
+but carries the BGW320-505 lockout risk above — do it carefully. If you want the
+*safest* rock-solid setup and don't mind buying a router, **Option C** is the best
+long-term answer on AT&T fiber.
 
 > ⚠️ **Reliability note:** Once Pi-hole is your DHCP/DNS (Option B), it becomes critical
 > infrastructure — if the Pi is off, devices can't get online. Keep the AT&T gateway's
