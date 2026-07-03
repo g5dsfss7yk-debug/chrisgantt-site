@@ -107,11 +107,24 @@ can *also* reserve it in your gateway for good measure.
 
 ## 6. Install Pi-hole
 
-One command does it all:
+The one-line installer:
 
 ```bash
 curl -sSL https://install.pi-hole.net | bash
 ```
+
+> ⚠️ **If the installer quits at the "static IP" screen** (it prints
+> `Installer exited at static IP message.`): the `curl | bash` method can lose its
+> interactive input at that dialog. Use Pi-hole's officially-supported alternative —
+> download and run it directly instead:
+> ```bash
+> sudo apt install -y git
+> git clone --depth 1 https://github.com/pi-hole/pi-hole.git Pi-hole
+> cd "Pi-hole/automated install/"
+> sudo bash basic-install.sh
+> ```
+> This gives the wizard a real terminal and it sails through. *(Confirmed fix on a
+> real Raspberry Pi 4 / Raspberry Pi OS Lite install.)*
 
 The installer walks you through a few screens:
 
@@ -282,11 +295,16 @@ Lists → find the row → toggle it off (or delete) → **Update Gravity** agai
 | Symptom | Fix |
 |---|---|
 | Lightning-bolt / undervoltage icon | Use the included CanaKit power supply (not a phone charger). |
+| SSH "Permission denied" no matter the password | SSH doesn't prompt for a username — it uses the one before the `@`. Connect as the username you set in the Imager (e.g. `ssh chrisgantt@pihole.local`), **not** `pi`. |
 | Can't `ssh pihole.local` | Use the Pi's IP from the router's device list instead. |
+| Installer quits at the "static IP" screen | Use the `git clone` + `sudo bash basic-install.sh` method (see Step 6). |
+| Dashboard shows **0 queries** after setting a device's DNS | The device is using another DNS server *ahead* of Pi-hole. On the client, remove all other DNS servers (e.g. `1.1.1.1`) so **only** the Pi's IP remains — clients query the first server and skip Pi-hole otherwise. |
+| Browser URL keeps going to a web search | Type the address in the **address bar** (top of the window), not the page's search box. Use the Pi's IP, e.g. `192.168.1.112/admin`. |
 | A website/app breaks | Whitelist the domain it needs (dashboard → allowlist). |
 | Ads still showing | Confirm the device's DNS is the Pi (Step 8); some devices cache DNS — reconnect Wi-Fi. |
 | Whole network loses internet (Option B) | Re-enable **DHCPv4** on the AT&T gateway (Home Network → Subnets & DHCP) to restore normal service, then troubleshoot the Pi. |
 | Ads leaking on some devices | Likely IPv6 bypass — disable IPv6 on the AT&T gateway (see Step 7, Option B caveat). |
+| iPhone Safari not filtered | Turn off **iCloud Private Relay** for Wi-Fi (Settings → your name → iCloud → Private Relay). Cellular isn't covered by Pi-hole regardless. |
 
 ---
 
