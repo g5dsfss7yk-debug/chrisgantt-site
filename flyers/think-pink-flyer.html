@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Arbor Lake – Think Pink Flyer</title>
+<style>
+  @page { size: 8.5in 11in; margin: 0; }
+  :root {
+    --gold: #b99649;
+    --teal: #72b1b8;
+    --teal-dark: #4f8f98;
+    --pink: #e6417f;
+    --pink-deep: #c42a66;
+    --pink-light: #fde4ee;
+    --ink: #3a3a3a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 8.5in; height: 11in; }
+  body {
+    font-family: "Liberation Sans", Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .page {
+    position: relative; width: 8.5in; height: 11in; overflow: hidden;
+    background: #fff;
+    padding: 0.45in;
+  }
+  /* inset border keeps everything inside printer-safe area (no bleed needed) */
+  .frame {
+    position: absolute; inset: 0.3in;
+    border: 3px solid var(--pink);
+    border-radius: 22px;
+  }
+  .frame::after {
+    content: ""; position: absolute; inset: 7px;
+    border: 1.5px dashed var(--pink); opacity: .45; border-radius: 16px;
+  }
+  .content {
+    position: relative; height: 100%;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+  }
+  .logo { width: 4.7in; margin-top: 0.05in; }
+
+  .banner {
+    margin-top: 0.22in;
+    background: var(--pink);
+    color: #fff;
+    padding: 0.1in 0.55in;
+    border-radius: 999px;
+    font-weight: 700; letter-spacing: .22em; text-transform: uppercase; font-size: 15pt;
+  }
+  h1 {
+    margin-top: 0.1in;
+    font-family: "DejaVu Serif", Georgia, serif;
+    font-size: 68pt; line-height: 1; font-weight: 700; color: var(--pink);
+    letter-spacing: -.01em;
+  }
+  h1 span { color: var(--pink-deep); }
+  .sub {
+    margin-top: 0.08in;
+    font-size: 15pt; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--teal-dark); font-weight: 700;
+  }
+
+  .hero {
+    position: relative; margin-top: 0.2in; width: 100%; height: 3in;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero svg { height: 100%; width: auto; }
+
+  .offer {
+    margin-top: 0.1in;
+    font-family: "DejaVu Serif", Georgia, serif;
+    font-size: 27pt; font-weight: 700; color: var(--pink-deep); white-space: nowrap; line-height: 1.1;
+  }
+  .offer small {
+    display: block; font-family: "Liberation Sans", Helvetica, sans-serif;
+    font-size: 15pt; font-weight: 700; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--teal-dark); margin-bottom: 4px;
+  }
+  .invite {
+    margin-top: 0.14in; font-size: 13.5pt; line-height: 1.35; max-width: 6.2in; color: var(--ink);
+  }
+  .details {
+    margin-top: 0.2in;
+    display: flex; gap: 0.18in; justify-content: center;
+  }
+  .detail {
+    background: var(--pink-light); border: 2px solid var(--pink);
+    border-radius: 14px; padding: 0.1in 0.22in; min-width: 1.95in;
+  }
+  .detail b {
+    display: block; font-size: 10pt; letter-spacing: .2em; text-transform: uppercase; color: var(--pink-deep);
+  }
+  .detail span { display: block; margin-top: 3px; font-size: 15pt; font-weight: 700; color: var(--ink); }
+  .blank { display: inline-block; width: 1.5in; border-bottom: 1.5px solid var(--ink); height: 1.1em; }
+
+  .footer {
+    margin-top: auto; margin-bottom: 0.05in;
+    font-size: 11pt; color: var(--teal-dark); font-weight: 700; letter-spacing: .06em;
+  }
+  .footer i { color: var(--gold); font-style: normal; padding: 0 6px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="frame"></div>
+  <div class="content">
+    <img class="logo" src="arbor-lake-logo.png" alt="Arbor Lake Skilled Nursing &amp; Rehabilitation Center">
+
+    <div class="banner">Breast Cancer Awareness</div>
+    <h1>Think <span>Pink</span></h1>
+    <div class="sub">Join us &nbsp;·&nbsp; Show your support</div>
+
+    <div class="hero">
+      <svg viewBox="0 0 600 330" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="lem" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ffb3cf"/><stop offset="1" stop-color="#ff7aa8"/>
+          </linearGradient>
+        </defs>
+        <!-- scattered hearts -->
+        <g fill="#f4a3c2">
+          <path d="M60 80c-12-18-38-4-26 16 6 10 26 22 26 22s20-12 26-22c12-20-14-34-26-16z" transform="rotate(-14 60 95)"/>
+          <path d="M540 60c-9-14-29-3-20 12 5 8 20 17 20 17s15-9 20-17c9-15-11-26-20-12z" transform="rotate(12 540 75)"/>
+          <path d="M520 240c-8-12-24-2-17 10 4 7 17 14 17 14s13-7 17-14c7-12-9-22-17-10z" transform="rotate(-8 520 252)"/>
+          <path d="M80 250c-8-12-24-2-17 10 4 7 17 14 17 14s13-7 17-14c7-12-9-22-17-10z" transform="rotate(10 80 262)"/>
+        </g>
+
+        <!-- pitcher -->
+        <g transform="translate(95 30)">
+          <path d="M20 20h130l-10 230a14 14 0 0 1-14 13H44a14 14 0 0 1-14-13z" fill="#fff" stroke="#c42a66" stroke-width="5"/>
+          <path d="M26 70h118l-8 180a10 10 0 0 1-10 10H44a10 10 0 0 1-10-10z" fill="url(#lem)"/>
+          <path d="M150 55c40-8 52 12 50 40s-14 50-48 52" fill="none" stroke="#c42a66" stroke-width="9" stroke-linecap="round"/>
+          <ellipse cx="85" cy="70" rx="59" ry="6" fill="#ff93b9"/>
+          <path d="M44 100l6 130" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".55"/>
+          <!-- lemon slices -->
+          <circle cx="62" cy="115" r="17" fill="#fff6c9" stroke="#f1c232" stroke-width="3"/>
+          <path d="M62 98v34M45 115h34M50 103l24 24M74 103l-24 24" stroke="#f1c232" stroke-width="2"/>
+          <circle cx="108" cy="185" r="17" fill="#fff6c9" stroke="#f1c232" stroke-width="3"/>
+          <path d="M108 168v34M91 185h34M96 173l24 24M120 173l-24 24" stroke="#f1c232" stroke-width="2"/>
+        </g>
+
+        <!-- ribbon -->
+        <g transform="translate(300 28) scale(1.15)">
+          <path d="M70 0C34 0 6 28 6 62c0 28 14 48 34 72L-6 214l32 6 34-52 16 52 30-10-26-70c18-18 36-40 36-84C120 30 100 0 70 0zm0 28c14 0 28 14 28 34 0 24-14 38-28 50-14-12-28-26-28-50 0-20 14-34 28-34z" fill="#e6417f"/>
+          <path d="M26 220l34-52 16 52" fill="none"/>
+        </g>
+
+        <!-- glass -->
+        <g transform="translate(450 90)">
+          <path d="M5 0h110l-14 190a10 10 0 0 1-10 9H29a10 10 0 0 1-10-9z" fill="#fff" stroke="#c42a66" stroke-width="5"/>
+          <path d="M11 38h98l-10 152a6 6 0 0 1-6 5H27a6 6 0 0 1-6-5z" fill="url(#lem)"/>
+          <ellipse cx="60" cy="38" rx="49" ry="5" fill="#ff93b9"/>
+          <rect x="20" y="30" width="9" height="4" fill="none"/>
+          <path d="M82 -26l-18 70" stroke="#e6417f" stroke-width="7" stroke-linecap="round"/>
+          <path d="M82 -26l-18 70" stroke="#fff" stroke-width="2" stroke-dasharray="7 9" stroke-linecap="round"/>
+          <circle cx="40" cy="20" r="18" fill="#fff6c9" stroke="#f1c232" stroke-width="3"/>
+          <path d="M40 3v34M23 20h34M28 8l24 24M52 8l-24 24" stroke="#f1c232" stroke-width="2"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="offer"><small>Come &amp; enjoy</small>Complimentary Pink Lemonade</div>
+    <p class="invite">Residents, families, team members and friends are invited to sip, smile and stand together in support of everyone touched by breast cancer.</p>
+
+    <div class="details">
+      <div class="detail"><b>Date</b><span class="blank"></span></div>
+      <div class="detail"><b>Time</b><span class="blank"></span></div>
+      <div class="detail"><b>Where</b><span>Arbor Lake</span></div>
+    </div>
+
+    <div class="footer">Arbor Lake Skilled Nursing &amp; Rehabilitation Center <i>✦</i> Everyone welcome</div>
+  </div>
+</div>
+</body>
+</html>
