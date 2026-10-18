@@ -22,6 +22,9 @@ FORM_ALPHA = 0.2        # EWMA weight of the most recent game
 LEAGUE_PTS = 22.5       # long-run points per team per game
 QB_DECAY = 0.95
 QB_PRIOR = 6            # pseudo-starts of shrinkage toward 0 for QB value
+EPA_ALPHA = 0.15        # EWMA weight for play-level efficiency
+LEAGUE_SR = 0.45        # long-run success rate per play
+PYTHAG_EXP = 2.37
 
 # Probability an injured player misses the game, by final report status.
 MISS_PROB = {"Out": 1.0, "Doubtful": 0.85, "Questionable": 0.25}
@@ -119,7 +122,16 @@ def _weather(g: pd.DataFrame, overrides: dict | None) -> pd.DataFrame:
 
 
 # --- main builder -----------------------------------------------------------
-def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None = None) -> pd.DataFrame:
+def _pbp_index(pbp: pd.DataFrame | None) -> dict:
+    """{(game_id, franchise): (epa/play, success rate, giveaways)}."""
+    if pbp is None or pbp.empty:
+        return {}
+    return {(r.game_id, teams.franchise(r.team)): (r.epa, r.sr, r.giveaways)
+            for r in pbp.itertuples(index=False)}
+
+
+def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None = None,
+          pbp: pd.DataFrame | None = None) -> pd.DataFrame:
     g = games[games["game_type"].isin(["REG", "WC", "DIV", "CON", "SB"])].copy()
     g["gametime"] = g["gametime"].fillna("13:00")
     g = g.sort_values(["gameday", "gametime", "game_id"]).reset_index(drop=True)
@@ -134,6 +146,12 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
     qb_val = defaultdict(float)
     qb_n = defaultdict(float)
     league_pts = 2 * LEAGUE_PTS
+    plays = _pbp_index(pbp)
+    # Opponent-adjusted efficiency (offense: EPA/SR gained above average; defense: allowed).
+    o_epa, d_epa = defaultdict(float), defaultdict(float)
+    o_sr, d_sr = defaultdict(float), defaultdict(float)
+    to_margin = defaultdict(float)   # EWMA takeaways - giveaways (mostly luck)
+    season_rec = defaultdict(lambda: [0.0, 0.0, 0.0, 0])  # pts for, pts against, wins, games
 
     rows = []
     for r in g.itertuples(index=False):
@@ -143,6 +161,9 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
                 elo[t] = 1500 + (elo[t] - 1500) * (1 - ELO_REVERT)
                 off[t] = LEAGUE_PTS + (off[t] - LEAGUE_PTS) * 0.5
                 dfn[t] = LEAGUE_PTS + (dfn[t] - LEAGUE_PTS) * 0.5
+                for d in (o_epa, d_epa, o_sr, d_sr):
+                    d[t] *= 0.5
+                to_margin[t] = 0.0
             last_season[t] = r.season
         neutral = int(r.location == "Neutral")
         elo_d = elo[h] - elo[a] + (0 if neutral else ELO_HFA)
@@ -174,6 +195,14 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
         body_clock_early = int(not neutral and kick_hr <= 13 and teams.tz(r.away_team) <= -7
                                and teams.tz(r.home_team) >= -6)
         hr, ar = r.home_rest, r.away_rest
+
+        def luck(t):
+            """Season wins above Pythagorean expectation, per game (close-game luck)."""
+            pf, pa, w, n = season_rec[(r.season, t)]
+            if n == 0 or pf + pa == 0:
+                return 0.0
+            exp_w = pf ** PYTHAG_EXP / (pf ** PYTHAG_EXP + pa ** PYTHAG_EXP)
+            return (w / n - exp_w) * min(n, 8) / 8
         outdoor_cold = r.cold * (1 - r.dome)
 
         rows.append({
@@ -189,6 +218,13 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
             "form_diff": (off[h] - dfn[h]) - (off[a] - dfn[a]),
             "off_sum": off[h] + off[a], "def_sum": dfn[h] + dfn[a],
             "league_pts": league_pts,
+            # play-level efficiency, turnover luck, close-game luck
+            "epa_diff": 100 * ((o_epa[h] - d_epa[h]) - (o_epa[a] - d_epa[a])),
+            "sr_diff": 100 * ((o_sr[h] - d_sr[h]) - (o_sr[a] - d_sr[a])),
+            "epa_off_sum": 100 * (o_epa[h] + o_epa[a]), "epa_def_sum": 100 * (d_epa[h] + d_epa[a]),
+            "sr_off_sum": 100 * (o_sr[h] + o_sr[a]), "sr_def_sum": 100 * (d_sr[h] + d_sr[a]),
+            "to_diff": to_margin[h] - to_margin[a],
+            "luck_diff": luck(h) - luck(a),
             # situation
             "home_field": 1 - neutral, "div_game": r.div_game,
             "rest_diff": float(np.clip(hr - ar, -7, 7)),
@@ -221,6 +257,19 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
         off[h] += FORM_ALPHA * (r.home_score - off[h]); dfn[h] += FORM_ALPHA * (r.away_score - dfn[h])
         off[a] += FORM_ALPHA * (r.away_score - off[a]); dfn[a] += FORM_ALPHA * (r.home_score - dfn[a])
         league_pts += 0.01 * (r.total - league_pts)
+        for t, opp, pts, opp_pts in ((h, a, r.home_score, r.away_score), (a, h, r.away_score, r.home_score)):
+            rec = season_rec[(r.season, t)]
+            rec[0] += pts; rec[1] += opp_pts; rec[2] += 1.0 if pts > opp_pts else (0.5 if pts == opp_pts else 0.0); rec[3] += 1
+        ph, pa_ = plays.get((r.game_id, h)), plays.get((r.game_id, a))
+        if ph and pa_:
+            pre = {t: (o_epa[t], d_epa[t], o_sr[t], d_sr[t]) for t in (h, a)}
+            for t, opp, mine, theirs in ((h, a, ph, pa_), (a, h, pa_, ph)):
+                oe, de, os_, ds = pre[opp]
+                o_epa[t] += EPA_ALPHA * ((mine[0] - de) - o_epa[t])
+                d_epa[t] += EPA_ALPHA * ((theirs[0] - oe) - d_epa[t])
+                o_sr[t] += EPA_ALPHA * ((mine[1] - LEAGUE_SR - ds) - o_sr[t])
+                d_sr[t] += EPA_ALPHA * ((theirs[1] - LEAGUE_SR - os_) - d_sr[t])
+                to_margin[t] += EPA_ALPHA * ((theirs[2] - mine[2]) - to_margin[t])
         resid = res - elo_d / 25
         for qb, sign in ((r.home_qb_id, 1), (r.away_qb_id, -1)):
             if isinstance(qb, str):
