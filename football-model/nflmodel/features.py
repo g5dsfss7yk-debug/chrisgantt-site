@@ -23,6 +23,8 @@ LEAGUE_PTS = 22.5       # long-run points per team per game
 QB_DECAY = 0.95
 QB_PRIOR = 6            # pseudo-starts of shrinkage toward 0 for QB value
 EPA_ALPHA = 0.15        # EWMA weight for play-level efficiency
+SEASON_REVERT = 0.5     # share of last season's form/efficiency kept at a new season
+EARLY_K = None          # early season: EWMA weight is at least 1 / (games played + EARLY_K)
 LEAGUE_SR = 0.45        # long-run success rate per play
 PYTHAG_EXP = 2.37
 
@@ -199,6 +201,7 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
     o_sr, d_sr = defaultdict(float), defaultdict(float)
     to_margin = defaultdict(float)   # EWMA takeaways - giveaways (mostly luck)
     season_rec = defaultdict(lambda: [0.0, 0.0, 0.0, 0])  # pts for, pts against, wins, games
+    season_tot_n = 3        # pseudo-games of league average shrinking this-season game totals
     continuity = continuity or {}
     coach = {}                       # franchise -> current head coach
     coach_games = Counter()          # (franchise, coach) -> games coached for that team
@@ -210,10 +213,10 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
         for t in (h, a):
             if t in last_season and last_season[t] != r.season:
                 elo[t] = 1500 + (elo[t] - 1500) * (1 - ELO_REVERT)
-                off[t] = LEAGUE_PTS + (off[t] - LEAGUE_PTS) * 0.5
-                dfn[t] = LEAGUE_PTS + (dfn[t] - LEAGUE_PTS) * 0.5
+                off[t] = LEAGUE_PTS + (off[t] - LEAGUE_PTS) * SEASON_REVERT
+                dfn[t] = LEAGUE_PTS + (dfn[t] - LEAGUE_PTS) * SEASON_REVERT
                 for d in (o_epa, d_epa, o_sr, d_sr):
-                    d[t] *= 0.5
+                    d[t] *= SEASON_REVERT
                 to_margin[t] = 0.0
             last_season[t] = r.season
         neutral = int(r.location == "Neutral")
@@ -300,6 +303,10 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
             "form_stale_sum": (off[h] - LEAGUE_PTS) * hc_[6] + (off[a] - LEAGUE_PTS) * ac_[6]
                               + (dfn[h] - LEAGUE_PTS) * hc_[6] + (dfn[a] - LEAGUE_PTS) * ac_[6],
             "ret_off_sum": hc_[0] + ac_[0], "stale_sum": hc_[6] + ac_[6],
+            # this season only: average combined points in each team's games (no carry-over)
+            "season_tot_sum": sum((season_rec[(r.season, t)][0] + season_rec[(r.season, t)][1]
+                                   + season_tot_n * league_pts) / (season_rec[(r.season, t)][3] + season_tot_n)
+                                  for t in (h, a)) - 2 * league_pts,
             # situation
             "home_field": 1 - neutral, "div_game": r.div_game,
             "rest_diff": float(np.clip(hr - ar, -7, 7)),
@@ -329,8 +336,15 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
         mult = math.log(abs(res) + 1) * 2.2 / ((elo_d if res > 0 else -elo_d) * 0.001 + 2.2)
         elo[h] += ELO_K * mult * (act - exp)
         elo[a] -= ELO_K * mult * (act - exp)
-        off[h] += FORM_ALPHA * (r.home_score - off[h]); dfn[h] += FORM_ALPHA * (r.away_score - dfn[h])
-        off[a] += FORM_ALPHA * (r.away_score - off[a]); dfn[a] += FORM_ALPHA * (r.home_score - dfn[a])
+        def alpha(base, t):
+            if EARLY_K is None:
+                return base
+            return max(base, 1 / (season_rec[(r.season, t)][3] + EARLY_K))
+
+        fa_h, fa_a = alpha(FORM_ALPHA, h), alpha(FORM_ALPHA, a)
+        ea = {t: alpha(EPA_ALPHA, t) for t in (h, a)}
+        off[h] += fa_h * (r.home_score - off[h]); dfn[h] += fa_h * (r.away_score - dfn[h])
+        off[a] += fa_a * (r.away_score - off[a]); dfn[a] += fa_a * (r.home_score - dfn[a])
         league_pts += 0.01 * (r.total - league_pts)
         for t, opp, pts, opp_pts in ((h, a, r.home_score, r.away_score), (a, h, r.away_score, r.home_score)):
             rec = season_rec[(r.season, t)]
@@ -340,11 +354,11 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
             pre = {t: (o_epa[t], d_epa[t], o_sr[t], d_sr[t]) for t in (h, a)}
             for t, opp, mine, theirs in ((h, a, ph, pa_), (a, h, pa_, ph)):
                 oe, de, os_, ds = pre[opp]
-                o_epa[t] += EPA_ALPHA * ((mine[0] - de) - o_epa[t])
-                d_epa[t] += EPA_ALPHA * ((theirs[0] - oe) - d_epa[t])
-                o_sr[t] += EPA_ALPHA * ((mine[1] - LEAGUE_SR - ds) - o_sr[t])
-                d_sr[t] += EPA_ALPHA * ((theirs[1] - LEAGUE_SR - os_) - d_sr[t])
-                to_margin[t] += EPA_ALPHA * ((theirs[2] - mine[2]) - to_margin[t])
+                o_epa[t] += ea[t] * ((mine[0] - de) - o_epa[t])
+                d_epa[t] += ea[t] * ((theirs[0] - oe) - d_epa[t])
+                o_sr[t] += ea[t] * ((mine[1] - LEAGUE_SR - ds) - o_sr[t])
+                d_sr[t] += ea[t] * ((theirs[1] - LEAGUE_SR - os_) - d_sr[t])
+                to_margin[t] += ea[t] * ((theirs[2] - mine[2]) - to_margin[t])
         resid = res - elo_d / 25
         for qb, sign in ((r.home_qb_id, 1), (r.away_qb_id, -1)):
             if isinstance(qb, str):

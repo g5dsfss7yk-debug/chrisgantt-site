@@ -33,7 +33,8 @@ def cmd_backtest(args):
     seasons = range(2015, data.current_season())
     for wm in (False, True):
         r = model.backtest(df, seasons, with_market=wm)
-        label = "MODEL + VEGAS LINE AS INPUT" if wm else "MODEL ALONE (no betting lines used)"
+        label = ("MODEL + VEGAS LINES AS INPUT" if wm
+                 else "DEFAULT (spread: model alone; total: anchored to the Vegas total)")
         print(f"\n=== {label}: {r['games']} games, {seasons.start}-{seasons.stop - 1} ===")
         print(f"{'':22}{'model':>10}{'vegas':>10}")
         for k, lab in [("win_acc", "straight-up accuracy"), ("log_loss", "win log loss"),
@@ -69,7 +70,7 @@ def cmd_predict(args):
     m = model.Model().fit(train)
     p = m.predict(target)
 
-    print(f"\n{season} week {week} — model alone (no betting lines used as input)\n")
+    print(f"\n{season} week {week} — spread: model alone; total: anchored to the Vegas total\n")
     rows = []
     for (_, g), (_, f) in zip(p.iterrows(), target.iterrows()):
         fav = g.home_team if g.pred_margin > 0 else g.away_team
