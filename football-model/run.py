@@ -58,8 +58,23 @@ def _fmt_spread(team, margin):
     return f"{team} {-abs(margin):+.1f}" if abs(margin) >= 0.25 else "pick'em"
 
 
+def forecast_overrides() -> dict:
+    """Weather job forecasts -> per-game overrides (rain/snow as 0, 0.5 or 1)."""
+    fc = data.load_forecasts()
+    out = {}
+    for f in fc.itertuples(index=False):
+        p = f.precip_prob if pd.notna(f.precip_prob) else 0
+        wet = 1.0 if p >= 60 and f.precip_in >= 0.05 else (0.5 if p >= 35 else 0.0)
+        snowy = f.snow_in >= 0.1
+        out[f.game_id] = {"temp": f.temp, "wind": f.wind, "gust": f.gust,
+                          "rain": 0.0 if snowy else wet, "snow": max(wet, 0.5) if snowy else 0.0}
+    if out:
+        print(f"using forecasts for {len(out)} outdoor games (fetched {fc['fetched_at'].max()})")
+    return out
+
+
 def cmd_predict(args):
-    weather = {}
+    weather = {} if args.no_forecast else forecast_overrides()
     for w in args.weather or []:
         key, vals = w.split("=", 1)
         t, wd, *extra = vals.split(",")
@@ -116,6 +131,7 @@ def main():
     pp = sub.add_parser("predict")
     pp.add_argument("--season", type=int)
     pp.add_argument("--week", type=int)
+    pp.add_argument("--no-forecast", action="store_true", help="ignore the weather job's forecasts")
     pp.add_argument("--weather", action="append",
                     help="override forecast: TEAM=tempF,windMPH[,gust=MPH][,rain|snow]")
     args = ap.parse_args()

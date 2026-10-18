@@ -189,3 +189,22 @@ def load_nfelo(refresh: bool = False) -> pd.DataFrame:
     d["away_fr"] = parts[2].replace(NFELO_TEAMS)
     d["home_fr"] = parts[3].replace(NFELO_TEAMS)
     return d
+
+
+WEATHER_BRANCH = "nfl-weather"   # written by .github/workflows/nfl-weather.yml
+
+
+def load_forecasts() -> pd.DataFrame:
+    """Latest kickoff forecasts saved by the GitHub weather job (empty if unavailable)."""
+    import io
+    import subprocess
+
+    repo = ROOT.parent
+    try:
+        subprocess.run(["git", "-C", str(repo), "fetch", "-q", "origin", WEATHER_BRANCH],
+                       check=True, capture_output=True, timeout=120)
+        csv = subprocess.run(["git", "-C", str(repo), "show", f"origin/{WEATHER_BRANCH}:weather.csv"],
+                             check=True, capture_output=True, text=True, timeout=60).stdout
+        return pd.read_csv(io.StringIO(csv))
+    except (subprocess.SubprocessError, OSError, pd.errors.EmptyDataError):
+        return pd.DataFrame()
