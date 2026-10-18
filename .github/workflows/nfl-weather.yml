@@ -1,0 +1,54 @@
+# Fetches kickoff forecasts for upcoming outdoor NFL games (Open-Meteo, free, no key)
+# and saves them to the `nfl-weather` branch as weather.csv for the football model.
+# Runs on GitHub's servers because the model's cloud sandbox cannot reach weather APIs.
+name: NFL weather forecasts
+
+on:
+  schedule:
+    - cron: "17 */3 * * *"   # every 3 hours
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nfl-weather
+  cancel-in-progress: false
+
+env:
+  MODEL_BRANCH: claude/football-model   # branch holding football-model/
+  DATA_BRANCH: nfl-weather
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.MODEL_BRANCH }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install pandas
+
+      - name: Fetch forecasts
+        run: python football-model/scripts/fetch_weather.py "$RUNNER_TEMP/weather.csv"
+
+      - name: Publish to data branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git fetch origin "$DATA_BRANCH"; then
+            git worktree add "$RUNNER_TEMP/data" "origin/$DATA_BRANCH"
+            cd "$RUNNER_TEMP/data" && git checkout -B "$DATA_BRANCH"
+          else
+            git worktree add --detach "$RUNNER_TEMP/data"
+            cd "$RUNNER_TEMP/data" && git checkout --orphan "$DATA_BRANCH" && git rm -rfq .
+          fi
+          cp "$RUNNER_TEMP/weather.csv" weather.csv
+          git add weather.csv
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -qm "Update NFL weather forecasts"
+          git push origin "$DATA_BRANCH"
