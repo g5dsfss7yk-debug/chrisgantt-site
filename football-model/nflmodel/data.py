@@ -117,3 +117,32 @@ def _team_game_pbp(season: int, refresh: bool) -> pd.DataFrame | None:
 def load_team_pbp(seasons, refresh: bool = False) -> pd.DataFrame:
     frames = [f for s in seasons if (f := _team_game_pbp(s, refresh)) is not None]
     return pd.concat(frames, ignore_index=True)
+
+
+def load_rosters(seasons, refresh: bool = False) -> pd.DataFrame:
+    """Each team's earliest available weekly roster per season (season, team, pfr_id, full_name).
+
+    The season-opening roster is what roster continuity is measured from.
+    """
+    frames = []
+    for s in seasons:
+        path = RAW / "rosters" / f"{s}.csv"
+        live = s >= current_season()
+        fresh = path.exists() and not refresh and (
+            not live or (time.time() - path.stat().st_mtime) / 3600 < STALE_HOURS)
+        if not fresh:
+            tmp = _fetch(f"{RELEASE}/weekly_rosters/roster_weekly_{s}.csv",
+                         RAW / "roster_tmp.csv", refresh=True)
+            if tmp is None:
+                continue
+            r = pd.read_csv(tmp, usecols=["season", "team", "week", "game_type", "status", "pfr_id",
+                                                "full_name"],
+                            low_memory=False)
+            tmp.unlink()
+            r = r[(r["game_type"] == "REG") & (r["status"] == "ACT")]
+            first = r.groupby("team")["week"].transform("min")
+            r = r[r["week"] == first][["season", "team", "pfr_id", "full_name"]].drop_duplicates()
+            path.parent.mkdir(parents=True, exist_ok=True)
+            r.to_csv(path, index=False)
+        frames.append(pd.read_csv(path))
+    return pd.concat(frames, ignore_index=True)

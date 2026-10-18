@@ -90,6 +90,53 @@ def injury_scores(injuries: pd.DataFrame, snaps: pd.DataFrame) -> dict:
     return {k: tuple(v) for k, v in out.items()}
 
 
+# --- roster continuity -------------------------------------------------------
+DEFAULT_CONTINUITY = (0.65, 0.65, 0.1, 0.1)
+
+
+def roster_continuity(snaps: pd.DataFrame, rosters: pd.DataFrame) -> dict:
+    """{(season, franchise): (returning_off, returning_def, added_off, added_def)}.
+
+    returning = share of the team's previous-season offensive/defensive snaps played by
+    players on its season-opening roster; added = previous-season snaps (in team-seasons)
+    those roster players played for other teams. Low returning / high added = a rebuilt
+    team whose prior-year ratings are stale.
+    """
+    if snaps.empty or rosters.empty:
+        return {}
+    sn = snaps[snaps["game_type"] == "REG"].copy()
+    sn["fr"] = sn["team"].map(teams.franchise)
+    sn["key"] = sn["player"].map(_name_key)
+    by = sn.groupby(["season", "fr", "pfr_player_id", "key"])[["offense_snaps", "defense_snaps"]].sum()
+    by = by.reset_index()
+    totals = by.groupby(["season", "fr"])[["offense_snaps", "defense_snaps"]].sum()
+    ro = rosters.copy()
+    ro["fr"] = ro["team"].map(teams.franchise)
+    ro["key"] = ro["full_name"].map(_name_key)
+    out = {}
+    for season, rs in ro.groupby("season"):
+        prev = by[by["season"] == season - 1]
+        if prev.empty:
+            continue
+        tot = totals.loc[season - 1]
+        avg = tot.mean()
+        id_rows = prev.set_index("pfr_player_id")
+        name_rows = prev.set_index("key")
+        for fr, team_r in rs.groupby("fr"):
+            ids = set(team_r["pfr_id"].dropna())
+            names = set(team_r.loc[team_r["pfr_id"].isna(), "key"])
+            hit = pd.concat([id_rows[id_rows.index.isin(ids)], name_rows[name_rows.index.isin(names)]])
+            own = hit[hit["fr"] == fr][["offense_snaps", "defense_snaps"]].sum()
+            other = hit[hit["fr"] != fr][["offense_snaps", "defense_snaps"]].sum()
+            if fr not in tot.index:
+                continue
+            t = tot.loc[fr]
+            out[(season, fr)] = (own.offense_snaps / t.offense_snaps, own.defense_snaps / t.defense_snaps,
+                                 other.offense_snaps / avg.offense_snaps,
+                                 other.defense_snaps / avg.defense_snaps)
+    return out
+
+
 # --- weather ----------------------------------------------------------------
 def _weather(g: pd.DataFrame, overrides: dict | None) -> pd.DataFrame:
     g = g.copy()
@@ -131,7 +178,7 @@ def _pbp_index(pbp: pd.DataFrame | None) -> dict:
 
 
 def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None = None,
-          pbp: pd.DataFrame | None = None) -> pd.DataFrame:
+          pbp: pd.DataFrame | None = None, continuity: dict | None = None) -> pd.DataFrame:
     g = games[games["game_type"].isin(["REG", "WC", "DIV", "CON", "SB"])].copy()
     g["gametime"] = g["gametime"].fillna("13:00")
     g = g.sort_values(["gameday", "gametime", "game_id"]).reset_index(drop=True)
@@ -152,6 +199,10 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
     o_sr, d_sr = defaultdict(float), defaultdict(float)
     to_margin = defaultdict(float)   # EWMA takeaways - giveaways (mostly luck)
     season_rec = defaultdict(lambda: [0.0, 0.0, 0.0, 0])  # pts for, pts against, wins, games
+    continuity = continuity or {}
+    coach = {}                       # franchise -> current head coach
+    coach_games = Counter()          # (franchise, coach) -> games coached for that team
+    qb_team_starts = Counter()       # (qb, franchise) -> starts for that team
 
     rows = []
     for r in g.itertuples(index=False):
@@ -196,6 +247,20 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
                                and teams.tz(r.home_team) >= -6)
         hr, ar = r.home_rest, r.away_rest
 
+        def change(t, qb, head_coach):
+            """Roster/coach/QB turnover and how stale the carried-over ratings are."""
+            ro, rd, ao, ad = continuity.get((r.season, t), DEFAULT_CONTINUITY)
+            hc = head_coach if isinstance(head_coach, str) else coach.get(t)
+            tenure = coach_games[(t, hc)]
+            new_qb = int(bool(qb) and qb_team_starts[(qb, t)] < 4)
+            played = season_rec[(r.season, t)][3]
+            churn = (1 - (ro + rd) / 2) + 0.15 * (tenure < 17) + 0.15 * new_qb
+            stale = churn * 0.7 ** played   # fades as this season's games come in
+            return ro, rd, ao, ad, math.log1p(tenure), new_qb, stale
+
+        hc_ = change(h, hq, r.home_coach)
+        ac_ = change(a, aq, r.away_coach)
+
         def luck(t):
             """Season wins above Pythagorean expectation, per game (close-game luck)."""
             pf, pa, w, n = season_rec[(r.season, t)]
@@ -225,6 +290,16 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
             "sr_off_sum": 100 * (o_sr[h] + o_sr[a]), "sr_def_sum": 100 * (d_sr[h] + d_sr[a]),
             "to_diff": to_margin[h] - to_margin[a],
             "luck_diff": luck(h) - luck(a),
+            # roster / coaching / QB changes (vs last season)
+            "ret_off_diff": hc_[0] - ac_[0], "ret_def_diff": hc_[1] - ac_[1],
+            "add_off_diff": hc_[2] - ac_[2], "add_def_diff": hc_[3] - ac_[3],
+            "coach_tenure_diff": hc_[4] - ac_[4],
+            "home_new_qb": hc_[5], "away_new_qb": ac_[5],
+            "elo_stale_diff": ((elo[h] - 1500) * hc_[6] - (elo[a] - 1500) * ac_[6]) / 25,
+            "epa_stale_diff": 100 * ((o_epa[h] - d_epa[h]) * hc_[6] - (o_epa[a] - d_epa[a]) * ac_[6]),
+            "form_stale_sum": (off[h] - LEAGUE_PTS) * hc_[6] + (off[a] - LEAGUE_PTS) * ac_[6]
+                              + (dfn[h] - LEAGUE_PTS) * hc_[6] + (dfn[a] - LEAGUE_PTS) * ac_[6],
+            "ret_off_sum": hc_[0] + ac_[0], "stale_sum": hc_[6] + ac_[6],
             # situation
             "home_field": 1 - neutral, "div_game": r.div_game,
             "rest_diff": float(np.clip(hr - ar, -7, 7)),
@@ -276,6 +351,13 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
                 qb_val[qb] = QB_DECAY * qb_val[qb] + sign * resid
                 qb_n[qb] = QB_DECAY * qb_n[qb] + 1
                 qb_starts[qb] += 1
+        for t, hc in ((h, r.home_coach), (a, r.away_coach)):
+            if isinstance(hc, str):
+                coach[t] = hc
+                coach_games[(t, hc)] += 1
+        for qb, t in ((r.home_qb_id, h), (r.away_qb_id, a)):
+            if isinstance(qb, str):
+                qb_team_starts[(qb, t)] += 1
         if isinstance(r.home_qb_id, str):
             recent_qbs[h].append(r.home_qb_id)
         if isinstance(r.away_qb_id, str):

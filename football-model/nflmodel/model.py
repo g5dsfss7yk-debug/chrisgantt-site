@@ -22,11 +22,14 @@ MARGIN_FEATURES = [
     "inj_off_diff", "inj_def_diff",
     "away_dome_team_cold", "home_dome_team_cold",
     "epa_diff", "sr_diff", "to_diff", "luck_diff",
+    "ret_off_diff", "ret_def_diff", "add_off_diff", "add_def_diff", "coach_tenure_diff",
+    "home_new_qb", "away_new_qb", "elo_stale_diff", "epa_stale_diff",
 ]
 TOTAL_FEATURES = [
     "off_sum", "def_sum", "league_pts", "dome", "cold", "heat", "high_wind", "wind", "turf",
     "div_game", "inj_off_sum", "inj_def_sum", "home_backup_qb", "away_backup_qb",
     "home_field", "epa_off_sum", "epa_def_sum", "sr_off_sum", "sr_def_sum",
+    "form_stale_sum", "ret_off_sum", "stale_sum", "home_new_qb", "away_new_qb",
 ]
 FIRST_TRAIN_SEASON = 2012  # injury + snap-count data both exist from here
 

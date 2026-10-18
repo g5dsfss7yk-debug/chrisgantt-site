@@ -19,7 +19,9 @@ def load(refresh=False, weather=None):
     inj = data.load_injuries(seasons, refresh)
     snaps = data.load_snaps(seasons, refresh)
     pbp = data.load_team_pbp(range(model.FIRST_TRAIN_SEASON - 1, data.current_season() + 1), refresh)
-    return features.build(games, features.injury_scores(inj, snaps), weather, pbp)
+    rosters = data.load_rosters(seasons, refresh)
+    cont = features.roster_continuity(snaps, rosters)
+    return features.build(games, features.injury_scores(inj, snaps), weather, pbp, cont)
 
 
 def _pct(w, l):
