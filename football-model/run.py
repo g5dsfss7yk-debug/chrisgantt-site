@@ -1,5 +1,6 @@
 """NFL game model CLI.
 
+  python run.py picks                       # early-week spread picks vs the opening line
   python run.py backtest                    # walk-forward test 2015-2025 vs Vegas
   python run.py predict                     # upcoming unplayed games this week
   python run.py predict --week 7 --weather BUF=28,18,gust=30,snow --weather 2026_07_GB_DET=30,5
@@ -9,9 +10,10 @@ from __future__ import annotations
 
 import argparse
 
+import numpy as np
 import pandas as pd
 
-from nflmodel import data, features, model
+from nflmodel import data, features, model, teams
 
 
 def load(refresh=False, weather=None):
@@ -123,11 +125,58 @@ def cmd_predict(args):
     print(f"\nsaved {out}")
 
 
+PICK_EDGE = 3.0
+
+
+def cmd_picks(args):
+    """Spread picks from the early-week model, graded against the opening line.
+
+    The edge is against openers: lines move toward the model ~64% of the time, so bet
+    as early as possible. --line TEAM=SPREAD checks the number your book offers now.
+    """
+    df = load(args.refresh)
+    nf = data.load_nfelo(args.refresh)
+    opens = {(x.season, x.week, x.home_fr, x.away_fr): -x.home_line_open for x in nf.itertuples(index=False)}
+    season = args.season or data.current_season()
+    upcoming = df[(df["season"] == season) & df["result"].isna()]
+    week = args.week or int(upcoming["week"].min())
+    target = upcoming[upcoming["week"] == week]
+    train = df[(df["season"] >= model.FIRST_TRAIN_SEASON) & df["result"].notna()]
+    m = model.Model(early=True).fit(train)
+    p = m.predict(target)
+    mine = {}
+    for item in args.line or []:
+        team, val = item.split("=")
+        mine[team.upper()] = float(val)
+
+    print(f"\n{season} week {week} spread picks (early-week model; bet edges >= {PICK_EDGE:g} pts)\n")
+    print(f"{'game':14}{'model':>12}{'open':>8}{'now':>8}   pick")
+    for g in p.itertuples(index=False):
+        key = (g.season, g.week, teams.franchise(g.home_team), teams.franchise(g.away_team))
+        opened = opens.get(key, np.nan)
+        line = g.spread_line
+        for team, sign in ((g.home_team, -1), (g.away_team, 1)):
+            if team in mine:  # book spread quoted for that team, e.g. NE=-7.5
+                line = sign * mine[team]
+        ref = opened if np.isnan(line) else line
+        edge = g.pred_margin - ref
+        side, num = (g.home_team, -ref) if edge > 0 else (g.away_team, ref)
+        pick = f"{side} {num:+.1f}  (edge {abs(edge):.1f})" if abs(edge) >= PICK_EDGE else "-"
+        fmt = lambda v: "-" if np.isnan(v) else f"{v:+.1f}"
+        print(f"{g.away_team + ' @ ' + g.home_team:14}{g.pred_margin:>+12.1f}{fmt(opened):>8}{fmt(g.spread_line):>8}   {pick}")
+    print("\nmodel/open/now = expected home margin (+ = home favored). Picks use --line if given, "
+          "else the current line.")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--refresh", action="store_true", help="force re-download of data")
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("backtest")
+    pk = sub.add_parser("picks")
+    pk.add_argument("--season", type=int)
+    pk.add_argument("--week", type=int)
+    pk.add_argument("--line", action="append", help="your book's spread, e.g. NE=-7.5")
     pp = sub.add_parser("predict")
     pp.add_argument("--season", type=int)
     pp.add_argument("--week", type=int)
@@ -135,7 +184,7 @@ def main():
     pp.add_argument("--weather", action="append",
                     help="override forecast: TEAM=tempF,windMPH[,gust=MPH][,rain|snow]")
     args = ap.parse_args()
-    {"backtest": cmd_backtest, "predict": cmd_predict}[args.cmd](args)
+    {"backtest": cmd_backtest, "predict": cmd_predict, "picks": cmd_picks}[args.cmd](args)
 
 
 if __name__ == "__main__":

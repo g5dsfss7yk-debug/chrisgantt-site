@@ -30,6 +30,13 @@ MARGIN_FEATURES = [
     "home_new_qb", "away_new_qb", "elo_stale_diff", "epa_stale_diff",
     "nfelo_diff", "nfelo_qb_diff", "spread_move", "ref_margin",
 ]
+# Information that exists when lines open (Sunday night / Monday): no injury reports,
+# no confirmed backup QBs, no forecasts and no line movement. Against opening spreads,
+# picks with a 3+ point edge went 57.5% in 2015-2022 and 59.5% in 2023-2026.
+LATE_INFO = {"inj_off_diff", "inj_def_diff", "home_backup_qb", "away_backup_qb",
+             "away_dome_team_cold", "home_dome_team_cold", "spread_move"}
+EARLY_MARGIN_FEATURES = [f for f in MARGIN_FEATURES if f not in LATE_INFO]
+
 TOTAL_FEATURES = [
     "off_sum", "def_sum", "league_pts", "dome", "cold", "heat", "high_wind", "wind", "turf",
     "rain", "snow", "gusty", "wet_wind",
@@ -50,10 +57,11 @@ def _ridge():
 
 
 class Model:
-    def __init__(self, with_market: bool = False, market_totals: bool = True):
+    def __init__(self, with_market: bool = False, market_totals: bool = True, early: bool = False):
         self.with_market = with_market
         self.market_totals = market_totals or with_market
-        self.mf = MARGIN_FEATURES + (["spread_line"] if with_market else [])
+        base = EARLY_MARGIN_FEATURES if early else MARGIN_FEATURES
+        self.mf = base + (["spread_line"] if with_market else [])
         self.tf = TOTAL_FEATURES + (["total_line"] if self.market_totals else [])
 
     def fit(self, df: pd.DataFrame) -> "Model":
@@ -70,7 +78,10 @@ class Model:
                   "away_qb", "home_qb", "spread_line", "total_line",
                   "home_moneyline", "away_moneyline", "result", "total"]].copy()
         out["pred_margin"] = self.margin.predict(df[self.mf])
-        out["pred_total"] = self.total.predict(df[self.tf])
+        ok = df[self.tf].notna().all(axis=1).values
+        out["pred_total"] = np.nan
+        if ok.any():  # no Vegas total posted yet -> no total prediction
+            out.loc[ok, "pred_total"] = self.total.predict(df.loc[ok, self.tf])
         out["home_win_prob"] = _phi(out["pred_margin"] / self.sigma)
         return out
 
