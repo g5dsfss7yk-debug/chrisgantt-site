@@ -140,8 +140,29 @@ def roster_continuity(snaps: pd.DataFrame, rosters: pd.DataFrame) -> dict:
 
 
 # --- weather ----------------------------------------------------------------
-def _weather(g: pd.DataFrame, overrides: dict | None) -> pd.DataFrame:
+_GUST = re.compile(r"gust\w*\s*(?:to|of|up to)?\s*(\d+)")
+
+
+def _precip(text) -> tuple[float, float, float]:
+    """(rain, snow, gust mph or nan) from a play-by-play weather description."""
+    if not isinstance(text, str):
+        return 0.0, 0.0, np.nan
+    t = text.lower()
+    chance = 0.5 if re.search(r"chance|possible|scattered|\d+% (?:rain|precip)", t) else 1.0
+    no = re.search(r"\bno (?:rain|precip)", t)
+    rain = 0.0 if no else chance * bool(re.search(r"rain|shower|drizzle|storm|wet", t))
+    snow = 0.0 if no else chance * bool(re.search(r"snow|flurr|sleet|wintry", t))
+    m = _GUST.search(t)
+    return rain, snow, float(m.group(1)) if m else np.nan
+
+
+def _weather(g: pd.DataFrame, overrides: dict | None, wx: pd.DataFrame | None = None) -> pd.DataFrame:
     g = g.copy()
+    desc = dict(zip(wx["game_id"], wx["weather"])) if wx is not None and not wx.empty else {}
+    parsed = [_precip(desc.get(i)) for i in g["game_id"]]
+    g["rain"] = [p[0] for p in parsed]
+    g["snow"] = [p[1] for p in parsed]
+    g["gust"] = [p[2] for p in parsed]
     # Unknown roof: use the stadium's usual roof.
     usual = g.dropna(subset=["roof"]).groupby("stadium_id")["roof"].agg(lambda s: s.mode().iat[0])
     g["roof"] = g["roof"].fillna(g["stadium_id"].map(usual)).fillna("outdoors")
@@ -156,16 +177,21 @@ def _weather(g: pd.DataFrame, overrides: dict | None) -> pd.DataFrame:
         fill = pd.Series([clim[col].get(i, np.nan) for i in idx], index=g.index)
         fill = fill.fillna(g["month"].map(month_clim[col]))
         g[col] = g[col].fillna(fill)
-    for key, (temp, wind) in (overrides or {}).items():
+    for key, ov in (overrides or {}).items():
         m = (g["game_id"] == key) | (g["home_team"] == key)
         m &= g["result"].isna()
-        g.loc[m, ["temp", "wind"]] = [temp, wind]
-    g.loc[g["dome"] == 1, ["temp", "wind"]] = [70, 0]
+        g.loc[m, ["temp", "wind"]] = [ov["temp"], ov["wind"]]
+        g.loc[m, "gust"] = ov.get("gust", np.nan)
+        g.loc[m, "rain"] = ov.get("rain", 0.0)
+        g.loc[m, "snow"] = ov.get("snow", 0.0)
+    g["gust"] = g["gust"].fillna(g["wind"]).clip(lower=g["wind"])
+    g.loc[g["dome"] == 1, ["temp", "wind", "gust", "rain", "snow"]] = [70, 0, 0, 0.0, 0.0]
     g["temp"] = g["temp"].fillna(60)
     g["wind"] = g["wind"].fillna(8)
     g["cold"] = (45 - g["temp"]).clip(lower=0)
     g["heat"] = (g["temp"] - 85).clip(lower=0)
     g["high_wind"] = (g["wind"] - 10).clip(lower=0)
+    g["gusty"] = (g["gust"] - 20).clip(lower=0)
     g["turf"] = (~g["surface"].fillna("grass").str.contains("grass")).astype(int)
     return g
 
@@ -180,11 +206,12 @@ def _pbp_index(pbp: pd.DataFrame | None) -> dict:
 
 
 def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None = None,
-          pbp: pd.DataFrame | None = None, continuity: dict | None = None) -> pd.DataFrame:
+          pbp: pd.DataFrame | None = None, continuity: dict | None = None,
+          weather_text: pd.DataFrame | None = None) -> pd.DataFrame:
     g = games[games["game_type"].isin(["REG", "WC", "DIV", "CON", "SB"])].copy()
     g["gametime"] = g["gametime"].fillna("13:00")
     g = g.sort_values(["gameday", "gametime", "game_id"]).reset_index(drop=True)
-    g = _weather(g, weather_overrides)
+    g = _weather(g, weather_overrides, weather_text)
 
     elo = defaultdict(lambda: 1500.0)
     off = defaultdict(lambda: LEAGUE_PTS)
@@ -323,6 +350,8 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
             # weather
             "dome": r.dome, "temp": r.temp, "wind": r.wind, "cold": r.cold, "heat": r.heat,
             "high_wind": r.high_wind, "turf": r.turf,
+            "rain": r.rain, "snow": r.snow, "gusty": r.gusty,
+            "wet_wind": (r.rain + r.snow) * r.wind,
             "away_dome_team_cold": outdoor_cold * int(teams.is_dome_team(a, r.season)),
             "home_dome_team_cold": outdoor_cold * int(teams.is_dome_team(h, r.season)),
         })

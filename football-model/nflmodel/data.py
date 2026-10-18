@@ -146,3 +146,27 @@ def load_rosters(seasons, refresh: bool = False) -> pd.DataFrame:
             r.to_csv(path, index=False)
         frames.append(pd.read_csv(path))
     return pd.concat(frames, ignore_index=True)
+
+
+def load_game_weather(seasons, refresh: bool = False) -> pd.DataFrame:
+    """Per-game weather description from play-by-play, e.g. "Light Rain Temp: 45° F, Wind: SW 12 mph".
+
+    games.csv has temperature and wind but no precipitation; this text does.
+    """
+    frames = []
+    for s in seasons:
+        path = RAW / "pbp_weather" / f"{s}.csv"
+        live = s >= current_season()
+        fresh = path.exists() and not refresh and (
+            not live or (time.time() - path.stat().st_mtime) / 3600 < STALE_HOURS)
+        if not fresh:
+            tmp = _fetch(f"{RELEASE}/pbp/play_by_play_{s}.csv.gz", RAW / "pbp_tmp.csv.gz", refresh=True)
+            if tmp is None:
+                continue
+            w = pd.read_csv(tmp, usecols=["game_id", "weather"], low_memory=False)
+            tmp.unlink()
+            w = w.dropna().drop_duplicates("game_id")
+            path.parent.mkdir(parents=True, exist_ok=True)
+            w.to_csv(path, index=False)
+        frames.append(pd.read_csv(path))
+    return pd.concat(frames, ignore_index=True)

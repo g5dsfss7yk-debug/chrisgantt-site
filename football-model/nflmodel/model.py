@@ -31,6 +31,7 @@ MARGIN_FEATURES = [
 ]
 TOTAL_FEATURES = [
     "off_sum", "def_sum", "league_pts", "dome", "cold", "heat", "high_wind", "wind", "turf",
+    "rain", "snow", "gusty", "wet_wind",
     "div_game", "inj_off_sum", "inj_def_sum", "home_backup_qb", "away_backup_qb",
     "home_field", "epa_off_sum", "epa_def_sum", "sr_off_sum", "sr_def_sum",
     "form_stale_sum", "ret_off_sum", "stale_sum", "home_new_qb", "away_new_qb",

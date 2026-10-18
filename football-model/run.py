@@ -2,7 +2,8 @@
 
   python run.py backtest                    # walk-forward test 2015-2025 vs Vegas
   python run.py predict                     # upcoming unplayed games this week
-  python run.py predict --week 7 --weather BUF=28,18 --weather 2026_07_GB_DET=30,5
+  python run.py predict --week 7 --weather BUF=28,18,gust=30,snow --weather 2026_07_GB_DET=30,5
+      forecast override: TEAM or GAME_ID = tempF,windMPH[,gust=MPH][,rain|snow|rain=0.5]
 """
 from __future__ import annotations
 
@@ -21,7 +22,8 @@ def load(refresh=False, weather=None):
     pbp = data.load_team_pbp(range(model.FIRST_TRAIN_SEASON - 1, data.current_season() + 1), refresh)
     rosters = data.load_rosters(seasons, refresh)
     cont = features.roster_continuity(snaps, rosters)
-    return features.build(games, features.injury_scores(inj, snaps), weather, pbp, cont)
+    wx = data.load_game_weather(seasons, refresh)
+    return features.build(games, features.injury_scores(inj, snaps), weather, pbp, cont, wx)
 
 
 def _pct(w, l):
@@ -58,9 +60,13 @@ def _fmt_spread(team, margin):
 def cmd_predict(args):
     weather = {}
     for w in args.weather or []:
-        key, vals = w.split("=")
-        t, wd = vals.split(",")
-        weather[key] = (float(t), float(wd))
+        key, vals = w.split("=", 1)
+        t, wd, *extra = vals.split(",")
+        ov = {"temp": float(t), "wind": float(wd)}
+        for e in extra:
+            name, _, val = e.partition("=")
+            ov[name] = float(val) if val else 1.0
+        weather[key] = ov
     df = load(args.refresh, weather)
     season = args.season or data.current_season()
     upcoming = df[(df["season"] == season) & df["result"].isna()]
@@ -88,7 +94,10 @@ def cmd_predict(args):
         print("   drivers: " + ", ".join(f"{n} {v:+.1f}" for n, v in m.drivers(f)))
         h_off, h_def = (f.inj_off_sum + f.inj_off_diff) / 2, (f.inj_def_sum + f.inj_def_diff) / 2
         a_off, a_def = f.inj_off_sum - h_off, f.inj_def_sum - h_def
-        print(f"   weather: {'dome' if f.dome else f'{f.temp:.0f}F, wind {f.wind:.0f} mph'}   "
+        wtxt = "dome" if f.dome else (f"{f.temp:.0f}F, wind {f.wind:.0f} (gust {f.gusty + 20:.0f})" if f.gusty
+                                      else f"{f.temp:.0f}F, wind {f.wind:.0f} mph")
+        wtxt += " rain" * bool(f.rain) + " snow" * bool(f.snow)
+        print(f"   weather: {wtxt}   "
               f"injury burden off/def: {g.away_team} {a_off:.1f}/{a_def:.1f}, "
               f"{g.home_team} {h_off:.1f}/{h_def:.1f}")
         rows.append({**g.to_dict(), "spread_edge": edge, "total_edge": tedge})
@@ -107,7 +116,7 @@ def main():
     pp.add_argument("--season", type=int)
     pp.add_argument("--week", type=int)
     pp.add_argument("--weather", action="append",
-                    help="override forecast: TEAM=tempF,windMPH or GAME_ID=tempF,windMPH")
+                    help="override forecast: TEAM=tempF,windMPH[,gust=MPH][,rain|snow]")
     args = ap.parse_args()
     {"backtest": cmd_backtest, "predict": cmd_predict}[args.cmd](args)
 
