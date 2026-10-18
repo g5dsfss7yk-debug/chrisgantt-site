@@ -27,6 +27,7 @@ SEASON_REVERT = 0.5     # share of last season's form/efficiency kept at a new s
 EARLY_K = None          # early season: EWMA weight is at least 1 / (games played + EARLY_K)
 LEAGUE_SR = 0.45        # long-run success rate per play
 PYTHAG_EXP = 2.37
+REF_PRIOR = 30          # pseudo-games shrinking a referee's crew tendencies toward 0
 
 # Probability an injured player misses the game, by final report status.
 MISS_PROB = {"Out": 1.0, "Doubtful": 0.85, "Questionable": 0.25}
@@ -207,7 +208,7 @@ def _pbp_index(pbp: pd.DataFrame | None) -> dict:
 
 def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None = None,
           pbp: pd.DataFrame | None = None, continuity: dict | None = None,
-          weather_text: pd.DataFrame | None = None) -> pd.DataFrame:
+          weather_text: pd.DataFrame | None = None, nfelo: pd.DataFrame | None = None) -> pd.DataFrame:
     g = games[games["game_type"].isin(["REG", "WC", "DIV", "CON", "SB"])].copy()
     g["gametime"] = g["gametime"].fillna("13:00")
     g = g.sort_values(["gameday", "gametime", "game_id"]).reset_index(drop=True)
@@ -230,6 +231,16 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
     season_rec = defaultdict(lambda: [0.0, 0.0, 0.0, 0])  # pts for, pts against, wins, games
     season_tot_n = 3        # pseudo-games of league average shrinking this-season game totals
     continuity = continuity or {}
+    nf = {}
+    if nfelo is not None and not nfelo.empty:
+        for x in nfelo.itertuples(index=False):
+            nf[(x.season, x.week, x.home_fr, x.away_fr)] = (
+                (x.starting_nfelo_home - x.starting_nfelo_away) / 25,
+                (x.home_538_qb_adj - x.away_538_qb_adj) / 25,
+                x.home_line_open - x.home_line_close)  # >0: line moved toward the home team
+    ref_tot = defaultdict(float)     # referee -> summed (total - total line) in his games
+    ref_mar = defaultdict(float)     # referee -> summed (home margin - spread line)
+    ref_n = Counter()
     coach = {}                       # franchise -> current head coach
     coach_games = Counter()          # (franchise, coach) -> games coached for that team
     qb_team_starts = Counter()       # (qb, franchise) -> starts for that team
@@ -288,6 +299,10 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
             stale = churn * 0.7 ** played   # fades as this season's games come in
             return ro, rd, ao, ad, math.log1p(tenure), new_qb, stale
 
+        nfe = nf.get((r.season, r.week, h, a), ((elo[h] - elo[a]) / 25, 0.0, 0.0))
+        ref = r.referee if isinstance(r.referee, str) else None
+        ref_d = (ref_n[ref] + REF_PRIOR) if ref else 1.0
+
         hc_ = change(h, hq, r.home_coach)
         ac_ = change(a, aq, r.away_coach)
 
@@ -330,6 +345,11 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
             "form_stale_sum": (off[h] - LEAGUE_PTS) * hc_[6] + (off[a] - LEAGUE_PTS) * ac_[6]
                               + (dfn[h] - LEAGUE_PTS) * hc_[6] + (dfn[a] - LEAGUE_PTS) * ac_[6],
             "ret_off_sum": hc_[0] + ac_[0], "stale_sum": hc_[6] + ac_[6],
+            # independent model (nfelo) and market movement since the opening line
+            "nfelo_diff": nfe[0], "nfelo_qb_diff": nfe[1], "spread_move": nfe[2],
+            # referee crew tendencies (shrunk)
+            "ref_total": ref_tot[ref] / ref_d if ref else 0.0,
+            "ref_margin": ref_mar[ref] / ref_d if ref else 0.0,
             # this season only: average combined points in each team's games (no carry-over)
             "season_tot_sum": sum((season_rec[(r.season, t)][0] + season_rec[(r.season, t)][1]
                                    + season_tot_n * league_pts) / (season_rec[(r.season, t)][3] + season_tot_n)
@@ -375,6 +395,10 @@ def build(games: pd.DataFrame, inj_scores: dict, weather_overrides: dict | None 
         off[h] += fa_h * (r.home_score - off[h]); dfn[h] += fa_h * (r.away_score - dfn[h])
         off[a] += fa_a * (r.away_score - off[a]); dfn[a] += fa_a * (r.home_score - dfn[a])
         league_pts += 0.01 * (r.total - league_pts)
+        if ref and not np.isnan(r.total_line) and not np.isnan(r.spread_line):
+            ref_tot[ref] += r.total - r.total_line
+            ref_mar[ref] += res - r.spread_line
+            ref_n[ref] += 1
         for t, opp, pts, opp_pts in ((h, a, r.home_score, r.away_score), (a, h, r.away_score, r.home_score)):
             rec = season_rec[(r.season, t)]
             rec[0] += pts; rec[1] += opp_pts; rec[2] += 1.0 if pts > opp_pts else (0.5 if pts == opp_pts else 0.0); rec[3] += 1

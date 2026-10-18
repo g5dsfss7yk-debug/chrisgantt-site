@@ -23,7 +23,8 @@ def load(refresh=False, weather=None):
     rosters = data.load_rosters(seasons, refresh)
     cont = features.roster_continuity(snaps, rosters)
     wx = data.load_game_weather(seasons, refresh)
-    return features.build(games, features.injury_scores(inj, snaps), weather, pbp, cont, wx)
+    nfelo = data.load_nfelo(refresh)
+    return features.build(games, features.injury_scores(inj, snaps), weather, pbp, cont, wx, nfelo)
 
 
 def _pct(w, l):

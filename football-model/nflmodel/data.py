@@ -170,3 +170,22 @@ def load_game_weather(seasons, refresh: bool = False) -> pd.DataFrame:
             w.to_csv(path, index=False)
         frames.append(pd.read_csv(path))
     return pd.concat(frames, ignore_index=True)
+
+
+NFELO_URL = "https://raw.githubusercontent.com/greerreNFL/nfelo/main/output_data/nfelo_games.csv"
+NFELO_TEAMS = {"LAR": "LA", "OAK": "LV", "SD": "LAC", "STL": "LA"}
+
+
+def load_nfelo(refresh: bool = False) -> pd.DataFrame:
+    """nfelo (greerreNFL/nfelo) pre-game ratings, QB adjustments and opening lines, 2009+.
+
+    Adds what nflverse lacks: the opening spread (so line movement) and an independent
+    Elo/QB model. Keyed here by season, week and current franchise codes.
+    """
+    path = _fetch(NFELO_URL, RAW / "nfelo_games.csv", refresh, live=True)
+    d = pd.read_csv(path, low_memory=False)
+    parts = d["game_id"].str.split("_", expand=True)
+    d["season"], d["week"] = parts[0].astype(int), parts[1].astype(int)
+    d["away_fr"] = parts[2].replace(NFELO_TEAMS)
+    d["home_fr"] = parts[3].replace(NFELO_TEAMS)
+    return d
