@@ -1,143 +1,143 @@
-"""Fit, backtest and predict.
+"""Two-stage models: rate the game, then judge it against the betting line.
 
-Two ridge regressions on standardized features:
-  margin model -> predicted home margin (the model's spread); win prob = Phi(margin / sigma)
-  total model  -> predicted combined points
+Stage 1 (rating): ridge regression from football features to the home margin / game
+total, never looking at a betting line.
 
-By default the total model takes the Vegas total as an input and learns how far to move
-off it: on its own it lost to the market badly in 2026 (31-49 O/U), while anchored to the
-line it went 41-39 and 52.7% over 2015-2025. The margin model stays independent.
+Stage 2 (edge): the market is usually right, so the gap between the rating and the line
+is only partly real. A logistic regression, fit on out-of-sample stage-1 ratings from
+earlier seasons, maps (rating - line) to the probability the bet wins. These
+probabilities are calibrated: a 56% pick has historically won about 56% of the time.
+
+Spreads are judged against the *opening* line using only information known when lines
+open (OPEN_FEATURES). Totals are judged against the closing total on game day, when the
+weather forecast and injury report are in (CLOSE_TOTAL_FEATURES).
 """
 from __future__ import annotations
 
-import math
-
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import Ridge
+from sklearn.linear_model import LogisticRegression, Ridge
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-MARGIN_FEATURES = [
-    "elo_diff", "form_diff", "home_field", "div_game", "rest_diff",
-    "home_off_bye", "away_off_bye", "home_short_week", "away_short_week",
-    "travel_diff", "away_tz_east", "body_clock_early",
-    "qb_val_diff", "qb_exp_diff", "home_backup_qb", "away_backup_qb",
-    "inj_off_diff", "inj_def_diff",
-    "away_dome_team_cold", "home_dome_team_cold",
-    "epa_diff", "sr_diff", "to_diff", "luck_diff",
+# Known when lines open, early in the week.
+OPEN_FEATURES = [
+    "elo_diff", "nfelo_diff", "nfelo_qb_diff", "form_diff", "epa_diff", "sr_diff",
+    "to_diff", "luck_diff", "qb_val_diff", "qb_exp_diff", "home_new_qb", "away_new_qb",
     "ret_off_diff", "ret_def_diff", "add_off_diff", "add_def_diff", "coach_tenure_diff",
-    "home_new_qb", "away_new_qb", "elo_stale_diff", "epa_stale_diff",
-    "nfelo_diff", "nfelo_qb_diff", "spread_move", "ref_margin",
+    "elo_stale_diff", "epa_stale_diff",
+    "home_field", "div_game", "rest_diff", "home_off_bye", "away_off_bye",
+    "home_short_week", "away_short_week", "travel", "away_tz_east", "body_clock_early",
 ]
-# Information that exists when lines open (Sunday night / Monday): no injury reports,
-# no confirmed backup QBs, no forecasts and no line movement. Against opening spreads,
-# picks with a 3+ point edge went 57.5% in 2015-2022 and 59.5% in 2023-2026.
-LATE_INFO = {"inj_off_diff", "inj_def_diff", "home_backup_qb", "away_backup_qb",
-             "away_dome_team_cold", "home_dome_team_cold", "spread_move"}
-EARLY_MARGIN_FEATURES = [f for f in MARGIN_FEATURES if f not in LATE_INFO]
-
-TOTAL_FEATURES = [
-    "off_sum", "def_sum", "league_pts", "dome", "cold", "heat", "high_wind", "wind", "turf",
-    "rain", "snow", "gusty", "wet_wind",
-    "div_game", "inj_off_sum", "inj_def_sum", "home_backup_qb", "away_backup_qb",
-    "home_field", "epa_off_sum", "epa_def_sum", "sr_off_sum", "sr_def_sum",
-    "form_stale_sum", "ret_off_sum", "stale_sum", "home_new_qb", "away_new_qb",
-    "season_tot_sum", "ref_total",
+# Known only on game day.
+LATE_FEATURES = ["inj_off_diff", "inj_def_diff", "home_backup_qb", "away_backup_qb",
+                 "away_dome_team_cold", "home_dome_team_cold"]
+CLOSE_TOTAL_FEATURES = [
+    "off_sum", "def_sum", "league_pts", "epa_off_sum", "epa_def_sum", "sr_off_sum", "sr_def_sum",
+    "season_tot_sum", "stale_sum", "home_new_qb", "away_new_qb", "home_backup_qb", "away_backup_qb",
+    "inj_off_sum", "inj_def_sum", "div_game", "home_field",
+    "dome", "cold", "heat", "wind", "high_wind", "gusty", "rain", "snow", "wet_wind", "turf",
 ]
-FIRST_TRAIN_SEASON = 2012  # injury + snap-count data both exist from here
-
-
-def _phi(x):
-    return 0.5 * (1 + np.vectorize(math.erf)(np.asarray(x) / math.sqrt(2)))
+FIRST_TRAIN_SEASON = 2009   # injury reports and nfelo opening lines start here
+MIN_STAGE2_SEASONS = 2
 
 
 def _ridge():
     return make_pipeline(StandardScaler(), Ridge(alpha=10.0))
 
 
-class Model:
-    def __init__(self, with_market: bool = False, market_totals: bool = True, early: bool = False):
-        self.with_market = with_market
-        self.market_totals = market_totals or with_market
-        base = EARLY_MARGIN_FEATURES if early else MARGIN_FEATURES
-        self.mf = base + (["spread_line"] if with_market else [])
-        self.tf = TOTAL_FEATURES + (["total_line"] if self.market_totals else [])
+class Market:
+    """Stage 1 + stage 2 for one bet type.
 
-    def fit(self, df: pd.DataFrame) -> "Model":
-        d = df.dropna(subset=["result"] + (["spread_line"] if self.with_market else []))
-        self.margin = _ridge().fit(d[self.mf], d["result"])
-        dt = d.dropna(subset=["total_line"]) if self.market_totals else d
-        self.total = _ridge().fit(dt[self.tf], dt["total"])
-        self.sigma = float(np.std(d["result"] - self.margin.predict(d[self.mf])))
-        self.total_sigma = float(np.std(dt["total"] - self.total.predict(dt[self.tf])))
-        return self
+    kind="spread": target = home margin, P = home covers.
+    kind="total":  target = combined points, P = over.
+    """
 
-    def predict(self, df: pd.DataFrame) -> pd.DataFrame:
-        out = df[["game_id", "season", "week", "gameday", "gametime", "away_team", "home_team",
-                  "away_qb", "home_qb", "spread_line", "total_line",
-                  "home_moneyline", "away_moneyline", "result", "total"]].copy()
-        out["pred_margin"] = self.margin.predict(df[self.mf])
-        ok = df[self.tf].notna().all(axis=1).values
-        out["pred_total"] = np.nan
-        if ok.any():  # no Vegas total posted yet -> no total prediction
-            out.loc[ok, "pred_total"] = self.total.predict(df.loc[ok, self.tf])
-        out["home_win_prob"] = _phi(out["pred_margin"] / self.sigma)
+    def __init__(self, kind: str, features: list[str], line: str):
+        self.kind, self.features, self.line = kind, features, line
+        self.target = "result" if kind == "spread" else "total"
+
+    def _rating_fit(self, d):
+        return _ridge().fit(d[self.features], d[self.target])
+
+    def _oos_ratings(self, d):
+        """Stage-1 ratings for each training season from a model fit on earlier seasons only."""
+        out = pd.Series(np.nan, index=d.index)
+        seasons = sorted(d["season"].unique())
+        for s in seasons[MIN_STAGE2_SEASONS:]:
+            past = d[d["season"] < s]
+            cur = d["season"] == s
+            out[cur] = self._rating_fit(past).predict(d.loc[cur, self.features])
         return out
 
+    def _x2(self, rating, line):
+        rating, line = np.asarray(rating, float), np.asarray(line, float)
+        return (rating - line).reshape(-1, 1)
+
+    def fit(self, df: pd.DataFrame) -> "Market":
+        d = df[df["result"].notna() & (df["season"] >= FIRST_TRAIN_SEASON)]
+        self.rating = self._rating_fit(d)
+        oos = self._oos_ratings(d)
+        e = d.assign(r=oos).dropna(subset=["r", self.line])
+        diff = e[self.target] - e[self.line]
+        e, diff = e[diff != 0], diff[diff != 0]  # pushes carry no information
+        self.edge = LogisticRegression(C=1.0).fit(self._x2(e["r"], e[self.line]), (diff > 0).astype(int))
+        self.rating_sd = float(np.std(d[self.target] - self.rating.predict(d[self.features])))
+        return self
+
+    def predict(self, df: pd.DataFrame, line: pd.Series | None = None) -> pd.DataFrame:
+        line = df[self.line] if line is None else line
+        rating = self.rating.predict(df[self.features])
+        ok = line.notna().values
+        p = np.full(len(df), np.nan)
+        if ok.any():
+            p[ok] = self.edge.predict_proba(self._x2(rating[ok], line[ok]))[:, 1]
+        return pd.DataFrame({"rating": rating, "line": line.values, "p": p}, index=df.index)
+
     def drivers(self, row: pd.Series, k: int = 4) -> list[tuple[str, float]]:
-        """Top features pushing this game's predicted margin, in points."""
-        sc, rg = self.margin.named_steps.values()
-        z = (row[self.mf].astype(float).values - sc.mean_) / sc.scale_
-        contrib = z * rg.coef_
-        order = np.argsort(-np.abs(contrib))[:k]
-        return [(self.mf[i], float(contrib[i])) for i in order]
+        sc, rg = self.rating.named_steps.values()
+        contrib = (row[self.features].astype(float).values - sc.mean_) / sc.scale_ * rg.coef_
+        return [(self.features[i], float(contrib[i])) for i in np.argsort(-np.abs(contrib))[:k]]
 
 
-def implied_prob(ml_home, ml_away):
-    def p(ml):
-        return np.where(ml < 0, -ml / (-ml + 100), 100 / (ml + 100))
-    ph, pa = p(ml_home), p(ml_away)
-    return ph / (ph + pa)
+def spread_market() -> Market:
+    return Market("spread", OPEN_FEATURES, "spread_open")
 
 
-def _ats(pred, line, actual, edge):
-    """Against-the-spread record when the model disagrees with the line by >= edge."""
-    m = np.abs(pred - line) >= edge
-    side = np.sign(pred - line)[m]
-    outcome = np.sign(actual - line)[m]
-    wins, losses = int((side == outcome).sum()), int(((side == -outcome) & (outcome != 0)).sum())
-    return wins, losses
+def total_market() -> Market:
+    return Market("total", CLOSE_TOTAL_FEATURES, "total_line")
 
 
-def backtest(df: pd.DataFrame, seasons, with_market: bool = False) -> dict:
-    preds = []
+# --- evaluation ---------------------------------------------------------------------
+def walk_forward(df: pd.DataFrame, make, seasons) -> pd.DataFrame:
+    """Out-of-sample predictions: each season predicted by a model fit on earlier seasons."""
+    out = []
     for s in seasons:
-        train = df[(df["season"] >= FIRST_TRAIN_SEASON) & (df["season"] < s)]
+        m = make().fit(df[df["season"] < s])
         test = df[(df["season"] == s) & df["result"].notna()]
-        test = test.dropna(subset=["spread_line", "total_line"])
-        preds.append(Model(with_market).fit(train).predict(test))
-    p = pd.concat(preds, ignore_index=True)
-    p = p[p["result"] != 0]
-    y = (p["result"] > 0).astype(int)
-    pr = p["home_win_prob"].clip(0.01, 0.99)
-    vegas_p = _phi(p["spread_line"] / 13.5)
-    res = {
-        "games": len(p),
-        "win_acc": float(((pr > 0.5) == y).mean()),
-        "vegas_win_acc": float(((vegas_p > 0.5) == y).mean()),
-        "log_loss": float(-np.mean(y * np.log(pr) + (1 - y) * np.log(1 - pr))),
-        "vegas_log_loss": float(-np.mean(y * np.log(vegas_p) + (1 - y) * np.log(1 - vegas_p))),
-        "brier": float(np.mean((pr - y) ** 2)),
-        "vegas_brier": float(np.mean((vegas_p - y) ** 2)),
-        "margin_mae": float(np.mean(np.abs(p["pred_margin"] - p["result"]))),
-        "vegas_margin_mae": float(np.mean(np.abs(p["spread_line"] - p["result"]))),
-        "total_mae": float(np.mean(np.abs(p["pred_total"] - p["total"]))),
-        "vegas_total_mae": float(np.mean(np.abs(p["total_line"] - p["total"]))),
-        "ats": {e: _ats(p["pred_margin"].values, p["spread_line"].values, p["result"].values, e)
-                for e in (0, 1.5, 3, 4.5)},
-        "ou": {e: _ats(p["pred_total"].values, p["total_line"].values, p["total"].values, e)
-               for e in (0, 2, 4)},
-        "by_season": p.assign(hit=((pr > 0.5) == y)).groupby("season")["hit"].mean().round(3).to_dict(),
-    }
-    return res
+        out.append(pd.concat([test, m.predict(test)], axis=1))
+    return pd.concat(out)
+
+
+def record(p: pd.DataFrame, target: str, threshold: float) -> dict:
+    """Bets where P(win) >= threshold on either side, graded against p['line']."""
+    d = p.dropna(subset=["p", "line"])
+    side = np.where(d["p"] >= 0.5, 1, -1)
+    conf = np.maximum(d["p"], 1 - d["p"])
+    outcome = np.sign(d[target] - d["line"])
+    bet = (conf >= threshold) & (outcome != 0)
+    wins = int(((side == outcome) & bet).sum())
+    n = int(bet.sum())
+    return {"bets": n, "wins": wins, "rate": wins / n if n else float("nan"),
+            "roi": (wins * 100 / 110 - (n - wins)) / n if n else float("nan")}
+
+
+def calibration(p: pd.DataFrame, target: str) -> pd.DataFrame:
+    """Predicted vs actual win rate of the favored side, by confidence bucket."""
+    d = p.dropna(subset=["p", "line"])
+    d = d[np.sign(d[target] - d["line"]) != 0]
+    conf = np.maximum(d["p"], 1 - d["p"])
+    won = np.where(d["p"] >= 0.5, d[target] > d["line"], d[target] < d["line"])
+    b = pd.cut(conf, [0.5, 0.52, 0.54, 0.56, 0.58, 0.6, 1.0])
+    return pd.DataFrame({"predicted": conf, "actual": won}).groupby(b, observed=True).agg(
+        n=("actual", "size"), predicted=("predicted", "mean"), actual=("actual", "mean")).round(3)
