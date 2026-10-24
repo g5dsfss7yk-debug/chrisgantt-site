@@ -1,7 +1,7 @@
 """NFL betting model CLI.
 
   python run.py backtest              # walk-forward test, tuned 2015-2022, held-out 2023+
-  python run.py card                  # this week's card: spreads vs opening line, game-day totals
+  python run.py card                  # this week's card: spreads vs opening line, weather totals
   python run.py card --week 7 --line MIN=-5.5 --save
   python run.py grade                 # grade every saved card against final scores
 """
@@ -15,12 +15,14 @@ import pandas as pd
 
 from nflmodel import data, model, pipeline
 
-# Chosen on 2015-2022 only. Held out 2023-2026 at these cutoffs: spreads 54-38 (58.7%).
-SPREAD_BET_P = 0.56
-TOTAL_BET_P = 0.55
-# Outdoor games at 15+ mph wind or with rain/snow went Under 55% in 2009-2022 and in 2023+;
-# the only totals situation that held up in both periods. Everything else is a coin flip.
+# Spread tiers need all three models on the same side of the line. Held out 2023-2026:
+# STRONG (P >= 55%) 69-54 (56.1%), LEAN (P >= 53%) 177-131 (57.5%); 2015-2022: 62.6% / 57.9%.
+TIERS = (("STRONG", 0.55), ("LEAN", 0.53))
+# Model totals lost in 2023-2026 with every learner, so totals come only from situations
+# that held up in both periods: outdoor wind 15+ mph or rain/snow went Under ~55%.
 WEATHER_UNDER_WIND = 15
+# Games in the top 10% of defensive injury burden went Over 64% in 2023+ (flat before): watch only.
+DEF_INJURY_WATCH = 1.98
 PICKS = data.ROOT / "picks"
 HOLDOUT = 2023
 
@@ -34,18 +36,24 @@ def _rec(r):
 def cmd_backtest(args):
     df = pipeline.load(args.refresh, use_forecasts=False)
     seasons = range(2015, data.current_season() + 1)
-    for name, make, target, cut in (("SPREADS vs opening line", model.spread_market, "result", SPREAD_BET_P),
-                                    ("TOTALS vs closing total", model.total_market, "total", TOTAL_BET_P)):
+    for name, make, target in (("SPREADS vs opening line", model.spread_market, "result"),
+                               ("TOTALS vs closing total", model.total_market, "total")):
         p = model.walk_forward(df, make, seasons)
-        print(f"\n=== {name} ===")
-        for th in sorted({0.53, 0.55, cut}):
-            tune = model.record(p[p["season"] < HOLDOUT], target, th)
-            hold = model.record(p[p["season"] >= HOLDOUT], target, th)
-            mark = "  <- bet cutoff" if th == cut else ""
-            print(f"  P >= {th:.2f}: 2015-{HOLDOUT - 1} {_rec(tune)} | {HOLDOUT}+ {_rec(hold)}{mark}")
+        print(f"\n=== {name}: ensemble of {', '.join(model.LEARNERS)} ===")
+        for tier, th in TIERS:
+            agreed = p[p["agree"] == p["n_models"]]
+            tune = model.record(agreed[agreed["season"] < HOLDOUT], target, th)
+            hold = model.record(agreed[agreed["season"] >= HOLDOUT], target, th)
+            print(f"  {tier:6} P >= {th:.2f}, all agree: 2015-{HOLDOUT - 1} {_rec(tune)} | {HOLDOUT}+ {_rec(hold)}")
         print("  calibration (predicted vs actual win rate of the favored side):")
         print(model.calibration(p, target).to_string())
-    print("\nBreak-even at -110 is 52.4%.")
+    print("\nBreak-even at -110 is 52.4%. Totals are not bet from the model (see TIERS note).")
+
+
+def _tier(prob, agree, n):
+    if agree < n:
+        return ""
+    return next((name for name, cut in TIERS if prob >= cut), "")
 
 
 def _side(p, home, away, line, kind):
@@ -79,29 +87,38 @@ def cmd_card(args):
         last_qb[g.home_team], last_qb[g.away_team] = g.home_qb, g.away_qb
 
     rows = []
-    print(f"\n{season} week {week} card  (bet only rows marked BET; P = chance the bet wins)\n")
+    print(f"\n{season} week {week} card  (bet rows marked STRONG / LEAN / WEATHER; P = chance the bet wins;"
+          f" models = how many of {len(model.LEARNERS)} agree)\n")
     for (_, g), (_, s), (_, t) in zip(games.iterrows(), ps.iterrows(), pt.iterrows()):
         print(f"{g.away_team} @ {g.home_team}  {g.gameday:%a %m/%d} {g.gametime} ET  ({g.away_qb} vs {g.home_qb})")
         qb_flags = [f"{t} lists {q} but {last_qb[t]} started last game" for t, q in
                     ((g.away_team, g.away_qb), (g.home_team, g.home_qb)) if t in last_qb and last_qb[t] != q]
         for f in qb_flags:
             print(f"   QB CHECK: {f}; the spread pick assumes {f.split(' lists ')[1].split(' but')[0]} plays")
-        for kind, pr, cut in (("spread", s, SPREAD_BET_P), ("total", t, TOTAL_BET_P)):
-            if np.isnan(pr.p):
-                print(f"   {kind}: no line yet")
-                continue
-            label, prob = _side(pr.p, g.home_team, g.away_team, pr.line, kind)
-            bet = prob >= cut and not (kind == "spread" and qb_flags)
-            fair = (f"model {g.home_team} {-pr.rating:+.1f}" if kind == "spread"
-                    else f"model total {pr.rating:.1f}")
-            hold = "HOLD (QB check)" if prob >= cut and not bet else ""
-            print(f"   {kind:6} {label:14} P {prob:.0%}  ({fair})  {'BET' if bet else hold}")
-            if kind == "total" and not g.dome and (g.wind >= WEATHER_UNDER_WIND or g.rain or g.snow):
+        picks = []
+        if not np.isnan(s.p):
+            label, prob = _side(s.p, g.home_team, g.away_team, s.line, "spread")
+            tier = _tier(prob, s.agree, s.n_models)
+            if tier and qb_flags:
+                tier = "HOLD (QB check)"
+            each = "  ".join(f"{n} {g.home_team} {-s[f'rating_{n}']:+.1f}" for n in model.LEARNERS)
+            print(f"   spread {label:14} P {prob:.0%}  models {int(s.agree)}/{int(s.n_models)}  ({each})  {tier}")
+            picks.append(("spread", s.line, label, prob, tier))
+        else:
+            print("   spread: no line yet")
+        if not np.isnan(t.line):
+            print(f"   total  {t.line:g}: model {t.rating:.1f} (info only; model totals are not bet)")
+            if not g.dome and (g.wind >= WEATHER_UNDER_WIND or g.rain or g.snow):
                 why = f"wind {g.wind:.0f} mph" if g.wind >= WEATHER_UNDER_WIND else "rain/snow forecast"
-                print(f"   WEATHER UNDER {pr.line:g}: {why} (such games went Under ~55%, 2009-2026)")
+                print(f"   total  Under {t.line:g}  {why}: such games went Under ~55% (2009-2026)  WEATHER")
+                picks.append(("total", t.line, f"Under {t.line:g}", 0.55, "WEATHER"))
+            elif g.inj_def_sum >= DEF_INJURY_WATCH:
+                print(f"   total  Over {t.line:g}  heavy defensive injuries: watch only, not a bet")
+        for kind, ln, label, prob, tier in picks:
             rows.append({"season": season, "week": week, "game_id": g.game_id, "kind": kind,
-                         "home_team": g.home_team, "away_team": g.away_team, "line": pr.line,
-                         "pick": label, "p": round(prob, 3), "bet": bet, "qb_check": bool(qb_flags)})
+                         "home_team": g.home_team, "away_team": g.away_team, "line": ln, "pick": label,
+                         "p": round(prob, 3), "tier": tier,
+                         "bet": tier in ("STRONG", "LEAN", "WEATHER"), "qb_check": bool(qb_flags)})
     if args.save:
         PICKS.mkdir(exist_ok=True)
         path = PICKS / f"{season}_wk{week:02d}.csv"
@@ -130,12 +147,14 @@ def cmd_grade(args):
             home_or_over = r.pick.startswith(r.home_team) if r.kind == "spread" else r.pick.startswith("Over")
             diff = (actual - r.line) * (1 if home_or_over else -1)
             res = "push" if diff == 0 else ("win" if diff > 0 else "loss")
-        out.append({"week": r.week, "pick": r.pick, "p": r.p, "result": res})
+        tier = r.tier if isinstance(getattr(r, "tier", None), str) else "STRONG"  # pre-tier cards
+        out.append({"week": r.week, "pick": r.pick, "p": r.p, "tier": tier, "result": res})
     out = pd.DataFrame(out)
     print(out.to_string(index=False))
-    w, l = (out["result"] == "win").sum(), (out["result"] == "loss").sum()
-    if w + l:
-        print(f"\nrecord {w}-{l}  ({w / (w + l):.1%}), units {w * 100 / 110 - l:+.2f} at -110")
+    for name, part in [("all", out)] + list(out.groupby("tier")):
+        w, l = (part["result"] == "win").sum(), (part["result"] == "loss").sum()
+        if w + l:
+            print(f"{name:8} {w}-{l}  ({w / (w + l):.1%}), units {w * 100 / 110 - l:+.2f} at -110")
 
 
 def main():

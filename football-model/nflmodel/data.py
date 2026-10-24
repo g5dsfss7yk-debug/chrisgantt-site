@@ -13,6 +13,7 @@ import time
 import urllib.request
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -82,16 +83,51 @@ def load_snaps(seasons, refresh: bool = False) -> pd.DataFrame:
     return _load_release("snap_counts", seasons, refresh)
 
 
-PBP_COLS = ["game_id", "posteam", "defteam", "epa", "success", "play_type",
-            "interception", "fumble_lost"]
+PBP_COLS = ["game_id", "posteam", "defteam", "epa", "success", "play_type", "interception",
+            "fumble_lost", "yards_gained", "pass", "rush", "sack", "qb_hit", "qb_dropback", "wp",
+            "down", "half_seconds_remaining", "game_seconds_remaining", "no_huddle", "pass_oe",
+            "drive", "drive_inside20", "fixed_drive_result", "field_goal_result", "special_teams_play"]
+PBP_VERSION = 2   # bump when the per-team-game summary below gains columns
+
+
+def _summarize_pbp(d: pd.DataFrame) -> pd.DataFrame:
+    """Per (game_id, team-on-offense) summary of one season of play-by-play."""
+    d = d[d["posteam"].notna()].copy()
+    key = ["game_id", "posteam"]
+    scrim = d[d["play_type"].isin(["pass", "run"]) & d["epa"].notna()].copy()
+    scrim["explosive"] = ((scrim["pass"] == 1) & (scrim["yards_gained"] >= 20)) | (
+        (scrim["rush"] == 1) & (scrim["yards_gained"] >= 10))
+    neutral = scrim[scrim["down"].isin([1, 2]) & scrim["wp"].between(0.2, 0.8)
+                    & (scrim["half_seconds_remaining"] > 120)].copy()
+    # Pace: seconds between snaps within a drive, neutral situations only.
+    neutral["gap"] = neutral.groupby(["game_id", "drive"])["game_seconds_remaining"].diff(-1)
+    out = scrim.groupby(key).agg(epa=("epa", "mean"), sr=("success", "mean"), plays=("epa", "size"),
+                                 explosive=("explosive", "mean"), dropbacks=("qb_dropback", "sum"),
+                                 sacks=("sack", "sum"), qb_hits=("qb_hit", "sum"))
+    nt = neutral.groupby(key).agg(neutral_pass=("qb_dropback", "mean"), pass_oe=("pass_oe", "mean"),
+                                  no_huddle=("no_huddle", "mean"),
+                                  sec_per_play=("gap", lambda g: g[(g > 0) & (g < 60)].median()))
+    give = d.assign(g=d["interception"].fillna(0) + d["fumble_lost"].fillna(0)).groupby(key)["g"].sum()
+    drives = d.groupby(key + ["drive"]).agg(rz=("drive_inside20", "max"), res=("fixed_drive_result", "first"))
+    drives["rz_td"] = drives["res"].eq("Touchdown")
+    rz = drives[drives["rz"] == 1].groupby(level=[0, 1])["rz_td"].agg(["sum", "size"])
+    st = d[d["special_teams_play"] == 1].groupby(key)["epa"].sum()
+    fg = d[d["field_goal_result"].notna()].assign(made=lambda x: x["field_goal_result"].eq("made"))
+    fg = fg.groupby(key)["made"].agg(["sum", "size"])
+    out = out.join(nt).assign(
+        giveaways=give, drives=d.groupby(key)["drive"].nunique(),
+        rz_trips=rz["size"], rz_tds=rz["sum"], st_epa=st, fg_made=fg["sum"], fg_att=fg["size"])
+    fill = ["rz_trips", "rz_tds", "st_epa", "fg_made", "fg_att", "giveaways"]
+    out[fill] = out[fill].fillna(0)
+    return out.reset_index().rename(columns={"posteam": "team"})
 
 
 def _team_game_pbp(season: int, refresh: bool) -> pd.DataFrame | None:
-    """Per (game_id, team) offensive EPA/play, success rate, plays and giveaways.
+    """Per (game_id, team) offensive summary for one season, cached after aggregation.
 
-    The raw season file (~20 MB) is aggregated once and only the summary is kept.
+    The raw season file (~20 MB) is summarized once and only the summary is kept.
     """
-    path = RAW / "pbp_team" / f"{season}.csv"
+    path = RAW / f"pbp_team_v{PBP_VERSION}" / f"{season}.csv"
     live = season >= current_season()
     if path.exists() and not refresh:
         age_h = (time.time() - path.stat().st_mtime) / 3600
@@ -100,15 +136,12 @@ def _team_game_pbp(season: int, refresh: bool) -> pd.DataFrame | None:
     tmp = _fetch(f"{RELEASE}/pbp/play_by_play_{season}.csv.gz", RAW / "pbp_tmp.csv.gz", refresh=True)
     if tmp is None:
         return None
-    d = pd.read_csv(tmp, usecols=PBP_COLS, low_memory=False)
+    raw = pd.read_csv(tmp, usecols=lambda c: c in PBP_COLS, low_memory=False)
     tmp.unlink()
-    d["giveaway"] = d["interception"].fillna(0) + d["fumble_lost"].fillna(0)
-    give = d.groupby(["game_id", "posteam"])["giveaway"].sum()
-    plays = d[d["play_type"].isin(["pass", "run"]) & d["epa"].notna()]
-    agg = plays.groupby(["game_id", "posteam"]).agg(
-        epa=("epa", "mean"), sr=("success", "mean"), plays=("epa", "size"))
-    agg["giveaways"] = give.reindex(agg.index).fillna(0)
-    agg = agg.reset_index().rename(columns={"posteam": "team"})
+    for c in PBP_COLS:
+        if c not in raw:
+            raw[c] = np.nan
+    agg = _summarize_pbp(raw)
     path.parent.mkdir(parents=True, exist_ok=True)
     agg.to_csv(path, index=False)
     return agg

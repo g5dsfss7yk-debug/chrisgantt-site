@@ -12,8 +12,10 @@ python run.py backtest          # walk-forward test, tuned 2015-2022, held out 2
 ```
 
 ## How it works
-1. **Rating (stage 1).** Ridge regression from football features to the home margin and
-   to the game total. It never sees a betting line.
+1. **Rating (stage 1).** Three different learners (ridge regression, gradient-boosted
+   trees, extra-randomized trees) each predict the home margin from football features,
+   never seeing a betting line. Their average is the rating; the card shows how many of
+   the three land on the same side of the line.
 2. **Edge (stage 2).** The market is usually right, so only part of the gap between the
    rating and the line is real. A logistic regression, fit on out-of-sample ratings from
    earlier seasons, turns that gap into the probability the bet wins. These are
@@ -21,13 +23,21 @@ python run.py backtest          # walk-forward test, tuned 2015-2022, held out 2
 3. **Timing.** Spreads are judged against the **opening line** using only information
    known when lines open; lines tend to move toward the model during the week. Totals
    are judged on game day, when the forecast and final injury report are in.
-4. **Card.** A bet is marked only when P(win) clears the cutoff chosen on 2015-2022
-   (spreads 56%, totals 55%). Spread picks are held when the listed QB differs from last
-   week's starter. A card is saved once and not changed; `grade` scores it.
+4. **Card.** Spread bets need all three models on the same side: STRONG at P >= 55%,
+   LEAN at P >= 53%. Picks are held when the listed QB differs from last week's starter.
+   Totals are bet only in outdoor games with 15+ mph wind or rain/snow (Under); heavy
+   defensive injuries are flagged as an Over to watch. A card is saved once and not
+   changed; `grade` scores it.
 
-Backtest at the cutoffs (`python run.py backtest`): spreads 187-119 (61.1%) in 2015-2022
-and 54-38 (58.7%) in the untouched 2023-2026 holdout. Totals clear the cutoff only a few
-times a season: the market's totals are hard to beat.
+Backtest against opening lines (`python run.py backtest`):
+
+| Tier | 2015-2022 | 2023-2026 (held out) |
+|---|---|---|
+| STRONG | 147-88 (62.6%) | 69-54 (56.1%) |
+| LEAN | 329-239 (57.9%) | 177-131 (57.5%) |
+
+Model totals lost in 2023-2026 with every learner and feature set tried, so they are shown
+for information only. Weather Unders went about 55% in both periods.
 
 ## Data
 | Source | Used for |
@@ -46,5 +56,7 @@ times a season: the market's totals are hard to beat.
 | Quarterback | QB value, experience, QB new to team | backup starting |
 | Change | returning/added snaps, coach tenure, stale-rating fade | |
 | Situation | home field, division, rest, byes, short weeks, travel, time zones | |
-| Injuries | | final injury report |
+| Matchups | explosive plays, red-zone TD rate, special teams, kicking, pass rush vs line | |
+| Injuries | | final report by unit (skill, line, pass rush, LB, secondary), clusters, line vs rush |
+| Pace and style (totals) | | snap pace, plays per game, neutral pass rate |
 | Weather (totals) | | temp, wind, gusts, rain, snow, dome, turf |

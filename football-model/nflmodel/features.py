@@ -24,6 +24,12 @@ EPA_ALPHA = 0.15        # EWMA weight of the latest game for play-level efficien
 SEASON_KEEP = 0.5       # share of last season's form/efficiency kept at a new season
 LEAGUE_PTS = 22.5       # long-run points per team per game
 LEAGUE_SR = 0.45        # long-run success rate per play
+LEAGUE_EXP = 0.09       # explosive plays (20+ yd pass, 10+ yd run) per play
+LEAGUE_SACK = 0.065     # sacks per dropback
+LEAGUE_RZ = 0.56        # touchdowns per red-zone trip
+LEAGUE_PACE = 37.5      # neutral-situation seconds per snap
+LEAGUE_PLAYS = 61.0     # offensive snaps per team per game
+LEAGUE_PASS = 0.55      # neutral-situation dropback rate
 QB_DECAY = 0.95
 QB_PRIOR = 6            # pseudo-starts shrinking a QB's value toward 0
 PYTHAG_EXP = 2.37
@@ -37,7 +43,11 @@ POS_WEIGHT = {
     "DE": 1.0, "DT": 0.6, "NT": 0.6, "DL": 0.8, "LB": 0.6, "ILB": 0.6, "OLB": 0.9,
     "CB": 1.0, "S": 0.7, "FS": 0.7, "SS": 0.7, "DB": 0.8,
 }
-OFFENSE = {"WR", "TE", "RB", "HB", "FB", "T", "G", "C", "OL"}
+# Position groups for injury clusters: skill, offensive line, pass rush, linebackers, secondary.
+GROUP = {**dict.fromkeys(["WR", "TE", "RB", "HB", "FB"], 0), **dict.fromkeys(["T", "G", "C", "OL"], 1),
+         **dict.fromkeys(["DE", "DT", "NT", "DL", "OLB"], 2), **dict.fromkeys(["LB", "ILB"], 3),
+         **dict.fromkeys(["CB", "S", "FS", "SS", "DB"], 4)}
+NO_INJURY = (0.0, 0.0, 0.0, 0.0, 0.0)
 DEFAULT_CONTINUITY = (0.65, 0.65, 0.1, 0.1)
 
 _SUFFIX = re.compile(r"\b(jr|sr|ii|iii|iv|v)\b")
@@ -51,7 +61,7 @@ def _name_key(name: str) -> str:
 
 # --- injuries -----------------------------------------------------------------
 def injury_scores(injuries: pd.DataFrame, snaps: pd.DataFrame) -> dict:
-    """{(season, week, franchise): (offense_burden, defense_burden)}.
+    """{(season, week, franchise): burden by group (skill, o-line, pass rush, LB, secondary)}.
 
     burden = sum over injured non-QBs of P(miss) * position weight * recent snap share.
     Snap share uses only weeks before the report, so long absences already reflected in
@@ -81,12 +91,12 @@ def injury_scores(injuries: pd.DataFrame, snaps: pd.DataFrame) -> dict:
     if "date_modified" in inj:
         inj = inj.sort_values("date_modified")
     inj = inj.drop_duplicates(["season", "week", "team", "gsis_id"], keep="last")
-    out = defaultdict(lambda: [0.0, 0.0])
+    out = defaultdict(lambda: [0.0] * 5)
     for r in inj.itertuples(index=False):
         fr = teams.franchise(r.team)
         w = MISS_PROB[r.report_status] * POS_WEIGHT[r.position] * share(
             fr, _name_key(r.full_name), r.season, r.week)
-        out[(r.season, r.week, fr)][0 if r.position in OFFENSE else 1] += w
+        out[(r.season, r.week, fr)][GROUP[r.position]] += w
     return {k: tuple(v) for k, v in out.items()}
 
 
@@ -183,6 +193,14 @@ class League:
         self.o_epa, self.d_epa = defaultdict(float), defaultdict(float)  # opponent-adjusted
         self.o_sr, self.d_sr = defaultdict(float), defaultdict(float)
         self.to_margin = defaultdict(float)             # EWMA takeaways - giveaways
+        self.o_exp, self.d_exp = defaultdict(float), defaultdict(float)  # explosive-play rate, adjusted
+        self.o_sack, self.d_sack = defaultdict(lambda: LEAGUE_SACK), defaultdict(lambda: LEAGUE_SACK)
+        self.rz = {k: defaultdict(lambda: (LEAGUE_RZ * 3, 3.0)) for k in ("o", "d")}  # (TDs, trips)
+        self.st = defaultdict(float)                    # EWMA net special-teams EPA per game
+        self.fg = defaultdict(lambda: (0.85 * 4, 4.0))  # (made, attempts)
+        self.pace = defaultdict(lambda: LEAGUE_PACE)    # neutral seconds per snap
+        self.plays = defaultdict(lambda: LEAGUE_PLAYS)  # offensive snaps per game
+        self.pass_rate = defaultdict(lambda: LEAGUE_PASS)  # neutral-situation dropback rate
         self.record = defaultdict(lambda: [0.0, 0.0, 0.0, 0])  # (season, team): pf, pa, wins, games
         self.league_pts = 2 * LEAGUE_PTS
         self.season_of = {}
@@ -196,10 +214,21 @@ class League:
             self.elo[t] = 1500 + (self.elo[t] - 1500) * (1 - ELO_REVERT)
             self.off[t] = LEAGUE_PTS + (self.off[t] - LEAGUE_PTS) * SEASON_KEEP
             self.dfn[t] = LEAGUE_PTS + (self.dfn[t] - LEAGUE_PTS) * SEASON_KEEP
-            for d in (self.o_epa, self.d_epa, self.o_sr, self.d_sr):
+            for d in (self.o_epa, self.d_epa, self.o_sr, self.d_sr, self.o_exp, self.d_exp, self.st):
                 d[t] *= SEASON_KEEP
+            for d, base in ((self.o_sack, LEAGUE_SACK), (self.d_sack, LEAGUE_SACK), (self.pace, LEAGUE_PACE),
+                            (self.plays, LEAGUE_PLAYS), (self.pass_rate, LEAGUE_PASS)):
+                d[t] = base + (d[t] - base) * SEASON_KEEP
             self.to_margin[t] = 0.0
         self.season_of[t] = season
+
+    def rz_rate(self, side, t):
+        tds, trips = self.rz[side][t]
+        return tds / trips
+
+    def fg_rate(self, t):
+        made, att = self.fg[t]
+        return made / att
 
     def starter(self, t, qb):
         return qb if isinstance(qb, str) else (self.recent_qbs[t][-1] if self.recent_qbs[t] else None)
@@ -239,15 +268,34 @@ class League:
             rec[2] += 1.0 if pts > opp else (0.5 if pts == opp else 0.0)
         self.league_pts += 0.01 * (r.total - self.league_pts)
         ph, pa = plays.get((r.game_id, h)), plays.get((r.game_id, a))
-        if ph and pa:
-            pre = {t: (self.o_epa[t], self.d_epa[t], self.o_sr[t], self.d_sr[t]) for t in (h, a)}
-            for t, opp, mine, theirs in ((h, a, ph, pa), (a, h, pa, ph)):
-                oe, de, os_, ds = pre[opp]
-                self.o_epa[t] += EPA_ALPHA * ((mine[0] - de) - self.o_epa[t])
-                self.d_epa[t] += EPA_ALPHA * ((theirs[0] - oe) - self.d_epa[t])
-                self.o_sr[t] += EPA_ALPHA * ((mine[1] - LEAGUE_SR - ds) - self.o_sr[t])
-                self.d_sr[t] += EPA_ALPHA * ((theirs[1] - LEAGUE_SR - os_) - self.d_sr[t])
-                self.to_margin[t] += EPA_ALPHA * ((theirs[2] - mine[2]) - self.to_margin[t])
+        if ph is not None and pa is not None:
+            pre = {t: (self.o_epa[t], self.d_epa[t], self.o_sr[t], self.d_sr[t],
+                       self.o_exp[t], self.d_exp[t]) for t in (h, a)}
+            k = EPA_ALPHA
+            for t, opp, me, th in ((h, a, ph, pa), (a, h, pa, ph)):
+                oe, de, os_, ds, ox, dx = pre[opp]
+                self.o_epa[t] += k * ((me.epa - de) - self.o_epa[t])
+                self.d_epa[t] += k * ((th.epa - oe) - self.d_epa[t])
+                self.o_sr[t] += k * ((me.sr - LEAGUE_SR - ds) - self.o_sr[t])
+                self.d_sr[t] += k * ((th.sr - LEAGUE_SR - os_) - self.d_sr[t])
+                self.to_margin[t] += k * ((th.giveaways - me.giveaways) - self.to_margin[t])
+                self.o_exp[t] += k * ((me.explosive - LEAGUE_EXP - dx) - self.o_exp[t])
+                self.d_exp[t] += k * ((th.explosive - LEAGUE_EXP - ox) - self.d_exp[t])
+                if me.dropbacks > 0:
+                    self.o_sack[t] += k * (me.sacks / me.dropbacks - self.o_sack[t])
+                if th.dropbacks > 0:
+                    self.d_sack[t] += k * (th.sacks / th.dropbacks - self.d_sack[t])
+                for side, row in (("o", me), ("d", th)):
+                    tds, trips = self.rz[side][t]
+                    self.rz[side][t] = ((1 - k) * tds + row.rz_tds, (1 - k) * trips + row.rz_trips)
+                self.st[t] += k * ((me.st_epa - th.st_epa) - self.st[t])
+                made, att = self.fg[t]
+                self.fg[t] = ((1 - k) * made + me.fg_made, (1 - k) * att + me.fg_att)
+                if not np.isnan(me.sec_per_play):
+                    self.pace[t] += k * (me.sec_per_play - self.pace[t])
+                self.plays[t] += k * (me.plays - self.plays[t])
+                if not np.isnan(me.neutral_pass):
+                    self.pass_rate[t] += k * (me.neutral_pass - self.pass_rate[t])
         resid = res - elo_d / 25
         for qb, t, sign in ((r.home_qb_id, h, 1), (r.away_qb_id, a, -1)):
             if isinstance(qb, str):
@@ -271,8 +319,7 @@ def build(games: pd.DataFrame, *, injuries: dict, continuity: dict, pbp: pd.Data
     g = g.sort_values(["gameday", "gametime", "game_id"]).reset_index(drop=True)
     g = weather(g, weather_text, forecasts)
 
-    plays = {(r.game_id, teams.franchise(r.team)): (r.epa, r.sr, r.giveaways)
-             for r in pbp.itertuples(index=False)}
+    plays = {(r.game_id, teams.franchise(r.team)): r for r in pbp.itertuples(index=False)}
     nf = {}
     for x in (nfelo.itertuples(index=False) if nfelo is not None else []):
         nf[(x.season, x.week, x.home_fr, x.away_fr)] = (
@@ -291,8 +338,13 @@ def build(games: pd.DataFrame, *, injuries: dict, continuity: dict, pbp: pd.Data
         hq, aq = L.starter(h, r.home_qb_id), L.starter(a, r.away_qb_id)
         hv, he, hb, hn = L.qb(h, hq)
         av, ae, ab, an = L.qb(a, aq)
-        hi = injuries.get((r.season, r.week, h), (0.0, 0.0))
-        ai = injuries.get((r.season, r.week, a), (0.0, 0.0))
+        hi = injuries.get((r.season, r.week, h), NO_INJURY)
+        ai = injuries.get((r.season, r.week, a), NO_INJURY)
+        h_off_inj, a_off_inj = hi[0] + hi[1], ai[0] + ai[1]
+        h_def_inj, a_def_inj = hi[2] + hi[3] + hi[4], ai[2] + ai[3] + ai[4]
+        # Pass rush vs pass protection: each side's sack-rate edge, with injured blockers.
+        h_rush_edge = L.d_sack[h] + L.o_sack[a]   # home rushers vs away line
+        a_rush_edge = L.d_sack[a] + L.o_sack[h]
         hcont = continuity.get((r.season, h), DEFAULT_CONTINUITY)
         acont = continuity.get((r.season, a), DEFAULT_CONTINUITY)
         h_coach = r.home_coach if isinstance(r.home_coach, str) else L.coach.get(h)
@@ -348,9 +400,25 @@ def build(games: pd.DataFrame, *, injuries: dict, continuity: dict, pbp: pd.Data
             "home_off_bye": int(r.home_rest >= 13), "away_off_bye": int(r.away_rest >= 13),
             "home_short_week": int(r.home_rest <= 5), "away_short_week": int(r.away_rest <= 5),
             "travel": away_mi / 1000, "away_tz_east": tz_shift, "body_clock_early": early_body_clock,
-            # injuries (final report)
-            "inj_off_diff": hi[0] - ai[0], "inj_def_diff": hi[1] - ai[1],
-            "inj_off_sum": hi[0] + ai[0], "inj_def_sum": hi[1] + ai[1],
+            # matchups and finishing (known at open)
+            "explosive_diff": 100 * ((L.o_exp[h] - L.d_exp[h]) - (L.o_exp[a] - L.d_exp[a])),
+            "rz_diff": (L.rz_rate("o", h) - L.rz_rate("d", h)) - (L.rz_rate("o", a) - L.rz_rate("d", a)),
+            "st_diff": L.st[h] - L.st[a], "fg_diff": L.fg_rate(h) - L.fg_rate(a),
+            "sack_matchup_diff": 100 * (h_rush_edge - a_rush_edge),
+            # injuries (final report), by unit and as clusters (2+ starters missing in a unit)
+            "inj_off_diff": h_off_inj - a_off_inj, "inj_def_diff": h_def_inj - a_def_inj,
+            "inj_off_sum": h_off_inj + a_off_inj, "inj_def_sum": h_def_inj + a_def_inj,
+            "ol_inj_diff": hi[1] - ai[1], "rush_inj_diff": hi[2] - ai[2], "sec_inj_diff": hi[4] - ai[4],
+            "ol_cluster_diff": max(hi[1] - 1, 0) - max(ai[1] - 1, 0),
+            "sec_cluster_diff": max(hi[4] - 1, 0) - max(ai[4] - 1, 0),
+            "ol_exposed_diff": 100 * (hi[1] * L.d_sack[a] - ai[1] * L.d_sack[h]),
+            "sec_inj_sum": hi[4] + ai[4], "rush_inj_sum": hi[2] + ai[2], "ol_inj_sum": hi[1] + ai[1],
+            "def_cluster_sum": sum(max(x[i] - 1, 0) for x in (hi, ai) for i in (2, 3, 4)),
+            # pace and style (totals)
+            "pace_sum": L.pace[h] + L.pace[a], "plays_sum": L.plays[h] + L.plays[a],
+            "pass_rate_sum": L.pass_rate[h] + L.pass_rate[a],
+            "explosive_sum": 100 * (L.o_exp[h] + L.o_exp[a] + L.d_exp[h] + L.d_exp[a]),
+            "rz_sum": L.rz_rate("o", h) + L.rz_rate("o", a) + L.rz_rate("d", h) + L.rz_rate("d", a),
             # scoring environment
             "off_sum": L.off[h] + L.off[a], "def_sum": L.dfn[h] + L.dfn[a], "league_pts": L.league_pts,
             "epa_off_sum": 100 * (L.o_epa[h] + L.o_epa[a]), "epa_def_sum": 100 * (L.d_epa[h] + L.d_epa[a]),

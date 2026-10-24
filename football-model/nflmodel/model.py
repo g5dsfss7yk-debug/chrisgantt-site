@@ -1,10 +1,12 @@
 """Two-stage models: rate the game, then judge it against the betting line.
 
-Stage 1 (rating): ridge regression from football features to the home margin / game
-total, never looking at a betting line.
+Stage 1 (rating): several different learners (LEARNERS) each predict the home margin /
+game total from football features, never looking at a betting line. Their average is
+the ensemble rating; how many of them land on the same side of the line is reported as
+agreement.
 
 Stage 2 (edge): the market is usually right, so the gap between the rating and the line
-is only partly real. A logistic regression, fit on out-of-sample stage-1 ratings from
+is only partly real. A logistic regression, fit on out-of-sample ensemble ratings from
 earlier seasons, maps (rating - line) to the probability the bet wins. These
 probabilities are calibrated: a 56% pick has historically won about 56% of the time.
 
@@ -16,6 +18,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
+from sklearn.ensemble import ExtraTreesRegressor, HistGradientBoostingRegressor
 from sklearn.linear_model import LogisticRegression, Ridge
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
@@ -28,22 +31,34 @@ OPEN_FEATURES = [
     "elo_stale_diff", "epa_stale_diff",
     "home_field", "div_game", "rest_diff", "home_off_bye", "away_off_bye",
     "home_short_week", "away_short_week", "travel", "away_tz_east", "body_clock_early",
+    "explosive_diff", "rz_diff", "st_diff", "fg_diff", "sack_matchup_diff",
 ]
 # Known only on game day.
 LATE_FEATURES = ["inj_off_diff", "inj_def_diff", "home_backup_qb", "away_backup_qb",
-                 "away_dome_team_cold", "home_dome_team_cold"]
+                 "away_dome_team_cold", "home_dome_team_cold",
+                 "ol_inj_diff", "rush_inj_diff", "sec_inj_diff", "ol_cluster_diff", "sec_cluster_diff",
+                 "ol_exposed_diff"]
 CLOSE_TOTAL_FEATURES = [
     "off_sum", "def_sum", "league_pts", "epa_off_sum", "epa_def_sum", "sr_off_sum", "sr_def_sum",
     "season_tot_sum", "stale_sum", "home_new_qb", "away_new_qb", "home_backup_qb", "away_backup_qb",
     "inj_off_sum", "inj_def_sum", "div_game", "home_field",
     "dome", "cold", "heat", "wind", "high_wind", "gusty", "rain", "snow", "wet_wind", "turf",
+    "pace_sum", "plays_sum", "pass_rate_sum", "explosive_sum", "rz_sum",
+    "sec_inj_sum", "rush_inj_sum", "ol_inj_sum", "def_cluster_sum",
 ]
 FIRST_TRAIN_SEASON = 2009   # injury reports and nfelo opening lines start here
 MIN_STAGE2_SEASONS = 2
 
 
-def _ridge():
-    return make_pipeline(StandardScaler(), Ridge(alpha=10.0))
+# Three different kinds of learner: linear, boosted trees, randomized trees.
+LEARNERS = {
+    "ridge": lambda: make_pipeline(StandardScaler(), Ridge(alpha=10.0)),
+    "boost": lambda: HistGradientBoostingRegressor(max_depth=3, learning_rate=0.04, max_iter=250,
+                                                   min_samples_leaf=60, l2_regularization=1.0,
+                                                   random_state=0),
+    "trees": lambda: ExtraTreesRegressor(n_estimators=200, min_samples_leaf=40, max_features=0.5,
+                                         n_jobs=-1, random_state=0),
+}
 
 
 class Market:
@@ -53,21 +68,24 @@ class Market:
     kind="total":  target = combined points, P = over.
     """
 
-    def __init__(self, kind: str, features: list[str], line: str):
-        self.kind, self.features, self.line = kind, features, line
+    def __init__(self, kind: str, features: list[str], line: str, learners=tuple(LEARNERS)):
+        self.kind, self.features, self.line, self.learners = kind, features, line, list(learners)
         self.target = "result" if kind == "spread" else "total"
 
     def _rating_fit(self, d):
-        return _ridge().fit(d[self.features], d[self.target])
+        X, y = d[self.features], d[self.target]
+        return {n: LEARNERS[n]().fit(X, y) for n in self.learners}
+
+    def _ratings(self, fitted, X):
+        return pd.DataFrame({n: m.predict(X) for n, m in fitted.items()}, index=X.index)
 
     def _oos_ratings(self, d):
-        """Stage-1 ratings for each training season from a model fit on earlier seasons only."""
+        """Ensemble ratings for each training season from models fit on earlier seasons only."""
         out = pd.Series(np.nan, index=d.index)
         seasons = sorted(d["season"].unique())
         for s in seasons[MIN_STAGE2_SEASONS:]:
-            past = d[d["season"] < s]
             cur = d["season"] == s
-            out[cur] = self._rating_fit(past).predict(d.loc[cur, self.features])
+            out[cur] = self._ratings(self._rating_fit(d[d["season"] < s]), d.loc[cur, self.features]).mean(axis=1)
         return out
 
     def _x2(self, rating, line):
@@ -82,30 +100,29 @@ class Market:
         diff = e[self.target] - e[self.line]
         e, diff = e[diff != 0], diff[diff != 0]  # pushes carry no information
         self.edge = LogisticRegression(C=1.0).fit(self._x2(e["r"], e[self.line]), (diff > 0).astype(int))
-        self.rating_sd = float(np.std(d[self.target] - self.rating.predict(d[self.features])))
         return self
 
     def predict(self, df: pd.DataFrame, line: pd.Series | None = None) -> pd.DataFrame:
         line = df[self.line] if line is None else line
-        rating = self.rating.predict(df[self.features])
+        each = self._ratings(self.rating, df[self.features])
+        rating = each.mean(axis=1).values
         ok = line.notna().values
         p = np.full(len(df), np.nan)
         if ok.any():
             p[ok] = self.edge.predict_proba(self._x2(rating[ok], line[ok]))[:, 1]
-        return pd.DataFrame({"rating": rating, "line": line.values, "p": p}, index=df.index)
-
-    def drivers(self, row: pd.Series, k: int = 4) -> list[tuple[str, float]]:
-        sc, rg = self.rating.named_steps.values()
-        contrib = (row[self.features].astype(float).values - sc.mean_) / sc.scale_ * rg.coef_
-        return [(self.features[i], float(contrib[i])) for i in np.argsort(-np.abs(contrib))[:k]]
-
-
-def spread_market() -> Market:
-    return Market("spread", OPEN_FEATURES, "spread_open")
+        side = np.sign(rating - line.values)
+        agree = (np.sign(each.values - line.values[:, None]) == side[:, None]).sum(axis=1)
+        out = pd.DataFrame({"rating": rating, "line": line.values, "p": p, "agree": agree,
+                            "n_models": len(self.learners)}, index=df.index)
+        return out.join(each.add_prefix("rating_"))
 
 
-def total_market() -> Market:
-    return Market("total", CLOSE_TOTAL_FEATURES, "total_line")
+def spread_market(learners=tuple(LEARNERS)) -> Market:
+    return Market("spread", OPEN_FEATURES, "spread_open", learners)
+
+
+def total_market(learners=tuple(LEARNERS)) -> Market:
+    return Market("total", CLOSE_TOTAL_FEATURES, "total_line", learners)
 
 
 # --- evaluation ---------------------------------------------------------------------
