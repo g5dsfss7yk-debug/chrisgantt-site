@@ -325,7 +325,8 @@ def build(games: pd.DataFrame, *, injuries: dict, continuity: dict, pbp: pd.Data
         nf[(x.season, x.week, x.home_fr, x.away_fr)] = (
             (x.starting_nfelo_home - x.starting_nfelo_away) / 25,
             (x.home_538_qb_adj - x.away_538_qb_adj) / 25,
-            -x.home_line_open)  # opening spread, + = home favored (games.csv convention)
+            -x.home_line_open,  # opening spread, + = home favored (games.csv convention)
+            x.total_line_open)
 
     L = League()
     rows = []
@@ -373,6 +374,7 @@ def build(games: pd.DataFrame, *, injuries: dict, continuity: dict, pbp: pd.Data
             "result": r.result, "total": r.total,
             "spread_line": r.spread_line, "total_line": r.total_line,
             "spread_open": nfe[2] if nfe else np.nan,
+            "total_open": nfe[3] if nfe else np.nan,
             "home_moneyline": r.home_moneyline, "away_moneyline": r.away_moneyline,
             # strength
             "elo_diff": (L.elo[h] - L.elo[a]) / 25,

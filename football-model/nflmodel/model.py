@@ -48,6 +48,7 @@ CLOSE_TOTAL_FEATURES = [
 ]
 FIRST_TRAIN_SEASON = 2009   # injury reports and nfelo opening lines start here
 MIN_STAGE2_SEASONS = 2
+CENTER_N = 400   # games in the trailing average gap that totals are centered on
 
 
 # Three different kinds of learner: linear, boosted trees, randomized trees.
@@ -70,6 +71,13 @@ class Market:
 
     def __init__(self, kind: str, features: list[str], line: str, learners=tuple(LEARNERS)):
         self.kind, self.features, self.line, self.learners = kind, features, line, list(learners)
+        # Totals: stage 2 has no fixed intercept. A fixed one learns the past Over/Under
+        # rate (NFL Unders hit 53-55% in 2015-2023) and the model's past scoring level, and
+        # keeps applying them after scoring shifts (Overs hit 52-54% in 2024-2026). Instead
+        # the gap is measured against the model's recent average gap to the line (CENTER_N
+        # games), so it adapts to each season's scoring.
+        self.intercept = kind == "spread"
+        self.center = 0.0
         self.target = "result" if kind == "spread" else "total"
 
     def _rating_fit(self, d):
@@ -94,12 +102,21 @@ class Market:
 
     def fit(self, df: pd.DataFrame) -> "Market":
         d = df[df["result"].notna() & (df["season"] >= FIRST_TRAIN_SEASON)]
+        if "gameday" in d:
+            d = d.sort_values("gameday", kind="stable")
         self.rating = self._rating_fit(d)
         oos = self._oos_ratings(d)
         e = d.assign(r=oos).dropna(subset=["r", self.line])
+        gap = e["r"] - e[self.line]
+        shift = pd.Series(0.0, index=e.index)
+        if not self.intercept:
+            shift = gap.shift(1).rolling(CENTER_N, min_periods=CENTER_N // 4).mean()
+            self.center = float(gap.tail(CENTER_N).mean())
+        e = e.assign(shift=shift).dropna(subset=["shift"])
         diff = e[self.target] - e[self.line]
         e, diff = e[diff != 0], diff[diff != 0]  # pushes carry no information
-        self.edge = LogisticRegression(C=1.0).fit(self._x2(e["r"], e[self.line]), (diff > 0).astype(int))
+        x = self._x2(e["r"] - e["shift"], e[self.line])
+        self.edge = LogisticRegression(C=1.0, fit_intercept=self.intercept).fit(x, (diff > 0).astype(int))
         return self
 
     def predict(self, df: pd.DataFrame, line: pd.Series | None = None) -> pd.DataFrame:
@@ -109,9 +126,9 @@ class Market:
         ok = line.notna().values
         p = np.full(len(df), np.nan)
         if ok.any():
-            p[ok] = self.edge.predict_proba(self._x2(rating[ok], line[ok]))[:, 1]
-        side = np.sign(rating - line.values)
-        agree = (np.sign(each.values - line.values[:, None]) == side[:, None]).sum(axis=1)
+            p[ok] = self.edge.predict_proba(self._x2(rating[ok] - self.center, line[ok]))[:, 1]
+        side = np.sign(rating - self.center - line.values)
+        agree = (np.sign(each.values - self.center - line.values[:, None]) == side[:, None]).sum(axis=1)
         out = pd.DataFrame({"rating": rating, "line": line.values, "p": p, "agree": agree,
                             "n_models": len(self.learners)}, index=df.index)
         return out.join(each.add_prefix("rating_"))
