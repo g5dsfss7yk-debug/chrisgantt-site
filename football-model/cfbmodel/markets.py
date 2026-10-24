@@ -19,5 +19,5 @@ def spread_market(line: str = "spread_open") -> Market:
     return Market("spread", SPREAD_FEATURES, line)
 
 
-def total_market() -> Market:
-    return Market("total", TOTAL_FEATURES, "total_line")
+def total_market(line: str = "total_open") -> Market:
+    return Market("total", TOTAL_FEATURES, line)

@@ -190,4 +190,8 @@ def _derive(df: pd.DataFrame) -> pd.DataFrame:
     d["spread_close"] = d["espn_spread"]
     d["spread_open"] = d["spread_open"].fillna(d["spread_close"])
     d["total_line"] = d["espn_total"]
+    if "total_open" not in d:
+        d["total_open"] = np.nan
+    d.loc[(d["total_open"] - d["total_line"]).abs() >= 15, "total_open"] = np.nan
+    d["total_open"] = d["total_open"].fillna(d["total_line"])
     return d

@@ -2,7 +2,7 @@
 
   python cfb.py backtest                        # walk-forward test, tuned 2017-2021, held out 2022+
   python cfb.py card                            # next game day: fair spread for every FBS game
-  python cfb.py card --line "Iowa=-7.5" --line "TCU=-10.5" --save
+  python cfb.py card --line "Iowa=-7.5" --total "Iowa=40.5" --save
   python cfb.py grade                           # grade saved cards against final scores
 """
 from __future__ import annotations
@@ -16,9 +16,12 @@ from cfbmodel import data, markets, pipeline
 from nflmodel import model
 
 # Against opening lines, all three models agreeing at P >= 55% went 219-166 (56.9%) in
-# 2017-2021 and 54-40 (57.4%) in 2022-2025. Against closing lines there is no edge, and
-# model totals lost in both periods, so totals are shown for information only.
+# 2017-2021 and 54-40 (57.4%) in 2022-2025. Against closing lines there is no edge.
+# Totals behave the same way: vs the opening total, 305-251 (54.9%) and 117-91 (56.2%);
+# vs the closing total they lost.
 STRONG = 0.55
+# Closing totals of 65+ went Under 55.3% (n=759) in 2016-2021 and 56.2% (n=217) in 2022-2025.
+HIGH_TOTAL_UNDER = 65
 HOLDOUT = 2022
 PICKS = data.ROOT / "picks" / "cfb"
 
@@ -34,7 +37,8 @@ def cmd_backtest(args):
     seasons = range(2017, data.current_season())
     for name, make, target in (("SPREADS vs opening line", markets.spread_market, "result"),
                                ("SPREADS vs closing line", lambda: markets.spread_market("spread_close"), "result"),
-                               ("TOTALS vs closing total", markets.total_market, "total")):
+                               ("TOTALS vs opening total", markets.total_market, "total"),
+                               ("TOTALS vs closing total", lambda: markets.total_market("total_line"), "total")):
         p = model.walk_forward(df, make, seasons)
         agreed = p[p["agree"] == p["n_models"]]
         tune = model.record(agreed[agreed["season"] < HOLDOUT], target, STRONG)
@@ -69,7 +73,12 @@ def cmd_card(args):
         i, col = _find(games, team.strip())
         line[i] = -float(val) if col == "home_team" else float(val)
     ps = spread.predict(games, line)
-    pt = total.predict(games)
+    tline = games["total_open"].copy()
+    for item in args.total or []:
+        team, val = item.rsplit("=", 1)
+        i, _ = _find(games, team.strip())
+        tline[i] = float(val)
+    pt = total.predict(games, tline)
 
     print(f"\nCFB card {day:%a %m/%d/%Y}  (fair = model's line for the home team; P = chance the bet wins vs the line"
           f" you gave; models = how many of {len(model.LEARNERS)} agree)\n")
@@ -82,6 +91,15 @@ def cmd_card(args):
         print(f"{head:58} fair {g.home_team} {fair:+.1f}  ({each})  total {t.rating:.0f}")
         for f in flags:
             print(f"   QB CHECK: {f}")
+        if not np.isnan(t.p):
+            tlabel, tprob = (f"Over {t.line:g}", t.p) if t.p >= 0.5 else (f"Under {t.line:g}", 1 - t.p)
+            ttier = "STRONG" if tprob >= STRONG and t.agree == t.n_models and not flags else ""
+            print(f"   total:   {tlabel:30} P {tprob:.0%}  models {int(t.agree)}/{int(t.n_models)}  {ttier}")
+            if t.line >= HIGH_TOTAL_UNDER:
+                print(f"   total:   Under {t.line:g}  total of {HIGH_TOTAL_UNDER}+: went Under ~55-56% in both periods  HIGH TOTAL")
+            rows.append({"season": g.season, "gameday": f"{day:%Y-%m-%d}", "game_id": g.game_id, "kind": "total",
+                         "home_team": g.home_team, "away_team": g.away_team, "line": t.line, "pick": tlabel,
+                         "p": round(tprob, 3), "tier": ttier, "bet": ttier == "STRONG"})
         if np.isnan(s.p):
             continue
         if s.p >= 0.5:
@@ -119,7 +137,11 @@ def cmd_grade(args):
         if np.isnan(g.result):
             res = "pending"
         else:
-            diff = (g.result - r.line) * (1 if r.pick.startswith(r.home_team + " ") else -1)
+            kind = getattr(r, "kind", "spread")
+            if kind == "total":
+                diff = (g.total - r.line) * (1 if r.pick.startswith("Over") else -1)
+            else:
+                diff = (g.result - r.line) * (1 if r.pick.startswith(r.home_team + " ") else -1)
             res = "push" if diff == 0 else ("win" if diff > 0 else "loss")
         out.append({"day": r.gameday, "pick": r.pick, "p": r.p, "result": res})
     out = pd.DataFrame(out)
@@ -137,6 +159,7 @@ def main():
     c = sub.add_parser("card")
     c.add_argument("--date", help="game day, YYYY-MM-DD (default: next day with games)")
     c.add_argument("--line", action="append", help='your book\'s spread for a team, e.g. "Iowa=-7.5"')
+    c.add_argument("--total", action="append", help='your book\'s total for a game, by either team, e.g. "Iowa=40.5"')
     c.add_argument("--save", action="store_true")
     c.add_argument("--force", action="store_true")
     sub.add_parser("grade")

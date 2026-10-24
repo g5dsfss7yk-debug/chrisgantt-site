@@ -87,5 +87,8 @@ Backtest (all three models agree, P >= 55%):
 |---|---|---|
 | Opening spread | 219-166 (56.9%) | 54-40 (57.4%) |
 | Closing spread | 13-8 | 1-0 (almost never fires) |
+| Opening total | 305-251 (54.9%) | 117-91 (56.2%) |
+| Closing total | lost | lost |
 
-Model totals lost in both periods, so they are information only.
+Totals of 65+ also went Under about 55-56% in both periods (flagged HIGH TOTAL on the card).
+Pass totals with `--total "Team=55.5"`.
