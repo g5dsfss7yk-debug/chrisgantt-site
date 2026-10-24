@@ -17,10 +17,12 @@ from nflmodel import model
 
 # Against opening lines, all three models agreeing at P >= 55% went 219-166 (56.9%) in
 # 2017-2021 and 54-40 (57.4%) in 2022-2025. Against closing lines there is no edge.
-# Totals behave the same way: vs the opening total, 305-251 (54.9%) and 117-91 (56.2%);
-# vs the closing total they lost.
+# Model totals are not bet. Re-tested with the stage-2 Under lean removed and the gap
+# centered on recent games: vs the opening total, P >= 55% went 198-172 (53.5%) in
+# 2017-2021 and 34-35 (49.3%) in 2022-2025, and the most confident picks did worst.
 STRONG = 0.55
-# Closing totals of 65+ went Under 55.3% (n=759) in 2016-2021 and 56.2% (n=217) in 2022-2025.
+# Closing totals of 65+ went Under 55.3% in 2016-2021 and 56.2% in 2022-2025, but only
+# 51.6% (n=31) and 41.7% (n=24) in 2024-2025, so this is a watch flag, not a bet.
 HIGH_TOTAL_UNDER = 65
 HOLDOUT = 2022
 PICKS = data.ROOT / "picks" / "cfb"
@@ -93,10 +95,10 @@ def cmd_card(args):
             print(f"   QB CHECK: {f}")
         if not np.isnan(t.p):
             tlabel, tprob = (f"Over {t.line:g}", t.p) if t.p >= 0.5 else (f"Under {t.line:g}", 1 - t.p)
-            ttier = "STRONG" if tprob >= STRONG and t.agree == t.n_models and not flags else ""
-            print(f"   total:   {tlabel:30} P {tprob:.0%}  models {int(t.agree)}/{int(t.n_models)}  {ttier}")
+            ttier = ""
+            print(f"   total:   {tlabel:30} P {tprob:.0%}  models {int(t.agree)}/{int(t.n_models)}  (info only, not bet)")
             if t.line >= HIGH_TOTAL_UNDER:
-                print(f"   total:   Under {t.line:g}  total of {HIGH_TOTAL_UNDER}+: went Under ~55-56% in both periods  HIGH TOTAL")
+                print(f"   total:   Under {t.line:g}  total of {HIGH_TOTAL_UNDER}+: watch only (faded in 2024-2025)")
             rows.append({"season": g.season, "gameday": f"{day:%Y-%m-%d}", "game_id": g.game_id, "kind": "total",
                          "home_team": g.home_team, "away_team": g.away_team, "line": t.line, "pick": tlabel,
                          "p": round(tprob, 3), "tier": ttier, "bet": ttier == "STRONG"})

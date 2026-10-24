@@ -87,8 +87,10 @@ Backtest (all three models agree, P >= 55%):
 |---|---|---|
 | Opening spread | 219-166 (56.9%) | 54-40 (57.4%) |
 | Closing spread | 13-8 | 1-0 (almost never fires) |
-| Opening total | 305-251 (54.9%) | 117-91 (56.2%) |
+| Opening total | 198-172 (53.5%) | 34-35 (49.3%) |
 | Closing total | lost | lost |
 
-Totals of 65+ also went Under about 55-56% in both periods (flagged HIGH TOTAL on the card).
-Pass totals with `--total "Team=55.5"`.
+Model totals are information only. An earlier 54.9% / 56.2% opening-total result came from a
+fixed Under lean in stage 2 cancelling the model's high scoring level; with that removed
+(totals now centered on the model's recent gap to the line) the edge is gone. Totals of 65+
+are flagged as an Under to watch: 55-56% through 2023, below 52% since.
