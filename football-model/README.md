@@ -60,3 +60,32 @@ for information only. Weather Unders went about 55% in both periods.
 | Injuries | | final report by unit (skill, line, pass rush, LB, secondary), clusters, line vs rush |
 | Pace and style (totals) | | snap pace, plays per game, neutral pass rate |
 | Weather (totals) | | temp, wind, gusts, rain, snow, dome, turf |
+
+## College football (`cfb.py`)
+Same two-stage ensemble and the same three learners, on college data:
+
+```
+python cfb.py card --line "Iowa=-6.5" --line "TCU=-7.5" --save   # judge your book's numbers
+python cfb.py backtest
+python cfb.py grade
+```
+
+- Data: [cfbfastR-data](https://github.com/sportsdataverse/cfbfastR-data) schedules (scores, neutral site,
+  conference, CFBD Elo) and book lines (openers, 2014-2025), plus the ESPN play-by-play release from
+  [sportsdataverse-data](https://github.com/sportsdataverse/sportsdataverse-data), reduced to one row per
+  team-game and cached in `data/raw/cfb/`.
+- Features: opponent-adjusted EPA, success rate, explosive rate, havoc and sacks (garbage time removed),
+  margin and points ratings, red-zone TD rate, special teams, turnovers, CFBD Elo, home vs neutral field,
+  conference game, rest and byes, FCS opponent, early season, QB changes.
+- No free college injury reports or historical weather exist, so neither is a model input; the QB-change
+  flag holds a pick for checking.
+- The current season's lines are not in the books file, so pass your numbers with `--line`.
+
+Backtest (all three models agree, P >= 55%):
+
+| Line | 2017-2021 | 2022-2025 (held out) |
+|---|---|---|
+| Opening spread | 219-166 (56.9%) | 54-40 (57.4%) |
+| Closing spread | 13-8 | 1-0 (almost never fires) |
+
+Model totals lost in both periods, so they are information only.
