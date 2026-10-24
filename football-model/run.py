@@ -18,6 +18,9 @@ from nflmodel import data, model, pipeline
 # Chosen on 2015-2022 only. Held out 2023-2026 at these cutoffs: spreads 54-38 (58.7%).
 SPREAD_BET_P = 0.56
 TOTAL_BET_P = 0.55
+# Outdoor games at 15+ mph wind or with rain/snow went Under 55% in 2009-2022 and in 2023+;
+# the only totals situation that held up in both periods. Everything else is a coin flip.
+WEATHER_UNDER_WIND = 15
 PICKS = data.ROOT / "picks"
 HOLDOUT = 2023
 
@@ -93,6 +96,9 @@ def cmd_card(args):
                     else f"model total {pr.rating:.1f}")
             hold = "HOLD (QB check)" if prob >= cut and not bet else ""
             print(f"   {kind:6} {label:14} P {prob:.0%}  ({fair})  {'BET' if bet else hold}")
+            if kind == "total" and not g.dome and (g.wind >= WEATHER_UNDER_WIND or g.rain or g.snow):
+                why = f"wind {g.wind:.0f} mph" if g.wind >= WEATHER_UNDER_WIND else "rain/snow forecast"
+                print(f"   WEATHER UNDER {pr.line:g}: {why} (such games went Under ~55%, 2009-2026)")
             rows.append({"season": season, "week": week, "game_id": g.game_id, "kind": kind,
                          "home_team": g.home_team, "away_team": g.away_team, "line": pr.line,
                          "pick": label, "p": round(prob, 3), "bet": bet, "qb_check": bool(qb_flags)})
