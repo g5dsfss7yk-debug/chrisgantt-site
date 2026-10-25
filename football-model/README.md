@@ -39,6 +39,20 @@ Backtest against opening lines (`python run.py backtest`):
 Model totals lost in 2023-2026 with every learner and feature set tried, so they are shown
 for information only. Weather Unders went about 55% in both periods.
 
+## Anytime-TD props (`python run.py props`)
+```
+python run.py props --team SF --team ATL --odds "George Kittle=+120" --odds "Bijan Robinson=-150"
+```
+P(rushing or receiving TD) for every RB/WR/TE/QB with a touch in his team's last two games, minus
+players listed Out or Doubtful. Features: share of the team's red-zone (inside 20) and goal-line
+(inside 5) touches, carry and target share, touches, recent TD rate, team implied points from the
+spread and total, opponent TDs allowed, home, position (gradient boosting + logistic, averaged).
+
+Walk-forward 2016-2026: log loss 0.452 vs 0.476 for a player-TD-rate baseline (2016-2022) and
+0.433 vs 0.459 (2023-2026, held out). Calibrated: players given 30-40% scored 36-38%. No free
+archive of historical prop odds exists, so profit against books is untested; a prop is flagged
+VALUE only when the model beats the book's implied chance by 5+ points, to clear the hold.
+
 ## Data
 | Source | Used for |
 |---|---|
@@ -46,6 +60,7 @@ for information only. Weather Unders went about 55% in both periods.
 | nflverse play-by-play | opponent-adjusted EPA/play and success rate, turnovers, weather text (rain/snow/gusts) |
 | nflverse injuries + snap counts | snap-weighted injury burden, roster continuity |
 | nflverse weekly rosters | returning and added production |
+| nflverse weekly player stats | carries, targets, TDs for props |
 | [nfelo](https://github.com/greerreNFL/nfelo) | opening spreads, independent Elo with QB adjustments |
 | `nfl-weather` branch | kickoff forecasts, fetched every 3 hours by `.github/workflows/nfl-weather.yml` |
 

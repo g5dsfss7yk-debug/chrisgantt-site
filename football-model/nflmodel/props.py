@@ -136,12 +136,35 @@ def _X(d):
 
 
 def fit(d: pd.DataFrame):
-    d = d[(d["games"] > 0) & d["implied_pts"].notna()]
+    d = d[(d["games"] > 0) & d["implied_pts"].notna() & d["td"].notna()]
     return {n: LEARNERS[n]().fit(_X(d), d["td"]) for n in LEARNERS}
 
 
 def predict(models, d: pd.DataFrame) -> pd.Series:
     return pd.DataFrame({n: m.predict_proba(_X(d))[:, 1] for n, m in models.items()}, index=d.index).mean(axis=1)
+
+
+def upcoming(pg: pd.DataFrame, games: pd.DataFrame, season: int, week: int,
+             injuries: pd.DataFrame | None = None) -> pd.DataFrame:
+    """Rows for this week's games: players with a touch in either of their team's last two
+    games, minus anyone listed Out or Doubtful on this week's injury report."""
+    wk = games[(games["season"] == season) & (games["week"] == week)]
+    out = []
+    for g in wk.itertuples(index=False):
+        for team, opp in ((g.home_team, g.away_team), (g.away_team, g.home_team)):
+            team, opp = teams.franchise(team), teams.franchise(opp)
+            past = pg[(pg["team"] == team) & (pg["season"] == season) & (pg["week"] < week)]
+            recent = past[past["week"] >= past["week"].nlargest(2).min()] if len(past) else past
+            recent = recent[(recent["carries"] + recent["targets"]) > 0]
+            for pid, r in recent.groupby("player_id").last().iterrows():
+                out.append({"player_id": pid, "player_display_name": r.player_display_name, "position": r.position,
+                            "season": season, "week": week, "game_id": g.game_id, "team": team, "opponent_team": opp})
+    up = pd.DataFrame(out)
+    if injuries is not None and len(up):
+        inj = injuries[(injuries["season"] == season) & (injuries["week"] == week)
+                       & injuries["report_status"].isin(["Out", "Doubtful"])]
+        up = up[~up["player_id"].isin(inj["gsis_id"])]
+    return up
 
 
 def walk_forward(d: pd.DataFrame, seasons) -> pd.DataFrame:

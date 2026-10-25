@@ -4,6 +4,7 @@
   python run.py card                  # this week's card: spreads vs opening line, weather totals
   python run.py card --week 7 --line MIN=-5.5 --save
   python run.py grade                 # grade every saved card against final scores
+  python run.py props --team SF --odds "George Kittle=+120"   # anytime TD chances
 """
 from __future__ import annotations
 
@@ -13,7 +14,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from nflmodel import data, model, pipeline
+from nflmodel import data, model, pipeline, props
 
 # Spread tiers need all three models on the same side of the line. Held out 2023-2026:
 # STRONG (P >= 55%) 69-54 (56.1%), LEAN (P >= 53%) 177-131 (57.5%); 2015-2022: 62.6% / 57.9%.
@@ -24,6 +25,9 @@ WEATHER_UNDER_WIND = 15
 # Games in the top 10% of defensive injury burden went Over 64% in 2023+ (flat before): watch only.
 DEF_INJURY_WATCH = 1.98
 PICKS = data.ROOT / "picks"
+# Anytime-TD odds carry a large hold, so only flag a prop when the model clears the book's
+# implied chance by this much.
+PROP_EDGE = 0.05
 HOLDOUT = 2023
 
 
@@ -157,6 +161,48 @@ def cmd_grade(args):
             print(f"{name:8} {w}-{l}  ({w / (w + l):.1%}), units {w * 100 / 110 - l:+.2f} at -110")
 
 
+def _american(odds: str) -> float:
+    """Implied probability of American odds (+150 -> 0.40, -120 -> 0.545)."""
+    o = float(odds)
+    return 100 / (o + 100) if o > 0 else -o / (-o + 100)
+
+
+def cmd_props(args):
+    games = data.load_games(args.refresh)
+    season = args.season or data.current_season()
+    upcoming = games[(games["season"] == season) & games["result"].isna()]
+    week = args.week or int(upcoming["week"].min())
+    pg = props.load_player_games(args.refresh)
+    up = props.upcoming(pg, games, season, week, data.load_injuries([season], args.refresh))
+    d = props.build(pd.concat([pg, up], ignore_index=True), games)
+    models = props.fit(d[d["td"].notna()])
+    today = d[d["td"].isna()].copy()
+    today["p"] = props.predict(models, today)
+    if args.team:
+        today = today[today["team"].isin([t.upper() for t in args.team])]
+    odds = {}
+    for item in args.odds or []:
+        name, o = item.rsplit("=", 1)
+        odds[name.strip().lower()] = o
+    print(f"\n{season} week {week} anytime TD  (P = model chance of a rushing or receiving TD;"
+          f" out/doubtful players removed)\n")
+    for (gid, team), grp in today.sort_values("p", ascending=False).groupby(["game_id", "team"], sort=False):
+        grp = grp[grp["p"] >= args.min_p]
+        if grp.empty:
+            continue
+        print(f"{team} vs {grp['opponent_team'].iloc[0]}  (team implied {grp['implied_pts'].iloc[0]:.1f} pts)")
+        for r in grp.itertuples(index=False):
+            fair = (100 / r.p - 100) if r.p < 0.5 else -(100 * r.p / (1 - r.p))
+            line = f"   {r.player_display_name:24} {r.position:2}  P {r.p:.0%}  fair odds {fair:+.0f}"
+            book = odds.get(r.player_display_name.lower())
+            if book:
+                edge = r.p - _american(book)
+                line += f"  | book {book} ({_american(book):.0%})  edge {edge:+.0%}  {'VALUE' if edge >= PROP_EDGE else ''}"
+            print(line)
+    print(f"\nProbabilities are calibrated (2016-2026 walk-forward), but there is no free archive of prop odds,"
+          f" so profit against books is untested. VALUE = model beats the book's implied chance by {PROP_EDGE:.0%}+.")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--refresh", action="store_true", help="force re-download of data")
@@ -169,8 +215,14 @@ def main():
     c.add_argument("--save", action="store_true", help="save the card to picks/ for grading")
     c.add_argument("--force", action="store_true", help="replace an already-saved card")
     sub.add_parser("grade")
+    pr = sub.add_parser("props")
+    pr.add_argument("--season", type=int)
+    pr.add_argument("--week", type=int)
+    pr.add_argument("--team", action="append", help="only these teams, e.g. --team SF --team ATL")
+    pr.add_argument("--odds", action="append", help='your book\'s anytime TD odds, e.g. "George Kittle=+120"')
+    pr.add_argument("--min-p", type=float, default=0.15, help="hide players below this chance")
     args = ap.parse_args()
-    {"backtest": cmd_backtest, "card": cmd_card, "grade": cmd_grade}[args.cmd](args)
+    {"backtest": cmd_backtest, "card": cmd_card, "grade": cmd_grade, "props": cmd_props}[args.cmd](args)
 
 
 if __name__ == "__main__":
