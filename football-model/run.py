@@ -15,7 +15,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from nflmodel import data, lineups, model, pipeline, props
+from nflmodel import data, lineups, model, pipeline, props, statprops
 
 # Spread tiers need all three models on the same side of the line. Held out 2023-2026:
 # STRONG (P >= 55%) 69-54 (56.1%), LEAN (P >= 53%) 177-131 (57.5%); 2015-2022: 62.6% / 57.9%.
@@ -29,6 +29,7 @@ PICKS = data.ROOT / "picks"
 # Anytime-TD odds carry a large hold, so only flag a prop when the model clears the book's
 # implied chance by this much.
 PROP_EDGE = 0.05
+OU_VALUE = 0.574   # -110 breaks even at 52.4%; same 5-point cushion as the TD props
 HOLDOUT = 2023
 
 
@@ -187,6 +188,7 @@ def cmd_props(args):
     models = props.fit(d[d["td"].notna()])
     today = d[d["td"].isna()].copy()
     today["p"] = props.predict(models, today)
+    today["p_first"] = statprops.first_td(today)  # over everyone in the game, before any team filter
     if args.team:
         today = today[today["team"].isin([t.upper() for t in args.team])]
     odds = {}
@@ -202,7 +204,8 @@ def cmd_props(args):
         print(f"{team} vs {grp['opponent_team'].iloc[0]}  (team implied {grp['implied_pts'].iloc[0]:.1f} pts)")
         for r in grp.itertuples(index=False):
             fair = (100 / r.p - 100) if r.p < 0.5 else -(100 * r.p / (1 - r.p))
-            line = f"   {r.player_display_name:24} {r.position:2}  P {r.p:.0%}  fair odds {fair:+.0f}"
+            line = (f"   {r.player_display_name:24} {r.position:2}  P {r.p:.0%}  fair odds {fair:+.0f}"
+                    f"   first TD {r.p_first:.0%} (fair {100 / r.p_first - 100:+.0f})")
             book = odds.get(r.player_display_name.lower())
             if book:
                 edge = r.p - _american(book)
@@ -210,6 +213,45 @@ def cmd_props(args):
             print(line)
     print(f"\nProbabilities are calibrated (2016-2026 walk-forward), but there is no free archive of prop odds,"
           f" so profit against books is untested. VALUE = model beats the book's implied chance by {PROP_EDGE:.0%}+.")
+    if args.no_ou:
+        return
+    _ou_props(args, d, today)
+
+
+def _ou_props(args, d, today):
+    """Over/under markets: projection, and P(over) for any --line given."""
+    lines = {}
+    for item in args.line or []:  # "CeeDee Lamb:receptions=5.5"
+        who, val = item.rsplit("=", 1)
+        name, market = who.rsplit(":", 1)
+        lines[(name.strip().lower(), market.strip())] = float(val)
+    done = d[d["td"].notna()]
+    hist_from = int(done["season"].max()) - 2
+    markets = args.market or list(statprops.MARKETS)
+    today = statprops.prepare(today)
+    for market in markets:
+        stat, pos = statprops.MARKETS[market]
+        pre = statprops.prepare(done)
+        rows = pre[pre["position"].isin(pos) & (pre["games"] >= 1)]
+        seed = statprops.StatModel(market).fit(rows[rows["season"] < hist_from], rows.iloc[:0].assign(proj=0.0))
+        hist = rows[rows["season"] >= hist_from].assign(proj=lambda x: seed.project(x))
+        sm = statprops.StatModel(market).fit(rows, hist)
+        cand = today[today["position"].isin(pos)]
+        if cand.empty:
+            continue
+        cand = cand.assign(proj=sm.project(cand))
+        cand = cand[cand["proj"] >= {"passing_yards": 100, "rushing_yards": 15, "receiving_yards": 15}.get(market, 1)]
+        print(f"\n{market.replace('_', ' ')}  (median = model's fair line; P = chance of going over the line you gave)")
+        for r in cand.sort_values(["team", "proj"], ascending=[True, False]).itertuples(index=False):
+            med = sm.median(r.position, r.proj)
+            out = f"   {r.team:3} {r.player_display_name:24} {r.position:2}  median {med:6.1f}"
+            ln = lines.get((r.player_display_name.lower(), market))
+            if ln is not None:
+                po = sm.p_over(r.position, r.proj, ln)
+                side, ps = ("Over", po) if po >= 0.5 else ("Under", 1 - po)
+                out += f"  | line {ln:g}: {side} {ps:.0%}  {'VALUE' if ps >= OU_VALUE else ''}"
+            print(out)
+    print(f"\nOver/under VALUE = the model's side at {OU_VALUE:.0%}+, which clears a -110 price by 5 points.")
 
 
 def cmd_lineup(args):
@@ -261,6 +303,10 @@ def main():
     pr.add_argument("--team", action="append", help="only these teams, e.g. --team SF --team ATL")
     pr.add_argument("--odds", action="append", help='your book\'s anytime TD odds, e.g. "George Kittle=+120"')
     pr.add_argument("--min-p", type=float, default=0.15, help="hide players below this chance")
+    pr.add_argument("--market", action="append", choices=list(statprops.MARKETS),
+                    help="over/under markets to show (default: all)")
+    pr.add_argument("--line", action="append", help='book line, e.g. "CeeDee Lamb:receptions=5.5"')
+    pr.add_argument("--no-ou", action="store_true", help="anytime/first TD only")
     ln = sub.add_parser("lineup")
     ln.add_argument("--season", type=int)
     ln.add_argument("--week", type=int)

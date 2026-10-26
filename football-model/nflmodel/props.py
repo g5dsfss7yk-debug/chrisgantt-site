@@ -20,6 +20,8 @@ from nflmodel import data, teams
 
 FIRST_SEASON = 2013
 POSITIONS = ("RB", "WR", "TE", "QB")
+STAT_COLS = ("receptions", "receiving_yards", "carries", "rushing_yards", "attempts", "completions",
+             "passing_yards", "passing_tds", "targets")
 ALPHA = 0.3          # weight of the latest game in the running averages
 CARRY = 0.5          # share of last season's averages kept at the start of a season
 
@@ -65,7 +67,8 @@ def load_player_games(refresh: bool = False) -> pd.DataFrame:
         w = pd.read_csv(path, low_memory=False)
         w = w[w["position"].isin(POSITIONS) & (w["season_type"] == "REG")]
         w = w[["player_id", "player_display_name", "position", "season", "week", "game_id", "team",
-               "opponent_team", "carries", "targets", "rushing_tds", "receiving_tds"]]
+               "opponent_team", "carries", "targets", "rushing_tds", "receiving_tds", "receptions",
+               "receiving_yards", "rushing_yards", "completions", "attempts", "passing_yards", "passing_tds"]]
         rz = _player_pbp(s, refresh).drop(columns="posteam")
         out.append(w.merge(rz, on=["game_id", "player_id"], how="left"))
     d = pd.concat(out, ignore_index=True)
@@ -98,6 +101,8 @@ def build(pg: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
         "td_rate": pg["td"].astype(float), "touches": (pg["carries"] + pg["targets"]).astype(float),
         "rz_touches": pg["rz"].astype(float), "gl_touches": pg["gl"].astype(float),
         "snap_pct": pg["snap"].astype(float),
+        # running averages for the yardage and volume props (statprops.py)
+        **{f"avg_{c}": pg[c].astype(float) for c in STAT_COLS},
     }
     pg = pg.assign(**{f"g_{k}": v for k, v in stats.items()})
     # contiguous per player, in time order, so the feature rows line up with pg
@@ -143,6 +148,14 @@ def build(pg: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
         lambda s: s.shift(1).ewm(alpha=0.15).mean())
     pg = pg.merge(pos[["season", "week", "opponent_team", "position", "opp_pos_td_allowed"]],
                   on=["season", "week", "opponent_team", "position"], how="left")
+
+    # Opponent, by position: running per-game receptions and yards allowed to that position.
+    for c in ("receptions", "receiving_yards", "rushing_yards", "passing_yards"):
+        a = pg.groupby(["season", "week", "opponent_team", "position"])[c].sum().reset_index().sort_values(["season", "week"])
+        a[f"opp_{c}_allowed"] = a.groupby(["opponent_team", "position"])[c].transform(
+            lambda x: x.shift(1).ewm(alpha=0.15).mean())
+        pg = pg.merge(a[["season", "week", "opponent_team", "position", f"opp_{c}_allowed"]],
+                      on=["season", "week", "opponent_team", "position"], how="left")
 
     # Opponent: running rate of skill-player TDs allowed per game.
     allowed = pg.groupby(["season", "week", "opponent_team"])["td"].sum().reset_index()
