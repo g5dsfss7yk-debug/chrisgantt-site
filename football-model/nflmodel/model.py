@@ -16,6 +16,10 @@ weather forecast and injury report are in (CLOSE_TOTAL_FEATURES).
 """
 from __future__ import annotations
 
+import hashlib
+import inspect
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import ExtraTreesRegressor, HistGradientBoostingRegressor
@@ -103,12 +107,17 @@ class Market:
         rating, line = np.asarray(rating, float), np.asarray(line, float)
         return (rating - line).reshape(-1, 1)
 
-    def fit(self, df: pd.DataFrame) -> "Market":
+    def _train(self, df):
         d = df[df["result"].notna() & (df["season"] >= FIRST_TRAIN_SEASON)]
-        if "gameday" in d:
-            d = d.sort_values("gameday", kind="stable")
+        return d.sort_values("gameday", kind="stable") if "gameday" in d else d
+
+    def fit(self, df: pd.DataFrame) -> "Market":
+        d = self._train(df)
         self.rating = self._rating_fit(d)
-        oos = self._oos_ratings(d)
+        return self._fit_edge(d, self._oos_ratings(d))
+
+    def _fit_edge(self, d, oos) -> "Market":
+        """Stage 2 from out-of-sample ensemble ratings (oos, aligned to d's rows)."""
         e = d.assign(r=oos).dropna(subset=["r", self.line])
         gap = e["r"] - e[self.line]
         shift = pd.Series(0.0, index=e.index)
@@ -123,8 +132,10 @@ class Market:
         return self
 
     def predict(self, df: pd.DataFrame, line: pd.Series | None = None) -> pd.DataFrame:
-        line = df[self.line] if line is None else line
-        each = self._ratings(self.rating, df[self.features])
+        return self._predict_each(self._ratings(self.rating, df[self.features]), df,
+                                  df[self.line] if line is None else line)
+
+    def _predict_each(self, each, df, line):
         rating = each.mean(axis=1).values
         ok = line.notna().values
         p = np.full(len(df), np.nan)
@@ -146,13 +157,48 @@ def total_market(learners=tuple(LEARNERS)) -> Market:
 
 
 # --- evaluation ---------------------------------------------------------------------
+CACHE = Path(__file__).resolve().parent.parent / "data" / "cache" / "stage1"
+
+
+def stage1_by_season(m: Market, df: pd.DataFrame, upto: int) -> pd.DataFrame:
+    """Per-learner ratings for every completed game from FIRST_TRAIN_SEASON + MIN_STAGE2_SEASONS
+    through `upto`, each season rated by learners fit only on earlier seasons.
+
+    This is the expensive part of a backtest, and it does not depend on the betting line or
+    the season being tested, so each season is fit once and saved to disk (keyed by the
+    features, target, learner settings and a hash of the data). Re-running a backtest, or
+    testing the same features against another line, reuses it.
+    """
+    d = m._train(df)
+    cols = list(dict.fromkeys(m.features + [m.target, "season"]))
+    key = hashlib.sha1(repr((m.features, m.target, m.learners, [inspect.getsource(LEARNERS[n]) for n in m.learners],
+                             int(pd.util.hash_pandas_object(d[cols], index=True).sum()))).encode()).hexdigest()[:16]
+    path = CACHE / f"{key}.pkl"
+    cached = pd.read_pickle(path) if path.exists() else {}
+    seasons = sorted(d["season"].unique())
+    for k in [s for s in seasons[MIN_STAGE2_SEASONS:] if s <= upto and s not in cached]:
+        cur = d["season"] == k
+        cached[k] = m._ratings(m._rating_fit(d[d["season"] < k]), d.loc[cur, m.features])
+    CACHE.mkdir(parents=True, exist_ok=True)
+    pd.to_pickle(cached, path)
+    return pd.concat([cached[k] for k in sorted(cached) if k <= upto])
+
+
 def walk_forward(df: pd.DataFrame, make, seasons) -> pd.DataFrame:
-    """Out-of-sample predictions: each season predicted by a model fit on earlier seasons."""
+    """Out-of-sample predictions: each season predicted by a model fit on earlier seasons.
+
+    Same result as fitting make() on all seasons before s for each test season s, but each
+    season's stage-1 learners are fit once (see stage1_by_season) instead of once per test season.
+    """
+    m = make()
+    each = stage1_by_season(m, df, max(seasons))
+    d = m._train(df)
     out = []
     for s in seasons:
-        m = make().fit(df[df["season"] < s])
+        train = d[d["season"] < s]
+        m._fit_edge(train, each.reindex(train.index).mean(axis=1, skipna=False))
         test = df[(df["season"] == s) & df["result"].notna()]
-        out.append(pd.concat([test, m.predict(test)], axis=1))
+        out.append(pd.concat([test, m._predict_each(each.loc[test.index], test, test[m.line])], axis=1))
     return pd.concat(out)
 
 
