@@ -55,6 +55,24 @@ inputs improved both periods (0.4517 -> 0.4501, 0.4328 -> 0.4310). Calibrated: p
 archive of historical prop odds exists, so profit against books is untested; a prop is flagged
 VALUE only when the model beats the book's implied chance by 5+ points, to clear the hold.
 
+## Over/under props and first TD (same `props` command)
+```
+python run.py props --team DAL --line "CeeDee Lamb:receptions=5.5" --line "Dak Prescott:passing_yards=245.5"
+```
+Markets: receptions, receiving yards, rush attempts, rushing yards, passing yards, passing TDs,
+completions. A gradient-boosted projection per market (running averages, shares, snap rate,
+vacated work, opponent allowed to the position, implied points, spread, wind) and an empirical
+outcome distribution from out-of-sample projections give the median (fair line) and P(over).
+
+Walk-forward 2019-2026 (mean absolute error, model vs the player's season average): passing yards
+62.2 vs 71.5, completions 5.2 vs 6.0, passing TDs 0.86 vs 0.89, rush attempts 2.9 vs 3.0,
+receptions 1.30 vs 1.32, rushing yards 17.4 vs 17.4, receiving yards 17.2 vs 17.2. P(over) is
+calibrated within a few points (raw chances ran slightly hot at the ends and are shrunk 12%).
+So QB props are where the projection knows most beyond the season average; for receiving and
+rushing yards the value is only when a line lags news (injuries, vacated targets). No free
+archive of prop lines exists, so profit against books is untested; VALUE needs 57.4%+.
+First TD = each player's share of the game's TD rate from the anytime model (untested).
+
 ## Lineups (`python run.py lineup --team DAL`)
 Starters at every position from nflverse's daily ESPN depth chart, with Out/Doubtful players
 starred, plus every "regular" (50%+ of his unit's snaps over the last two games) who is Out,

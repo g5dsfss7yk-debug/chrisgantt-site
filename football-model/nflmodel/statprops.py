@@ -29,6 +29,9 @@ MARKETS = {
     "completions": ("completions", ("QB",)),
 }
 BINS = 25          # projection bins per position for the empirical distribution
+# Out of sample the raw chances ran a little hot at the ends (78% -> 75%, 21% -> 25-29%),
+# so they are pulled 12% toward 50/50.
+SHRINK = 0.88
 MIN_GAMES = 1
 
 BASE = ["carry_share", "target_share", "snap_pct", "touches", "rz_share", "implied_pts", "home",
@@ -88,7 +91,7 @@ class StatModel:
         edges, vals = self.dist[pos]
         i = int(np.clip(np.searchsorted(edges, proj, side="right") - 1, 0, len(vals) - 1))
         v = vals[i]
-        return float((v > line).mean()) if len(v) else np.nan
+        return 0.5 + SHRINK * (float((v > line).mean()) - 0.5) if len(v) else np.nan
 
     def median(self, pos: str, proj: float) -> float:
         edges, vals = self.dist[pos]
