@@ -53,6 +53,14 @@ Walk-forward 2016-2026: log loss 0.452 vs 0.476 for a player-TD-rate baseline (2
 archive of historical prop odds exists, so profit against books is untested; a prop is flagged
 VALUE only when the model beats the book's implied chance by 5+ points, to clear the hold.
 
+## Lineups (`python run.py lineup --team DAL`)
+Starters at every position from nflverse's daily ESPN depth chart, with Out/Doubtful players
+starred, plus every "regular" (50%+ of his unit's snaps over the last two games) who is Out,
+Doubtful or no longer on the depth chart (IR, released). Props candidates come from the same
+depth chart, so a starter returning from injury is included and a player who left is not. The
+card's `--qb TEAM="Name"` rates a game with the confirmed starter when the schedule lags.
+Missing regulars are shown, not modeled: the spread model has no backtest with lineups yet.
+
 ## Data
 | Source | Used for |
 |---|---|
@@ -61,6 +69,7 @@ VALUE only when the model beats the book's implied chance by 5+ points, to clear
 | nflverse injuries + snap counts | snap-weighted injury burden, roster continuity |
 | nflverse weekly rosters | returning and added production |
 | nflverse weekly player stats | carries, targets, TDs for props |
+| nflverse depth charts | starters at every position, props candidates |
 | [nfelo](https://github.com/greerreNFL/nfelo) | opening spreads, independent Elo with QB adjustments |
 | `nfl-weather` branch | kickoff forecasts, fetched every 3 hours by `.github/workflows/nfl-weather.yml` |
 

@@ -5,6 +5,7 @@
   python run.py card --week 7 --line MIN=-5.5 --save
   python run.py grade                 # grade every saved card against final scores
   python run.py props --team SF --odds "George Kittle=+120"   # anytime TD chances
+  python run.py lineup --team DAL     # starters at every position and missing regulars
 """
 from __future__ import annotations
 
@@ -14,7 +15,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from nflmodel import data, model, pipeline, props
+from nflmodel import data, lineups, model, pipeline, props
 
 # Spread tiers need all three models on the same side of the line. Held out 2023-2026:
 # STRONG (P >= 55%) 69-54 (56.1%), LEAN (P >= 53%) 177-131 (57.5%); 2015-2022: 62.6% / 57.9%.
@@ -178,7 +179,8 @@ def cmd_props(args):
     upcoming = games[(games["season"] == season) & games["result"].isna()]
     week = args.week or int(upcoming["week"].min())
     pg = props.load_player_games(args.refresh)
-    up = props.upcoming(pg, games, season, week, data.load_injuries([season], args.refresh))
+    up = props.upcoming(pg, games, season, week, data.load_injuries([season], args.refresh),
+                        lineups.load_depth(season, args.refresh))
     d = props.build(pd.concat([pg, up], ignore_index=True), games)
     models = props.fit(d[d["td"].notna()])
     today = d[d["td"].isna()].copy()
@@ -208,6 +210,36 @@ def cmd_props(args):
           f" so profit against books is untested. VALUE = model beats the book's implied chance by {PROP_EDGE:.0%}+.")
 
 
+def cmd_lineup(args):
+    games = data.load_games(args.refresh)
+    season = args.season or data.current_season()
+    upcoming = games[(games["season"] == season) & games["result"].isna()]
+    week = args.week or int(upcoming["week"].min())
+    wk = upcoming[upcoming["week"] == week]
+    if args.team:
+        t = [x.upper() for x in args.team]
+        wk = wk[wk["home_team"].isin(t) | wk["away_team"].isin(t)]
+    for g in wk.itertuples(index=False):
+        print(f"\n=== {g.away_team} @ {g.home_team}  {pd.Timestamp(g.gameday):%a %m/%d} {g.gametime} ET ===")
+        for team in (g.away_team, g.home_team):
+            r = lineups.report(team, season, week, args.refresh)
+            st = r["starters"]
+            print(f"\n{team} starters (depth chart; * = Out/Doubtful on the injury report)")
+            for grp in ("offense", "defense"):
+                rows = st[st["pos_grp"].str.contains("D$|Defense|3-4|4-3|Nickel", regex=True, na=False)] if grp == "defense" \
+                    else st[~st["pos_grp"].str.contains("D$|Defense|3-4|4-3|Nickel|Special", regex=True, na=False)]
+                print(f"  {grp:8} " + ", ".join(f"{p.pos_abb} {p.player_name}{'*' if p.out else ''}" for p in rows.itertuples()
+                                           if isinstance(p.player_name, str)))
+            m = r["missing"]
+            if len(m):
+                print("  missing regulars (share of snaps, last 2 games): " +
+                      "; ".join(f"{x.position} {x.player} {x.pct:.0%} ({x.status})" for x in m.itertuples()))
+            else:
+                print("  missing regulars: none")
+            if r["questionable"]:
+                print("  questionable: " + ", ".join(r["questionable"]))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--refresh", action="store_true", help="force re-download of data")
@@ -227,8 +259,13 @@ def main():
     pr.add_argument("--team", action="append", help="only these teams, e.g. --team SF --team ATL")
     pr.add_argument("--odds", action="append", help='your book\'s anytime TD odds, e.g. "George Kittle=+120"')
     pr.add_argument("--min-p", type=float, default=0.15, help="hide players below this chance")
+    ln = sub.add_parser("lineup")
+    ln.add_argument("--season", type=int)
+    ln.add_argument("--week", type=int)
+    ln.add_argument("--team", action="append")
     args = ap.parse_args()
-    {"backtest": cmd_backtest, "card": cmd_card, "grade": cmd_grade, "props": cmd_props}[args.cmd](args)
+    {"backtest": cmd_backtest, "card": cmd_card, "grade": cmd_grade, "props": cmd_props,
+     "lineup": cmd_lineup}[args.cmd](args)
 
 
 if __name__ == "__main__":

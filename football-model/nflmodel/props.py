@@ -145,10 +145,19 @@ def predict(models, d: pd.DataFrame) -> pd.Series:
 
 
 def upcoming(pg: pd.DataFrame, games: pd.DataFrame, season: int, week: int,
-             injuries: pd.DataFrame | None = None) -> pd.DataFrame:
-    """Rows for this week's games: players with a touch in either of their team's last two
-    games, minus anyone listed Out or Doubtful on this week's injury report."""
+             injuries: pd.DataFrame | None = None, depth: pd.DataFrame | None = None) -> pd.DataFrame:
+    """Rows for this week's games.
+
+    Candidates are the RB/WR/TE/QB on today's depth chart (so a starter returning from
+    injury, with no recent games, is included) plus anyone with a touch in the team's last
+    two games who is still on the chart. Out/Doubtful players are removed.
+    """
     wk = games[(games["season"] == season) & (games["week"] == week)]
+    out_ids = set()
+    if injuries is not None:
+        inj = injuries[(injuries["season"] == season) & (injuries["week"] == week)]
+        out_ids = set(inj.loc[inj["report_status"].isin(["Out", "Doubtful"]), "gsis_id"])
+    pos = {"QB": "QB", "RB": "RB", "WR": "WR", "TE": "TE"}
     out = []
     for g in wk.itertuples(index=False):
         for team, opp in ((g.home_team, g.away_team), (g.away_team, g.home_team)):
@@ -156,15 +165,20 @@ def upcoming(pg: pd.DataFrame, games: pd.DataFrame, season: int, week: int,
             past = pg[(pg["team"] == team) & (pg["season"] == season) & (pg["week"] < week)]
             recent = past[past["week"] >= past["week"].nlargest(2).min()] if len(past) else past
             recent = recent[(recent["carries"] + recent["targets"]) > 0]
-            for pid, r in recent.groupby("player_id").last().iterrows():
-                out.append({"player_id": pid, "player_display_name": r.player_display_name, "position": r.position,
+            cand = {pid: (r.player_display_name, r.position) for pid, r in recent.groupby("player_id").last().iterrows()}
+            if depth is not None:
+                from nflmodel.lineups import skill_players
+                chart = skill_players(depth[depth["team"] == team])
+                on_chart = set(chart["gsis_id"])
+                cand = {k: v for k, v in cand.items() if k in on_chart}
+                for r in chart.itertuples(index=False):
+                    cand.setdefault(r.gsis_id, (r.player_name, pos[r.pos_abb]))
+            for pid, (name, position) in cand.items():
+                if pid in out_ids:
+                    continue
+                out.append({"player_id": pid, "player_display_name": name, "position": position,
                             "season": season, "week": week, "game_id": g.game_id, "team": team, "opponent_team": opp})
-    up = pd.DataFrame(out)
-    if injuries is not None and len(up):
-        inj = injuries[(injuries["season"] == season) & (injuries["week"] == week)
-                       & injuries["report_status"].isin(["Out", "Doubtful"])]
-        up = up[~up["player_id"].isin(inj["gsis_id"])]
-    return up
+    return pd.DataFrame(out)
 
 
 def walk_forward(d: pd.DataFrame, seasons) -> pd.DataFrame:
