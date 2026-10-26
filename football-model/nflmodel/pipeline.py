@@ -18,11 +18,34 @@ def forecasts() -> dict:
     return out
 
 
-def load(refresh: bool = False, use_forecasts: bool = True) -> pd.DataFrame:
+def starters(games: pd.DataFrame, qbs: dict[str, str], season: int, week: int) -> pd.DataFrame:
+    """Replace the schedule's listed QB with the confirmed starter, e.g. {"PHI": "Tanner McKee"}.
+
+    The schedule file keeps the preseason starter until it is updated, so an injured QB can
+    still be listed on game day. Player ids come from weekly player stats.
+    """
+    if not qbs:
+        return games
+    from nflmodel import props
+    pg = props.load_player_games()
+    games = games.copy()
+    for team, name in qbs.items():
+        hit = pg[pg["player_display_name"].str.lower() == name.lower()]
+        if hit.empty:
+            raise SystemExit(f"no player named {name!r} in the weekly stats")
+        pid = hit["player_id"].iloc[-1]
+        for side in ("home", "away"):
+            m = (games["season"] == season) & (games["week"] == week) & (games[f"{side}_team"] == team)
+            games.loc[m, [f"{side}_qb_id", f"{side}_qb_name"]] = [pid, hit["player_display_name"].iloc[-1]]
+    return games
+
+
+def load(refresh: bool = False, use_forecasts: bool = True, qbs: dict | None = None,
+         season: int | None = None, week: int | None = None) -> pd.DataFrame:
     seasons = range(model.FIRST_TRAIN_SEASON, data.current_season() + 1)
     snaps = data.load_snaps(seasons, refresh)
     return features.build(
-        data.load_games(refresh),
+        starters(data.load_games(refresh), qbs or {}, season, week),
         injuries=features.injury_scores(data.load_injuries(seasons, refresh), snaps),
         continuity=features.roster_continuity(snaps, data.load_rosters(seasons, refresh)),
         pbp=data.load_team_pbp(range(model.FIRST_TRAIN_SEASON - 1, data.current_season() + 1), refresh),

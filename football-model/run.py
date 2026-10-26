@@ -68,8 +68,12 @@ def _side(p, home, away, line, kind):
 
 
 def cmd_card(args):
-    df = pipeline.load(args.refresh)
+    qbs = dict(q.split("=", 1) for q in args.qb or [])
+    qbs = {t.upper(): n for t, n in qbs.items()}
     season = args.season or data.current_season()
+    df = pipeline.load(args.refresh, qbs=qbs, season=season, week=args.week)
+    if qbs and not args.week:
+        raise SystemExit("--qb needs --week")
     upcoming = df[(df["season"] == season) & df["result"].isna()]
     week = args.week or int(upcoming["week"].min())
     games = upcoming[upcoming["week"] == week]
@@ -96,7 +100,8 @@ def cmd_card(args):
     for (_, g), (_, s), (_, t) in zip(games.iterrows(), ps.iterrows(), pt.iterrows()):
         print(f"{g.away_team} @ {g.home_team}  {g.gameday:%a %m/%d} {g.gametime} ET  ({g.away_qb} vs {g.home_qb})")
         qb_flags = [f"{t} lists {q} but {last_qb[t]} started last game" for t, q in
-                    ((g.away_team, g.away_qb), (g.home_team, g.home_qb)) if t in last_qb and last_qb[t] != q]
+                    ((g.away_team, g.away_qb), (g.home_team, g.home_qb))
+                    if t in last_qb and last_qb[t] != q and t not in qbs]  # --qb confirms it
         for f in qb_flags:
             print(f"   QB CHECK: {f}; the spread pick assumes {f.split(' lists ')[1].split(' but')[0]} plays")
         picks = []
@@ -212,6 +217,7 @@ def main():
     c.add_argument("--season", type=int)
     c.add_argument("--week", type=int)
     c.add_argument("--line", action="append", help="your book's spread for a team, e.g. MIN=-5.5")
+    c.add_argument("--qb", action="append", help='confirmed starter, e.g. PHI="Tanner McKee" (needs --week)')
     c.add_argument("--save", action="store_true", help="save the card to picks/ for grading")
     c.add_argument("--force", action="store_true", help="replace an already-saved card")
     sub.add_parser("grade")
