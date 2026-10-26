@@ -37,7 +37,8 @@ OPEN_FEATURES = [
     "home_short_week", "away_short_week", "travel", "away_tz_east", "body_clock_early",
     "explosive_diff", "rz_diff", "st_diff", "fg_diff", "sack_matchup_diff",
 ]
-# Candidates added together and kept only if the backtest improves (see README).
+# Tested together against the opening line and NOT used: they added bets but lowered the
+# LEAN tier in both periods (2015-22 57.9% -> 56.2%, 2023-26 57.6% -> 55.9%); STRONG was flat.
 NEW_OPEN_FEATURES = ["pen_diff", "go4_diff", "home_style_shift", "away_style_shift", "motivation_diff",
                      "home_field_2020", "denver_home", "turf"]
 # Known only on game day.

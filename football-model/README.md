@@ -73,6 +73,13 @@ rushing yards the value is only when a line lags news (injuries, vacated targets
 archive of prop lines exists, so profit against books is untested; VALUE needs 57.4%+.
 First TD = each player's share of the game's TD rate from the anytime model (untested).
 
+## Variables tested and left out
+| Variable | Test | Result |
+|---|---|---|
+| Missing regulars by unit (snap counts, every absence) | spread vs closing line, 2015-2026 | no change (rating error 9.963 vs 9.964); books price absences |
+| Penalties, 4th-down rate, play-calling shift, late-season motivation, home field since 2020, Denver, turf | spread vs opening line | LEAN worse in both periods (57.9 -> 56.2%, 57.6 -> 55.9%), STRONG flat |
+| Referee crews, primetime/divisional/Thursday unders | totals | did not hold up across periods |
+
 ## Lineups (`python run.py lineup --team DAL`)
 Starters at every position from nflverse's daily ESPN depth chart, with Out/Doubtful players
 starred, plus every "regular" (50%+ of his unit's snaps over the last two games) who is Out,
