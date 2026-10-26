@@ -240,7 +240,12 @@ def _ou_props(args, d, today):
         if cand.empty:
             continue
         cand = cand.assign(proj=sm.project(cand))
-        cand = cand[cand["proj"] >= {"passing_yards": 100, "rushing_yards": 15, "receiving_yards": 15}.get(market, 1)]
+        cand = cand[cand["proj"] >= {"passing_yards": 100, "rushing_yards": 15, "receiving_yards": 15,
+                                     "passing_tds": 0.3}.get(market, 1)]
+        # one quarterback per team: the starter is the QB with the biggest projected role
+        qb = cand["position"] == "QB"
+        top = cand[qb].sort_values("proj").groupby("team").tail(1).index
+        cand = cand[~qb | cand.index.isin(top)]
         print(f"\n{market.replace('_', ' ')}  (median = model's fair line; P = chance of going over the line you gave)")
         for r in cand.sort_values(["team", "proj"], ascending=[True, False]).itertuples(index=False):
             med = sm.median(r.position, r.proj)
