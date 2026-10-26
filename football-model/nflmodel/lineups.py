@@ -67,3 +67,49 @@ def skill_players(depth: pd.DataFrame, max_rank: int = 3) -> pd.DataFrame:
     d = depth[depth["pos_abb"].isin(["QB", "RB", "WR", "TE"]) & (depth["pos_rank"] <= max_rank)
               & ~depth["pos_grp"].str.contains("Special", na=False)]
     return d.drop_duplicates("gsis_id")[["gsis_id", "player_name", "pos_abb"]]
+
+
+MISS_UNITS = ("QB", "OL", "skill", "DL", "LB", "DB")
+
+
+def missing_from_snaps(snaps: pd.DataFrame) -> pd.DataFrame:
+    """For every past team-game: snap share of the regulars from the team's previous two
+    games who did not play, summed by unit (a starter who played 90% counts 0.9).
+
+    This sees every absence, including IR, suspensions and scratches that never appear
+    on the injury report. Columns: game_id, team, miss_<unit>, miss_total.
+    """
+    s = snaps[snaps["game_type"] == "REG"].copy()
+    s["pct"] = s[["offense_pct", "defense_pct"]].max(axis=1)
+    s["unit"] = s["position"].map(UNITS)
+    s = s[s["unit"].isin(MISS_UNITS)]
+    games = s.drop_duplicates(["season", "week", "team"])[["season", "week", "team", "game_id"]].sort_values(
+        ["team", "season", "week"])
+    out = []
+    for team, tg in games.groupby("team"):
+        ts = s[s["team"] == team]
+        by_game = {g: grp for g, grp in ts.groupby("game_id")}
+        order = list(tg.itertuples(index=False))
+        for i, g in enumerate(order):
+            prev = [p for p in order[max(0, i - 2):i] if p.season == g.season]
+            row = {"game_id": g.game_id, "team": team, **{f"miss_{u}": 0.0 for u in MISS_UNITS}}
+            if prev:
+                hist = pd.concat([by_game[p.game_id] for p in prev])
+                reg = hist.groupby(["pfr_player_id", "unit"])["pct"].sum() / len(prev)
+                reg = reg[reg >= REGULAR_PCT].reset_index()
+                played = set(by_game[g.game_id].loc[by_game[g.game_id]["pct"] > 0, "pfr_player_id"])
+                gone = reg[~reg["pfr_player_id"].isin(played)]
+                for u, v in gone.groupby("unit")["pct"].sum().items():
+                    row[f"miss_{u}"] = v
+            out.append(row)
+    d = pd.DataFrame(out)
+    d["miss_total"] = d[[f"miss_{u}" for u in MISS_UNITS]].sum(axis=1)
+    return d
+
+
+def missing_now(team: str, season: int, week: int, refresh: bool = False) -> dict:
+    """The same measure for an upcoming game, from the injury report and depth chart."""
+    m = report(team, season, week, refresh)["missing"]
+    row = {f"miss_{u}": float(m.loc[m["unit"] == u, "pct"].sum()) for u in MISS_UNITS}
+    row["miss_total"] = sum(row.values())
+    return row
