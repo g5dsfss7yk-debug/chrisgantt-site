@@ -48,8 +48,10 @@ players listed Out or Doubtful. Features: share of the team's red-zone (inside 2
 (inside 5) touches, carry and target share, touches, recent TD rate, team implied points from the
 spread and total, opponent TDs allowed, home, position (gradient boosting + logistic, averaged).
 
-Walk-forward 2016-2026: log loss 0.452 vs 0.476 for a player-TD-rate baseline (2016-2022) and
-0.433 vs 0.459 (2023-2026, held out). Calibrated: players given 30-40% scored 36-38%. No free
+Also: offensive snap share, targets and carries vacated by teammates who are out, the opponent's
+TDs allowed to the player's position, and wind. Walk-forward 2016-2026: log loss 0.450 vs 0.476
+for a player-TD-rate baseline (2016-2022) and 0.431 vs 0.459 (2023-2026, held out); the added
+inputs improved both periods (0.4517 -> 0.4501, 0.4328 -> 0.4310). Calibrated: players given 30-40% scored 36-38%. No free
 archive of historical prop odds exists, so profit against books is untested; a prop is flagged
 VALUE only when the model beats the book's implied chance by 5+ points, to clear the hold.
 
