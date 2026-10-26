@@ -30,6 +30,9 @@ LEAGUE_RZ = 0.56        # touchdowns per red-zone trip
 LEAGUE_PACE = 37.5      # neutral-situation seconds per snap
 LEAGUE_PLAYS = 61.0     # offensive snaps per team per game
 LEAGUE_PASS = 0.55      # neutral-situation dropback rate
+LEAGUE_PEN = 50.0       # penalty yards per team per game
+LEAGUE_GO4 = 0.35       # go-for-it rate on 4th and 1-3 between the 3 and own 40
+MOTIVATION_WEEK = 13    # from this week on, a team at or below .300 is treated as playing out the string
 QB_DECAY = 0.95
 QB_PRIOR = 6            # pseudo-starts shrinking a QB's value toward 0
 PYTHAG_EXP = 2.37
@@ -201,6 +204,9 @@ class League:
         self.pace = defaultdict(lambda: LEAGUE_PACE)    # neutral seconds per snap
         self.plays = defaultdict(lambda: LEAGUE_PLAYS)  # offensive snaps per game
         self.pass_rate = defaultdict(lambda: LEAGUE_PASS)  # neutral-situation dropback rate
+        self.pass_fast = defaultdict(lambda: LEAGUE_PASS)  # same, last ~2 games (play-calling shifts)
+        self.pen = defaultdict(lambda: LEAGUE_PEN)      # EWMA penalty yards charged per game
+        self.go4 = defaultdict(lambda: (LEAGUE_GO4 * 5, 5.0))  # (went for it, chances) on 4th-and-short
         self.record = defaultdict(lambda: [0.0, 0.0, 0.0, 0])  # (season, team): pf, pa, wins, games
         self.league_pts = 2 * LEAGUE_PTS
         self.season_of = {}
@@ -217,7 +223,8 @@ class League:
             for d in (self.o_epa, self.d_epa, self.o_sr, self.d_sr, self.o_exp, self.d_exp, self.st):
                 d[t] *= SEASON_KEEP
             for d, base in ((self.o_sack, LEAGUE_SACK), (self.d_sack, LEAGUE_SACK), (self.pace, LEAGUE_PACE),
-                            (self.plays, LEAGUE_PLAYS), (self.pass_rate, LEAGUE_PASS)):
+                            (self.plays, LEAGUE_PLAYS), (self.pass_rate, LEAGUE_PASS),
+                            (self.pass_fast, LEAGUE_PASS), (self.pen, LEAGUE_PEN)):
                 d[t] = base + (d[t] - base) * SEASON_KEEP
             self.to_margin[t] = 0.0
         self.season_of[t] = season
@@ -225,6 +232,17 @@ class League:
     def rz_rate(self, side, t):
         tds, trips = self.rz[side][t]
         return tds / trips
+
+    def go4_rate(self, t):
+        went, chances = self.go4[t]
+        return went / chances
+
+    def motivation(self, season, week, t):
+        """+1 contender (.650+), -1 playing out the string (.300 or worse), late season only."""
+        pf, pa, w, n = self.record[(season, t)]
+        if week < MOTIVATION_WEEK or n == 0:
+            return 0
+        return 1 if w / n >= 0.65 else (-1 if w / n <= 0.3 else 0)
 
     def fg_rate(self, t):
         made, att = self.fg[t]
@@ -296,6 +314,12 @@ class League:
                 self.plays[t] += k * (me.plays - self.plays[t])
                 if not np.isnan(me.neutral_pass):
                     self.pass_rate[t] += k * (me.neutral_pass - self.pass_rate[t])
+                    self.pass_fast[t] += 0.5 * (me.neutral_pass - self.pass_fast[t])
+                pen = getattr(me, "pen_yds", np.nan)
+                if not np.isnan(pen):
+                    self.pen[t] += k * (pen - self.pen[t])
+                went, chances = self.go4[t]
+                self.go4[t] = ((1 - k) * went + getattr(me, "go4", 0), (1 - k) * chances + getattr(me, "go4_opps", 0))
         resid = res - elo_d / 25
         for qb, t, sign in ((r.home_qb_id, h, 1), (r.away_qb_id, a, -1)):
             if isinstance(qb, str):
@@ -407,6 +431,14 @@ def build(games: pd.DataFrame, *, injuries: dict, continuity: dict, pbp: pd.Data
             "rz_diff": (L.rz_rate("o", h) - L.rz_rate("d", h)) - (L.rz_rate("o", a) - L.rz_rate("d", a)),
             "st_diff": L.st[h] - L.st[a], "fg_diff": L.fg_rate(h) - L.fg_rate(a),
             "sack_matchup_diff": 100 * (h_rush_edge - a_rush_edge),
+            "pen_diff": (L.pen[a] - L.pen[h]) / 10,
+            "go4_diff": L.go4_rate(h) - L.go4_rate(a), "go4_sum": L.go4_rate(h) + L.go4_rate(a),
+            # play-calling shift: last ~2 games' pass rate vs the longer-run rate
+            "home_style_shift": abs(L.pass_fast[h] - L.pass_rate[h]),
+            "away_style_shift": abs(L.pass_fast[a] - L.pass_rate[a]),
+            "motivation_diff": L.motivation(r.season, r.week, h) - L.motivation(r.season, r.week, a),
+            "home_field_2020": (1 - neutral) * int(r.season >= 2020),
+            "denver_home": int(h == "DEN" and not neutral),
             # injuries (final report), by unit and as clusters (2+ starters missing in a unit)
             "inj_off_diff": h_off_inj - a_off_inj, "inj_def_diff": h_def_inj - a_def_inj,
             "inj_off_sum": h_off_inj + a_off_inj, "inj_def_sum": h_def_inj + a_def_inj,

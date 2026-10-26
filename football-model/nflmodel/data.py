@@ -86,8 +86,9 @@ def load_snaps(seasons, refresh: bool = False) -> pd.DataFrame:
 PBP_COLS = ["game_id", "posteam", "defteam", "epa", "success", "play_type", "interception",
             "fumble_lost", "yards_gained", "pass", "rush", "sack", "qb_hit", "qb_dropback", "wp",
             "down", "half_seconds_remaining", "game_seconds_remaining", "no_huddle", "pass_oe",
-            "drive", "drive_inside20", "fixed_drive_result", "field_goal_result", "special_teams_play"]
-PBP_VERSION = 2   # bump when the per-team-game summary below gains columns
+            "drive", "drive_inside20", "fixed_drive_result", "field_goal_result", "special_teams_play",
+            "penalty_team", "penalty_yards", "ydstogo", "yardline_100", "qb_kneel"]
+PBP_VERSION = 3   # bump when the per-team-game summary below gains columns
 
 
 def _summarize_pbp(d: pd.DataFrame) -> pd.DataFrame:
@@ -114,10 +115,18 @@ def _summarize_pbp(d: pd.DataFrame) -> pd.DataFrame:
     st = d[d["special_teams_play"] == 1].groupby(key)["epa"].sum()
     fg = d[d["field_goal_result"].notna()].assign(made=lambda x: x["field_goal_result"].eq("made"))
     fg = fg.groupby(key)["made"].agg(["sum", "size"])
+    # Penalty yards charged to each team (offense or defense), keyed by the penalized team.
+    pen = d[d["penalty_team"].notna()].groupby(["game_id", "penalty_team"])["penalty_yards"].sum()
+    pen.index.names = key
+    # 4th-down aggressiveness: went for it on 4th and 1-3 between the 3 and own 40.
+    fourth = d[(d["down"] == 4) & (d["ydstogo"] <= 3) & d["yardline_100"].between(3, 60)
+               & (d["qb_kneel"] != 1) & d["play_type"].isin(["pass", "run", "punt", "field_goal"])]
+    go = fourth.assign(go=fourth["play_type"].isin(["pass", "run"])).groupby(key)["go"].agg(["sum", "size"])
     out = out.join(nt).assign(
         giveaways=give, drives=d.groupby(key)["drive"].nunique(),
-        rz_trips=rz["size"], rz_tds=rz["sum"], st_epa=st, fg_made=fg["sum"], fg_att=fg["size"])
-    fill = ["rz_trips", "rz_tds", "st_epa", "fg_made", "fg_att", "giveaways"]
+        rz_trips=rz["size"], rz_tds=rz["sum"], st_epa=st, fg_made=fg["sum"], fg_att=fg["size"],
+        pen_yds=pen, go4=go["sum"], go4_opps=go["size"])
+    fill = ["rz_trips", "rz_tds", "st_epa", "fg_made", "fg_att", "giveaways", "pen_yds", "go4", "go4_opps"]
     out[fill] = out[fill].fillna(0)
     return out.reset_index().rename(columns={"posteam": "team"})
 

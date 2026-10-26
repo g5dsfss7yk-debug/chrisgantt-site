@@ -33,6 +33,9 @@ OPEN_FEATURES = [
     "home_short_week", "away_short_week", "travel", "away_tz_east", "body_clock_early",
     "explosive_diff", "rz_diff", "st_diff", "fg_diff", "sack_matchup_diff",
 ]
+# Candidates added together and kept only if the backtest improves (see README).
+NEW_OPEN_FEATURES = ["pen_diff", "go4_diff", "home_style_shift", "away_style_shift", "motivation_diff",
+                     "home_field_2020", "denver_home", "turf"]
 # Known only on game day.
 LATE_FEATURES = ["inj_off_diff", "inj_def_diff", "home_backup_qb", "away_backup_qb",
                  "away_dome_team_cold", "home_dome_team_cold",

@@ -178,6 +178,8 @@ def cmd_props(args):
     season = args.season or data.current_season()
     upcoming = games[(games["season"] == season) & games["result"].isna()]
     week = args.week or int(upcoming["week"].min())
+    for gid, f in pipeline.forecasts().items():  # game-day wind for the props weather input
+        games.loc[games["game_id"] == gid, "wind"] = f["wind"]
     pg = props.load_player_games(args.refresh)
     up = props.upcoming(pg, games, season, week, data.load_injuries([season], args.refresh),
                         lineups.load_depth(season, args.refresh))

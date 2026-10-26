@@ -27,6 +27,8 @@ FEATURES = [
     "rz_share", "gl_share", "carry_share", "target_share", "td_rate", "touches",
     "rz_touches", "gl_touches", "implied_pts", "opp_td_allowed", "home", "games",
     "is_rb", "is_wr", "is_te", "is_qb",
+    # added: playing time, teammates' vacated work, opponent by position, weather
+    "snap_pct", "vacated_targets", "vacated_carries", "opp_pos_td_allowed", "wind",
 ]
 
 
@@ -71,7 +73,17 @@ def load_player_games(refresh: bool = False) -> pd.DataFrame:
     d["td"] = ((d["rushing_tds"] + d["receiving_tds"]) > 0).astype(int)
     d["team"] = d["team"].map(teams.franchise)
     d["opponent_team"] = d["opponent_team"].map(teams.franchise)
-    return d
+    # Offensive snap share, matched by name, team and week (snap counts use other ids).
+    snaps = data.load_snaps(range(FIRST_SEASON, data.current_season() + 1), refresh)
+    snaps = snaps.assign(team=snaps["team"].map(teams.franchise), key=_key(snaps["player"]))
+    snaps = snaps.groupby(["season", "week", "team", "key"])["offense_pct"].max().rename("snap").reset_index()
+    d = d.assign(key=_key(d["player_display_name"])).merge(snaps, on=["season", "week", "team", "key"], how="left")
+    return d.drop(columns="key")
+
+
+def _key(name: pd.Series) -> pd.Series:
+    return (name.str.lower().str.replace(r"[^a-z ]", "", regex=True)
+            .str.replace(r"\s+(jr|sr|ii|iii|iv|v)$", "", regex=True).str.strip())
 
 
 def build(pg: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
@@ -85,6 +97,7 @@ def build(pg: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
         "target_share": pg["targets"] / pg["team_targets"].replace(0, np.nan),
         "td_rate": pg["td"].astype(float), "touches": (pg["carries"] + pg["targets"]).astype(float),
         "rz_touches": pg["rz"].astype(float), "gl_touches": pg["gl"].astype(float),
+        "snap_pct": pg["snap"].astype(float),
     }
     pg = pg.assign(**{f"g_{k}": v for k, v in stats.items()})
     # contiguous per player, in time order, so the feature rows line up with pg
@@ -104,6 +117,33 @@ def build(pg: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
             n, last_season = n + 1, r.season
     pg = pd.concat([pg, pd.DataFrame(feats)], axis=1)
 
+    # Teammates' vacated work: target and carry share, over the team's previous two games, of
+    # players who are not playing in this one (injured, inactive, released).
+    tw = pg[["team", "season", "week"]].drop_duplicates().sort_values(["team", "season", "week"])
+    present = pg.groupby(["team", "season", "week"])["player_id"].apply(set)
+    shares = pg.groupby(["team", "season", "week", "player_id"])[["g_target_share", "g_carry_share"]].first()
+    vac = []
+    for team, grp in tw.groupby("team"):
+        weeks = list(grp.itertuples(index=False))
+        for i, w in enumerate(weeks):
+            prev = [p for p in weeks[max(0, i - 2):i] if p.season == w.season]
+            vt = vc = 0.0
+            if prev:
+                hist = pd.concat([shares.loc[(team, p.season, p.week)] for p in prev]).groupby(level=0).sum() / len(prev)
+                gone = hist[~hist.index.isin(present[(team, w.season, w.week)])]
+                vt, vc = gone["g_target_share"].sum(), gone["g_carry_share"].sum()
+            vac.append((team, w.season, w.week, vt, vc))
+    vac = pd.DataFrame(vac, columns=["team", "season", "week", "vacated_targets", "vacated_carries"])
+    pg = pg.merge(vac, on=["team", "season", "week"], how="left")
+
+    # Opponent, by the player's position: running rate of TDs allowed to that position.
+    pos = pg.groupby(["season", "week", "opponent_team", "position"])["td"].sum().reset_index()
+    pos = pos.sort_values(["season", "week"])
+    pos["opp_pos_td_allowed"] = pos.groupby(["opponent_team", "position"])["td"].transform(
+        lambda s: s.shift(1).ewm(alpha=0.15).mean())
+    pg = pg.merge(pos[["season", "week", "opponent_team", "position", "opp_pos_td_allowed"]],
+                  on=["season", "week", "opponent_team", "position"], how="left")
+
     # Opponent: running rate of skill-player TDs allowed per game.
     allowed = pg.groupby(["season", "week", "opponent_team"])["td"].sum().reset_index()
     allowed = allowed.sort_values(["season", "week"])
@@ -113,7 +153,9 @@ def build(pg: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
                   on=["season", "week", "opponent_team"], how="left")
 
     # Team implied points from the closing spread and total (props are bet on game day).
-    g = games[["game_id", "home_team", "away_team", "spread_line", "total_line"]].copy()
+    g = games[["game_id", "home_team", "away_team", "spread_line", "total_line", "wind", "roof"]].copy()
+    g["wind"] = np.where(g["roof"].isin(["dome", "closed"]), 0, g["wind"].fillna(0))
+    g = g.drop(columns="roof")
     g["home_team"], g["away_team"] = g["home_team"].map(teams.franchise), g["away_team"].map(teams.franchise)
     pg = pg.merge(g, on="game_id", how="left")
     pg["home"] = (pg["team"] == pg["home_team"]).astype(int)
