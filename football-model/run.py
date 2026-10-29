@@ -113,12 +113,14 @@ def cmd_card(args):
             if tier and qb_flags:
                 tier = "HOLD (QB check)"
             each = "  ".join(f"{n} {g.home_team} {-s[f'rating_{n}']:+.1f}" for n in model.LEARNERS)
-            print(f"   spread {label:14} P {prob:.0%}  models {int(s.agree)}/{int(s.n_models)}  ({each})  {tier}")
+            shown = tier or "lean (fun money)"  # every game gets the model's side; only tiers are bets
+            print(f"   spread {label:14} P {prob:.0%}  models {int(s.agree)}/{int(s.n_models)}  ({each})  {shown}")
             picks.append(("spread", s.line, label, prob, tier))
         else:
             print("   spread: no line yet")
         if not np.isnan(t.line):
-            print(f"   total  {t.line:g}: model {t.rating:.1f} (info only; model totals are not bet)")
+            lean = "Over" if t.rating > t.line else "Under"
+            print(f"   total  {lean} {t.line:g}: model {t.rating:.1f}  lean (fun money; model totals have no tested edge)")
             if not g.dome and (g.wind >= WEATHER_UNDER_WIND or g.rain or g.snow):
                 why = f"wind {g.wind:.0f} mph" if g.wind >= WEATHER_UNDER_WIND else "rain/snow forecast"
                 print(f"   total  Under {t.line:g}  {why}: such games went Under ~55% (2009-2026)  WEATHER")
