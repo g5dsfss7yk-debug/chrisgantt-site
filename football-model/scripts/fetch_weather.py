@@ -1,8 +1,9 @@
-"""Download kickoff-window forecasts for upcoming outdoor NFL games from Open-Meteo.
+"""Download kickoff-window forecasts for upcoming outdoor NFL and college games from Open-Meteo.
 
 Run by .github/workflows/nfl-weather.yml on GitHub's runners (the model's cloud
 sandbox cannot reach weather APIs). Writes one row per game:
   game_id, temp, wind, gust, precip_prob, precip_in, snow_in, fetched_at
+College rows have game_id "cfb_<ESPN id>" plus the stadium's surface (grass true/false).
 
   python scripts/fetch_weather.py OUT.csv [--days 8]
 """
@@ -23,6 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from nflmodel import teams  # noqa: E402
 
 GAMES_URL = "https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv"
+CFB = "https://raw.githubusercontent.com/sportsdataverse/cfbfastR-data/main"
 API = "https://api.open-meteo.com/v1/forecast"
 GAME_HOURS = 4  # kickoff hour plus the next three
 
@@ -52,6 +54,48 @@ def get(params: dict) -> dict:
         except OSError:
             time.sleep(2 ** attempt)
     raise RuntimeError(f"failed: {url}")
+
+
+def _window(lat, lon, day, start_hour):
+    d = get({"latitude": lat, "longitude": lon, "timezone": "America/New_York",
+             "temperature_unit": "fahrenheit", "wind_speed_unit": "mph", "precipitation_unit": "inch",
+             "hourly": "temperature_2m,wind_speed_10m,wind_gusts_10m,"
+                       "precipitation_probability,precipitation,snowfall",
+             "start_date": day, "end_date": day})
+    h = pd.DataFrame(d["hourly"])
+    if h.empty:
+        return None
+    w = h.iloc[start_hour:start_hour + GAME_HOURS]
+    return {"temp": round(w["temperature_2m"].mean(), 1), "wind": round(w["wind_speed_10m"].mean(), 1),
+            "gust": round(w["wind_gusts_10m"].max(), 1), "precip_prob": w["precipitation_probability"].max(),
+            "precip_in": round(w["precipitation"].sum(), 2), "snow_in": round(w["snowfall"].sum() / 2.54, 2),
+            "fetched_at": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ")}
+
+
+def college(days: int) -> list[dict]:
+    """Upcoming college games at stadiums in the team-info file (outdoor ones get a forecast)."""
+    season = dt.date.today().year if dt.date.today().month >= 8 else dt.date.today().year - 1
+    s = pd.read_csv(f"{CFB}/schedules/csv/cfb_schedules_{season}.csv", low_memory=False)
+    # Stadium coordinates and surface, saved from cfbfastR-data's team info (parquet needs pyarrow).
+    venues = pd.read_csv(Path(__file__).with_name("cfb_venues.csv")).set_index("venue_id")
+    s["kick"] = pd.to_datetime(s["start_date"], utc=True).dt.tz_convert("America/New_York")
+    now = pd.Timestamp.now(tz="America/New_York")
+    up = s[~s["completed"].astype(bool) & (s["kick"] >= now - pd.Timedelta(hours=4))
+           & (s["kick"] <= now + pd.Timedelta(days=days))]
+    rows = []
+    for x in up.itertuples(index=False):
+        v = venues.loc[x.venue_id] if x.venue_id in venues.index else None
+        if v is None or pd.isna(v["latitude"]):
+            continue
+        row = {"game_id": f"cfb_{x.game_id}", "home_team": x.home_team, "grass": bool(v["grass"]),
+               "dome": bool(v["dome"])}
+        if not v["dome"]:
+            w = _window(v["latitude"], v["longitude"], f"{x.kick:%Y-%m-%d}", x.kick.hour)
+            if w:
+                row.update(w)
+        rows.append(row)
+    print(f"{len(rows)} college games")
+    return rows
 
 
 def main():
@@ -96,6 +140,10 @@ def main():
             "fetched_at": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
         })
         print(rows[-1])
+    try:
+        rows += college(min(args.days, 3))
+    except Exception as e:  # college data is optional; never lose the NFL forecasts
+        print(f"college weather skipped: {e}")
     pd.DataFrame(rows).to_csv(args.out, index=False)
     print(f"wrote {len(rows)} games to {args.out}")
 
