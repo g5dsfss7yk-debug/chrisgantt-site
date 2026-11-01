@@ -181,6 +181,9 @@ def weather(g: pd.DataFrame, weather_text: pd.DataFrame | None, forecasts: dict 
     g["heat"] = (g["temp"] - 85).clip(lower=0)
     g["high_wind"] = (g["wind"] - 10).clip(lower=0)
     g["gusty"] = (g["gust"] - 20).clip(lower=0)
+    # The schedule leaves surface blank for many 2026 games; use the stadium's latest known surface.
+    surf = g.dropna(subset=["surface"]).sort_values("gameday").groupby("stadium_id")["surface"].last()
+    g["surface"] = g["surface"].fillna(g["stadium_id"].map(surf))
     g["turf"] = (~g["surface"].fillna("grass").str.contains("grass")).astype(int)
     return g
 

@@ -25,8 +25,8 @@ python run.py backtest          # walk-forward test, tuned 2015-2022, held out 2
    are judged on game day, when the forecast and final injury report are in.
 4. **Card.** Spread bets need all three models on the same side: STRONG at P >= 55%,
    LEAN at P >= 53%. Picks are held when the listed QB differs from last week's starter.
-   Totals are bet only in outdoor games with 15+ mph wind or rain/snow (Under); heavy
-   defensive injuries are flagged as an Over to watch. A card is saved once and not
+   Totals are never bet: every game shows the model's Over/Under lean as fun money, with
+   wind/rain noted and heavy defensive injuries flagged as an Over to watch. A card is saved once and not
    changed; `grade` scores it.
 
 Backtest against opening lines (`python run.py backtest`):
@@ -36,8 +36,24 @@ Backtest against opening lines (`python run.py backtest`):
 | STRONG | 147-88 (62.6%) | 69-54 (56.1%) |
 | LEAN | 329-239 (57.9%) | 177-131 (57.5%) |
 
-Model totals lost in 2023-2026 with every learner and feature set tried, so they are shown
-for information only. Weather Unders went about 55% in both periods.
+Model totals are information only. Walk-forward, the model's side won 51.0% (2015-19),
+49.5% (2020-23) and 49.9% (2024-26). Until November 2026 the card took its Over/Under side
+from the raw rating, which runs about a point below recent scoring, so it leaned Under in
+most games while Overs were hitting (Unders went 47% in 2024-26; the model's Under leans
+won 45.8%). The side now comes from the rating re-leveled by its recent miss against actual
+scores, which splits Over/Under about evenly.
+
+Common Under angles that worked in 2017-2023 did not hold up in 2024-2026 (Under rate):
+
+| Situation | 2009-16 | 2017-23 | 2024-26 |
+|---|---|---|---|
+| Outdoor wind 15+ mph | 52.8% | 59.9% | 48.6% |
+| Outdoor rain/snow | 46.5% | 66.7% | 51.7% |
+| Total 50+ | 49.4% | 53.7% | 45.7% |
+| Division game | 53.6% | 53.0% | 45.7% |
+| Backup QB starts | 52.4% | 53.9% | 47.0% |
+| Spread 10+ | 52.6% | 53.6% | 40.7% |
+| All games | 49.5% | 52.8% | 47.3% |
 
 ## Anytime-TD props (`python run.py props`)
 ```

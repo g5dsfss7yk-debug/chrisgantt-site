@@ -20,8 +20,11 @@ from nflmodel import data, lineups, model, pipeline, props, statprops
 # Spread tiers need all three models on the same side of the line. Held out 2023-2026:
 # STRONG (P >= 55%) 69-54 (56.1%), LEAN (P >= 53%) 177-131 (57.5%); 2015-2022: 62.6% / 57.9%.
 TIERS = (("STRONG", 0.55), ("LEAN", 0.53))
-# Model totals lost in 2023-2026 with every learner, so totals come only from situations
-# that held up in both periods: outdoor wind 15+ mph or rain/snow went Under ~55%.
+# Model totals have no tested edge (about 50% in every period), so they are leans only. The
+# side comes from the re-leveled rating (see model.Market), not the raw one: the raw rating
+# sits about a point below recent scoring and made the card lean Under in most games.
+# Weather Unders (outdoor wind 15+ mph or rain/snow) went 53-67% in 2009-2023 but 49-52% in
+# 2024-2026 as books caught up, so they are shown as a note, not a bet.
 WEATHER_UNDER_WIND = 15
 # Games in the top 10% of defensive injury burden went Over 64% in 2023+ (flat before): watch only.
 DEF_INJURY_WATCH = 1.98
@@ -97,7 +100,7 @@ def cmd_card(args):
         last_qb[g.home_team], last_qb[g.away_team] = g.home_qb, g.away_qb
 
     rows = []
-    print(f"\n{season} week {week} card  (bet rows marked STRONG / LEAN / WEATHER; P = chance the bet wins;"
+    print(f"\n{season} week {week} card  (bet rows marked STRONG / LEAN; P = chance the bet wins;"
           f" models = how many of {len(model.LEARNERS)} agree)\n")
     for (_, g), (_, s), (_, t) in zip(games.iterrows(), ps.iterrows(), pt.iterrows()):
         print(f"{g.away_team} @ {g.home_team}  {g.gameday:%a %m/%d} {g.gametime} ET  ({g.away_qb} vs {g.home_qb})")
@@ -119,19 +122,21 @@ def cmd_card(args):
         else:
             print("   spread: no line yet")
         if not np.isnan(t.line):
-            lean = "Over" if t.rating > t.line else "Under"
-            print(f"   total  {lean} {t.line:g}: model {t.rating:.1f}  lean (fun money; model totals have no tested edge)")
+            lean = "Over" if t.p >= 0.5 else "Under"
+            level = t.rating - total.center
+            print(f"   total  {lean} {t.line:g}: model {level:.1f}  P {max(t.p, 1 - t.p):.0%}"
+                  "  lean (fun money; model totals have no tested edge)")
+            picks.append(("total", t.line, f"{lean} {t.line:g}", max(t.p, 1 - t.p), None))
             if not g.dome and (g.wind >= WEATHER_UNDER_WIND or g.rain or g.snow):
                 why = f"wind {g.wind:.0f} mph" if g.wind >= WEATHER_UNDER_WIND else "rain/snow forecast"
-                print(f"   total  Under {t.line:g}  {why}: such games went Under ~55% (2009-2026)  WEATHER")
-                picks.append(("total", t.line, f"Under {t.line:g}", 0.55, "WEATHER"))
+                print(f"   note   {why}: such games went Under 53-67% in 2009-2023 but only 49-52% since 2024")
             elif g.inj_def_sum >= DEF_INJURY_WATCH:
                 print(f"   total  Over {t.line:g}  heavy defensive injuries: watch only, not a bet")
         for kind, ln, label, prob, tier in picks:
             rows.append({"season": season, "week": week, "game_id": g.game_id, "kind": kind,
                          "home_team": g.home_team, "away_team": g.away_team, "line": ln, "pick": label,
                          "p": round(prob, 3), "tier": tier,
-                         "bet": tier in ("STRONG", "LEAN", "WEATHER"), "qb_check": bool(qb_flags)})
+                         "bet": tier in ("STRONG", "LEAN"), "qb_check": bool(qb_flags)})
     if args.save:
         PICKS.mkdir(exist_ok=True)
         path = PICKS / f"{season}_wk{week:02d}.csv"

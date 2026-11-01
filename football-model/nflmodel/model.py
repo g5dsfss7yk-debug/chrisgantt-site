@@ -56,7 +56,8 @@ CLOSE_TOTAL_FEATURES = [
 ]
 FIRST_TRAIN_SEASON = 2009   # injury reports and nfelo opening lines start here
 MIN_STAGE2_SEASONS = 2
-CENTER_N = 400   # games in the trailing average gap that totals are centered on
+CENTER_N = 400   # games in the trailing average miss that totals are re-leveled by
+CENTER_LAG = 16  # skip about one week of games so a game is never leveled with its own week
 
 
 # Three different kinds of learner: linear, boosted trees, randomized trees.
@@ -82,8 +83,10 @@ class Market:
         # Totals: stage 2 has no fixed intercept. A fixed one learns the past Over/Under
         # rate (NFL Unders hit 53-55% in 2015-2023) and the model's past scoring level, and
         # keeps applying them after scoring shifts (Overs hit 52-54% in 2024-2026). Instead
-        # the gap is measured against the model's recent average gap to the line (CENTER_N
-        # games), so it adapts to each season's scoring.
+        # the rating is re-leveled by how far it has recently missed the actual scores
+        # (CENTER_N games, ending CENTER_LAG games back so same-week results are not used).
+        # Centering on the model's gap to the *line* (the earlier fix) kept the model's own
+        # low scoring level and still leaned Under ~60% of the time in 2024-2026.
         self.intercept = kind == "spread"
         self.center = 0.0
         self.target = "result" if kind == "spread" else "total"
@@ -120,11 +123,11 @@ class Market:
     def _fit_edge(self, d, oos) -> "Market":
         """Stage 2 from out-of-sample ensemble ratings (oos, aligned to d's rows)."""
         e = d.assign(r=oos).dropna(subset=["r", self.line])
-        gap = e["r"] - e[self.line]
+        miss = e["r"] - e[self.target]  # + = model rated the game higher than it finished
         shift = pd.Series(0.0, index=e.index)
         if not self.intercept:
-            shift = gap.shift(1).rolling(CENTER_N, min_periods=CENTER_N // 4).mean()
-            self.center = float(gap.tail(CENTER_N).mean())
+            shift = miss.shift(CENTER_LAG).rolling(CENTER_N, min_periods=CENTER_N // 4).mean()
+            self.center = float(miss.tail(CENTER_N).mean())
         e = e.assign(shift=shift).dropna(subset=["shift"])
         diff = e[self.target] - e[self.line]
         e, diff = e[diff != 0], diff[diff != 0]  # pushes carry no information
