@@ -14,6 +14,7 @@ import pandas as pd
 
 from cfbmodel import data, markets, pipeline
 from nflmodel import model
+import run
 
 # Against opening lines, all three models agreeing at P >= 55% went 219-166 (56.9%) in
 # 2017-2021 and 54-40 (57.4%) in 2022-2025. Against closing lines there is no edge.
@@ -49,6 +50,15 @@ def cmd_backtest(args):
         hold = model.record(agreed[agreed["season"] >= HOLDOUT], target, STRONG)
         print(f"\n=== {name} ===\n  P >= {STRONG:.2f}, all agree: 2017-{HOLDOUT - 1} {_rec(tune)} | {HOLDOUT}+ {_rec(hold)}")
         print(model.calibration(p, target).to_string())
+
+
+def _kickoff(g) -> str:
+    """Kickoff for the pick log; a game with no announced time (listed at midnight) counts as
+    late that day so it is not dropped as already started."""
+    k = g.kickoff_et
+    if k.hour == 0 and k.minute == 0:
+        k = k + pd.Timedelta(hours=23, minutes=59)
+    return f"{k:%Y-%m-%d %H:%M}"
 
 
 def _find(games, name):
@@ -91,17 +101,19 @@ def cmd_card(args):
         fair = -s.rating
         each = " ".join(f"{-s[f'rating_{n}']:+.1f}" for n in model.LEARNERS)
         flags = [f"{side.upper()} QB changed last game ({g[f'{side}_qb']})" for side in ("home", "away") if g[f"{side}_qb_change"]]
-        head = f"{g.kickoff_et:%I:%M%p} {g.away_team} @ {g.home_team}{' (neutral)' if g.neutral else ''}"
+        tbd = g.kickoff_et.hour == 0 and g.kickoff_et.minute == 0  # no kickoff time announced yet
+        head = f"{'TBD    ' if tbd else f'{g.kickoff_et:%I:%M%p}'} {g.away_team} @ {g.home_team}{' (neutral)' if g.neutral else ''}"
         print(f"{head:58} fair {g.home_team} {fair:+.1f}  ({each})  total {t.rating - total.center:.0f}")
         for f in flags:
             print(f"   QB CHECK: {f}")
         if not np.isnan(t.p):
             tlabel, tprob = (f"Over {t.line:g}", t.p) if t.p >= 0.5 else (f"Under {t.line:g}", 1 - t.p)
             ttier = ""
-            print(f"   total:   {tlabel:30} P {tprob:.0%}  models {int(t.agree)}/{int(t.n_models)}  (info only, not bet)")
+            print(f"   total:   {tlabel:30} P {tprob:.0%}  models {int(t.agree)}/{int(t.n_models)}  PICK")
             if t.line >= HIGH_TOTAL_UNDER:
                 print(f"   total:   Under {t.line:g}  total of {HIGH_TOTAL_UNDER}+: watch only (faded in 2024-2025)")
             rows.append({"season": g.season, "gameday": f"{day:%Y-%m-%d}", "game_id": g.game_id, "kind": "total",
+                         "kickoff": _kickoff(g),
                          "home_team": g.home_team, "away_team": g.away_team, "line": t.line, "pick": tlabel,
                          "p": round(tprob, 3), "tier": ttier, "bet": ttier == "STRONG"})
         if np.isnan(s.p):
@@ -111,20 +123,13 @@ def cmd_card(args):
         else:
             label, prob = f"{g.away_team} {s.line:+.1f}", 1 - s.p
         tier = "STRONG" if prob >= STRONG and s.agree == s.n_models and not flags else ""
-        print(f"   vs line: {label:30} P {prob:.0%}  models {int(s.agree)}/{int(s.n_models)}  {tier}")
+        print(f"   vs line: {label:30} P {prob:.0%}  models {int(s.agree)}/{int(s.n_models)}  {tier or 'PICK'}")
         rows.append({"season": g.season, "gameday": f"{day:%Y-%m-%d}", "game_id": g.game_id, "kind": "spread",
+                     "kickoff": _kickoff(g),
                      "home_team": g.home_team, "away_team": g.away_team, "line": s.line, "pick": label,
                      "p": round(prob, 3), "tier": tier, "bet": tier == "STRONG"})
-    print("\nThe edge held up only against OPENING lines. Against a line that has already moved, "
-          "treat P as an upper bound.")
-    if args.save and rows:
-        PICKS.mkdir(parents=True, exist_ok=True)
-        path = PICKS / f"{day:%Y-%m-%d}.csv"
-        if path.exists() and not args.force:
-            print(f"{path.name} already saved; a card is posted once (use --force to replace)")
-        else:
-            pd.DataFrame(rows).to_csv(path, index=False)
-            print(f"saved {path}")
+    run._best_bets(pd.DataFrame(rows))
+    run._save_picks(pd.DataFrame(rows), PICKS / f"{day:%Y-%m-%d}.csv", args.force)
 
 
 def cmd_grade(args):
@@ -134,7 +139,6 @@ def cmd_grade(args):
         print("no saved CFB cards yet (run: python cfb.py card --line ... --save)")
         return
     log = pd.concat([pd.read_csv(f) for f in files])
-    log = log[log["bet"]]
     out = []
     for r in log.itertuples(index=False):
         g = games.loc[r.game_id]
@@ -147,12 +151,16 @@ def cmd_grade(args):
             else:
                 diff = (g.result - r.line) * (1 if r.pick.startswith(r.home_team + " ") else -1)
             res = "push" if diff == 0 else ("win" if diff > 0 else "loss")
-        out.append({"day": r.gameday, "pick": r.pick, "p": r.p, "result": res})
+        tier = r.tier if isinstance(r.tier, str) and r.tier else "lean"
+        out.append({"day": r.gameday, "kind": getattr(r, "kind", "spread"), "pick": r.pick, "p": r.p,
+                    "tier": tier, "result": res})
     out = pd.DataFrame(out)
     print(out.to_string(index=False))
-    w, l = (out["result"] == "win").sum(), (out["result"] == "loss").sum()
-    if w + l:
-        print(f"record {w}-{l} ({w / (w + l):.1%}), units {w * 100 / 110 - l:+.2f} at -110")
+    out["group"] = out["kind"] + " " + out["tier"]
+    for name, part in [("all", out)] + list(out.groupby("group")):
+        w, l = (part["result"] == "win").sum(), (part["result"] == "loss").sum()
+        if w + l:
+            print(f"{name:16} {w}-{l} ({w / (w + l):.1%}), units {w * 100 / 110 - l:+.2f} at -110")
 
 
 def main():
@@ -164,8 +172,8 @@ def main():
     c.add_argument("--date", help="game day, YYYY-MM-DD (default: next day with games)")
     c.add_argument("--line", action="append", help='your book\'s spread for a team, e.g. "Iowa=-7.5"')
     c.add_argument("--total", action="append", help='your book\'s total for a game, by either team, e.g. "Iowa=40.5"')
-    c.add_argument("--save", action="store_true")
-    c.add_argument("--force", action="store_true")
+    c.add_argument("--save", action="store_true", help="no longer needed: every card is saved for grading")
+    c.add_argument("--force", action="store_true", help="replace an already-saved card")
     sub.add_parser("grade")
     args = ap.parse_args()
     {"backtest": cmd_backtest, "card": cmd_card, "grade": cmd_grade}[args.cmd](args)

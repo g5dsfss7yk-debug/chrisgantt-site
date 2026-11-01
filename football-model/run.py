@@ -72,9 +72,13 @@ def _side(p, home, away, line, kind):
     return (f"Over {line:g}", p) if p >= 0.5 else (f"Under {line:g}", 1 - p)
 
 
+def _qb_overrides(args) -> dict:
+    """--qb TEAM="Name" flags as {"TEAM": "Name"}."""
+    return {t.strip().upper(): n.strip().strip('"') for t, n in (q.split("=", 1) for q in args.qb or [])}
+
+
 def cmd_card(args):
-    qbs = dict(q.split("=", 1) for q in args.qb or [])
-    qbs = {t.upper(): n for t, n in qbs.items()}
+    qbs = _qb_overrides(args)
     season = args.season or data.current_season()
     df = pipeline.load(args.refresh, qbs=qbs, season=season, week=args.week)
     if qbs and not args.week:
@@ -116,7 +120,7 @@ def cmd_card(args):
             if tier and qb_flags:
                 tier = "HOLD (QB check)"
             each = "  ".join(f"{n} {g.home_team} {-s[f'rating_{n}']:+.1f}" for n in model.LEARNERS)
-            shown = tier or "lean (fun money)"  # every game gets the model's side; only tiers are bets
+            shown = tier or "PICK"  # every game gets the model's side; STRONG/LEAN are the tested tiers
             print(f"   spread {label:14} P {prob:.0%}  models {int(s.agree)}/{int(s.n_models)}  ({each})  {shown}")
             picks.append(("spread", s.line, label, prob, tier))
         else:
@@ -124,8 +128,7 @@ def cmd_card(args):
         if not np.isnan(t.line):
             lean = "Over" if t.p >= 0.5 else "Under"
             level = t.rating - total.center
-            print(f"   total  {lean} {t.line:g}: model {level:.1f}  P {max(t.p, 1 - t.p):.0%}"
-                  "  lean (fun money; model totals have no tested edge)")
+            print(f"   total  {lean} {t.line:g}: model {level:.1f}  P {max(t.p, 1 - t.p):.0%}  PICK")
             picks.append(("total", t.line, f"{lean} {t.line:g}", max(t.p, 1 - t.p), None))
             if not g.dome and (g.wind >= WEATHER_UNDER_WIND or g.rain or g.snow):
                 why = f"wind {g.wind:.0f} mph" if g.wind >= WEATHER_UNDER_WIND else "rain/snow forecast"
@@ -134,17 +137,46 @@ def cmd_card(args):
                 print(f"   total  Over {t.line:g}  heavy defensive injuries: watch only, not a bet")
         for kind, ln, label, prob, tier in picks:
             rows.append({"season": season, "week": week, "game_id": g.game_id, "kind": kind,
+                         "kickoff": f"{g.gameday:%Y-%m-%d} {g.gametime}",
                          "home_team": g.home_team, "away_team": g.away_team, "line": ln, "pick": label,
                          "p": round(prob, 3), "tier": tier,
                          "bet": tier in ("STRONG", "LEAN"), "qb_check": bool(qb_flags)})
-    if args.save:
-        PICKS.mkdir(exist_ok=True)
-        path = PICKS / f"{season}_wk{week:02d}.csv"
-        if path.exists() and not args.force:
-            print(f"\n{path.name} already saved; a card is posted once (use --force to replace)")
-        else:
-            pd.DataFrame(rows).to_csv(path, index=False)
-            print(f"\nsaved {path}")
+    _best_bets(pd.DataFrame(rows))
+    _save_picks(pd.DataFrame(rows), PICKS / f"{season}_wk{week:02d}.csv", args.force)
+
+
+def _best_bets(rows: pd.DataFrame, n: int = 6):
+    """The card's picks ranked: tested spread tiers first, then by the model's chance."""
+    if rows.empty:
+        return
+    rank = {"STRONG": 0, "LEAN": 1}
+    r = rows.assign(order=rows["tier"].map(rank).fillna(2)).sort_values(["order", "p"], ascending=[True, False])
+    print("\nBEST BETS (ranked)")
+    for i, x in enumerate(r.head(n).itertuples(index=False), 1):
+        print(f"  {i}. {x.pick:16} {x.away_team} @ {x.home_team}  P {x.p:.0%}  {x.tier if isinstance(x.tier, str) and x.tier else 'PICK'}")
+    print("  STRONG/LEAN spreads went 56-58% in backtests; PICKs are the model's side at lower confidence.")
+
+
+def _save_picks(rows: pd.DataFrame, path, force: bool = False):
+    """Every card is saved so every lean is graded. A pick already saved for a game is kept
+    (the first card shown is the one graded) unless --force; games that have kicked off are
+    never added."""
+    if rows.empty:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if "kickoff" in rows:
+        now = pd.Timestamp.now(tz="America/New_York").tz_localize(None)
+        rows = rows[pd.to_datetime(rows["kickoff"]) > now]
+    if path.exists() and not force:
+        old = pd.read_csv(path)
+        key = ["game_id", "kind"]
+        new = rows[~rows.set_index(key).index.isin(old.set_index(key).index)]
+        rows = pd.concat([old, new], ignore_index=True)
+        added = len(new)
+    else:
+        added = len(rows)
+    rows.to_csv(path, index=False)
+    print(f"\nsaved {added} new pick(s) to {path.name} (graded by: grade)")
 
 
 def cmd_grade(args):
@@ -154,7 +186,6 @@ def cmd_grade(args):
         print("no saved cards yet (run: python run.py card --save)")
         return
     log = pd.concat([pd.read_csv(f) for f in files])
-    log = log[log["bet"]]
     out = []
     for r in log.itertuples(index=False):
         g = games.loc[r.game_id]
@@ -165,14 +196,15 @@ def cmd_grade(args):
             home_or_over = r.pick.startswith(r.home_team) if r.kind == "spread" else r.pick.startswith("Over")
             diff = (actual - r.line) * (1 if home_or_over else -1)
             res = "push" if diff == 0 else ("win" if diff > 0 else "loss")
-        tier = r.tier if isinstance(getattr(r, "tier", None), str) else "STRONG"  # pre-tier cards
-        out.append({"week": r.week, "pick": r.pick, "p": r.p, "tier": tier, "result": res})
+        tier = r.tier if isinstance(getattr(r, "tier", None), str) else ("STRONG" if r.bet else "lean")
+        out.append({"week": r.week, "kind": r.kind, "pick": r.pick, "p": r.p, "tier": tier, "result": res})
     out = pd.DataFrame(out)
     print(out.to_string(index=False))
-    for name, part in [("all", out)] + list(out.groupby("tier")):
+    out["group"] = out["kind"] + " " + out["tier"]
+    for name, part in [("all", out)] + list(out.groupby("group")):
         w, l = (part["result"] == "win").sum(), (part["result"] == "loss").sum()
         if w + l:
-            print(f"{name:8} {w}-{l}  ({w / (w + l):.1%}), units {w * 100 / 110 - l:+.2f} at -110")
+            print(f"{name:16} {w}-{l}  ({w / (w + l):.1%}), units {w * 100 / 110 - l:+.2f} at -110")
 
 
 def _american(odds: str) -> float:
@@ -186,6 +218,7 @@ def cmd_props(args):
     season = args.season or data.current_season()
     upcoming = games[(games["season"] == season) & games["result"].isna()]
     week = args.week or int(upcoming["week"].min())
+    games = pipeline.starters(games, _qb_overrides(args), season, week)
     for gid, f in pipeline.forecasts().items():  # game-day wind for the props weather input
         games.loc[games["game_id"] == gid, "wind"] = f["wind"]
     pg = props.load_player_games(args.refresh)
@@ -222,10 +255,12 @@ def cmd_props(args):
           f" so profit against books is untested. VALUE = model beats the book's implied chance by {PROP_EDGE:.0%}+.")
     if args.no_ou:
         return
-    _ou_props(args, d, today)
+    wk = games[(games["season"] == season) & (games["week"] == week)]
+    qbs = {**dict(zip(wk["home_team"], wk["home_qb_name"])), **dict(zip(wk["away_team"], wk["away_qb_name"]))}
+    _ou_props(args, d, today, qbs)
 
 
-def _ou_props(args, d, today):
+def _ou_props(args, d, today, qbs):
     """Over/under markets: projection, and P(over) for any --line given."""
     lines = {}
     for item in args.line or []:  # "CeeDee Lamb:receptions=5.5"
@@ -249,10 +284,14 @@ def _ou_props(args, d, today):
         cand = cand.assign(proj=sm.project(cand))
         cand = cand[cand["proj"] >= {"passing_yards": 100, "rushing_yards": 15, "receiving_yards": 15,
                                      "passing_tds": 0.3}.get(market, 1)]
-        # one quarterback per team: the starter is the QB with the biggest projected role
+        # one quarterback per team, the same in every market: the game's listed starter (as on
+        # the card, or --qb), else the QB with the biggest projected role. Choosing per market
+        # showed different QBs for one team (e.g. a backup in passing yards, starter in completions).
         qb = cand["position"] == "QB"
-        top = cand[qb].sort_values("proj").groupby("team").tail(1).index
-        cand = cand[~qb | cand.index.isin(top)]
+        listed = cand["player_display_name"].str.lower() == cand["team"].map(qbs).astype(str).str.lower()
+        has_listed = cand[qb & listed]["team"].unique()
+        top = cand[qb & ~cand["team"].isin(has_listed)].sort_values("proj").groupby("team").tail(1).index
+        cand = cand[~qb | (listed & qb) | cand.index.isin(top)]
         print(f"\n{market.replace('_', ' ')}  (median = model's fair line; P = chance of going over the line you gave)")
         for r in cand.sort_values(["team", "proj"], ascending=[True, False]).itertuples(index=False):
             med = sm.median(r.position, r.proj)
@@ -306,7 +345,7 @@ def main():
     c.add_argument("--week", type=int)
     c.add_argument("--line", action="append", help="your book's spread for a team, e.g. MIN=-5.5")
     c.add_argument("--qb", action="append", help='confirmed starter, e.g. PHI="Tanner McKee" (needs --week)')
-    c.add_argument("--save", action="store_true", help="save the card to picks/ for grading")
+    c.add_argument("--save", action="store_true", help="no longer needed: every card is saved for grading")
     c.add_argument("--force", action="store_true", help="replace an already-saved card")
     sub.add_parser("grade")
     pr = sub.add_parser("props")
@@ -319,6 +358,7 @@ def main():
                     help="over/under markets to show (default: all)")
     pr.add_argument("--line", action="append", help='book line, e.g. "CeeDee Lamb:receptions=5.5"')
     pr.add_argument("--no-ou", action="store_true", help="anytime/first TD only")
+    pr.add_argument("--qb", action="append", help='confirmed starter, e.g. BAL="Tyler Huntley"')
     ln = sub.add_parser("lineup")
     ln.add_argument("--season", type=int)
     ln.add_argument("--week", type=int)

@@ -25,9 +25,11 @@ python run.py backtest          # walk-forward test, tuned 2015-2022, held out 2
    are judged on game day, when the forecast and final injury report are in.
 4. **Card.** Spread bets need all three models on the same side: STRONG at P >= 55%,
    LEAN at P >= 53%. Picks are held when the listed QB differs from last week's starter.
-   Totals are never bet: every game shows the model's Over/Under lean as fun money, with
-   wind/rain noted and heavy defensive injuries flagged as an Over to watch. A card is saved once and not
-   changed; `grade` scores it.
+   Every game gets a spread PICK and a total PICK (the model's side); STRONG/LEAN mark the
+   tested spread tiers, and the card ends with its picks ranked. Wind/rain is noted and heavy
+   defensive injuries are flagged as an Over to watch. Every card is saved to picks/: the
+   first pick shown for a game is kept (re-running adds new games only, `--force` replaces),
+   games that have kicked off are never added, and `grade` scores every pick by kind and tier.
 
 Backtest against opening lines (`python run.py backtest`):
 
