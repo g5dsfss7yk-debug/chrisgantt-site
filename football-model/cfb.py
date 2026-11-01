@@ -20,6 +20,8 @@ from nflmodel import model
 # Model totals are not bet. Re-tested with the stage-2 Under lean removed and the gap
 # centered on recent games: vs the opening total, P >= 55% went 198-172 (53.5%) in
 # 2017-2021 and 34-35 (49.3%) in 2022-2025, and the most confident picks did worst.
+# Re-leveling on actual scores (the NFL fix, Nov 2026) did worse here: every-game leans won
+# 50.0% in 2024-2026 vs 51.5% centered on the line, and leaned Under 58% of 2026 games.
 STRONG = 0.55
 # Closing totals of 65+ went Under 55.3% in 2016-2021 and 56.2% in 2022-2025, but only
 # 51.6% (n=31) and 41.7% (n=24) in 2024-2025, so this is a watch flag, not a bet.
@@ -90,7 +92,7 @@ def cmd_card(args):
         each = " ".join(f"{-s[f'rating_{n}']:+.1f}" for n in model.LEARNERS)
         flags = [f"{side.upper()} QB changed last game ({g[f'{side}_qb']})" for side in ("home", "away") if g[f"{side}_qb_change"]]
         head = f"{g.kickoff_et:%I:%M%p} {g.away_team} @ {g.home_team}{' (neutral)' if g.neutral else ''}"
-        print(f"{head:58} fair {g.home_team} {fair:+.1f}  ({each})  total {t.rating:.0f}")
+        print(f"{head:58} fair {g.home_team} {fair:+.1f}  ({each})  total {t.rating - total.center:.0f}")
         for f in flags:
             print(f"   QB CHECK: {f}")
         if not np.isnan(t.p):

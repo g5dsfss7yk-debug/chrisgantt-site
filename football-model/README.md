@@ -160,4 +160,7 @@ Backtest (all three models agree, P >= 55%):
 Model totals are information only. An earlier 54.9% / 56.2% opening-total result came from a
 fixed Under lean in stage 2 cancelling the model's high scoring level; with that removed
 (totals now centered on the model's recent gap to the line) the edge is gone. Totals of 65+
+are flagged as an Under to watch. The NFL totals fix (re-leveling on actual scores) was
+tested here too and not adopted: every-game leans won 50.0% in 2024-26 against 51.5% with the
+line centering, and it leaned Under in 58% of 2026 games against 49%. Totals of 65+
 are flagged as an Under to watch: 55-56% through 2023, below 52% since.

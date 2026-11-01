@@ -78,8 +78,13 @@ class Market:
     kind="total":  target = combined points, P = over.
     """
 
-    def __init__(self, kind: str, features: list[str], line: str, learners=tuple(LEARNERS)):
+    def __init__(self, kind: str, features: list[str], line: str, learners=tuple(LEARNERS),
+                 center_on: str = "result"):
         self.kind, self.features, self.line, self.learners = kind, features, line, list(learners)
+        # "result": re-level on the model's recent miss against final scores (NFL).
+        # "line": center on the model's recent gap to the betting line (college: in 2024-2026
+        # its picks won 51.5% this way vs 50.0% re-leveled on results, with an even Over/Under split).
+        self.center_on = center_on
         # Totals: stage 2 has no fixed intercept. A fixed one learns the past Over/Under
         # rate (NFL Unders hit 53-55% in 2015-2023) and the model's past scoring level, and
         # keeps applying them after scoring shifts (Overs hit 52-54% in 2024-2026). Instead
@@ -123,10 +128,13 @@ class Market:
     def _fit_edge(self, d, oos) -> "Market":
         """Stage 2 from out-of-sample ensemble ratings (oos, aligned to d's rows)."""
         e = d.assign(r=oos).dropna(subset=["r", self.line])
-        miss = e["r"] - e[self.target]  # + = model rated the game higher than it finished
+        if self.center_on == "result":
+            miss, lag = e["r"] - e[self.target], CENTER_LAG  # + = model rated the game higher than it finished
+        else:
+            miss, lag = e["r"] - e[self.line], 1
         shift = pd.Series(0.0, index=e.index)
         if not self.intercept:
-            shift = miss.shift(CENTER_LAG).rolling(CENTER_N, min_periods=CENTER_N // 4).mean()
+            shift = miss.shift(lag).rolling(CENTER_N, min_periods=CENTER_N // 4).mean()
             self.center = float(miss.tail(CENTER_N).mean())
         e = e.assign(shift=shift).dropna(subset=["shift"])
         diff = e[self.target] - e[self.line]
