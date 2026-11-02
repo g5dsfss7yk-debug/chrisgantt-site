@@ -34,6 +34,12 @@ PICKS = data.ROOT / "picks"
 PROP_EDGE = 0.05
 OU_VALUE = 0.574   # -110 breaks even at 52.4%; same 5-point cushion as the TD props
 HOLDOUT = 2023
+# 6-point teaser legs on underdogs of +1 to +2.5 (teased through 3 and 7) won 76.1% in 2009-2022
+# and 78.8% in 2023-2026 (n=217) at the closing line; every other range was 65-73% since 2023
+# (favorites -7.5 to -8.5 dropped from 76% to 65%). A 2-team 6-point teaser at -120 needs 73.9%
+# per leg, at -130 75.2%, at -140 76.4%.
+TEASER_DOG = (1.0, 2.5)
+TEASER_PTS = 6
 
 
 def _rec(r):
@@ -142,6 +148,12 @@ def cmd_card(args):
             agree = o.agree if still else s.agree
             print(f"   spread {label:14} P {prob:.0%}  models {int(agree)}/{int(s.n_models)}  ({each})  {shown}")
             picks.append(("spread", s.line, label, prob, tier))
+            dog, dog_line = (g.home_team, -s.line) if s.line < 0 else (g.away_team, s.line)
+            if TEASER_DOG[0] <= dog_line <= TEASER_DOG[1]:
+                teased = s.line - TEASER_PTS if s.line < 0 else s.line + TEASER_PTS
+                tlabel = f"{dog} +{dog_line + TEASER_PTS:g} (teaser)"
+                print(f"   teaser {tlabel}  6-pt leg on a +1 to +2.5 dog: 76-79% since 2009 (2-team at -120 needs 74%)")
+                picks.append(("teaser", teased, tlabel, 0.77, "TEASER"))
         else:
             print("   spread: no line yet")
         if not np.isnan(t.line):
@@ -168,7 +180,7 @@ def _best_bets(rows: pd.DataFrame, n: int = 6):
     """The card's picks ranked: tested spread tiers first, then by the model's chance."""
     if rows.empty:
         return
-    rank = {"STRONG": 0, "LEAN": 1}
+    rank = {"STRONG": 0, "LEAN": 1, "TEASER": 2}
     r = rows.assign(order=rows["tier"].map(rank).fillna(2)).sort_values(["order", "p"], ascending=[True, False])
     print("\nBEST BETS (ranked)")
     for i, x in enumerate(r.head(n).itertuples(index=False), 1):
@@ -215,8 +227,9 @@ def cmd_grade(args):
         if np.isnan(g.result):
             res = "pending"
         else:
-            actual = g.result if r.kind == "spread" else g.total
-            home_or_over = r.pick.startswith(r.home_team) if r.kind == "spread" else r.pick.startswith("Over")
+            ats = r.kind in ("spread", "teaser")
+            actual = g.result if ats else g.total
+            home_or_over = r.pick.startswith(r.home_team) if ats else r.pick.startswith("Over")
             diff = (actual - r.line) * (1 if home_or_over else -1)
             res = "push" if diff == 0 else ("win" if diff > 0 else "loss")
         tier = r.tier if isinstance(getattr(r, "tier", None), str) else ("STRONG" if r.bet else "lean")

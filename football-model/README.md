@@ -165,3 +165,18 @@ fixed Under lean in stage 2 cancelling the model's high scoring level; with that
 tested here too and not adopted: every-game leans won 50.0% in 2024-26 against 51.5% with the
 line centering, and it leaned Under in 58% of 2026 games against 49%. Totals of 65+
 are flagged as an Under to watch: 55-56% through 2023, below 52% since.
+
+## Where the edge is (Nov 2026 review)
+- **Spreads: bet early.** The spread model's tested edge is against the opening line (LEAN 58-59% in
+  every period). Graded at the closing line, every-game picks are about 50% since 2023, and versions
+  trained on closing lines with game-day injuries did no better. Closing lines moved toward the
+  model's side about twice as often as away from it, so most of the value is gone by Sunday.
+- **The card now judges tiers against the opener** and keeps a tier only while the model's number is
+  still past your line: 54.7% at LEAN graded at the close in 2023-2026, vs 48.8% judging P directly
+  against the moved line.
+- **Teaser legs.** 6-point teasers on underdogs of +1 to +2.5 won 76.1% (2009-2022) and 78.8%
+  (2023-2026, n=217); a 2-team teaser at -120 needs 73.9% per leg. Favorite legs (-7.5 to -8.5)
+  fell to 65% since 2023. The card prints these as TEASER rows and grades them.
+- **College.** Against Saturday lines the CFB spread model is about 50% in every period and 44.5% in
+  2026 (weeks 1-4 and big underdogs worst). The current season's openers are not in the free data,
+  so CFB picks are leans only unless you give an early-week line.
