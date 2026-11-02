@@ -159,18 +159,22 @@ def _best_bets(rows: pd.DataFrame, n: int = 6):
 
 def _save_picks(rows: pd.DataFrame, path, force: bool = False):
     """Every card is saved so every lean is graded. A pick already saved for a game is kept
-    (the first card shown is the one graded) unless --force; games that have kicked off are
-    never added."""
+    (the first card shown is the one graded) unless --force, which replaces only the games
+    on this card; games that have kicked off are never added or replaced."""
     if rows.empty:
         return
     path.parent.mkdir(parents=True, exist_ok=True)
     if "kickoff" in rows:
         now = pd.Timestamp.now(tz="America/New_York").tz_localize(None)
         rows = rows[pd.to_datetime(rows["kickoff"]) > now]
-    if path.exists() and not force:
+    if path.exists():
         old = pd.read_csv(path)
         key = ["game_id", "kind"]
-        new = rows[~rows.set_index(key).index.isin(old.set_index(key).index)]
+        if force:  # replace only the games re-run; picks for games already played stay
+            old = old[~old.set_index(key).index.isin(rows.set_index(key).index)]
+            new = rows
+        else:
+            new = rows[~rows.set_index(key).index.isin(old.set_index(key).index)]
         rows = pd.concat([old, new], ignore_index=True)
         added = len(new)
     else:
