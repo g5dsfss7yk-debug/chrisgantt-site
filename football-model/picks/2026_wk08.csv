@@ -23,5 +23,5 @@ season,week,game_id,kind,kickoff,home_team,away_team,line,pick,p,tier,bet,qb_che
 2026,8,2026_08_NE_MIA,total,2026-11-01 16:25,MIA,NE,43.5,Over 43.5,0.504,,False,False
 2026,8,2026_08_PHI_WAS,spread,2026-11-01 20:20,WAS,PHI,4.5,PHI +4.5,0.516,,False,False
 2026,8,2026_08_PHI_WAS,total,2026-11-01 20:20,WAS,PHI,40.5,Over 40.5,0.514,,False,False
-2026,8,2026_08_CHI_SEA,spread,2026-11-02 20:15,SEA,CHI,3.5,SEA -3.5,0.512,,False,False
+2026,8,2026_08_CHI_SEA,spread,2026-11-02 20:15,SEA,CHI,3.5,SEA -3.5,0.519,,False,False
 2026,8,2026_08_CHI_SEA,total,2026-11-02 20:15,SEA,CHI,46.5,Under 46.5,0.504,,False,False

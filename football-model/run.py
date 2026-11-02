@@ -96,6 +96,12 @@ def cmd_card(args):
         line[games["home_team"] == team] = -float(val)
         line[games["away_team"] == team] = float(val)
     ps, pt = spread.predict(games, line), total.predict(games)
+    # Tiers are judged against the OPENING line, which is what the spread model was trained
+    # and tested on; a pick keeps its tier only while the model's number is still past your
+    # line. Held out 2023-2026 at LEAN: 54.7% graded at the closing line this way, vs 48.8%
+    # judging P directly against the moved line (2015-2022: 53.2% vs 53.1%).
+    opener = games["spread_open"].fillna(games["spread_line"])
+    po = spread.predict(games, opener)
 
     # Last QB to start for each team; a listed starter who differs needs checking.
     played = df[df["result"].notna()].sort_values("gameday")
@@ -106,7 +112,7 @@ def cmd_card(args):
     rows = []
     print(f"\n{season} week {week} card  (bet rows marked STRONG / LEAN; P = chance the bet wins;"
           f" models = how many of {len(model.LEARNERS)} agree)\n")
-    for (_, g), (_, s), (_, t) in zip(games.iterrows(), ps.iterrows(), pt.iterrows()):
+    for (_, g), (_, s), (_, t), (_, o) in zip(games.iterrows(), ps.iterrows(), pt.iterrows(), po.iterrows()):
         print(f"{g.away_team} @ {g.home_team}  {g.gameday:%a %m/%d} {g.gametime} ET  ({g.away_qb} vs {g.home_qb})")
         qb_flags = [f"{t} lists {q} but {last_qb[t]} started last game" for t, q in
                     ((g.away_team, g.away_qb), (g.home_team, g.home_qb))
@@ -115,13 +121,26 @@ def cmd_card(args):
             print(f"   QB CHECK: {f}; the spread pick assumes {f.split(' lists ')[1].split(' but')[0]} plays")
         picks = []
         if not np.isnan(s.p):
-            label, prob = _side(s.p, g.home_team, g.away_team, s.line, "spread")
-            tier = _tier(prob, s.agree, s.n_models)
+            # Side and tier from the opener while the model is still past your line; once the
+            # line has moved through the model's number, the side flips to the model's side of
+            # your line at PICK.
+            open_side = 1 if o.p >= 0.5 else -1
+            still = (s.rating - s.line) * open_side >= 0
+            if still and not np.isnan(o.p):
+                label, prob = _side(o.p, g.home_team, g.away_team, s.line, "spread")
+                tier = _tier(max(o.p, 1 - o.p), o.agree, o.n_models)
+            else:
+                label, prob = _side(s.p, g.home_team, g.away_team, s.line, "spread")
+                tier = ""
+            if o.line != s.line:
+                moved = "past the model's number" if not still else "model still past it"
+                print(f"   line   opened {g.home_team} {-o.line:+.1f}, yours {g.home_team} {-s.line:+.1f} ({moved})")
             if tier and qb_flags:
                 tier = "HOLD (QB check)"
             each = "  ".join(f"{n} {g.home_team} {-s[f'rating_{n}']:+.1f}" for n in model.LEARNERS)
             shown = tier or "PICK"  # every game gets the model's side; STRONG/LEAN are the tested tiers
-            print(f"   spread {label:14} P {prob:.0%}  models {int(s.agree)}/{int(s.n_models)}  ({each})  {shown}")
+            agree = o.agree if still else s.agree
+            print(f"   spread {label:14} P {prob:.0%}  models {int(agree)}/{int(s.n_models)}  ({each})  {shown}")
             picks.append(("spread", s.line, label, prob, tier))
         else:
             print("   spread: no line yet")
