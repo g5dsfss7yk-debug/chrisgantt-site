@@ -5,75 +5,95 @@
 <title>Arbor Lake – Senior Health Fair Flyer</title>
 <style>
   @page { size: 8.5in 11in; margin: 0; }
-  :root { --gold:#b99649; --teal:#72b1b8; --teal-dark:#4f8f98; --orange:#d9731f; --rust:#a8480f; --brown:#5b3a1e; --cream:#fff6e5; }
+  :root { --gold:#b99649; --teal:#72b1b8; --teal-dark:#4f8f98; --orange:#e07b1f; --rust:#9c3f0e; --deep:#6e2a08; --cream:#fff7e6; }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{width:8.5in;height:11in}
-  body{font-family:"Liberation Sans",Helvetica,Arial,sans-serif;color:var(--brown);-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .page{position:relative;width:8.5in;height:11in;overflow:hidden;background:var(--cream);padding:.45in}
-  .frame{position:absolute;inset:.3in;border:3px solid var(--orange);border-radius:22px}
-  .frame::after{content:"";position:absolute;inset:7px;border:1.5px dashed var(--orange);opacity:.5;border-radius:16px}
-  .content{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;text-align:center}
-  .logo{width:4.7in;margin-top:.08in}
-  .banner{margin-top:.2in;background:var(--rust);color:#fff;padding:.1in .5in;border-radius:999px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:14pt}
-  .kicker{margin-top:.2in;font-size:14pt;letter-spacing:.2em;text-transform:uppercase;color:var(--teal-dark);font-weight:700}
-  h1{margin-top:.04in;font-family:"DejaVu Serif",Georgia,serif;font-size:56pt;line-height:1.05;font-weight:700;color:var(--orange)}
-  h1 .fall{color:var(--rust);font-size:56pt}
-  .sub{margin-top:.14in;font-family:"DejaVu Serif",Georgia,serif;font-size:19pt;font-style:italic;color:var(--brown);max-width:6.4in;line-height:1.25}
-  .hero{margin-top:.15in;width:100%;height:3in;display:flex;justify-content:center}
-  .hero svg{height:100%;width:auto}
-  .tags{margin-top:.18in;display:flex;gap:.14in}.tags span{background:var(--rust);color:#fff;font-weight:700;font-size:13pt;letter-spacing:.06em;padding:.07in .22in;border-radius:999px}
-  .cta{margin-top:.25in;background:#fff;border:2.5px solid var(--orange);border-radius:16px;padding:.1in .35in}
-  .cta b{display:block;font-size:10pt;letter-spacing:.22em;text-transform:uppercase;color:var(--rust)}
-  .cta span{display:block;margin-top:3px;font-size:17pt;font-weight:700}
-  .footer{margin-top:auto;margin-bottom:.05in;font-size:11pt;color:var(--teal-dark);font-weight:700;letter-spacing:.06em}
-  .footer i{color:var(--gold);font-style:normal;padding:0 6px}
+  body{font-family:"Liberation Sans",Helvetica,Arial,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{position:relative;width:8.5in;height:11in;overflow:hidden;background:var(--cream);padding:.4in;display:flex;flex-direction:column;align-items:center}
+  .logo{width:4.5in;margin-top:.05in}
+  .block{flex-shrink:0;position:relative;margin-top:.2in;width:100%;border-radius:28px;overflow:hidden;text-align:center;color:var(--cream);
+    background:radial-gradient(ellipse at 50% 0%,#f08a2a 0%,#d4691a 45%,#a8480f 100%);padding:.3in .4in .32in;
+    box-shadow:0 6px 0 var(--deep)}
+  .block .leaves{position:absolute;inset:0;width:100%;height:100%;opacity:.22}
+  .event{position:relative;font-weight:700;letter-spacing:.2em;text-transform:uppercase;font-size:12.5pt}
+  .rule{position:relative;width:1.4in;height:3px;background:#f6c453;margin:.12in auto .1in;border-radius:2px}
+  h1{position:relative;font-family:"DejaVu Serif",Georgia,serif;font-weight:700;font-size:58pt;line-height:1.02;letter-spacing:-.01em;text-shadow:0 4px 0 rgba(110,42,8,.55)}
+  h1 .fall{color:#ffd35c}
+  .tags{position:relative;margin-top:.24in;display:flex;gap:.12in;justify-content:center}
+  .tags span{background:var(--cream);color:var(--rust);font-weight:700;font-size:12.5pt;letter-spacing:.05em;padding:.08in .2in;border-radius:999px}
+  .sub{text-wrap:balance;position:relative;margin-top:.18in;font-family:"DejaVu Serif",Georgia,serif;font-style:italic;font-size:15pt;line-height:1.3}
+  .scene{position:relative;min-height:0;padding-bottom:.62in;flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;margin-top:.1in}
+  .scene svg{width:100%;height:100%}
+  .cta{position:absolute;bottom:0;left:0;right:0;text-align:center}
+  .cta b{display:inline-block;background:var(--cream);color:var(--rust);font-size:15pt;letter-spacing:.14em;text-transform:uppercase;padding:.1in .35in;border-radius:999px;border:3px solid var(--gold)}
 </style>
 </head>
 <body>
-<div class="page"><div class="frame"></div>
-<div class="content">
+<div class="page">
   <img class="logo" src="arbor-lake-logo.png" alt="Arbor Lake Skilled Nursing &amp; Rehabilitation Center">
-  <div class="banner">Council on Aging Senior Health Fair</div>
-  <div class="kicker">Fall Harvest Edition</div>
-  <h1><span class="fall">Fall</span> Into<br>Better Health</h1>
-  <div class="tags"><span>Physical Therapy</span><span>Occupational Therapy</span><span>Speech Therapy</span></div>
-  <p class="sub">Skilled nursing and short-term rehabilitation to help you get back on your feet.</p>
 
-  <div class="hero">
-    <svg viewBox="0 0 640 330" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs>
-        <symbol id="pk" viewBox="0 0 200 170">
-          <ellipse cx="55" cy="100" rx="48" ry="62" fill="#e8892f"/>
-          <ellipse cx="145" cy="100" rx="48" ry="62" fill="#e8892f"/>
-          <ellipse cx="100" cy="102" rx="52" ry="68" fill="#f19a3e"/>
-          <path d="M100 36c-10 20-14 45-14 66s4 46 14 66" fill="none" stroke="#c9691a" stroke-width="4" stroke-linecap="round"/>
-          <path d="M72 44c-18 22-24 52-18 80" fill="none" stroke="#c9691a" stroke-width="4" stroke-linecap="round"/>
-          <path d="M128 44c18 22 24 52 18 80" fill="none" stroke="#c9691a" stroke-width="4" stroke-linecap="round"/>
-          <path d="M94 38c-2-14 2-24 8-30l10 4c-6 6-8 16-6 28z" fill="#6b4a22"/>
-          <path d="M112 30c16-14 34-10 40 4-14 2-28 4-40-4z" fill="#6f8f3a"/>
-        </symbol>
-        <symbol id="lf" viewBox="0 0 60 60"><path d="M30 2c6 10 20 12 26 12-2 12 0 20-10 24 2 8-6 12-12 12v10h-8V50c-6 0-14-4-12-12-10-4-12-12-10-24 6 0 20-2 26-12z" fill="currentColor"/></symbol>
-      </defs>
-      <!-- leaves -->
-      <use href="#lf" x="20" y="40" width="58" height="58" style="color:#c9461a" transform="rotate(-20 49 69)"/>
-      <use href="#lf" x="560" y="30" width="54" height="54" style="color:#e0a21c" transform="rotate(25 587 57)"/>
-      <use href="#lf" x="40" y="230" width="46" height="46" style="color:#e0a21c" transform="rotate(35 63 253)"/>
-      <use href="#lf" x="555" y="235" width="56" height="56" style="color:#c9461a" transform="rotate(-30 583 263)"/>
-      <use href="#lf" x="270" y="10" width="40" height="40" style="color:#a8480f" transform="rotate(10 290 30)"/>
-      <!-- table cloth hint -->
-      <rect x="60" y="292" width="520" height="14" rx="7" fill="#d8c3a0"/>
-      <!-- pumpkins -->
-      <use href="#pk" x="85" y="140" width="190" height="162"/>
-      <use href="#pk" x="360" y="150" width="170" height="145"/>
-      <use href="#pk" x="235" y="55" width="190" height="162"/>
-      <!-- small white pumpkin -->
-      <g transform="translate(470 215)">
-        <ellipse cx="38" cy="50" rx="32" ry="30" fill="#f6efe2"/><ellipse cx="22" cy="50" rx="20" ry="28" fill="#efe5d2"/><ellipse cx="54" cy="50" rx="20" ry="28" fill="#efe5d2"/>
-        <path d="M38 22c-3-8 0-14 4-17l6 3c-3 3-4 8-3 14z" fill="#6b4a22"/>
+  <div class="block">
+    <svg class="leaves" viewBox="0 0 700 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g fill="#fff">
+        <path id="l" d="M0-34C12-18 34-14 44-14 40 4 44 18 26 26 30 40 14 46 4 46V64h-8V46C-14 46-30 40-26 26-44 18-40 4-44-14-34-14-12-18 0-34z"/>
+        <use href="#l" transform="translate(70 70) rotate(-25) scale(1.2)"/>
+        <use href="#l" transform="translate(630 60) rotate(30) scale(1.1)"/>
+        <use href="#l" transform="translate(40 330) rotate(40) scale(.9)"/>
+        <use href="#l" transform="translate(655 340) rotate(-35) scale(1.3)"/>
+        <use href="#l" transform="translate(350 395) rotate(15) scale(.8)"/>
       </g>
     </svg>
+    <div class="event">Council on Aging Senior Health Fair</div>
+    <div class="rule"></div>
+    <h1><span class="fall">Fall</span> Into<br>Better Health</h1>
+    <div class="tags"><span>Physical Therapy</span><span>Occupational Therapy</span><span>Speech Therapy</span></div>
+    <p class="sub">Skilled nursing and short-term rehabilitation to help you get back on your feet.</p>
   </div>
 
-  <div class="cta"><b>Visit our table</b><span>Meet the Arbor Lake team</span></div>
-</div></div>
+  <div class="scene">
+    <svg viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="pg" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#ffb04d"/><stop offset=".55" stop-color="#ea7d1e"/><stop offset="1" stop-color="#b8480d"/></radialGradient>
+        <radialGradient id="pg2" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#f79a3a"/><stop offset=".6" stop-color="#d56a15"/><stop offset="1" stop-color="#9c3a0a"/></radialGradient>
+        <radialGradient id="wg" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#e3d3b4"/></radialGradient>
+        <linearGradient id="stem" x1="0" x2="1"><stop offset="0" stop-color="#8a6a36"/><stop offset="1" stop-color="#5a3f1a"/></linearGradient>
+        <symbol id="pk" viewBox="0 0 200 180">
+          <ellipse cx="46" cy="108" rx="46" ry="62" fill="url(#pg2)"/>
+          <ellipse cx="154" cy="108" rx="46" ry="62" fill="url(#pg2)"/>
+          <ellipse cx="72" cy="108" rx="44" ry="68" fill="url(#pg)"/>
+          <ellipse cx="128" cy="108" rx="44" ry="68" fill="url(#pg)"/>
+          <ellipse cx="100" cy="110" rx="40" ry="70" fill="url(#pg)"/>
+          <path d="M100 42c-7 24-9 48-9 68s2 44 9 68M70 48c-14 24-18 54-14 82M130 48c14 24 18 54 14 82M44 70c-8 18-8 40-2 58M156 70c8 18 8 40 2 58" fill="none" stroke="#a63f0b" stroke-opacity=".55" stroke-width="4" stroke-linecap="round"/>
+          <ellipse cx="68" cy="78" rx="12" ry="26" fill="#fff" opacity=".22" transform="rotate(18 68 78)"/>
+          <path d="M92 44c-3-16 1-28 9-36l12 5c-7 7-9 18-7 33z" fill="url(#stem)"/>
+          <path d="M112 36c18-16 40-12 46 6-16 2-34 4-46-6z" fill="#7a9a3a"/>
+          <path d="M96 40c-14 2-26-6-28-18 14-2 26 4 28 18z" fill="#6b8a30"/>
+        </symbol>
+        <symbol id="wp" viewBox="0 0 120 100">
+          <ellipse cx="30" cy="58" rx="28" ry="36" fill="url(#wg)"/><ellipse cx="90" cy="58" rx="28" ry="36" fill="url(#wg)"/>
+          <ellipse cx="60" cy="60" rx="34" ry="40" fill="url(#wg)"/>
+          <path d="M60 22c-5 14-6 28-6 38s1 24 6 36M38 28c-9 14-11 32-8 48M82 28c9 14 11 32 8 48" fill="none" stroke="#bda97f" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/>
+          <path d="M56 22c-2-9 1-15 6-19l7 3c-4 4-5 9-4 15z" fill="url(#stem)"/>
+        </symbol>
+      </defs>
+      <!-- ground -->
+      <ellipse cx="380" cy="385" rx="360" ry="22" fill="#c9a96a" opacity=".45"/>
+      <!-- tendril vine -->
+      <path d="M60 372c40-8 70-30 110-26M600 360c40-4 90 6 120-12" fill="none" stroke="#6b8a30" stroke-width="5" stroke-linecap="round"/>
+      <path d="M170 346c14-10 26 4 16 12M720 348c-12-12-26 2-14 10" fill="none" stroke="#6b8a30" stroke-width="4" stroke-linecap="round"/>
+      <!-- pumpkins back to front -->
+      <use href="#pk" x="270" y="50" width="230" height="207"/>
+      <use href="#pk" x="95" y="150" width="270" height="243"/>
+      <use href="#pk" x="395" y="160" width="250" height="225"/>
+      <use href="#wp" x="598" y="268" width="130" height="108"/>
+      <use href="#wp" x="30" y="296" width="100" height="83"/>
+      <!-- fallen leaves -->
+      <g>
+        <path d="M0-30C10-16 30-12 38-12 34 4 38 16 22 22 26 34 12 40 4 40V54h-6V40C-12 40-26 34-22 22-38 16-34 4-38-12-30-12-10-16 0-30z" fill="#c9461a" transform="translate(330 392) rotate(70) scale(.7)"/>
+        <path d="M0-30C10-16 30-12 38-12 34 4 38 16 22 22 26 34 12 40 4 40V54h-6V40C-12 40-26 34-22 22-38 16-34 4-38-12-30-12-10-16 0-30z" fill="#e0a21c" transform="translate(575 396) rotate(-60) scale(.6)"/>
+      </g>
+    </svg>
+    <div class="cta"><b>Visit our table!</b></div>
+  </div>
+</div>
 </body></html>
