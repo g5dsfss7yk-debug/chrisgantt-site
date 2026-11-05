@@ -18,6 +18,8 @@ CARRY = 0.6              # share of last season's rating kept over the offseason
 MIN_ALPHA = 0.12         # floor on how much one game moves a rating
 HFA = 2.5                # home-field points used inside the margin rating
 FCS_ELO = 1100           # CFBD gives FCS teams no Elo
+FCS_PTS = 0.0            # starting margin rating for an FCS team (0 = league average)
+MARGIN_CAP = None        # cap on the margin one game feeds the rating (None = no cap)
 
 
 class Team:
@@ -42,14 +44,18 @@ class League:
         self.season = None
         self._sum, self._n = defaultdict(float), 0
 
-    def team(self, tid, season) -> Team:
+    def team(self, tid, season, fcs: bool = False) -> Team:
         t = self.teams.get(tid)
         if t is None:
             t = self.teams[tid] = Team(self.base)
+            t.fcs = fcs
+            if fcs:
+                t.r["off_pts"] = FCS_PTS
         if t.season != season:
             if t.season is not None:
                 for k, v in t.r.items():
-                    t.r[k] = CARRY * v + (1 - CARRY) * self.base[k]
+                    base = FCS_PTS if k == "off_pts" and getattr(t, "fcs", False) else self.base[k]
+                    t.r[k] = CARRY * v + (1 - CARRY) * base
                 t.qb_prev_season = max(t.qb_starts, key=t.qb_starts.get) if t.qb_starts else None
             t.season, t.n, t.games, t.qb_starts = season, PRIOR_GAMES, 0, defaultdict(int)
         return t
@@ -66,6 +72,8 @@ class League:
                margin: float, hpts: float, apts: float, neutral: bool):
         hfa = 0 if neutral else HFA
         pre_h, pre_a = dict(home.r), dict(away.r)
+        if MARGIN_CAP is not None:
+            margin = float(np.clip(margin, -MARGIN_CAP, MARGIN_CAP))
         for t, me, opp, pts_for, pts_against, m in ((home, hs, pre_a, hpts, apts, margin - hfa),
                                                      (away, as_, pre_h, apts, hpts, -margin + hfa)):
             # off_pts is the team's margin rating: margin vs this opponent plus their rating
@@ -113,7 +121,8 @@ def build(games: pd.DataFrame, team_games: pd.DataFrame, lines: pd.DataFrame) ->
     for g in games.itertuples(index=False):
         if g.season != L.season:
             L.new_season(g.season)
-        h, a = L.team(g.home_id, g.season), L.team(g.away_id, g.season)
+        h = L.team(g.home_id, g.season, g.home_division != "fbs")
+        a = L.team(g.away_id, g.season, g.away_division != "fbs")
         day = g.gameday
         row = {"game_id": g.game_id, "season": g.season, "week": g.week, "gameday": day,
                "kickoff_et": g.kickoff_et, "home_team": g.home_team, "away_team": g.away_team,
