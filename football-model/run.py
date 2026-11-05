@@ -16,6 +16,7 @@ import numpy as np
 import pandas as pd
 
 from nflmodel import data, lineups, model, pipeline, props, statprops
+import checks
 
 # Spread tiers need all three models on the same side of the line. Held out 2023-2026:
 # STRONG (P >= 55%) 69-54 (56.1%), LEAN (P >= 53%) 177-131 (57.5%); 2015-2022: 62.6% / 57.9%.
@@ -83,9 +84,39 @@ def _qb_overrides(args) -> dict:
     return {t.strip().upper(): n.strip().strip('"') for t, n in (q.split("=", 1) for q in args.qb or [])}
 
 
+def _auto_qbs(season: int, week: int | None, given: dict) -> dict:
+    """Starters to use when the schedule's listed QB is stale: if the listed QB differs from
+    both the depth chart's QB1 and the team's last starter, and those two agree, use them.
+    (The schedule file can carry an old matchup's QB, e.g. a backup from weeks earlier.)"""
+    g = data.load_games()
+    up = g[(g["season"] == season) & g["result"].isna()]
+    week = week or int(up["week"].min())
+    up = up[up["week"] == week]
+    played = g[g["result"].notna()].sort_values("gameday")
+    last = {}
+    for x in played.itertuples(index=False):
+        last[x.home_team], last[x.away_team] = x.home_qb_name, x.away_qb_name
+    depth = lineups.load_depth(season)
+    qb1 = depth[depth["pos_abb"] == "QB"].sort_values("pos_rank").drop_duplicates("team").set_index("team")["player_name"]
+    norm = lambda n: lineups._norm(pd.Series([str(n)]))[0]
+    out = {}
+    for x in up.itertuples(index=False):
+        for team, listed in ((x.home_team, x.home_qb_name), (x.away_team, x.away_qb_name)):
+            if team in given or team not in qb1 or team not in last:
+                continue
+            d, l = qb1[team], last[team]
+            if norm(d) == norm(l) and norm(listed) != norm(d):
+                print(f"auto QB: {team} schedule lists {listed}, but the depth chart and last start are {l}; using {l}")
+                out[team] = l
+    return out
+
+
 def cmd_card(args):
     qbs = _qb_overrides(args)
     season = args.season or data.current_season()
+    qbs = {**_auto_qbs(season, args.week, qbs), **qbs}
+    if qbs and not args.week:
+        args.week = int(data.load_games().query("season == @season and result.isna()")["week"].min())
     df = pipeline.load(args.refresh, qbs=qbs, season=season, week=args.week)
     if qbs and not args.week:
         raise SystemExit("--qb needs --week")
@@ -116,6 +147,8 @@ def cmd_card(args):
         last_qb[g.home_team], last_qb[g.away_team] = g.home_qb, g.away_qb
 
     rows = []
+    nfl_checks = checks.NFLChecks(season, week, args.refresh)
+    unverified = checks.Unverified()
     print(f"\n{season} week {week} card  (bet rows marked STRONG / LEAN; P = chance the bet wins;"
           f" models = how many of {len(model.LEARNERS)} agree)\n")
     for (_, g), (_, s), (_, t), (_, o) in zip(games.iterrows(), ps.iterrows(), pt.iterrows(), po.iterrows()):
@@ -125,6 +158,7 @@ def cmd_card(args):
                     if t in last_qb and last_qb[t] != q and t not in qbs]  # --qb confirms it
         for f in qb_flags:
             print(f"   QB CHECK: {f}; the spread pick assumes {f.split(' lists ')[1].split(' but')[0]} plays")
+        nfl_checks.show(df, g, last_qb, qbs, o.line, s.line, unverified)
         picks = []
         if not np.isnan(s.p):
             # Side and tier from the opener while the model is still past your line; once the
@@ -140,7 +174,7 @@ def cmd_card(args):
                 tier = ""
             if o.line != s.line:
                 moved = "past the model's number" if not still else "model still past it"
-                print(f"   line   opened {g.home_team} {-o.line:+.1f}, yours {g.home_team} {-s.line:+.1f} ({moved})")
+                print(f"   line   {moved}")
             if tier and qb_flags:
                 tier = "HOLD (QB check)"
             each = "  ".join(f"{n} {g.home_team} {-s[f'rating_{n}']:+.1f}" for n in model.LEARNERS)
@@ -172,6 +206,7 @@ def cmd_card(args):
                          "home_team": g.home_team, "away_team": g.away_team, "line": ln, "pick": label,
                          "p": round(prob, 3), "tier": tier,
                          "bet": tier in ("STRONG", "LEAN"), "qb_check": bool(qb_flags)})
+    unverified.show()
     _best_bets(pd.DataFrame(rows))
     _save_picks(pd.DataFrame(rows), PICKS / f"{season}_wk{week:02d}.csv", args.force)
 

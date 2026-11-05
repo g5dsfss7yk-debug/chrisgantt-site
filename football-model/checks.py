@@ -1,0 +1,207 @@
+"""Pre-bet checks printed under every game on the NFL and college cards.
+
+Each card game gets the same checklist: QB (listed, depth chart, last starter, injury
+report), injuries to regulars, recent form and record against the spread, rest, weather
+and field, and the line (opener / market vs yours). Anything the data could not confirm is
+collected and printed as NOT VERIFIED at the end of the card, so a skipped check is visible.
+"""
+from __future__ import annotations
+
+import pandas as pd
+
+
+class Unverified(list):
+    def add(self, game: str, what: str):
+        self.append(f"{game}: {what}")
+
+    def show(self):
+        print("\nNOT VERIFIED (check before betting):")
+        if not self:
+            print("  nothing: every check above came from current data")
+        for x in self:
+            print(f"  - {x}")
+
+
+def form(past: pd.DataFrame, team: str, line_col: str, n: int = 3) -> tuple[str, str]:
+    """('W-L, ATS W-L', 'last n games') for a team from completed games (home-margin result,
+    line = home team's points favored)."""
+    mine = past[(past["home_team"] == team) | (past["away_team"] == team)].sort_values("gameday")
+    w = l = cw = cl = 0
+    last = []
+    for x in mine.itertuples(index=False):
+        home = x.home_team == team
+        m = x.result if home else -x.result
+        w, l = w + (m > 0), l + (m < 0)
+        ats = ""
+        ln = getattr(x, line_col)
+        if pd.notna(ln):
+            c = (x.result - ln) * (1 if home else -1)
+            cw, cl = cw + (c > 0), cl + (c < 0)
+            ats = "covered" if c > 0 else ("push" if c == 0 else "no cover")
+        opp = x.away_team if home else x.home_team
+        res = "W" if m > 0 else ("L" if m < 0 else "T")
+        last.append(f"{'vs' if home else '@'} {opp} {res} by {abs(m):.0f}" + (f" ({ats})" if ats else ""))
+    return f"{w}-{l}, ATS {cw}-{cl}", "; ".join(last[-n:]) or "no games yet"
+
+
+def weather_text(w: dict | None, dome: bool, surface: str | None) -> str:
+    field = f", {surface}" if surface else ""
+    if dome:
+        return f"dome / closed roof{field}"
+    if not w or pd.isna(w.get("temp")):
+        return f"NO FORECAST{field}"
+    rain = w.get("precip_prob")
+    wet = f", precip {rain:.0f}% ({w.get('precip_in', 0):.2f} in)" if pd.notna(rain) and rain >= 20 else ""
+    snow = f", snow {w['snow_in']:.1f} in" if w.get("snow_in", 0) and w["snow_in"] > 0 else ""
+    return f"{w['temp']:.0f}F, wind {w['wind']:.0f} mph (gusts {w.get('gust', 0):.0f}){wet}{snow}{field}"
+
+
+# --- NFL --------------------------------------------------------------------------------
+
+class NFLChecks:
+    """Loads the season's depth chart, injury report and snaps once for the whole card."""
+
+    def __init__(self, season: int, week: int, refresh: bool = False):
+        from nflmodel import data, lineups
+        self.season, self.week = season, week
+        self.lineups = lineups
+        self.depth = lineups.load_depth(season, refresh)
+        self.depth_day = str(self.depth["dt"].max())[:10]
+        inj = data.load_injuries([season], refresh)
+        self.inj = inj[inj["week"] == week]
+        self.games = data.load_games(refresh)
+        self.forecasts = {f.game_id: f._asdict() for f in data.load_forecasts().itertuples(index=False)}
+        self._reports = {}
+
+    def _report(self, team):
+        if team not in self._reports:
+            try:
+                self._reports[team] = self.lineups.report(team, self.season, self.week)
+            except Exception as e:  # never lose the card over a lineup problem
+                self._reports[team] = e
+        return self._reports[team]
+
+    def _status(self, team, name):
+        r = self.inj[(self.inj["team"] == team) & (self.inj["full_name"].str.lower() == str(name).lower())]
+        if r.empty:
+            return "not on injury report"
+        x = r.iloc[-1]
+        game = x["report_status"] if pd.notna(x["report_status"]) else "no game status yet"
+        prac = x["practice_status"] if pd.notna(x["practice_status"]) else ""
+        hurt = x["report_primary_injury"] if pd.notna(x["report_primary_injury"]) else x["practice_primary_injury"]
+        return f"{game}" + (f" ({hurt})" if pd.notna(hurt) else "") + (f", practice: {prac}" if prac else "")
+
+    def show(self, df: pd.DataFrame, g, last_qb: dict, confirmed: dict, opener: float, yours: float,
+             unverified: Unverified):
+        label = f"{g.away_team} @ {g.home_team}"
+        past = df[(df["season"] == g.season) & df["result"].notna() & (df["gameday"] < g.gameday)]
+        prev = df[df["result"].notna() & (df["gameday"] < g.gameday)].sort_values("gameday")
+        for side in ("away", "home"):
+            team = getattr(g, f"{side}_team")
+            rec, last = form(past, team, "spread_line")
+            mine = prev[(prev["home_team"] == team) | (prev["away_team"] == team)]
+            rest = (g.gameday - mine["gameday"].max()).days if len(mine) else None
+            tags = [t for t, on in (("off bye", getattr(g, f"{side}_off_bye", 0)),
+                                    ("short week", getattr(g, f"{side}_short_week", 0))) if on]
+            rest_txt = f"rest {rest} days" + (f" ({', '.join(tags)})" if tags else "") if rest is not None else ""
+            print(f"   {team}: {rec}; {rest_txt}")
+            print(f"      last 3: {last}")
+
+            # QB: listed starter vs depth chart vs last starter vs injury report
+            listed = getattr(g, f"{side}_qb")
+            dq = self.depth[(self.depth["team"] == team) & (self.depth["pos_abb"] == "QB")].sort_values("pos_rank")
+            qb1 = dq["player_name"].iloc[0] if len(dq) else None
+            notes = []
+            if team in confirmed:
+                notes.append("starter set by --qb or depth chart + last start")
+            else:
+                if qb1 and self.lineups._norm(pd.Series([qb1]))[0] != self.lineups._norm(pd.Series([str(listed)]))[0]:
+                    notes.append(f"depth chart ({self.depth_day}) has {qb1}")
+                if team in last_qb and self.lineups._norm(pd.Series([str(last_qb[team])]))[0] != \
+                        self.lineups._norm(pd.Series([str(listed)]))[0]:
+                    notes.append(f"{last_qb[team]} started last game")
+            st = self._status(team, listed)
+            if st != "not on injury report":
+                notes.append(f"injury report: {st}")
+            print(f"      QB {listed}" + (f"  [{'; '.join(notes)}]" if notes else ""))
+            if team not in confirmed and any(not n.startswith("injury report: not") for n in notes):
+                unverified.add(label, f"{team} starting QB ({listed}) - confirm with news, rerun with --qb {team}=\"Name\"")
+
+            # Injuries to regulars (>= half the snaps the last two games)
+            r = self._report(team)
+            if isinstance(r, Exception):
+                print(f"      injuries: could not load ({r})")
+                unverified.add(label, f"{team} injuries (lineup data failed)")
+                continue
+            miss = r["missing"]
+            if len(miss):
+                txt = ", ".join(f"{m.player} {m.position} ({m.status})" for m in miss.head(8).itertuples(index=False))
+                print(f"      missing regulars: {txt}")
+            q = [n for n in r["questionable"]]
+            dnp = self.inj[(self.inj["team"] == team) & self.inj["report_status"].isna()
+                           & self.inj["practice_status"].fillna("").str.contains("Did Not", case=False)]
+            if q:
+                print(f"      questionable: {', '.join(q[:8])}")
+            if len(dnp):
+                print(f"      did not practice (no game status yet): {', '.join(dnp['full_name'].head(8))}")
+            if not len(miss) and not q and not len(dnp):
+                print("      injuries: no regulars listed")
+            if self.week_status_pending(team):
+                unverified.add(label, f"{team} injury report has no game statuses yet (final report comes 2 days before kickoff)")
+
+        raw = self.games.set_index("game_id")
+        roof = raw.at[g.game_id, "roof"] if g.game_id in raw.index else None
+        surface = raw.at[g.game_id, "surface"] if g.game_id in raw.index else None
+        dome = roof in ("dome", "closed")
+        w = self.forecasts.get(g.game_id)
+        print(f"   weather: {weather_text(w, dome, surface if isinstance(surface, str) else None)}"
+              + (f"  (forecast {w['fetched_at']})" if w and not dome else ""))
+        if not dome and not w:
+            unverified.add(label, "weather (no forecast yet; the weather job runs every 3 hours)")
+        if pd.notna(opener):
+            moved = "" if opener == yours else f", yours {g.home_team} {-yours:+.1f}"
+            print(f"   line: opened {g.home_team} {-opener:+.1f}{moved}")
+
+    def week_status_pending(self, team) -> bool:
+        t = self.inj[self.inj["team"] == team]
+        return len(t) > 0 and t["report_status"].isna().all()
+
+
+# --- college ----------------------------------------------------------------------------
+
+def cfb_show(df: pd.DataFrame, g, ranks: pd.DataFrame, forecasts: dict, unverified: Unverified):
+    label = f"{g.away_team} @ {g.home_team}"
+    n = len(ranks)
+    past = df[(df["season"] == g.season) & df["result"].notna() & (df["gameday"] < g.gameday)]
+    for side in ("away", "home"):
+        team = getattr(g, f"{side}_team")
+        rec, last = form(past, team, "spread_close")
+        if team in ranks.index:
+            rk = lambda col, asc=False: int(ranks[col].rank(ascending=asc)[team])
+            rank_txt = f"power #{rk('off_pts')}/{n}, offense EPA #{rk('off_epa')}, defense EPA #{rk('def_epa', True)}"
+        else:
+            rank_txt = "FCS"
+        qb = getattr(g, f"{side}_qb")
+        qbc = " (QB CHANGED last game)" if getattr(g, f"{side}_qb_change") else ""
+        print(f"   {team}: {rec}; {rank_txt}; rest {getattr(g, f'{side}_rest'):.0f} days; QB {qb}{qbc}")
+        print(f"      last 3: {last}")
+        if qbc:
+            unverified.add(label, f"{team} starting QB (changed last game) - check news")
+    w = forecasts.get(f"cfb_{g.game_id}")
+    surface = None if not w or pd.isna(w.get("grass")) else ("grass" if w["grass"] else "turf")
+    print(f"   weather: {weather_text(w, bool(w and w.get('dome')), surface)}")
+    if not w:
+        unverified.add(label, "weather/field (stadium not in the forecast file)")
+    unverified.add(label, "injuries (no free college injury report: check team news)")
+
+
+def latest_ratings(df: pd.DataFrame, season: int) -> pd.DataFrame:
+    """Each FBS team's most recent pregame ratings this season (for ranks)."""
+    d = df[df["season"] == season].sort_values("gameday")
+    out = {}
+    for g in d.itertuples(index=False):
+        for side in ("home", "away"):
+            if not getattr(g, f"{side}_fcs"):
+                out[getattr(g, f"{side}_team")] = {k: getattr(g, f"{side}_{k}") for k in
+                                                   ("off_pts", "off_epa", "def_epa")}
+    return pd.DataFrame(out).T

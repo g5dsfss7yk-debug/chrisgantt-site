@@ -180,3 +180,17 @@ are flagged as an Under to watch: 55-56% through 2023, below 52% since.
 - **College.** Against Saturday lines the CFB spread model is about 50% in every period and 44.5% in
   2026 (weeks 1-4 and big underdogs worst). The current season's openers are not in the free data,
   so CFB picks are leans only unless you give an early-week line.
+
+## Pre-bet checks on every card (`checks.py`)
+Every game on `run.py card` and `cfb.py card` prints the same checklist, and anything the data
+could not confirm is listed under **NOT VERIFIED** at the end of the card:
+- **QB**: schedule's listed starter vs the daily depth chart's QB1 vs the last starter, plus the
+  QB's injury-report and practice status. If the listed QB disagrees with both and those two agree,
+  the card uses them automatically (`auto QB:`); the schedule file can carry an old matchup's QB.
+- **Injuries** (NFL): regulars (half the snaps the last two games) who are Out/Doubtful or off the
+  depth chart, questionable players, and players who did not practice before game statuses are set.
+  College has no free injury report, so it is always listed as NOT VERIFIED.
+- **Form**: record, record against the spread, last three games with cover/no cover, rest days
+  (bye, short week); college adds power / offense / defense ranks.
+- **Weather and field**: kickoff forecast from the weather job (NFL and college), dome, surface.
+- **Line**: opener vs your number.

@@ -32,7 +32,15 @@ def starters(games: pd.DataFrame, qbs: dict[str, str], season: int, week: int) -
     for team, name in qbs.items():
         hit = pg[pg["player_display_name"].str.lower() == name.lower()]
         if hit.empty:
-            raise SystemExit(f"no player named {name!r} in the weekly stats")
+            # No NFL stats yet (rookie / first start): take the id from the depth chart, and the
+            # model rates him as a QB with no history.
+            from nflmodel import lineups
+            dc = lineups.load_depth(season)
+            dc = dc[dc["player_name"].str.lower() == name.lower()]
+            if dc.empty:
+                raise SystemExit(f"no player named {name!r} in the weekly stats or depth chart")
+            hit = pd.DataFrame({"player_id": [dc["gsis_id"].iloc[0]], "player_display_name": [dc["player_name"].iloc[0]]})
+            print(f"note: {name} has no NFL stats; rated as a QB with no history")
         pid = hit["player_id"].iloc[-1]
         for side in ("home", "away"):
             m = (games["season"] == season) & (games["week"] == week) & (games[f"{side}_team"] == team)

@@ -14,7 +14,9 @@ import pandas as pd
 
 from cfbmodel import data, markets, pipeline
 from nflmodel import model
+from nflmodel import data as nfl_data
 import run
+import checks
 
 # Against opening lines, all three models agreeing at P >= 55% went 219-166 (56.9%) in
 # 2017-2021 and 54-40 (57.4%) in 2022-2025. Against closing lines there is no edge.
@@ -73,50 +75,6 @@ def _find(games, name):
     return hits[0]
 
 
-def _latest_ratings(df, season):
-    """Each FBS team's most recent pregame ratings this season (for ranks)."""
-    d = df[df["season"] == season].sort_values("gameday")
-    out = {}
-    for g in d.itertuples(index=False):
-        for side in ("home", "away"):
-            if not getattr(g, f"{side}_fcs"):
-                out[getattr(g, f"{side}_team")] = {k: getattr(g, f"{side}_{k}") for k in
-                                                   ("off_pts", "off_epa", "def_epa", "off_ppg", "def_ppg")}
-    return pd.DataFrame(out).T
-
-
-def _detail(df, g, ranks):
-    """Form, ATS, rest, QB and rating ranks for both teams, printed under a game."""
-    n = len(ranks)
-    past = df[(df["season"] == g.season) & df["result"].notna() & (df["gameday"] < g.gameday)]
-    for side in ("away", "home"):
-        team = getattr(g, f"{side}_team")
-        mine = past[(past["home_team"] == team) | (past["away_team"] == team)].sort_values("gameday")
-        w = l = cw = cl = 0
-        last = []
-        for x in mine.itertuples(index=False):
-            home = x.home_team == team
-            m = x.result if home else -x.result
-            w, l = w + (m > 0), l + (m < 0)
-            ats = ""
-            if pd.notna(x.spread_close):
-                c = (x.result - x.spread_close) * (1 if home else -1)
-                cw, cl = cw + (c > 0), cl + (c < 0)
-                ats = "covered" if c > 0 else ("push" if c == 0 else "no cover")
-            opp = x.away_team if home else x.home_team
-            last.append(f"{'vs' if home else '@'} {opp} {'W' if m > 0 else 'L'} by {abs(m):.0f}" + (f" ({ats})" if ats else ""))
-        r = ranks.loc[team] if team in ranks.index else None
-        rk = lambda col, asc=False: int(ranks[col].rank(ascending=asc)[team])
-        rank_txt = (f"power #{rk('off_pts')}/{n}, offense EPA #{rk('off_epa')}, defense EPA #{rk('def_epa', True)}"
-                    if r is not None else "FCS")
-        rest = getattr(g, f"{side}_rest")
-        qb = getattr(g, f"{side}_qb")
-        qbc = " (QB CHANGED last game)" if getattr(g, f"{side}_qb_change") else ""
-        print(f"   {team}: {w}-{l}, ATS {cw}-{cl}; {rank_txt}; rest {rest:.0f} days; QB {qb}{qbc}")
-        if last:
-            print(f"      last 3: {'; '.join(last[-3:])}")
-
-
 def cmd_card(args):
     df = pipeline.load(args.refresh)
     upcoming = df[df["result"].isna()]
@@ -141,7 +99,9 @@ def cmd_card(args):
     print(f"\nCFB card {day:%a %m/%d/%Y}  (fair = model's line for the home team; P = chance the bet wins vs the line"
           f" you gave; models = how many of {len(model.LEARNERS)} agree)\n")
     rows = []
-    ranks = _latest_ratings(df, int(games["season"].iloc[0]))
+    ranks = checks.latest_ratings(df, int(games["season"].iloc[0]))
+    forecasts = {f.game_id: f._asdict() for f in nfl_data.load_forecasts().itertuples(index=False)}
+    unverified = checks.Unverified()
     for (_, g), (_, s), (_, t) in zip(games.iterrows(), ps.iterrows(), pt.iterrows()):
         fair = -s.rating
         each = " ".join(f"{-s[f'rating_{n}']:+.1f}" for n in model.LEARNERS)
@@ -151,7 +111,7 @@ def cmd_card(args):
         print(f"{head:58} fair {g.home_team} {fair:+.1f}  ({each})  total {t.rating - total.center:.0f}")
         for f in flags:
             print(f"   QB CHECK: {f}")
-        _detail(df, g, ranks)
+        checks.cfb_show(df, g, ranks, forecasts, unverified)
         mk = g.spread_close
         if pd.notna(mk) and mk != s.line:
             print(f"   market: ESPN line {g.home_team} {-mk:+.1f} vs yours {g.home_team} {-s.line:+.1f}")
@@ -177,6 +137,7 @@ def cmd_card(args):
                      "kickoff": _kickoff(g),
                      "home_team": g.home_team, "away_team": g.away_team, "line": s.line, "pick": label,
                      "p": round(prob, 3), "tier": tier, "bet": tier == "STRONG"})
+    unverified.show()
     run._best_bets(pd.DataFrame(rows))
     run._save_picks(pd.DataFrame(rows), PICKS / f"{day:%Y-%m-%d}.csv", args.force)
 
