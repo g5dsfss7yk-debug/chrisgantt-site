@@ -18,7 +18,12 @@ CARRY = 0.6              # share of last season's rating kept over the offseason
 MIN_ALPHA = 0.12         # floor on how much one game moves a rating
 HFA = 2.5                # home-field points used inside the margin rating
 FCS_ELO = 1100           # CFBD gives FCS teams no Elo
-FCS_PTS = 0.0            # starting margin rating for an FCS team (0 = league average)
+# FCS teams start (and regress between seasons) 20 points below the FBS average instead of at it,
+# so blowouts of FCS opponents stop inflating ratings. Walk-forward: rating error fell in every
+# period (MAE 13.02/12.72/13.03 -> 12.98/12.66/13.00 for 2018-21/2022-25/2026) and STRONG vs the
+# opener went 56.1% -> 56.1% and 57.4% -> 62.5%. Faster rating updates (MIN_ALPHA 0.2-0.3) and a
+# 28-point margin cap were tested at the same time and did worse in 2018-2025.
+FCS_PTS = -20.0          # starting margin rating for an FCS team
 MARGIN_CAP = None        # cap on the margin one game feeds the rating (None = no cap)
 
 
