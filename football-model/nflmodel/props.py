@@ -31,7 +31,13 @@ FEATURES = [
     "is_rb", "is_wr", "is_te", "is_qb",
     # added: playing time, teammates' vacated work, opponent by position, weather
     "snap_pct", "vacated_targets", "vacated_carries", "opp_pos_td_allowed", "wind",
+    # rain, snow, cold (degrees below 45F) and artificial turf
+    "rain", "snow", "cold", "turf",
 ]
+WEATHER = ["rain", "snow", "cold", "turf"]
+USAGE = ["air_share", "adot", "cpoe"]
+MATCHUP = ["team_pressure_allowed", "team_sep", "opp_pressure_made", "opp_missed_tackle"]
+# USAGE and MATCHUP are being backtested; added to FEATURES only if they improve results.
 
 
 def _player_pbp(season: int, refresh: bool = False) -> pd.DataFrame:
@@ -68,7 +74,8 @@ def load_player_games(refresh: bool = False) -> pd.DataFrame:
         w = w[w["position"].isin(POSITIONS) & (w["season_type"] == "REG")]
         w = w[["player_id", "player_display_name", "position", "season", "week", "game_id", "team",
                "opponent_team", "carries", "targets", "rushing_tds", "receiving_tds", "receptions",
-               "receiving_yards", "rushing_yards", "completions", "attempts", "passing_yards", "passing_tds"]]
+               "receiving_yards", "rushing_yards", "completions", "attempts", "passing_yards", "passing_tds",
+               "receiving_air_yards", "air_yards_share", "passing_cpoe"]]
         rz = _player_pbp(s, refresh).drop(columns="posteam")
         out.append(w.merge(rz, on=["game_id", "player_id"], how="left"))
     d = pd.concat(out, ignore_index=True)
@@ -101,6 +108,10 @@ def build(pg: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
         "td_rate": pg["td"].astype(float), "touches": (pg["carries"] + pg["targets"]).astype(float),
         "rz_touches": pg["rz"].astype(float), "gl_touches": pg["gl"].astype(float),
         "snap_pct": pg["snap"].astype(float),
+        # usage quality: share of the team's air yards, depth of target, QB accuracy over expected
+        "air_share": pg["air_yards_share"].astype(float),
+        "adot": pg["receiving_air_yards"] / pg["targets"].replace(0, np.nan),
+        "cpoe": pg["passing_cpoe"].astype(float),
         # running averages for the yardage and volume props (statprops.py)
         **{f"avg_{c}": pg[c].astype(float) for c in STAT_COLS},
     }
@@ -166,19 +177,35 @@ def build(pg: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
                   on=["season", "week", "opponent_team"], how="left")
 
     # Team implied points from the closing spread and total (props are bet on game day).
-    for col in ("rain", "snow"):  # observed / forecast precipitation (features.weather); 0 if unknown
+    for col in WEATHER:  # observed / forecast weather and field (features.weather); 0 if unknown
         if col not in games:
             games = games.assign(**{col: 0.0})
-    g = games[["game_id", "home_team", "away_team", "spread_line", "total_line", "wind", "rain", "snow", "roof"]].copy()
+    g = games[["game_id", "home_team", "away_team", "spread_line", "total_line", "wind", "roof"] + WEATHER].copy()
     g["wind"] = np.where(g["roof"].isin(["dome", "closed"]), 0, g["wind"].fillna(0))
-    for col in ("rain", "snow"):
+    for col in ("rain", "snow", "cold"):
         g[col] = np.where(g["roof"].isin(["dome", "closed"]), 0, g[col].fillna(0))
+    g["turf"] = g["turf"].fillna(0)
     g = g.drop(columns="roof")
+    # Team ratings from nflmodel.extra when present (pass rush, missed tackles, separation)
+    xcols = [c for c in games.columns if c.startswith(("home_x_", "away_x_"))]
+    if xcols:
+        g = g.join(games.loc[g.index, xcols])
     g["home_team"], g["away_team"] = g["home_team"].map(teams.franchise), g["away_team"].map(teams.franchise)
     pg = pg.merge(g, on="game_id", how="left")
     pg["home"] = (pg["team"] == pg["home_team"]).astype(int)
     sign = np.where(pg["home"] == 1, 1, -1)
     pg["implied_pts"] = pg["total_line"] / 2 + sign * pg["spread_line"] / 2
+    home = pg["home"] == 1
+    for own, col in (("team_pressure_allowed", "pressure_allowed"), ("team_sep", "sep")):
+        if f"home_x_{col}" in pg:
+            pg[own] = np.where(home, pg[f"home_x_{col}"], pg[f"away_x_{col}"])
+    for opp, col in (("opp_pressure_made", "pressure_made"), ("opp_missed_tackle", "missed_tackle")):
+        if f"home_x_{col}" in pg:
+            pg[opp] = np.where(home, pg[f"away_x_{col}"], pg[f"home_x_{col}"])
+    pg = pg.drop(columns=[c for c in pg.columns if c.startswith(("home_x_", "away_x_"))])
+    for c in MATCHUP:
+        if c not in pg:
+            pg[c] = np.nan
     for p in POSITIONS:
         pg[f"is_{p.lower()}"] = (pg["position"] == p).astype(int)
     return pg

@@ -52,12 +52,30 @@ def load(refresh: bool = False, use_forecasts: bool = True, qbs: dict | None = N
          season: int | None = None, week: int | None = None) -> pd.DataFrame:
     seasons = range(model.FIRST_TRAIN_SEASON, data.current_season() + 1)
     snaps = data.load_snaps(seasons, refresh)
-    return features.build(
+    pbp = data.load_team_pbp(range(model.FIRST_TRAIN_SEASON - 1, data.current_season() + 1), refresh)
+    df = features.build(
         starters(data.load_games(refresh), qbs or {}, season, week),
         injuries=features.injury_scores(data.load_injuries(seasons, refresh), snaps),
         continuity=features.roster_continuity(snaps, data.load_rosters(seasons, refresh)),
-        pbp=data.load_team_pbp(range(model.FIRST_TRAIN_SEASON - 1, data.current_season() + 1), refresh),
+        pbp=pbp,
         weather_text=data.load_game_weather(seasons, refresh),
         nfelo=data.load_nfelo(refresh),
         forecasts=forecasts() if use_forecasts else None,
     )
+    return add_extra(df, data.load_games(refresh), pbp)
+
+
+def add_extra(df: pd.DataFrame, games: pd.DataFrame, pbp: pd.DataFrame) -> pd.DataFrame:
+    """Pressure, Next Gen and referee ratings (nflmodel.extra). Seasons before the data starts
+    (PFR 2018, NGS 2016) get neutral values: 0 for a home-minus-away difference, the first
+    available seasons' median for a sum."""
+    from nflmodel import extra
+    x = extra.build(games, pbp)
+    df = df.merge(x, on="game_id", how="left")
+    for c in [c for c in x.columns if c.startswith("x_")]:
+        if c.endswith("_diff") or c == "x_ref_home":
+            df[c] = df[c].fillna(0.0)
+        else:
+            first = df.loc[df[c].notna(), "season"].min()
+            df[c] = df[c].fillna(df.loc[df["season"].between(first, first + 1), c].median())
+    return df

@@ -236,10 +236,41 @@ def load_nfelo(refresh: bool = False) -> pd.DataFrame:
 WEATHER_BRANCH = "nfl-weather"   # written by .github/workflows/nfl-weather.yml
 
 
+LIVE_WEATHER = RAW / "weather_live.csv"
+
+
+def _live_forecasts() -> pd.DataFrame:
+    """Fetch kickoff forecasts now (Open-Meteo), NFL and college, cached for an hour."""
+    import importlib.util
+    import time
+    if LIVE_WEATHER.exists() and time.time() - LIVE_WEATHER.stat().st_mtime < 3600:
+        return pd.read_csv(LIVE_WEATHER)
+    spec = importlib.util.spec_from_file_location("fetch_weather", ROOT / "scripts" / "fetch_weather.py")
+    fw = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(fw)
+    import sys
+    argv, sys.argv = sys.argv, ["fetch_weather", str(LIVE_WEATHER), "--days", "8"]
+    try:
+        fw.main()
+    finally:
+        sys.argv = argv
+    return pd.read_csv(LIVE_WEATHER)
+
+
 def load_forecasts() -> pd.DataFrame:
-    """Latest kickoff forecasts saved by the GitHub weather job (empty if unavailable)."""
+    """Kickoff forecasts: fetched live when the weather API is reachable, else the latest
+    saved by the GitHub weather job (empty if neither is available)."""
+    import contextlib
     import io
     import subprocess
+
+    try:
+        with contextlib.redirect_stdout(io.StringIO()):
+            live = _live_forecasts()
+        if len(live):
+            return live
+    except Exception:
+        pass
 
     repo = ROOT.parent
     try:

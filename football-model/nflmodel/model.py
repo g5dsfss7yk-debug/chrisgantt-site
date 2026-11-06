@@ -160,8 +160,15 @@ class Market:
         return out.join(each.add_prefix("rating_"))
 
 
+# Injuries, backup QB and line/secondary clusters added to the spread model (Nov 2026):
+# LEAN vs the opener 57.9% -> 59.0% (2015-22) and 57.2% -> 57.8% (2023-26); every-game picks vs
+# the close 50.1% -> 50.7% (2023-26). Weather and turf were tested for spreads too and lowered
+# LEAN in both periods (57.3% / 56.4%), so they stay in the totals and props models only.
+SPREAD_FEATURES = OPEN_FEATURES + LATE_FEATURES
+
+
 def spread_market(learners=tuple(LEARNERS)) -> Market:
-    return Market("spread", OPEN_FEATURES, "spread_open", learners)
+    return Market("spread", SPREAD_FEATURES, "spread_open", learners)
 
 
 def total_market(learners=tuple(LEARNERS)) -> Market:

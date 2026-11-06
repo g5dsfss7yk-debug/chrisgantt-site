@@ -35,7 +35,7 @@ SHRINK = 0.88
 MIN_GAMES = 1
 
 BASE = ["carry_share", "target_share", "snap_pct", "touches", "rz_share", "implied_pts", "home",
-        "games", "vacated_targets", "vacated_carries", "wind", "spread_for", "rain", "snow"]
+        "games", "vacated_targets", "vacated_carries", "wind", "spread_for", "rain", "snow", "cold", "turf"]
 
 
 def _features(stat: str) -> list[str]:

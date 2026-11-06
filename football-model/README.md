@@ -200,3 +200,16 @@ could not confirm is listed under **NOT VERIFIED** at the end of the card:
   amount is ~0: in rain, QBs threw 19-26 yards below their recent average and 200+ yards fell from
   66% to 51% (2020-2026). Rain and snow are also inputs to the over/under prop model; in rain games
   its QB passing-yards projection was 22 yards too high before and 10 after (MAE 56.0 -> 53.1).
+
+## Variables added in the Nov 2026 review
+- **Spread**: injuries, backup QB, offensive-line and secondary injury clusters (`LATE_FEATURES`) are now
+  in the spread model: LEAN 57.9% -> 59.0% (2015-22), 57.2% -> 57.8% (2023-26). Weather/turf lowered
+  spread LEAN in both periods and stay in totals/props only.
+- **Props**: rain, snow, cold and turf (TD and over/under models).
+- **Live weather**: `data.load_forecasts` fetches Open-Meteo directly (cached an hour), falling back to
+  the GitHub weather job.
+- **Being tested** (`nflmodel/extra.py`, `cfbmodel/pipeline.py`): PFR pressure / missed tackles / bad
+  throws / drops (2018+), Next Gen CPOE / time to throw / separation / RYOE (2016+), referee crew
+  tendencies; props usage (air-yards share, aDOT, CPOE) and matchup (pass rush, missed tackles);
+  college travel distance, time zones and turf. All 13 NFL extras added at once lowered spread LEAN
+  (59.0% -> 56.3% in 2015-22), so each is being tested on its own.

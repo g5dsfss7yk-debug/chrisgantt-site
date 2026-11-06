@@ -306,6 +306,9 @@ def cmd_props(args):
     from nflmodel import features
     games = features.weather(games, data.load_game_weather(range(model.FIRST_TRAIN_SEASON, season + 1)),
                              pipeline.forecasts())
+    # Pass rush, missed tackles and receiver separation for each team (nflmodel.extra)
+    from nflmodel import extra
+    games = games.merge(extra.build(games, data.load_team_pbp(range(2015, season + 1))), on="game_id", how="left")
     pg = props.load_player_games(args.refresh)
     up = props.upcoming(pg, games, season, week, data.load_injuries([season], args.refresh),
                         lineups.load_depth(season, args.refresh))
