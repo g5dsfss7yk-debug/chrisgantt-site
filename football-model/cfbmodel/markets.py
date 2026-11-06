@@ -12,7 +12,11 @@ TOTAL_FEATURES = [
     "plays_sum", "pass_sum", "epa_off_sum", "epa_def_sum", "sr_off_sum", "sr_def_sum", "exp_off_sum",
     "exp_def_sum", "ppg_off_sum", "ppg_def_sum", "rz_off_sum", "rz_def_sum", "havoc_sum", "home_field",
     "conf_game", "early_season", "postseason", "home_qb_change", "away_qb_change",
+    # field (Nov 2026): STRONG vs the opener 52.6% -> 54.7% (2018-21), flat in 2022-25
+    "turf", "dome",
 ]
+# Travel distance, time zones crossed and turf were tested for the spread and not kept:
+# STRONG 56.1% -> 54.8% (2018-21), 62.5% -> 65.6% (2022-25), 40.7% -> 38.5% (2026).
 
 
 def spread_market(line: str = "spread_open") -> Market:
