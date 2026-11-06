@@ -217,3 +217,7 @@ could not confirm is listed under **NOT VERIFIED** at the end of the card:
   throw, aggressiveness, separation, YAC/rush yards over expected, referee home margin) for spreads
   and totals - none helped both periods, alone or together; college travel/time zones for spreads.
 - **College totals**: field turf and dome.
+- **CollegeFootballData** (`cfbmodel/cfbd.py`, key held by the session proxy): talent, returning
+  production, recruiting, transfer portal, new head coach, prior SP+. Tested for spreads and totals
+  and not used in the picks (they lowered STRONG in both periods); each college card shows them as a
+  `roster:` line.

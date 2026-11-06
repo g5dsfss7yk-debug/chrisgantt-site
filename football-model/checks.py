@@ -233,12 +233,42 @@ def cfb_show(df: pd.DataFrame, g, ranks: pd.DataFrame, forecasts: dict, unverifi
         qbc = " (QB CHANGED last game)" if getattr(g, f"{side}_qb_change") else ""
         print(f"   {team}: {rec}; {rank_txt}; rest {getattr(g, f'{side}_rest'):.0f} days; QB {qb}{qbc}")
         print(f"      last 3: {last}")
+        roster = _roster_text(team, g.season)
+        if roster:
+            print(f"      roster: {roster}")
         if qbc:
             unverified.add(label, f"{team} starting QB (changed last game) - check news")
     w = forecasts.get(f"cfb_{g.game_id}")
     surface = None if not w or pd.isna(w.get("grass")) else ("grass" if w["grass"] else "turf")
     print(f"   weather: {weather_check(label, w, bool(w and w.get('dome')), surface, unverified)}")
     unverified.add(label, "injuries (no free college injury report: check team news)")
+
+
+_ROSTER = {}
+
+
+def _roster_text(team: str, season: int) -> str:
+    """Talent rank, returning production, portal and coach (CollegeFootballData; blank without it)."""
+    if season not in _ROSTER:
+        from cfbmodel import cfbd
+        ts = cfbd.team_seasons(season, season)
+        ts = ts[ts["season"] == season].set_index("team")
+        ts["talent_rank"] = ts["talent"].rank(ascending=False)
+        _ROSTER[season] = ts
+    ts = _ROSTER[season]
+    if team not in ts.index:
+        return ""
+    r = ts.loc[team]
+    bits = []
+    if pd.notna(r["talent"]):
+        bits.append(f"talent #{int(r['talent_rank'])}")
+    if pd.notna(r["returning"]):
+        bits.append(f"{r['returning']:.0%} of last year's offense back")
+    if pd.notna(r["portal_net"]):
+        bits.append(f"portal net {r['portal_net']:+.1f}")
+    if r.get("new_coach") == 1:
+        bits.append("NEW HEAD COACH")
+    return ", ".join(bits)
 
 
 def latest_ratings(df: pd.DataFrame, season: int) -> pd.DataFrame:

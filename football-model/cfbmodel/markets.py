@@ -25,3 +25,9 @@ def spread_market(line: str = "spread_open") -> Market:
 
 def total_market(line: str = "total_open") -> Market:
     return Market("total", TOTAL_FEATURES, line, center_on="line")
+# CollegeFootballData season inputs (cfbmodel/cfbd.py: talent, returning production, recruiting,
+# portal, new coach, prior SP+) were tested Nov 2026 and NOT used. They cut margin error
+# (12.98 -> 12.76, 12.66 -> 12.55) but STRONG fell in both periods: all season 56.1% -> 51.9%
+# (2018-21), 62.5% -> 57.6% (2022-25); early-season weighted 53.2% / 59.8%; the market already
+# prices them. Totals with returning production and coach changes: flat (55.1% / 48.4%).
+# They are shown on the card as a roster line instead.
