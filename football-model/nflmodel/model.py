@@ -53,6 +53,10 @@ CLOSE_TOTAL_FEATURES = [
     "dome", "cold", "heat", "wind", "high_wind", "gusty", "rain", "snow", "wet_wind", "turf",
     "pace_sum", "plays_sum", "pass_rate_sum", "explosive_sum", "rz_sum",
     "sec_inj_sum", "rush_inj_sum", "ol_inj_sum", "def_cluster_sum",
+    # Nov 2026 review (nflmodel.extra), each tested alone then together against the closing total:
+    # every-game hit rate 2015-22 50.3% -> 51.0%, 2023-26 50.2% -> 51.4%; MAE 10.68 -> 10.68, 10.40 -> 10.38.
+    # The other pressure, Next Gen and tackling sums did not help both periods and are not used.
+    "x_ref_over", "x_pressure_allowed_sum",
 ]
 FIRST_TRAIN_SEASON = 2009   # injury reports and nfelo opening lines start here
 MIN_STAGE2_SEASONS = 2
@@ -164,6 +168,9 @@ class Market:
 # LEAN vs the opener 57.9% -> 59.0% (2015-22) and 57.2% -> 57.8% (2023-26); every-game picks vs
 # the close 50.1% -> 50.7% (2023-26). Weather and turf were tested for spreads too and lowered
 # LEAN in both periods (57.3% / 56.4%), so they stay in the totals and props models only.
+# The 13 nflmodel.extra ratings (pressure, bad throws, drops, missed tackles, CPOE, time to throw,
+# aggressiveness, separation, YAC and rush yards over expected, referee home margin) were each
+# tested alone; none beat 59.0% / 57.8% in both periods (best: time to throw 58.6% / 57.6%).
 SPREAD_FEATURES = OPEN_FEATURES + LATE_FEATURES
 
 

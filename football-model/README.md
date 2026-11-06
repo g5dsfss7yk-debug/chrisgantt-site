@@ -208,8 +208,12 @@ could not confirm is listed under **NOT VERIFIED** at the end of the card:
 - **Props**: rain, snow, cold and turf (TD and over/under models).
 - **Live weather**: `data.load_forecasts` fetches Open-Meteo directly (cached an hour), falling back to
   the GitHub weather job.
-- **Being tested** (`nflmodel/extra.py`, `cfbmodel/pipeline.py`): PFR pressure / missed tackles / bad
-  throws / drops (2018+), Next Gen CPOE / time to throw / separation / RYOE (2016+), referee crew
-  tendencies; props usage (air-yards share, aDOT, CPOE) and matchup (pass rush, missed tackles);
-  college travel distance, time zones and turf. All 13 NFL extras added at once lowered spread LEAN
-  (59.0% -> 56.3% in 2015-22), so each is being tested on its own.
+- **Props usage and matchup**: air-yards share, aDOT, CPOE, the offense's pressure allowed and
+  receiver separation, the defense's pass rush and missed tackles (TD model; passing yards,
+  completions and receptions).
+- **Totals**: referee crew's history vs the total and both offenses' pressure allowed
+  (`nflmodel/extra.py`): every-game hit rate 50.3% -> 51.0% (2015-22), 50.2% -> 51.4% (2023-26).
+- **Tested and not used**: the other 11 NFL extras (bad throws, drops, missed tackles, CPOE, time to
+  throw, aggressiveness, separation, YAC/rush yards over expected, referee home margin) for spreads
+  and totals - none helped both periods, alone or together; college travel/time zones for spreads.
+- **College totals**: field turf and dome.
