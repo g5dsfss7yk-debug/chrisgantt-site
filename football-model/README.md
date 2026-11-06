@@ -194,3 +194,9 @@ could not confirm is listed under **NOT VERIFIED** at the end of the card:
   (bye, short week); college adds power / offense / defense ranks.
 - **Weather and field**: kickoff forecast from the weather job (NFL and college), dome, surface.
 - **Line**: opener vs your number.
+- **Props run the same checks** (`run.py props` prints QB, injury report and weather per game first).
+- **Weather freshness and rain risk**: a forecast older than 6 hours is NOT VERIFIED. Any outdoor game
+  with a 35%+ precipitation chance (or snow) flags passing and receiving overs, even when the forecast
+  amount is ~0: in rain, QBs threw 19-26 yards below their recent average and 200+ yards fell from
+  66% to 51% (2020-2026). Rain and snow are also inputs to the over/under prop model; in rain games
+  its QB passing-yards projection was 22 yards too high before and 10 after (MAE 56.0 -> 53.1).

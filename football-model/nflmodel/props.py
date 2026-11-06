@@ -166,8 +166,13 @@ def build(pg: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
                   on=["season", "week", "opponent_team"], how="left")
 
     # Team implied points from the closing spread and total (props are bet on game day).
-    g = games[["game_id", "home_team", "away_team", "spread_line", "total_line", "wind", "roof"]].copy()
+    for col in ("rain", "snow"):  # observed / forecast precipitation (features.weather); 0 if unknown
+        if col not in games:
+            games = games.assign(**{col: 0.0})
+    g = games[["game_id", "home_team", "away_team", "spread_line", "total_line", "wind", "rain", "snow", "roof"]].copy()
     g["wind"] = np.where(g["roof"].isin(["dome", "closed"]), 0, g["wind"].fillna(0))
+    for col in ("rain", "snow"):
+        g[col] = np.where(g["roof"].isin(["dome", "closed"]), 0, g[col].fillna(0))
     g = g.drop(columns="roof")
     g["home_team"], g["away_team"] = g["home_team"].map(teams.franchise), g["away_team"].map(teams.franchise)
     pg = pg.merge(g, on="game_id", how="left")

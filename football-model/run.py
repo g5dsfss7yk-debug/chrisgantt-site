@@ -289,9 +289,23 @@ def cmd_props(args):
     season = args.season or data.current_season()
     upcoming = games[(games["season"] == season) & games["result"].isna()]
     week = args.week or int(upcoming["week"].min())
-    games = pipeline.starters(games, _qb_overrides(args), season, week)
-    for gid, f in pipeline.forecasts().items():  # game-day wind for the props weather input
-        games.loc[games["game_id"] == gid, "wind"] = f["wind"]
+    given = _qb_overrides(args)
+    games = pipeline.starters(games, {**_auto_qbs(season, week, given), **given}, season, week)
+    # The same pre-bet checks as the card: QB, injury report, weather (with its age).
+    nfl_checks, unverified = checks.NFLChecks(season, week, args.refresh), checks.Unverified()
+    wk = games[(games["season"] == season) & (games["week"] == week)]
+    if args.team:
+        teams = [t.upper() for t in args.team]
+        wk = wk[wk["home_team"].isin(teams) | wk["away_team"].isin(teams)]
+    print(f"\n{season} week {week} game checks")
+    for g in wk.itertuples(index=False):
+        nfl_checks.brief(g, unverified)
+    unverified.show()
+    # Weather inputs: observed rain/snow/wind for played games (2009+ weather text), the
+    # kickoff forecast for upcoming ones. Rain cut QB passing yards ~20-26 below their norm.
+    from nflmodel import features
+    games = features.weather(games, data.load_game_weather(range(model.FIRST_TRAIN_SEASON, season + 1)),
+                             pipeline.forecasts())
     pg = props.load_player_games(args.refresh)
     up = props.upcoming(pg, games, season, week, data.load_injuries([season], args.refresh),
                         lineups.load_depth(season, args.refresh))

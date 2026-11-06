@@ -56,6 +56,37 @@ def weather_text(w: dict | None, dome: bool, surface: str | None) -> str:
     return f"{w['temp']:.0f}F, wind {w['wind']:.0f} mph (gusts {w.get('gust', 0):.0f}){wet}{snow}{field}"
 
 
+STALE_HOURS = 6  # a forecast older than this is listed as NOT VERIFIED
+RAIN_RISK = 35   # precipitation chance (%) that flags passing/receiving overs, even with ~0 inches forecast
+
+
+def forecast_age(w: dict | None) -> float | None:
+    """Hours since the forecast was fetched."""
+    if not w or not isinstance(w.get("fetched_at"), str):
+        return None
+    t = pd.Timestamp(w["fetched_at"].replace("Z", "+00:00"))
+    return (pd.Timestamp.now(tz="UTC") - t).total_seconds() / 3600
+
+
+def weather_check(label: str, w: dict | None, dome: bool, surface: str | None, unverified) -> str:
+    """Weather line with the forecast's age; a missing or stale forecast goes on the NOT VERIFIED list."""
+    text = weather_text(w, dome, surface)
+    if dome:
+        return text
+    age = forecast_age(w)
+    if age is None:
+        unverified.add(label, "weather (no forecast: run the weather job)")
+        return text
+    if age > STALE_HOURS:
+        unverified.add(label, f"weather (forecast is {age:.0f} hours old: run the weather job and rerun)")
+    p = w.get("precip_prob")
+    if (pd.notna(p) and p >= RAIN_RISK) or (w.get("snow_in") or 0) > 0:
+        unverified.add(label, f"RAIN/SNOW RISK ({p:.0f}% chance): avoid QB passing and receiving overs; in rain "
+                              "QBs threw 19-26 yds below their norm and 200+ fell from 66% to 51% (2020-26)")
+        text += "  ** RAIN RISK: avoid passing/receiving overs **"
+    return f"{text}  (forecast {age:.0f}h old)"
+
+
 # --- NFL --------------------------------------------------------------------------------
 
 class NFLChecks:
@@ -154,13 +185,30 @@ class NFLChecks:
         surface = raw.at[g.game_id, "surface"] if g.game_id in raw.index else None
         dome = roof in ("dome", "closed")
         w = self.forecasts.get(g.game_id)
-        print(f"   weather: {weather_text(w, dome, surface if isinstance(surface, str) else None)}"
-              + (f"  (forecast {w['fetched_at']})" if w and not dome else ""))
-        if not dome and not w:
-            unverified.add(label, "weather (no forecast yet; the weather job runs every 3 hours)")
+        print(f"   weather: {weather_check(label, w, dome, surface if isinstance(surface, str) else None, unverified)}")
         if pd.notna(opener):
             moved = "" if opener == yours else f", yours {g.home_team} {-yours:+.1f}"
             print(f"   line: opened {g.home_team} {-opener:+.1f}{moved}")
+
+    def brief(self, g, unverified: "Unverified"):
+        """QB, injuries and weather for one game from the raw schedule row (used by props)."""
+        label = f"{g.away_team} @ {g.home_team}"
+        print(f"{label}  {g.gameday:%a %m/%d} {g.gametime} ET")
+        for team, qb in ((g.away_team, g.away_qb_name), (g.home_team, g.home_qb_name)):
+            st = self._status(team, qb)
+            print(f"   {team} QB {qb}" + ("" if st == "not on injury report" else f"  [injury report: {st}]"))
+            r = self._report(team)
+            if isinstance(r, Exception):
+                unverified.add(label, f"{team} injuries (lineup data failed)")
+                continue
+            out = self.inj[(self.inj["team"] == team) & self.inj["report_status"].isin(["Out", "Doubtful", "Questionable"])]
+            if len(out):
+                print("      " + ", ".join(f"{x.full_name} {x.position} {x.report_status}" for x in out.itertuples(index=False)))
+            if self.week_status_pending(team):
+                unverified.add(label, f"{team} injury report has no game statuses yet")
+        dome = g.roof in ("dome", "closed")
+        surface = g.surface if isinstance(g.surface, str) else None
+        print(f"   weather: {weather_check(label, self.forecasts.get(g.game_id), dome, surface, unverified)}")
 
     def week_status_pending(self, team) -> bool:
         t = self.inj[self.inj["team"] == team]
@@ -189,9 +237,7 @@ def cfb_show(df: pd.DataFrame, g, ranks: pd.DataFrame, forecasts: dict, unverifi
             unverified.add(label, f"{team} starting QB (changed last game) - check news")
     w = forecasts.get(f"cfb_{g.game_id}")
     surface = None if not w or pd.isna(w.get("grass")) else ("grass" if w["grass"] else "turf")
-    print(f"   weather: {weather_text(w, bool(w and w.get('dome')), surface)}")
-    if not w:
-        unverified.add(label, "weather/field (stadium not in the forecast file)")
+    print(f"   weather: {weather_check(label, w, bool(w and w.get('dome')), surface, unverified)}")
     unverified.add(label, "injuries (no free college injury report: check team news)")
 
 
