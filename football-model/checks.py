@@ -68,23 +68,54 @@ def forecast_age(w: dict | None) -> float | None:
     return (pd.Timestamp.now(tz="UTC") - t).total_seconds() / 3600
 
 
-def weather_check(label: str, w: dict | None, dome: bool, surface: str | None, unverified) -> str:
-    """Weather line with the forecast's age; a missing or stale forecast goes on the NOT VERIFIED list."""
+_ESPN: dict = {}
+WET_WORDS = ("rain", "shower", "storm", "drizzle", "snow", "sleet", "flurr")
+
+
+def espn_conditions(league: str, event_id, day) -> str | None:
+    """ESPN's game-day conditions for one game (e.g. "Thunderstorms 64F"), a second weather source
+    for when the hourly forecast API is down or rate limited. league: "nfl" or "college-football"."""
+    if event_id is None or pd.isna(event_id):
+        return None
+    key = (league, f"{pd.Timestamp(day):%Y%m%d}")
+    if key not in _ESPN:
+        import json
+        import urllib.request
+        url = (f"https://site.api.espn.com/apis/site/v2/sports/football/{league}/scoreboard"
+               f"?dates={key[1]}&limit=400" + ("&groups=80" if league == "college-football" else ""))
+        try:
+            with urllib.request.urlopen(url, timeout=30) as r:
+                events = json.load(r).get("events", [])
+        except (OSError, ValueError):
+            events = []
+        _ESPN[key] = {e["id"]: f"{e['weather'].get('displayValue', '')} {e['weather'].get('temperature', '')}F".strip()
+                      for e in events if e.get("weather")}
+    return _ESPN[key].get(str(int(float(event_id))))
+
+
+def weather_check(label: str, w: dict | None, dome: bool, surface: str | None, unverified,
+                  espn: str | None = None) -> str:
+    """Weather line with the forecast's age; a missing or stale forecast goes on the NOT VERIFIED list
+    unless ESPN's game-day conditions are there to cover it. Rain, storms or snow in either source
+    raise the rain-risk warning."""
     text = weather_text(w, dome, surface)
     if dome:
         return text
+    if espn:
+        text += f"  ESPN: {espn}"
+    wet_espn = bool(espn) and any(k in espn.lower() for k in WET_WORDS)
     age = forecast_age(w)
-    if age is None:
+    if age is None and not espn:
         unverified.add(label, "weather (no forecast: run the weather job)")
-        return text
-    if age > STALE_HOURS:
+    elif age is not None and age > STALE_HOURS and not espn:
         unverified.add(label, f"weather (forecast is {age:.0f} hours old: run the weather job and rerun)")
-    p = w.get("precip_prob")
-    if (pd.notna(p) and p >= RAIN_RISK) or (w.get("snow_in") or 0) > 0:
-        unverified.add(label, f"RAIN/SNOW RISK ({p:.0f}% chance): avoid QB passing and receiving overs; in rain "
+    p = w.get("precip_prob") if w else None
+    if (p is not None and pd.notna(p) and p >= RAIN_RISK) or ((w or {}).get("snow_in") or 0) > 0 or wet_espn:
+        why = f"ESPN: {espn}" if wet_espn else f"{p:.0f}% chance"
+        unverified.add(label, f"RAIN/SNOW RISK ({why}): avoid QB passing and receiving overs; in rain "
                               "QBs threw 19-26 yds below their norm and 200+ fell from 66% to 51% (2020-26)")
         text += "  ** RAIN RISK: avoid passing/receiving overs **"
-    return f"{text}  (forecast {age:.0f}h old)"
+    return text if age is None else f"{text}  (forecast {age:.0f}h old)"
 
 
 # --- NFL --------------------------------------------------------------------------------
@@ -185,7 +216,8 @@ class NFLChecks:
         surface = raw.at[g.game_id, "surface"] if g.game_id in raw.index else None
         dome = roof in ("dome", "closed")
         w = self.forecasts.get(g.game_id)
-        print(f"   weather: {weather_check(label, w, dome, surface if isinstance(surface, str) else None, unverified)}")
+        espn = espn_conditions("nfl", raw.at[g.game_id, "espn"], g.gameday) if g.game_id in raw.index else None
+        print(f"   weather: {weather_check(label, w, dome, surface if isinstance(surface, str) else None, unverified, espn)}")
         if pd.notna(opener):
             moved = "" if opener == yours else f", yours {g.home_team} {-yours:+.1f}"
             print(f"   line: opened {g.home_team} {-opener:+.1f}{moved}")
@@ -208,7 +240,8 @@ class NFLChecks:
                 unverified.add(label, f"{team} injury report has no game statuses yet")
         dome = g.roof in ("dome", "closed")
         surface = g.surface if isinstance(g.surface, str) else None
-        print(f"   weather: {weather_check(label, self.forecasts.get(g.game_id), dome, surface, unverified)}")
+        espn = espn_conditions("nfl", getattr(g, "espn", None), g.gameday)
+        print(f"   weather: {weather_check(label, self.forecasts.get(g.game_id), dome, surface, unverified, espn)}")
 
     def week_status_pending(self, team) -> bool:
         t = self.inj[self.inj["team"] == team]
@@ -240,7 +273,8 @@ def cfb_show(df: pd.DataFrame, g, ranks: pd.DataFrame, forecasts: dict, unverifi
             unverified.add(label, f"{team} starting QB (changed last game) - check news")
     w = forecasts.get(f"cfb_{g.game_id}")
     surface = None if not w or pd.isna(w.get("grass")) else ("grass" if w["grass"] else "turf")
-    print(f"   weather: {weather_check(label, w, bool(w and w.get('dome')), surface, unverified)}")
+    espn = espn_conditions("college-football", g.game_id, g.gameday)
+    print(f"   weather: {weather_check(label, w, bool(w and w.get('dome')), surface, unverified, espn)}")
     unverified.add(label, "injuries (no free college injury report: check team news)")
 
 

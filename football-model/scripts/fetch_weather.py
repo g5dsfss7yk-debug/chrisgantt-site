@@ -45,6 +45,10 @@ def coords(g) -> tuple[float, float] | None:
     return (st[0], st[1]) if st else None
 
 
+class RateLimited(Exception):
+    """Open-Meteo answered 429 (its daily or per-minute cap)."""
+
+
 def get(params: dict) -> dict:
     url = API + "?" + urllib.parse.urlencode(params)
     for attempt in range(4):
@@ -52,8 +56,11 @@ def get(params: dict) -> dict:
             with urllib.request.urlopen(url, timeout=60) as r:
                 return json.load(r)
         except urllib.error.HTTPError as e:
-            # 429 = rate limited (the API's per-minute cap): wait longer before retrying
-            time.sleep(15 * (attempt + 1) if e.code == 429 else 2 ** attempt)
+            if e.code == 429:
+                # rate limited: every further call would wait too, so stop the whole fetch
+                # (the card then uses ESPN's conditions and the saved forecasts)
+                raise RateLimited(url) from e
+            time.sleep(2 ** attempt)
         except OSError:
             time.sleep(2 ** attempt)
     raise RuntimeError(f"failed: {url}")
