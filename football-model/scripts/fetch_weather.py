@@ -51,12 +51,23 @@ def get(params: dict) -> dict:
         try:
             with urllib.request.urlopen(url, timeout=60) as r:
                 return json.load(r)
+        except urllib.error.HTTPError as e:
+            # 429 = rate limited (the API's per-minute cap): wait longer before retrying
+            time.sleep(15 * (attempt + 1) if e.code == 429 else 2 ** attempt)
         except OSError:
             time.sleep(2 ** attempt)
     raise RuntimeError(f"failed: {url}")
 
 
 def _window(lat, lon, day, start_hour):
+    try:
+        return _window_get(lat, lon, day, start_hour)
+    except RuntimeError as e:  # one game's forecast failing must not drop the others
+        print(f"skip forecast: {e}")
+        return None
+
+
+def _window_get(lat, lon, day, start_hour):
     d = get({"latitude": lat, "longitude": lon, "timezone": "America/New_York",
              "temperature_unit": "fahrenheit", "wind_speed_unit": "mph", "precipitation_unit": "inch",
              "hourly": "temperature_2m,wind_speed_10m,wind_gusts_10m,"
@@ -118,12 +129,16 @@ def main():
             print(f"skip {x.game_id}: no coordinates for {x.stadium_id}")
             continue
         # nflverse gametime is US Eastern; ask for hourly data on that clock.
-        d = get({"latitude": c[0], "longitude": c[1], "timezone": "America/New_York",
-                 "temperature_unit": "fahrenheit", "wind_speed_unit": "mph",
-                 "precipitation_unit": "inch",
-                 "hourly": "temperature_2m,wind_speed_10m,wind_gusts_10m,"
-                           "precipitation_probability,precipitation,snowfall",
-                 "start_date": f"{x.gameday:%Y-%m-%d}", "end_date": f"{x.gameday:%Y-%m-%d}"})
+        try:
+            d = get({"latitude": c[0], "longitude": c[1], "timezone": "America/New_York",
+                     "temperature_unit": "fahrenheit", "wind_speed_unit": "mph",
+                     "precipitation_unit": "inch",
+                     "hourly": "temperature_2m,wind_speed_10m,wind_gusts_10m,"
+                               "precipitation_probability,precipitation,snowfall",
+                     "start_date": f"{x.gameday:%Y-%m-%d}", "end_date": f"{x.gameday:%Y-%m-%d}"})
+        except RuntimeError as e:  # one game's forecast failing must not drop the others
+            print(f"skip {x.game_id}: {e}")
+            continue
         h = pd.DataFrame(d["hourly"])
         if h.empty:
             continue
