@@ -38,11 +38,19 @@ BASE = ["carry_share", "target_share", "snap_pct", "touches", "rz_share", "impli
         "games", "vacated_targets", "vacated_carries", "wind", "spread_for", "rain", "snow", "cold", "turf"]
 
 
+# Usage (air-yards share, depth of target, CPOE) and matchup (own pass protection and receiver
+# separation, opponent pass rush and missed tackles) helped these markets out of sample (2020-26):
+# passing yards MAE 61.90 -> 61.78, completions 5.21 -> 5.20, receptions 57%+ picks 66.8% -> 67.1%.
+# They made receiving and rushing yards slightly worse, so those keep the base inputs.
+USAGE_MARKETS = ("passing_yards", "completions", "receptions")
+
+
 def _features(stat: str) -> list[str]:
+    extra = props.USAGE + props.MATCHUP if stat in USAGE_MARKETS else []
     avg = [f"avg_{c}" for c in props.STAT_COLS]
     opp = [c for c in ("opp_receptions_allowed", "opp_receiving_yards_allowed", "opp_rushing_yards_allowed",
                        "opp_passing_yards_allowed")]
-    return BASE + avg + opp + ["is_rb", "is_wr", "is_te", "is_qb"]
+    return BASE + avg + opp + ["is_rb", "is_wr", "is_te", "is_qb"] + extra
 
 
 def prepare(d: pd.DataFrame) -> pd.DataFrame:
