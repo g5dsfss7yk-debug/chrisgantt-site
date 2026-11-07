@@ -88,8 +88,13 @@ def espn_conditions(league: str, event_id, day) -> str | None:
                 events = json.load(r).get("events", [])
         except (OSError, ValueError):
             events = []
-        _ESPN[key] = {e["id"]: f"{e['weather'].get('displayValue', '')} {e['weather'].get('temperature', '')}F".strip()
-                      for e in events if e.get("weather")}
+        def cond(w):
+            # the condition text is usually displayValue, but some games carry a code there and the
+            # text in conditionId
+            txt = [str(w.get(k) or "") for k in ("displayValue", "conditionId")]
+            txt = next((t for t in txt if t and not t.isdigit()), "")
+            return f"{txt} {w.get('temperature', '')}F".strip()
+        _ESPN[key] = {e["id"]: cond(e["weather"]) for e in events if e.get("weather")}
     return _ESPN[key].get(str(int(float(event_id))))
 
 
