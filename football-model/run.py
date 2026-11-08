@@ -212,27 +212,31 @@ def cmd_card(args):
 
 
 def _best_bets(rows: pd.DataFrame, n: int = 6, college: bool = False):
-    """Bets split by evidence. BACKED: the only NFL bets with a backtested edge (STRONG/LEAN spreads,
-    judged against the opener and kept only while the model is still past your line, and 6-point
-    teaser legs on +1 to +2.5 underdogs). Everything else is FUN ONLY: the model's side with no
-    proven edge. College has nothing backed (its picks went 30-41 in 2026)."""
+    """Bets split by evidence (audit, Nov 2026, graded against the CLOSING line you actually bet):
+    BACKED = 6-point teaser legs on +1 to +2.5 NFL underdogs (79% in 2023-26, break-even ~74%) and
+    the model's LEAN/STRONG spreads while the model is still past your line (55-56% vs the close in
+    2023-26; STRONG was no better than LEAN, 51-53%, so they are one tier). Everything else is FUN
+    ONLY. College has nothing backed (its picks went 30-41 in 2026)."""
     if rows.empty:
         return
     tier = rows["tier"].fillna("") if "tier" in rows else pd.Series("", index=rows.index)
     backed = rows[tier.isin(["STRONG", "LEAN", "TEASER"])] if not college else rows.iloc[0:0]
-    rank = {"STRONG": 0, "LEAN": 1, "TEASER": 2}
-    print("\nBACKED BETS (backtested edge)")
+    print("\nBACKED BETS (held up out of sample, against closing lines)")
     if backed.empty:
         print("  none on this card" + (" - college picks have no proven edge" if college else ""))
     else:
-        b = backed.assign(order=backed["tier"].map(rank)).sort_values(["order", "p"], ascending=[True, False])
+        b = backed.assign(order=(backed["tier"] != "TEASER").astype(int)).sort_values(["order", "p"],
+                                                                                         ascending=[True, False])
         for i, x in enumerate(b.itertuples(index=False), 1):
-            print(f"  {i}. {x.pick:16} {x.away_team} @ {x.home_team}  P {x.p:.0%}  {x.tier}")
-        print("  STRONG/LEAN spreads hit 56-59% vs the opener (2015-26); teaser legs on +1 to +2.5 dogs 76-79%.")
+            label = "TEASER LEG" if x.tier == "TEASER" else "SPREAD"
+            print(f"  {i}. {x.pick:18} {x.away_team} @ {x.home_team}  {label}")
+        print("  Teaser legs on +1 to +2.5 dogs hit 79% (2023-26; a 2-team teaser at -120 needs 74%).")
+        print("  Model spreads hit 55-56% vs the closing line (2023-26; -110 needs 52.4%) - smaller edge, smaller stake.")
     fun = rows.drop(backed.index).sort_values("p", ascending=False)
     print("\nFUN ONLY (no proven edge - small stakes or skip)")
     for i, x in enumerate(fun.head(n).itertuples(index=False), 1):
         print(f"  {i}. {x.pick:16} {x.away_team} @ {x.home_team}  P {x.p:.0%}")
+    print("  Not backed: teasing favorites of -7.5 to -8.5 (62% in 2023-26, a losing bet).")
     print("  Log any combo you recommend: python recs.py add ... ; grade: python recs.py grade")
 
 
@@ -289,6 +293,14 @@ def cmd_grade(args):
         w, l = (part["result"] == "win").sum(), (part["result"] == "loss").sum()
         if w + l:
             print(f"{name:16} {w}-{l}  ({w / (w + l):.1%}), units {w * 100 / 110 - l:+.2f} at -110")
+
+
+LADDER_EDGE = 0.03
+
+
+def _fair_american(p: float) -> str:
+    """American odds that break even at chance p (0.75 -> -300)."""
+    return f"{-100 * p / (1 - p):.0f}" if p >= 0.5 else f"+{100 * (1 - p) / p:.0f}"
 
 
 def _american(odds: str) -> float:
@@ -364,10 +376,15 @@ def cmd_props(args):
 def _ou_props(args, d, today, qbs):
     """Over/under markets: projection, and P(over) for any --line given."""
     lines = {}
-    for item in args.line or []:  # "CeeDee Lamb:receptions=5.5"
+    for item in args.line or []:  # "CeeDee Lamb:receptions=5.5", ladder "Jordan Love:passing_yards=175+@-250"
         who, val = item.rsplit("=", 1)
         name, market = who.rsplit(":", 1)
-        lines[(name.strip().lower(), market.strip())] = float(val)
+        price = None
+        if "@" in val:
+            val, price = val.split("@")
+        val = val.strip()
+        ln = float(val[:-1]) - 0.5 if val.endswith("+") else float(val)
+        lines[(name.strip().lower(), market.strip())] = (ln, price)
     done = d[d["td"].notna()]
     hist_from = int(done["season"].max()) - 2
     markets = args.market or list(statprops.MARKETS)
@@ -397,13 +414,21 @@ def _ou_props(args, d, today, qbs):
         for r in cand.sort_values(["team", "proj"], ascending=[True, False]).itertuples(index=False):
             med = sm.median(r.position, r.proj)
             out = f"   {r.team:3} {r.player_display_name:24} {r.position:2}  median {med:6.1f}"
-            ln = lines.get((r.player_display_name.lower(), market))
-            if ln is not None:
+            got = lines.get((r.player_display_name.lower(), market))
+            if got is not None:
+                ln, price = got
                 po = sm.p_over(r.position, r.proj, ln)
                 side, ps = ("Over", po) if po >= 0.5 else ("Under", 1 - po)
-                out += f"  | line {ln:g}: {side} {ps:.0%}  {'VALUE' if ps >= OU_VALUE else ''}"
+                out += f"  | {side} {ln:g}: {ps:.0%} (fair {_fair_american(ps)})"
+                if price:
+                    edge = ps - _american(price)
+                    out += f"  DK {price} ({_american(price):.0%})  edge {edge:+.0%}  {'VALUE' if edge >= LADDER_EDGE else 'no value'}"
+                elif ps >= OU_VALUE:
+                    out += "  (add @price to check value)"
             print(out)
-    print(f"\nOver/under VALUE = the model's side at {OU_VALUE:.0%}+, which clears a -110 price by 5 points.")
+    print(f"\nVALUE = model chance beats DK's implied chance by {LADDER_EDGE:.0%}+. Yardage ladders were calibrated"
+          " out of sample in 2023-26 (said 70-75%, hit 76%), so the model's chance is if anything low."
+          " Give prices as \"Name:market=40+@-250\".")
 
 
 def cmd_lineup(args):

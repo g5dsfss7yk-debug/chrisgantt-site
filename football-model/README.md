@@ -222,14 +222,21 @@ could not confirm is listed under **NOT VERIFIED** at the end of the card:
   and not used in the picks (they lowered STRONG in both periods); each college card shows them as a
   `roster:` line.
 
-## Betting rules (Nov 2026)
-- **Backed bets** (backtested edge, NFL only): STRONG/LEAN spreads when your line is at or better
-  than the opener (56-59%), 6-point teaser legs on +1 to +2.5 underdogs (76-79%), and skipping QB
-  passing/receiving overs in rain or snow. Cards list these under BACKED BETS.
-- **Fun only**: everything else, including all college picks (30-41 in 2026) and props (calibrated
-  but untested against book prices). Cards list these under FUN ONLY.
-- **Every recommended combo is logged and graded** in `picks/recs.csv` with `recs.py`
-  (`add` with one `--leg` per leg; `grade` scores them from ESPN box scores).
+## Betting rules (audit, Nov 8 2026)
+Graded against the CLOSING line (what you actually bet), out of sample. Scripts: `audit/`.
+
+| Bet | 2015-22 | 2023-26 | 2025-26 | Needs | Verdict |
+|---|---|---|---|---|---|
+| Teaser leg, NFL dog +1 to +2.5 (+6) | 74.9% | **79.3%** | ~77% | 73.9% (2-team -120) | **BACKED - best bet** |
+| Teaser leg, NFL fav -7.5 to -8.5 | 77.4% | 62.3% | 64% | 73.9% | dead - do not use |
+| Model LEAN+STRONG spread, vs close | 54.0% | **55.9%** | 55.7% | 52.4% | backed, small edge |
+| Model STRONG only, vs close | 54.1% | 51.9% | 43.9% | 52.4% | no better than LEAN - merged |
+| Prop yardage ladders, model 70-75% | | hit 76.2% | | DK implied | calibrated - bet only when the model beats DK's price by 3%+ |
+| College spreads/totals (live 2026) | | | 30-41 | | fun only |
+
+- Expect less than the table: many variables were tried, which flatters backtests.
+- Prop prices: `run.py props --line "Name:receiving_yards=40+@-250"` prints the edge vs DK.
+- Every recommended combo is logged and graded in `picks/recs.csv` with `recs.py`.
 - **Markets the user's DraftKings account does not offer**: receptions, rush attempts, and any
   unders (props are "X+" over ladders only). Build prop legs from yards, TDs and passing only.
 
