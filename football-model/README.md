@@ -221,3 +221,13 @@ could not confirm is listed under **NOT VERIFIED** at the end of the card:
   production, recruiting, transfer portal, new head coach, prior SP+. Tested for spreads and totals
   and not used in the picks (they lowered STRONG in both periods); each college card shows them as a
   `roster:` line.
+
+## Betting rules (Nov 2026)
+- **Backed bets** (backtested edge, NFL only): STRONG/LEAN spreads when your line is at or better
+  than the opener (56-59%), 6-point teaser legs on +1 to +2.5 underdogs (76-79%), and skipping QB
+  passing/receiving overs in rain or snow. Cards list these under BACKED BETS.
+- **Fun only**: everything else, including all college picks (30-41 in 2026) and props (calibrated
+  but untested against book prices). Cards list these under FUN ONLY.
+- **Every recommended combo is logged and graded** in `picks/recs.csv` with `recs.py`
+  (`add` with one `--leg` per leg; `grade` scores them from ESPN box scores).
+

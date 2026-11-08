@@ -211,16 +211,29 @@ def cmd_card(args):
     _save_picks(pd.DataFrame(rows), PICKS / f"{season}_wk{week:02d}.csv", args.force)
 
 
-def _best_bets(rows: pd.DataFrame, n: int = 6):
-    """The card's picks ranked: tested spread tiers first, then by the model's chance."""
+def _best_bets(rows: pd.DataFrame, n: int = 6, college: bool = False):
+    """Bets split by evidence. BACKED: the only NFL bets with a backtested edge (STRONG/LEAN spreads,
+    judged against the opener and kept only while the model is still past your line, and 6-point
+    teaser legs on +1 to +2.5 underdogs). Everything else is FUN ONLY: the model's side with no
+    proven edge. College has nothing backed (its picks went 30-41 in 2026)."""
     if rows.empty:
         return
+    tier = rows["tier"].fillna("") if "tier" in rows else pd.Series("", index=rows.index)
+    backed = rows[tier.isin(["STRONG", "LEAN", "TEASER"])] if not college else rows.iloc[0:0]
     rank = {"STRONG": 0, "LEAN": 1, "TEASER": 2}
-    r = rows.assign(order=rows["tier"].map(rank).fillna(2)).sort_values(["order", "p"], ascending=[True, False])
-    print("\nBEST BETS (ranked)")
-    for i, x in enumerate(r.head(n).itertuples(index=False), 1):
-        print(f"  {i}. {x.pick:16} {x.away_team} @ {x.home_team}  P {x.p:.0%}  {x.tier if isinstance(x.tier, str) and x.tier else 'PICK'}")
-    print("  STRONG/LEAN spreads went 56-58% in backtests; PICKs are the model's side at lower confidence.")
+    print("\nBACKED BETS (backtested edge)")
+    if backed.empty:
+        print("  none on this card" + (" - college picks have no proven edge" if college else ""))
+    else:
+        b = backed.assign(order=backed["tier"].map(rank)).sort_values(["order", "p"], ascending=[True, False])
+        for i, x in enumerate(b.itertuples(index=False), 1):
+            print(f"  {i}. {x.pick:16} {x.away_team} @ {x.home_team}  P {x.p:.0%}  {x.tier}")
+        print("  STRONG/LEAN spreads hit 56-59% vs the opener (2015-26); teaser legs on +1 to +2.5 dogs 76-79%.")
+    fun = rows.drop(backed.index).sort_values("p", ascending=False)
+    print("\nFUN ONLY (no proven edge - small stakes or skip)")
+    for i, x in enumerate(fun.head(n).itertuples(index=False), 1):
+        print(f"  {i}. {x.pick:16} {x.away_team} @ {x.home_team}  P {x.p:.0%}")
+    print("  Log any combo you recommend: python recs.py add ... ; grade: python recs.py grade")
 
 
 def _save_picks(rows: pd.DataFrame, path, force: bool = False):

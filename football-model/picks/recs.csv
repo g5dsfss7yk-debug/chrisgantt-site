@@ -1,0 +1,9 @@
+id,date,league,kind,tier,stake,odds,legs,note,result,leg_results
+1,2026-11-06,cfb,teaser,fun,2,,spread:South Florida:7.5 | spread:Nebraska:1.5 | spread:SMU:0.5,top play,loss,win loss win
+2,2026-11-06,cfb,teaser,fun,2,,spread:South Florida:7.5 | spread:New Mexico:-4,,win,win win
+3,2026-11-06,cfb,parlay,fun,2,190.0,ml:South Florida | ml:SMU,,loss,loss win
+4,2026-11-07,cfb,teaser,fun,2,,spread:LSU:0 | total:LSU:under:59.5,best LSU play,loss,loss win
+5,2026-11-07,cfb,teaser,fun,2,,spread:Louisiana Tech:-1 | spread:LSU:0,,loss,win loss
+6,2026-11-08,nfl,parlay,fun,2,,prop:Matthew Golden:receiving_yards:40 | prop:Rhamondre Stevenson:rushing_yards:40,model 76% x 71%,pending,pending pending
+7,2026-11-08,nfl,parlay,fun,2,,prop:Matthew Golden:receiving_yards:40 | prop:Rhamondre Stevenson:rushing_yards:40 | prop:Tucker Kraft:receptions:3,,pending,pending pending pending
+8,2026-11-08,nfl,single,fun,2,+112 or longer,prop:Rhamondre Stevenson:anytime_td:1,model 47%,pending,pending

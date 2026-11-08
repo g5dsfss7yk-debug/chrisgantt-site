@@ -138,7 +138,7 @@ def cmd_card(args):
                      "home_team": g.home_team, "away_team": g.away_team, "line": s.line, "pick": label,
                      "p": round(prob, 3), "tier": tier, "bet": tier == "STRONG"})
     unverified.show()
-    run._best_bets(pd.DataFrame(rows))
+    run._best_bets(pd.DataFrame(rows), college=True)
     run._save_picks(pd.DataFrame(rows), PICKS / f"{day:%Y-%m-%d}.csv", args.force)
 
 
