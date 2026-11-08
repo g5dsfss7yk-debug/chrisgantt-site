@@ -230,4 +230,6 @@ could not confirm is listed under **NOT VERIFIED** at the end of the card:
   but untested against book prices). Cards list these under FUN ONLY.
 - **Every recommended combo is logged and graded** in `picks/recs.csv` with `recs.py`
   (`add` with one `--leg` per leg; `grade` scores them from ESPN box scores).
+- **Markets the user's DraftKings account does not offer**: receptions, rush attempts, and any
+  unders (props are "X+" over ladders only). Build prop legs from yards, TDs and passing only.
 
