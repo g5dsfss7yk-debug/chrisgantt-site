@@ -108,6 +108,29 @@ def _auto_qbs(season: int, week: int | None, given: dict) -> dict:
             if norm(d) == norm(l) and norm(listed) != norm(d):
                 print(f"auto QB: {team} schedule lists {listed}, but the depth chart and last start are {l}; using {l}")
                 out[team] = l
+    # A starter listed Out or Doubtful on this week's injury report does not play: use the
+    # depth chart's next QB who is not ruled out (e.g. MIN week 9, Kyler Murray Out).
+    try:
+        inj = data.load_injuries([season])
+        inj = inj[(inj["week"] == week) & inj["report_status"].isin(["Out", "Doubtful"])]
+        hurt = {(t, norm(n)) for t, n in zip(inj["team"], inj["full_name"])}
+    except Exception as e:  # the report is a check, never a reason to stop the card
+        print(f"note: injury report unavailable for the QB check ({e})")
+        hurt = set()
+    qbs = depth[depth["pos_abb"] == "QB"].sort_values("pos_rank")
+    for x in up.itertuples(index=False):
+        for team, listed in ((x.home_team, x.home_qb_name), (x.away_team, x.away_qb_name)):
+            if team in given:
+                continue
+            cur = out.get(team, listed)
+            if (team, norm(cur)) not in hurt:
+                continue
+            nxt = [n for n in qbs.loc[qbs["team"] == team, "player_name"] if (team, norm(n)) not in hurt
+                   and norm(n) != norm(cur)]
+            if nxt:
+                print(f"auto QB: {team} {cur} is OUT/DOUBTFUL on the injury report; using {nxt[0]} (next on depth chart)"
+                      " - confirm with news")
+                out[team] = nxt[0]
     return out
 
 
