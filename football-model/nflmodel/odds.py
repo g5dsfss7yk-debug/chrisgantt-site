@@ -47,6 +47,9 @@ def key() -> str | None:
     return os.environ.get("ODDS_API_KEY") or os.environ.get("DDS_API_KEY")
 
 
+TTL = 600  # seconds a cached response is reused (live betting sets this lower)
+
+
 def _get(path: str, **params) -> object:
     k = key()
     if not k:
@@ -54,7 +57,7 @@ def _get(path: str, **params) -> object:
     CACHE.mkdir(parents=True, exist_ok=True)
     tag = path.strip("/").replace("/", "_") + "_" + "_".join(f"{a}-{b}" for a, b in sorted(params.items()))
     f = CACHE / (tag[:180] + ".json")
-    if f.exists() and time.time() - f.stat().st_mtime < 600:
+    if f.exists() and time.time() - f.stat().st_mtime < TTL:
         return json.loads(f.read_text())
     url = f"{API}{path}?" + urllib.parse.urlencode({**params, "apiKey": k})
     with urllib.request.urlopen(url, timeout=30) as r:

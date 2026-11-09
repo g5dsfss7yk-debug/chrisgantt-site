@@ -14,3 +14,5 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results
 13,2026-11-09,nfl,parlay,fun,1.0,~+135 (DK -383/-115),prop:James Cook:rushing_yards:60 | prop:James Cook:anytime_td:1,"model 70% x 55%, no edge vs DK",pending,
 14,2026-11-08,nfl,parlay,backed,3,+142 (placed),prop:D'Andre Swift:rushing_yards:60 | prop:Colston Loveland:receiving_yards:40,model 72% x 73% vs DK 57%/68%; Monangai Q and off DK board,pending,
 15,2026-11-08,nfl,parlay,fun,1.0,placed w/ +30% parlay boost,prop:D'Andre Swift:rushing_yards:65 | prop:Colston Loveland:receiving_yards:40 | prop:Kenny Gainwell:rushing_yards:20,"Gainwell 20+ model 73% vs 58%, but model median 32 vs DK 21.5 - role risk; placed with Swift 65+ (not 60+)",pending,
+16,2026-11-08,nfl,single,backed,2.0,+100 live (halftime),prop:Bucky Irving:rushing_yards:60,live model 69% vs DK 50%; has 32 at half,pending,
+17,2026-11-08,nfl,single,backed,1.0,+205 live (halftime),prop:Bucky Irving:rushing_yards:70,live model 55% vs DK 33%,pending,

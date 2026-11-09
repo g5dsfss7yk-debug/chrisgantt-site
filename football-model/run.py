@@ -559,6 +559,81 @@ def _print_scan(rows):
               f"model {r.model:.0%}  sharp {sh}  {both}")
 
 
+def cmd_live(args):
+    """Live ladder edges: the in-game model (nflmodel.live, audited 2023-26) vs DraftKings' live rungs."""
+    from nflmodel import live, odds
+    games = data.load_games(args.refresh)
+    season = data.current_season()
+    t = args.team.upper()
+    g = games[(games["season"] == season) & ((games["home_team"] == t) | (games["away_team"] == t))
+              & games["result"].isna()].sort_values("gameday")
+    if g.empty:
+        raise SystemExit(f"no unplayed {season} game for {t} (use the team code, e.g. CHI)")
+    g = g.iloc[0]
+    state = live.game_state(g["espn"])
+    secs = state["secs_left"]
+    print(f"{g['away_team']} {state['score'].get('away', 0):.0f} @ {g['home_team']} {state['score'].get('home', 0):.0f}"
+          f"  {state['status']}  ({secs / 60:.0f} min left)")
+    if state["final"]:
+        raise SystemExit("game is over")
+    # pregame features for this game's players (earlier games only)
+    pg = props.load_player_games(args.refresh)
+    up = props.upcoming(pg, games, season, int(g["week"]), data.load_injuries([season], args.refresh),
+                        lineups.load_depth(season, args.refresh))
+    pre = statprops.prepare(props.build(pd.concat([pg, up], ignore_index=True), games))
+    today = pre[(pre["game_id"] == g["game_id"])]
+    hist = pre[pre["td"].notna()]
+    sp = pd.concat([live.splits(s) for s in range(live.FIRST, season)], ignore_index=True)
+    box = state["players"]
+    if len(box):
+        box = box.assign(key=lineups._norm(box["name"]))
+    odds.TTL = 60
+    dk, _ = odds.ladders("nfl", args.odds_team or args.team)
+    dk = dk.assign(key=lineups._norm(dk["player"])) if len(dk) else dk
+    cat = {"rushing_yards": "rushing", "receiving_yards": "receiving", "passing_yards": "passing"}
+    other = {"rushing_yards": "receiving", "receiving_yards": "rushing", "passing_yards": "rushing"}
+    rows = []
+    for mk in live.MARKETS:
+        lm = live.LiveModel(mk).fit(live.rows_for(mk, sp, hist).query("games >= 1"))
+        cand = today[today["position"].isin(live.MARKETS[mk])].copy()
+        cand["key"] = lineups._norm(cand["player_display_name"])
+        for r in cand.itertuples(index=False):
+            side = "home" if r.team == g["home_team"] else "away"
+            def stat(c):
+                if not len(box):
+                    return 0.0, 0.0
+                b = box[(box["key"] == r.key) & (box["cat"] == c)]
+                return (float(b["yds"].sum()), float(b["n"].sum())) if len(b) else (0.0, 0.0)
+            cy, cn = stat(cat[mk])
+            _, on = stat(other[mk])
+            me, opp = state["score"].get(side, 0), state["score"].get("away" if side == "home" else "home", 0)
+            x = pd.DataFrame([{**{c: getattr(r, c) for c in live.PRE}, "position": r.position, "cur_yds": cy,
+                               "cur_n": cn, "cur_n_other": on, "margin": me - opp, "secs_left": secs,
+                               "frac_left": secs / 3600}])
+            pred = float(lm.predict(x)[0])
+            rungs = dk[(dk["market"] == mk) & (dk["key"] == r.key)] if len(dk) else []
+            for z in (rungs.itertuples(index=False) if len(rungs) else []):
+                rung = z.point + 0.5
+                if rung <= cy:
+                    continue
+                p = live.adjust(lm.p_reach(pred, cy, rung), secs)
+                rows.append((r.team, r.player_display_name, mk, cy, rung, z.price, z.implied, p, pred, getattr(r, "avg_" + mk)))
+    df = pd.DataFrame(rows, columns=["team", "player", "market", "now", "rung", "price", "dk", "p", "exp", "avg"])
+    if df.empty:
+        print("no DraftKings live ladder rungs matched (are live props posted?)")
+        return
+    df["edge"] = df["p"] - df["dk"]
+    best = df[(df["edge"] >= LADDER_EDGE) & (df["price"] >= -600) & (df["price"] <= 400)].sort_values("edge", ascending=False)
+    print(f"\nLive rungs where the in-game model beats DraftKings by {LADDER_EDGE:.0%}+ (model audited 2023-26;"
+          " 4th-quarter chances already cut 3.5 points):")
+    if best.empty:
+        print("  none right now - rerun in a few minutes (lines move every drive)")
+    for r in best.head(args.top).itertuples(index=False):
+        print(f"  {r.team:3} {r.player:22} {r.market:15} has {r.now:4.0f}  {r.rung:g}+  DK {r.price:+5.0f} ({r.dk:.0%})"
+              f"  model {r.p:.0%}  edge {r.edge:+.0%}  (expects ~{r.exp:.0f} more; season avg {r.avg:.0f})")
+    print("\nPrices move fast: check DK's price is still at or better than shown before betting.")
+
+
 def cmd_lineup(args):
     games = data.load_games(args.refresh)
     season = args.season or data.current_season()
@@ -617,6 +692,10 @@ def main():
     pa = sub.add_parser("parlay", help="parlay chance and expected return, with a DK profit boost")
     pa.add_argument("--leg", action="append", required=True, help='chance@price, e.g. "0.72@-134" or "72%%@-134"')
     pa.add_argument("--boost", type=float, default=0.0, help="profit boost in percent, e.g. 30")
+    lv = sub.add_parser("live", help="in-game ladder edges vs DraftKings live prices (needs ODDS_API_KEY)")
+    lv.add_argument("--team", required=True, help="team code, e.g. CHI")
+    lv.add_argument("--odds-team", help="name for the odds API if the code does not match, e.g. Bears")
+    lv.add_argument("--top", type=int, default=15)
     ln = sub.add_parser("lineup")
     ln.add_argument("--season", type=int)
     ln.add_argument("--week", type=int)
@@ -627,7 +706,7 @@ def main():
     od.add_argument("--min-edge", type=float, default=0.0)
     args = ap.parse_args()
     {"backtest": cmd_backtest, "card": cmd_card, "grade": cmd_grade, "props": cmd_props,
-     "lineup": cmd_lineup, "odds": cmd_odds, "parlay": cmd_parlay}[args.cmd](args)
+     "lineup": cmd_lineup, "odds": cmd_odds, "parlay": cmd_parlay, "live": cmd_live}[args.cmd](args)
 
 
 if __name__ == "__main__":
