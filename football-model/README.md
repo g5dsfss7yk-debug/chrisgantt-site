@@ -244,6 +244,11 @@ Graded against the CLOSING line (what you actually bet), out of sample. Scripts:
 - **Ladder scanner**: `run.py props --week N --team X --team Y --scan Bears` prices every DK rung:
   `model` (audited), `sharp` (sharp main line stretched to the rung with the model's outcome
   shape; untested, no prop-odds archive), BOTH = both beat DK by 3%+. Rank: BOTH > model only > sharp only.
+- **Live (in-game) ladders**: `run.py live --team CHI --odds-team Bears` = DK live rungs vs the
+  in-game model (`nflmodel/live.py`: stats so far, score margin, time left + pregame averages;
+  play-by-play cut every 7.5 min, 2018+). Audit `audit/live_audit.py` (train 2018-22, test 2023-26):
+  calibrated within 1 point through the 3rd quarter (said 55% hit 54%, 85% hit 85%); 4th quarter ran
+  3-4 points high, so 3.5 points are taken off there. Bet rungs 3%+ over DK, at or better than shown.
 - **Boosts**: `run.py parlay --leg "72%@-134" --leg "68%@-217" --boost 30` = chance and expected
   return; a DK profit boost often turns a fair parlay into a winning one. Use boosts on legs with edges.
 - **Markets the user's DraftKings account does not offer**: receptions, rush attempts, and any

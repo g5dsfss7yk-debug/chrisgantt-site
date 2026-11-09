@@ -35,6 +35,8 @@ Chris bets $1-3 on DraftKings for fun: prop parlays and teasers. Wants plain, sh
 - Chris: no gut overrides - recommend what the tools say (see README). Earlier I wrongly downgraded
   model legs (Jones, Gainwell, Mayfield) on market disagreement.
 
+- Live model built (`run.py live`), audited 2023-26; first use: #16/#17 Irving 60+/70+ at halftime TB@CHI.
+
 ## To do next
 1. `python recs.py grade` - #9-#15 pending.
 3. Idea: flag props where the model median is far from DK's main line (role/volume news the model lacks).
