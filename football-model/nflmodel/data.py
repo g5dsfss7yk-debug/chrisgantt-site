@@ -74,8 +74,96 @@ def _load_release(kind: str, seasons, refresh: bool) -> pd.DataFrame:
 
 
 def load_injuries(seasons, refresh: bool = False) -> pd.DataFrame:
+    """Official weekly injury reports, plus ESPN's game-day inactives for games about to start:
+    an inactive player is set to Out (on the report or not), so every check and projection
+    drops him. `gameday_inactive` marks those rows."""
     df = _load_release("injuries", seasons, refresh)
     df["position"] = df["position"].astype(str).str.strip()
+    df["gameday_inactive"] = False
+    if current_season() in set(seasons):
+        df = _with_inactives(df, current_season())
+    return df
+
+
+ESPN_SUMMARY = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event={}"
+INACTIVE_WINDOW_H = 24   # look for inactives for games kicking off within this many hours
+_INACTIVE_CACHE: dict = {}
+
+
+def _now_et() -> pd.Timestamp:
+    return pd.Timestamp.now(tz="America/New_York").tz_localize(None)
+
+
+def soon_games(season: int, hours: float = INACTIVE_WINDOW_H) -> pd.DataFrame:
+    """This season's unplayed games that kick off within `hours` (or started under 5h ago)."""
+    g = load_games()
+    g = g[(g["season"] == season) & g["result"].isna() & g["espn"].notna()].copy()
+    g["kick"] = pd.to_datetime(g["gameday"].dt.strftime("%Y-%m-%d") + " " + g["gametime"].astype(str))
+    now = _now_et()
+    return g[(g["kick"] > now - pd.Timedelta(hours=5)) & (g["kick"] < now + pd.Timedelta(hours=hours))]
+
+
+def gameday_inactives(espn_id) -> dict | None:
+    """{team abbr (schedule's spelling): [player names]} from ESPN's game summary, or None when
+    the lists are not posted yet (they come out about 90 minutes before kickoff)."""
+    key = str(int(float(espn_id)))
+    if key not in _INACTIVE_CACHE:
+        import json
+        try:
+            with urllib.request.urlopen(ESPN_SUMMARY.format(key), timeout=20) as r:
+                summ = json.load(r)
+        except Exception:
+            _INACTIVE_CACHE[key] = None
+            return None
+        comp = summ["header"]["competitions"][0]
+        side = {c["team"]["abbreviation"]: c["homeAway"] for c in comp["competitors"]}
+        out = {}
+        for t in summ.get("injuries", []):
+            names = [i["athlete"]["displayName"] for i in t.get("injuries", [])
+                     if (i.get("details", {}).get("fantasyStatus", {}) or {}).get("abbreviation") == "INACTIVE"]
+            out[side.get(t["team"]["abbreviation"], t["team"]["abbreviation"])] = names
+        _INACTIVE_CACHE[key] = out if any(out.values()) else None
+    return _INACTIVE_CACHE[key]
+
+
+def _with_inactives(df: pd.DataFrame, season: int) -> pd.DataFrame:
+    try:
+        soon = soon_games(season)
+    except Exception:
+        return df
+    if soon.empty:
+        return df
+    norm = lambda s: pd.Series(s, dtype=str).str.lower().str.replace(r"[^a-z ]", "", regex=True) \
+        .str.replace(r"\s+(jr|sr|ii|iii|iv)$", "", regex=True)
+    depth = None
+    add = []
+    for g in soon.itertuples(index=False):
+        ina = gameday_inactives(g.espn)
+        if not ina:
+            continue
+        for team in (g.home_team, g.away_team):
+            names = ina.get("home" if team == g.home_team else "away", [])
+            if not names:
+                continue
+            keys = set(norm(names))
+            rows = (df["season"] == season) & (df["week"] == g.week) & (df["team"] == team)
+            hit = rows & norm(df["full_name"]).isin(keys).values
+            df.loc[hit, ["report_status", "gameday_inactive"]] = ["Out", True]
+            have = set(norm(df.loc[hit, "full_name"]))
+            for n in names:
+                k = norm([n]).iloc[0]
+                if k in have:
+                    continue
+                if depth is None:  # gsis ids for players who were not on the injury report
+                    from nflmodel import lineups
+                    depth = lineups.load_depth(season).assign(key=lambda x: norm(x["player_name"]).values)
+                d = depth[(depth["team"] == team) & (depth["key"] == k)]
+                add.append({"season": season, "week": g.week, "team": team, "full_name": n,
+                            "gsis_id": d["gsis_id"].iloc[0] if len(d) else None,
+                            "position": d["pos_abb"].iloc[0] if len(d) else "",
+                            "report_status": "Out", "gameday_inactive": True})
+    if add:
+        df = pd.concat([df, pd.DataFrame(add)], ignore_index=True)
     return df
 
 

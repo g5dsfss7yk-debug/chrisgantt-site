@@ -217,6 +217,12 @@ class NFLChecks:
                 unverified.add(label, f"{team} injury report has no game statuses yet (final report comes 2 days before kickoff)")
 
         raw = self.games.set_index("game_id")
+        if g.game_id in raw.index:
+            row = raw.loc[g.game_id]
+            ina = self.inj[self.inj["gameday_inactive"] & self.inj["team"].isin([row["home_team"], row["away_team"]])]
+            if len(ina):
+                print("   inactive (game day): " + ", ".join(f"{x.team} {x.full_name}" for x in ina.itertuples(index=False)))
+            self._inactives_check(row.to_frame().T.assign(game_id=g.game_id).iloc[0], label, unverified)
         roof = raw.at[g.game_id, "roof"] if g.game_id in raw.index else None
         surface = raw.at[g.game_id, "surface"] if g.game_id in raw.index else None
         dome = roof in ("dome", "closed")
@@ -238,15 +244,34 @@ class NFLChecks:
             if isinstance(r, Exception):
                 unverified.add(label, f"{team} injuries (lineup data failed)")
                 continue
-            out = self.inj[(self.inj["team"] == team) & self.inj["report_status"].isin(["Out", "Doubtful", "Questionable"])]
+            t = self.inj[self.inj["team"] == team]
+            out = t[t["report_status"].isin(["Out", "Doubtful", "Questionable"]) & ~t["gameday_inactive"]]
             if len(out):
                 print("      " + ", ".join(f"{x.full_name} {x.position} {x.report_status}" for x in out.itertuples(index=False)))
+            ina = t[t["gameday_inactive"]]
+            if len(ina):
+                print("      inactive (game day): " + ", ".join(f"{x.full_name} {x.position}".strip() for x in ina.itertuples(index=False)))
             if self.week_status_pending(team):
                 unverified.add(label, f"{team} injury report has no game statuses yet")
+        self._inactives_check(g, label, unverified)
         dome = g.roof in ("dome", "closed")
         surface = g.surface if isinstance(g.surface, str) else None
         espn = espn_conditions("nfl", getattr(g, "espn", None), g.gameday)
         print(f"   weather: {weather_check(label, self.forecasts.get(g.game_id), dome, surface, unverified, espn)}")
+
+    def _inactives_check(self, g, label, unverified):
+        """Game-day inactive lists (ESPN, ~90 min before kickoff) for a game within 24 hours."""
+        from nflmodel import data
+        try:
+            soon = data.soon_games(self.season)
+        except Exception:
+            return
+        if g.game_id not in set(soon["game_id"]):
+            return
+        if self.inj["gameday_inactive"][self.inj["team"].isin([g.home_team, g.away_team])].any():
+            return
+        if data.gameday_inactives(g.espn) is None:
+            unverified.add(label, "game-day inactives not posted yet (about 90 min before kickoff): rerun then")
 
     def week_status_pending(self, team) -> bool:
         t = self.inj[self.inj["team"] == team]

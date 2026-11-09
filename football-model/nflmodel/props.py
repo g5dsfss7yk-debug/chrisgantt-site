@@ -24,6 +24,13 @@ STAT_COLS = ("receptions", "receiving_yards", "carries", "rushing_yards", "attem
              "passing_yards", "passing_tds", "targets")
 ALPHA = 0.3          # weight of the latest game in the running averages
 CARRY = 0.5          # share of last season's averages kept at the start of a season
+# A game where the team threw fewer than this many passes (weather, a blowout run-out) says
+# little about a passer's or receiver's normal output: it does not update their passing and
+# receiving running averages (e.g. TB 2026 wk 7-8: 11 and 3 attempts dragged Mayfield's
+# projection to ~100 yards). 0 turns it off.
+LOW_PASS_GAME = 15
+PASS_STATS = ("target_share", "air_share", "adot", "cpoe", "avg_receptions", "avg_receiving_yards",
+              "avg_attempts", "avg_completions", "avg_passing_yards", "avg_passing_tds", "avg_targets")
 
 FEATURES = [
     "rz_share", "gl_share", "carry_share", "target_share", "td_rate", "touches",
@@ -99,7 +106,7 @@ def _key(name: pd.Series) -> pd.Series:
 
 def build(pg: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
     """One row per player-game with features from earlier games only."""
-    team_tot = pg.groupby(["game_id", "team"])[["carries", "targets"]].sum().add_prefix("team_").reset_index()
+    team_tot = pg.groupby(["game_id", "team"])[["carries", "targets", "attempts"]].sum().add_prefix("team_").reset_index()
     pg = pg.merge(team_tot, on=["game_id", "team"])
     stats = {
         "rz_share": pg["rz"] / pg["team_rz"].replace(0, np.nan),
@@ -127,7 +134,10 @@ def build(pg: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
                 state = {k: CARRY * v for k, v in state.items()}
                 n = 0
             feats.append({"games": n, **{k: state.get(k, np.nan) for k in stats}})
+            odd = LOW_PASS_GAME and pd.notna(r.team_attempts) and 0 < r.team_attempts < LOW_PASS_GAME
             for k in stats:
+                if odd and k in PASS_STATS:
+                    continue
                 v = getattr(r, f"g_{k}")
                 if pd.notna(v):
                     state[k] = v if k not in state else state[k] + ALPHA * (v - state[k])
