@@ -11,7 +11,11 @@ TEAM is the ESPN abbreviation for NFL (GB, NE) or the school name for college (L
 
   python recs.py add --date 2026-11-08 --league nfl --kind parlay --tier fun --stake 2 \
       --leg "prop:Matthew Golden:receiving_yards:40" --leg "prop:Rhamondre Stevenson:rushing_yards:40"
+  python recs.py placed 14 --stake 3 --to-pay 7.26   # Chris bet it (to-pay = DK's "To Pay")
+  python recs.py placed 16 --no                        # recommended, not bet
   python recs.py grade        # fills results for finished games and prints the record
+
+The record is printed twice: every recommendation (the advice), and only the bets placed (money).
 """
 from __future__ import annotations
 
@@ -24,7 +28,8 @@ import pandas as pd
 from nflmodel.data import ROOT
 
 LOG = ROOT / "picks" / "recs.csv"
-COLS = ["id", "date", "league", "kind", "tier", "stake", "odds", "legs", "note", "result", "leg_results"]
+COLS = ["id", "date", "league", "kind", "tier", "stake", "odds", "legs", "note", "result", "leg_results",
+        "placed", "placed_stake", "to_pay"]
 ESPN = "https://site.api.espn.com/apis/site/v2/sports/football/{lg}/{what}"
 STAT = {"passing_yards": ("passing", "YDS"), "passing_tds": ("passing", "TD"),
         "completions": ("passing", "C/ATT"), "rushing_yards": ("rushing", "YDS"),
@@ -123,7 +128,23 @@ def grade_leg(lg, day, leg):
 
 
 def load():
-    return pd.read_csv(LOG, dtype=str, keep_default_na=False) if LOG.exists() else pd.DataFrame(columns=COLS)
+    df = pd.read_csv(LOG, dtype=str, keep_default_na=False) if LOG.exists() else pd.DataFrame(columns=COLS)
+    for c in COLS:
+        if c not in df:
+            df[c] = ""
+    return df[COLS]
+
+
+def cmd_placed(a):
+    df = load()
+    i = df.index[df["id"].astype(int) == a.id]
+    assert len(i), f"no rec #{a.id}"
+    if a.no:
+        df.loc[i, ["placed", "placed_stake", "to_pay"]] = ["no", "", ""]
+    else:
+        df.loc[i, ["placed", "placed_stake", "to_pay"]] = ["yes", f"{a.stake:g}", f"{a.to_pay:g}" if a.to_pay else ""]
+    df.to_csv(LOG, index=False)
+    print(f"#{a.id} placed: {df.loc[i, 'placed'].iloc[0]}")
 
 
 def cmd_add(a):
@@ -159,9 +180,22 @@ def cmd_grade(a):
     for r in df.itertuples(index=False):
         print(f"#{r.id} {r.date} {r.league} {r.kind:7} {r.tier:6} {r.result:8} {r.legs}  [{r.leg_results}]")
     done = df[df["result"].isin(["win", "loss"])]
+    print("\nRECOMMENDED (all advice, bet or not):")
     for tier, g in done.groupby("tier"):
         w = (g["result"] == "win").sum()
-        print(f"{tier}: {w}-{len(g) - w}")
+        print(f"  {tier}: {w}-{len(g) - w}")
+    pl = done[done["placed"] == "yes"]
+    if len(pl):
+        stake = pl["placed_stake"].replace("", "0").astype(float)
+        pay = pl["to_pay"].replace("", "0").astype(float)
+        net = ((pl["result"] == "win") * pay - stake).sum()
+        w = (pl["result"] == "win").sum()
+        print(f"PLACED (your money): {w}-{len(pl) - w}, staked ${stake.sum():.2f}, net ${net:+.2f}")
+        if (pl["to_pay"] == "").any():
+            print("  (some placed wins have no --to-pay; their payout is counted as 0)")
+    unk = done[done["placed"] == ""]
+    if len(unk):
+        print(f"  {len(unk)} graded recs not marked placed or not: python recs.py placed ID ... / --no")
 
 
 def main():
@@ -179,6 +213,12 @@ def main():
     ad.add_argument("--leg", action="append", required=True)
     ad.set_defaults(f=cmd_add)
     sub.add_parser("grade").set_defaults(f=cmd_grade)
+    pl = sub.add_parser("placed", help="mark a rec as bet (with stake and DK's To Pay) or not bet")
+    pl.add_argument("id", type=int)
+    pl.add_argument("--stake", type=float, default=0)
+    pl.add_argument("--to-pay", type=float, help="DK's To Pay (stake + winnings)")
+    pl.add_argument("--no", action="store_true", help="recommended but not bet")
+    pl.set_defaults(f=cmd_placed)
     a = ap.parse_args()
     a.f(a)
 
