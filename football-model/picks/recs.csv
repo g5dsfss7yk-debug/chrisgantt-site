@@ -17,5 +17,6 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results,placed,placed_s
 16,2026-11-08,nfl,single,backed,2.0,+100 live (halftime),prop:Bucky Irving:rushing_yards:60,live model 69% vs DK 50%; has 32 at half,win,win,no,,,0.69,live
 17,2026-11-08,nfl,single,backed,1.0,+205 live (halftime),prop:Bucky Irving:rushing_yards:70,live model 55% vs DK 33%,win,win,no,,,0.55,live
 18,2026-11-08,nfl,single,backed,1.0,+270 live (Q3 14:07),prop:Bucky Irving:rushing_yards:80,live model 64% vs DK 27%; has 39,win,win,no,,,0.64,live
-19,2026-11-09,nfl,single,backed,3,-139,prop:Aaron Jones:rushing_yards:30,model 75% vs DK 58%,pending,pending,,,,0.75,pregame
-20,2026-11-09,nfl,single,backed,3,-214,prop:Aaron Jones:rushing_yards:25,model 78% vs DK 68%,pending,pending,,,,0.78,pregame
+19,2026-11-09,nfl,single,backed,3,-125,prop:Aaron Jones:rushing_yards:30,model 70% vs DK 56% (Mon 4:30pm CT price),pending,pending,,,,0.70,pregame
+20,2026-11-09,nfl,single,backed,3,-192,prop:Aaron Jones:rushing_yards:25,model 77% vs DK 66% (Mon 4:30pm CT price),pending,pending,,,,0.77,pregame
+21,2026-11-09,nfl,single,backed,3,-227,prop:Keon Coleman:receiving_yards:15,model 73% vs DK 69%,pending,,,,,0.73,pregame
