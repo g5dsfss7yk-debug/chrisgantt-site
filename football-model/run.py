@@ -435,12 +435,12 @@ def _ou_props(args, d, today, qbs):
         cand = cand[~qb | (listed & qb) | cand.index.isin(top)]
         print(f"\n{market.replace('_', ' ')}  (median = model's fair line; P = chance of going over the line you gave)")
         for r in cand.sort_values(["team", "proj"], ascending=[True, False]).itertuples(index=False):
-            med = sm.median(r.position, r.proj)
+            med = sm.median(r.position, r.proj, getattr(r, 'spread_for', None))
             out = f"   {r.team:3} {r.player_display_name:24} {r.position:2}  median {med:6.1f}"
             got = lines.get((r.player_display_name.lower(), market))
             if got is not None:
                 ln, price = got
-                po = sm.p_over(r.position, r.proj, ln)
+                po = sm.p_over(r.position, r.proj, ln, getattr(r, 'spread_for', None))
                 side, ps = ("Over", po) if po >= 0.5 else ("Under", 1 - po)
                 out += f"  | {side} {ln:g}: {ps:.0%} (fair {_fair_american(ps)})"
                 if price:
