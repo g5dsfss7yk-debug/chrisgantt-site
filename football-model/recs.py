@@ -61,12 +61,17 @@ def _game(events, team):
     return None, None
 
 
+def _summary(lg, event_id):
+    return _get(ESPN.format(lg=_league(lg), what="summary") + f"?event={event_id}")
+
+
 def _player_stats(lg, events, name):
     """{(category, label): value} for a player from the day's box scores, or None."""
     for e in events:
-        if not e["competitions"][0]["status"]["type"]["completed"]:
+        summ = _summary(lg, e["id"])
+        if not summ["header"]["competitions"][0]["status"]["type"]["completed"]:
             continue
-        box = _get(ESPN.format(lg=_league(lg), what="summary") + f"?event={e['id']}").get("boxscore", {})
+        box = summ.get("boxscore", {})
         found, out = False, {}
         for team in box.get("players", []):
             for cat in team["statistics"]:
@@ -96,8 +101,13 @@ def grade_leg(lg, day, leg):
             val = float(str(raw).split("/")[0])
         return "win" if val >= need else "loss"
     e, comp = _game(events, p[1])
-    if e is None or not comp["status"]["type"]["completed"]:
+    if e is None:
         return "pending"
+    if not comp["status"]["type"]["completed"]:
+        # the scoreboard can lag; the game's own summary has the final status and score
+        comp = _summary(lg, e["id"])["header"]["competitions"][0]
+        if not comp["status"]["type"]["completed"]:
+            return "pending"
     mine = next(c for c in comp["competitors"] if _team_match(c, p[1]))
     other = next(c for c in comp["competitors"] if c is not mine)
     m, o = float(mine["score"]), float(other["score"])

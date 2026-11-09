@@ -7,6 +7,6 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results
 6,2026-11-08,nfl,parlay,fun,2,,prop:Matthew Golden:receiving_yards:40 | prop:Rhamondre Stevenson:rushing_yards:40,model 76% x 71%,pending,pending pending
 7,2026-11-08,nfl,parlay,fun,2,,prop:Matthew Golden:receiving_yards:40 | prop:Rhamondre Stevenson:rushing_yards:40 | prop:Jordan Love:passing_yards:175,,pending,pending pending pending
 8,2026-11-08,nfl,single,fun,2,+112 or longer,prop:Rhamondre Stevenson:anytime_td:1,model 47%,pending,pending
-9,2026-11-08,nfl,parlay,fun,2,,prop:Colston Loveland:receiving_yards:40 | prop:D'Andre Swift:rushing_yards:50,model 72% x 68%,pending,
-10,2026-11-08,nfl,parlay,fun,2,,prop:Colston Loveland:receiving_yards:40 | prop:Rome Odunze:receiving_yards:30 | prop:D'Andre Swift:rushing_yards:50,,pending,
-11,2026-11-08,nfl,single,fun,2,-130 or longer,prop:D'Andre Swift:anytime_td:1,model 60%,pending,
+9,2026-11-08,nfl,parlay,fun,2,,prop:Colston Loveland:receiving_yards:40 | prop:D'Andre Swift:rushing_yards:50,model 72% x 68%,pending,pending pending
+10,2026-11-08,nfl,parlay,fun,2,,prop:Colston Loveland:receiving_yards:40 | prop:Rome Odunze:receiving_yards:30 | prop:D'Andre Swift:rushing_yards:50,,pending,pending pending pending
+11,2026-11-08,nfl,single,fun,2,-130 or longer,prop:D'Andre Swift:anytime_td:1,model 60%,pending,pending
