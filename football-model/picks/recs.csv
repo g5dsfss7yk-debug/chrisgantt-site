@@ -7,15 +7,15 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results,placed,placed_s
 6,2026-11-08,nfl,parlay,fun,2,,prop:Matthew Golden:receiving_yards:40 | prop:Rhamondre Stevenson:rushing_yards:40,model 76% x 71%,loss,win loss,,,,0.76 0.71,pregame
 7,2026-11-08,nfl,parlay,fun,2,,prop:Matthew Golden:receiving_yards:40 | prop:Rhamondre Stevenson:rushing_yards:40 | prop:Jordan Love:passing_yards:175,,loss,win loss win,,,,0.76 0.71 -,pregame
 8,2026-11-08,nfl,single,fun,2,+112 or longer,prop:Rhamondre Stevenson:anytime_td:1,model 47%,win,win,,,,0.47,pregame
-9,2026-11-08,nfl,parlay,fun,2,,prop:Colston Loveland:receiving_yards:40 | prop:D'Andre Swift:rushing_yards:50,model 72% x 68%,pending,pending pending,,,,0.72 0.68,pregame
-10,2026-11-08,nfl,parlay,fun,2,,prop:Colston Loveland:receiving_yards:40 | prop:Rome Odunze:receiving_yards:30 | prop:D'Andre Swift:rushing_yards:50,,pending,pending pending pending,,,,0.72 - 0.68,pregame
-11,2026-11-08,nfl,single,fun,2,-130 or longer,prop:D'Andre Swift:anytime_td:1,model 60%,pending,pending,,,,0.60,pregame
+9,2026-11-08,nfl,parlay,fun,2,,prop:Colston Loveland:receiving_yards:40 | prop:D'Andre Swift:rushing_yards:50,model 72% x 68%,loss,win loss,,,,0.72 0.68,pregame
+10,2026-11-08,nfl,parlay,fun,2,,prop:Colston Loveland:receiving_yards:40 | prop:Rome Odunze:receiving_yards:30 | prop:D'Andre Swift:rushing_yards:50,,loss,win win loss,,,,0.72 - 0.68,pregame
+11,2026-11-08,nfl,single,fun,2,-130 or longer,prop:D'Andre Swift:anytime_td:1,model 60%,loss,loss,,,,0.60,pregame
 12,2026-11-09,nfl,parlay,backed,2.0,+211 (DK -139/-123),prop:Aaron Jones:rushing_yards:30 | prop:Jordan Addison:receiving_yards:40,model 75% x 60% vs DK 58%/55%; sharp main lines disagree (Jones 33.5 / Addison 40.5 ~50%),pending,pending pending,,,,0.75 0.60,pregame
 13,2026-11-09,nfl,parlay,fun,1.0,~+135 (DK -383/-115),prop:James Cook:rushing_yards:60 | prop:James Cook:anytime_td:1,"model 70% x 55%, no edge vs DK",pending,pending pending,,,,0.70 0.55,pregame
-14,2026-11-08,nfl,parlay,backed,3,+142 (placed),prop:D'Andre Swift:rushing_yards:60 | prop:Colston Loveland:receiving_yards:40,model 72% x 73% vs DK 57%/68%; Monangai Q and off DK board,pending,pending pending,yes,3,7.26,0.72 0.73,pregame
-15,2026-11-08,nfl,parlay,fun,1.0,placed w/ +30% parlay boost,prop:D'Andre Swift:rushing_yards:65 | prop:Colston Loveland:receiving_yards:40 | prop:Kenny Gainwell:rushing_yards:20,"Gainwell 20+ model 73% vs 58%, but model median 32 vs DK 21.5 - role risk; placed with Swift 65+ (not 60+)",pending,pending pending pending,yes,3,18.21,- 0.73 0.73,pregame
-16,2026-11-08,nfl,single,backed,2.0,+100 live (halftime),prop:Bucky Irving:rushing_yards:60,live model 69% vs DK 50%; has 32 at half,pending,pending,no,,,0.69,live
-17,2026-11-08,nfl,single,backed,1.0,+205 live (halftime),prop:Bucky Irving:rushing_yards:70,live model 55% vs DK 33%,pending,pending,no,,,0.55,live
-18,2026-11-08,nfl,single,backed,1.0,+270 live (Q3 14:07),prop:Bucky Irving:rushing_yards:80,live model 64% vs DK 27%; has 39,pending,pending,no,,,0.64,live
+14,2026-11-08,nfl,parlay,backed,3,+142 (placed),prop:D'Andre Swift:rushing_yards:60 | prop:Colston Loveland:receiving_yards:40,model 72% x 73% vs DK 57%/68%; Monangai Q and off DK board,loss,loss win,yes,3,7.26,0.72 0.73,pregame
+15,2026-11-08,nfl,parlay,fun,1.0,placed w/ +30% parlay boost,prop:D'Andre Swift:rushing_yards:65 | prop:Colston Loveland:receiving_yards:40 | prop:Kenny Gainwell:rushing_yards:20,"Gainwell 20+ model 73% vs 58%, but model median 32 vs DK 21.5 - role risk; placed with Swift 65+ (not 60+)",loss,loss win loss,yes,3,18.21,- 0.73 0.73,pregame
+16,2026-11-08,nfl,single,backed,2.0,+100 live (halftime),prop:Bucky Irving:rushing_yards:60,live model 69% vs DK 50%; has 32 at half,win,win,no,,,0.69,live
+17,2026-11-08,nfl,single,backed,1.0,+205 live (halftime),prop:Bucky Irving:rushing_yards:70,live model 55% vs DK 33%,win,win,no,,,0.55,live
+18,2026-11-08,nfl,single,backed,1.0,+270 live (Q3 14:07),prop:Bucky Irving:rushing_yards:80,live model 64% vs DK 27%; has 39,win,win,no,,,0.64,live
 19,2026-11-09,nfl,single,backed,3,-139,prop:Aaron Jones:rushing_yards:30,model 75% vs DK 58%,pending,pending,,,,0.75,pregame
 20,2026-11-09,nfl,single,backed,3,-214,prop:Aaron Jones:rushing_yards:25,model 78% vs DK 68%,pending,pending,,,,0.78,pregame

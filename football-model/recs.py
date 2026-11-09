@@ -216,7 +216,11 @@ def legs_report(df):
                          "source": r.source or "?", "placed": r.placed == "yes"})
     if not rows:
         return
-    lg = pd.DataFrame(rows).drop_duplicates(["leg", "source"])  # the same leg in two parlays counts once
+    lg = pd.DataFrame(rows)
+    # the same leg in two parlays counts once; it is "placed" if any bet holding it was placed
+    lg["placed"] = lg.groupby(["leg", "source"])["placed"].transform("max")
+    lg["p"] = lg.groupby(["leg", "source"])["p"].transform("first")
+    lg = lg.drop_duplicates(["leg", "source"])
     print("\nLEGS (each graded leg once; model = chance when recommended):")
     for name, g in [("all", lg)] + [(f"source={k}", v) for k, v in lg.groupby("source")] + [("placed bets", lg[lg["placed"]])]:
         if g.empty:
