@@ -122,7 +122,9 @@ def gameday_inactives(espn_id) -> dict | None:
             names = [i["athlete"]["displayName"] for i in t.get("injuries", [])
                      if (i.get("details", {}).get("fantasyStatus", {}) or {}).get("abbreviation") == "INACTIVE"]
             out[side.get(t["team"]["abbreviation"], t["team"]["abbreviation"])] = names
-        _INACTIVE_CACHE[key] = out if any(out.values()) else None
+        # lists post team by team and fill in over a few minutes; a team usually has ~7 inactives,
+        # so treat them as posted only once both teams show at least 3
+        _INACTIVE_CACHE[key] = out if len(out) == 2 and all(len(v) >= 3 for v in out.values()) else None
     return _INACTIVE_CACHE[key]
 
 
