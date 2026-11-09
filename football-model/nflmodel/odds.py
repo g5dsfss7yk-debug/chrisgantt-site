@@ -43,7 +43,8 @@ PROP_MARKETS = {
 
 
 def key() -> str | None:
-    return os.environ.get("ODDS_API_KEY")
+    # DDS_API_KEY: the name as first saved in the environment settings (the O was dropped)
+    return os.environ.get("ODDS_API_KEY") or os.environ.get("DDS_API_KEY")
 
 
 def _get(path: str, **params) -> object:
