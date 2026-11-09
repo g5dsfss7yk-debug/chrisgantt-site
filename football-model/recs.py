@@ -29,7 +29,7 @@ from nflmodel.data import ROOT
 
 LOG = ROOT / "picks" / "recs.csv"
 COLS = ["id", "date", "league", "kind", "tier", "stake", "odds", "legs", "note", "result", "leg_results",
-        "placed", "placed_stake", "to_pay"]
+        "placed", "placed_stake", "to_pay", "leg_probs", "source"]
 ESPN = "https://site.api.espn.com/apis/site/v2/sports/football/{lg}/{what}"
 STAT = {"passing_yards": ("passing", "YDS"), "passing_tds": ("passing", "TD"),
         "completions": ("passing", "C/ATT"), "rushing_yards": ("rushing", "YDS"),
@@ -156,8 +156,11 @@ def cmd_add(a):
             assert leg.split(":")[2] in list(STAT) + ["anytime_td"], f"bad stat in: {leg}"
     row = {"id": int(df["id"].astype(int).max()) + 1 if len(df) else 1, "date": a.date, "league": a.league,
            "kind": a.kind, "tier": a.tier, "stake": a.stake, "odds": a.odds or "", "legs": " | ".join(a.leg),
-           "note": a.note or "", "result": "pending", "leg_results": ""}
-    pd.concat([df, pd.DataFrame([row])], ignore_index=True).to_csv(LOG, index=False)
+           "note": a.note or "", "result": "pending", "leg_results": "",
+           "leg_probs": " ".join(a.prob) if a.prob else "", "source": a.source}
+    if a.prob:
+        assert len(a.prob) == len(a.leg), "give one --prob per --leg (use - if unknown)"
+    pd.concat([df, pd.DataFrame([row])], ignore_index=True)[COLS].to_csv(LOG, index=False)
     print(f"logged #{row['id']}: {row['kind']} {row['legs']}")
 
 
@@ -193,9 +196,39 @@ def cmd_grade(a):
         print(f"PLACED (your money): {w}-{len(pl) - w}, staked ${stake.sum():.2f}, net ${net:+.2f}")
         if (pl["to_pay"] == "").any():
             print("  (some placed wins have no --to-pay; their payout is counted as 0)")
+    legs_report(df)
     unk = done[done["placed"] == ""]
     if len(unk):
         print(f"  {len(unk)} graded recs not marked placed or not: python recs.py placed ID ... / --no")
+
+
+def legs_report(df):
+    """Each graded leg with the model's chance when it was recommended: is the model's chance
+    what actually happens? (pregame model vs live model, and placed bets only)."""
+    rows = []
+    for r in df.itertuples(index=False):
+        res, probs = str(r.leg_results).split(), str(r.leg_probs).split()
+        for i, leg in enumerate(str(r.legs).split(" | ")):
+            if i >= len(res) or res[i] not in ("win", "loss"):
+                continue
+            p = probs[i] if i < len(probs) else "-"
+            rows.append({"leg": leg, "won": res[i] == "win", "p": float(p) if p not in ("-", "") else None,
+                         "source": r.source or "?", "placed": r.placed == "yes"})
+    if not rows:
+        return
+    lg = pd.DataFrame(rows).drop_duplicates(["leg", "source"])  # the same leg in two parlays counts once
+    print("\nLEGS (each graded leg once; model = chance when recommended):")
+    for name, g in [("all", lg)] + [(f"source={k}", v) for k, v in lg.groupby("source")] + [("placed bets", lg[lg["placed"]])]:
+        if g.empty:
+            continue
+        known = g[g["p"].notna()]
+        exp = f"model said {known['p'].mean():.0%} (on {len(known)})" if len(known) else "no model chance logged"
+        print(f"  {name:13} {g['won'].sum()}-{(~g['won']).sum()}  hit {g['won'].mean():.0%}   {exp}")
+    k = lg[lg["p"].notna()]
+    if len(k) >= 20:
+        gap = k["won"].mean() - k["p"].mean()
+        if gap < -0.10:
+            print(f"  WARNING: legs hit {-gap:.0%} below the model's chance over {len(k)} legs - stop betting the model until fixed")
 
 
 def main():
@@ -211,6 +244,8 @@ def main():
     ad.add_argument("--odds")
     ad.add_argument("--note")
     ad.add_argument("--leg", action="append", required=True)
+    ad.add_argument("--prob", action="append", help="model chance for each leg, in order (0.75, or - if none)")
+    ad.add_argument("--source", choices=["pregame", "live", "teaser", "none"], default="pregame")
     ad.set_defaults(f=cmd_add)
     sub.add_parser("grade").set_defaults(f=cmd_grade)
     pl = sub.add_parser("placed", help="mark a rec as bet (with stake and DK's To Pay) or not bet")
