@@ -25,9 +25,13 @@ Chris bets $1-3 on DraftKings for fun: prop parlays and teasers. Wants plain, sh
 
 - Clock note: the container's "today" is UTC; at Nov 9 01:10 UTC it was still Sun Nov 8 8:10pm ET.
 - SNF TB@CHI: logged #14 (backed, model edge) Swift 60+ rush + Loveland 40+ rec; #15 (fun) same + Gainwell 20+ rush.
-  Model's Mayfield passing projection (median ~100) looked broken (thumb tag?) - ignored.
+  Model's Mayfield passing projection (~100) comes from TB's wk 7-8 run-outs (11 and 3 pass attempts).
+  Tried skipping team <15-attempt games in averages (props.LOW_PASS_GAME): Mayfield -> 176, but
+  2023-26 passing MAE 61.40 -> 61.57, so it is OFF. When a QB's recent games were freak low-volume,
+  trust the market line over the model.
+- Game-day inactives (ESPN, ~90 min before kickoff) now set players Out in all checks/projections.
 
 ## To do next
 1. `python recs.py grade` - #9-#15 pending.
-3. Look into why the model projects Baker Mayfield at ~100 passing yards (TB@CHI, week 9).
+3. Idea: flag props where the model median is far from DK's main line (role/volume news the model lacks).
 2. When model and sharp books disagree a lot (Jones: model 54 yds, market 33.5), check role/usage news.

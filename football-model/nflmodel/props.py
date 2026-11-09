@@ -27,8 +27,9 @@ CARRY = 0.5          # share of last season's averages kept at the start of a se
 # A game where the team threw fewer than this many passes (weather, a blowout run-out) says
 # little about a passer's or receiver's normal output: it does not update their passing and
 # receiving running averages (e.g. TB 2026 wk 7-8: 11 and 3 attempts dragged Mayfield's
-# projection to ~100 yards). 0 turns it off.
-LOW_PASS_GAME = 15
+# projection to ~100 yards). 0 turns it off. OFF: in 2023-26 walk-forward, 15 made passing
+# yards MAE 61.40 -> 61.57 (receiving 16.52 both), so it is not used.
+LOW_PASS_GAME = 0
 PASS_STATS = ("target_share", "air_share", "adot", "cpoe", "avg_receptions", "avg_receiving_yards",
               "avg_attempts", "avg_completions", "avg_passing_yards", "avg_passing_tds", "avg_targets")
 
