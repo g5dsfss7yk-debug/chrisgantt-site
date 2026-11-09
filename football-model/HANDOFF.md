@@ -13,15 +13,16 @@ Chris bets $1-3 on DraftKings for fun: prop parlays and teasers. Wants plain, sh
 - Everything else is "fun only". College has no proven edge (30-41 live). Favorite teasers are dead.
 - Log every recommended combo: `python recs.py add ...`; grade: `python recs.py grade`.
 
-## New this session
-- `ODDS_API_KEY` is set in the environment (saved as DDS_API_KEY; code reads both).
-  `python run.py odds --team Bills` = DK legs vs sharp-book no-vig price. Not yet run live - test it.
-- RB rushing ladders: favored backs no longer shrunk toward 50/50 (they hit 79-80%).
-- recs.py grades from ESPN box scores (waits for a game's own summary to say final).
+## New this session (Nov 9, MNF)
+- `run.py odds` works live (key read from DDS_API_KEY). Fixed a bug: no-vig math pooled each book's
+  main line with its alternate ladder at the same number, so sharp chances read ~42% instead of ~50%.
+  After the fix DK main lines show only normal juice (-1% to -6%); sharps price main lines only,
+  so ladder rungs are checked with the model (`run.py props --line`, one rung per player per run).
+- Graded: fun 2-6. #9-#11 (TB@CHI, SNF Nov 8) still pending: ESPN feed still listed it "scheduled" on Nov 9.
+- Logged #12 (backed, model edge): Aaron Jones 30+ rush + Jordan Addison 40+ rec. Caution: sharp
+  main lines (Jones 33.5, Addison 40.5 at ~50%) disagree with the model (medians 54 / 48).
+- Logged #13 (fun): James Cook 60+ rush + Cook anytime TD.
 
 ## To do next
-1. `python recs.py grade` - recs #6-#11 (GB@NE props, TB@CHI props) were pending.
-   Known so far: Stevenson rushing leg lost (32 yds), so #6/#7 lose; #8 Stevenson anytime TD won.
-2. Test `run.py odds --team Bills` (Monday night BUF @ MIN; Kyler Murray OUT -> Carson Wentz).
-3. Build prop parlays for MNF from legs with a price edge; log them in recs.py.
-4. Commit and push to branch claude/football-model.
+1. `python recs.py grade` - #9-#13 pending.
+2. When model and sharp books disagree a lot (Jones: model 54 yds, market 33.5), check role/usage news.

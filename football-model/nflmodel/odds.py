@@ -100,8 +100,11 @@ def props(league: str, event_id: str) -> pd.DataFrame:
     if df.empty:
         return df
     df["implied"] = df["price"].map(implied)
-    pair = df.groupby(["book", "market", "player", "point"])["implied"].transform("sum")
-    two = df.groupby(["book", "market", "player", "point"])["side"].transform("nunique") == 2
+    # pair Over with Under inside the same raw market: a book's main line and its alternate ladder
+    # can share a number, and pooling them would put three prices in one pair
+    g = ["book", "market", "ladder", "player", "point"]
+    pair = df.groupby(g)["implied"].transform("sum")
+    two = (df.groupby(g)["side"].transform("nunique") == 2) & (df.groupby(g)["side"].transform("size") == 2)
     df["fair"] = np.where(two, df["implied"] / pair, np.nan)
     return df
 
@@ -113,6 +116,8 @@ def compare(df: pd.DataFrame) -> pd.DataFrame:
     if df.empty:
         return df
     dk = df[(df["book"] == "draftkings") & df["side"].isin(["Over", "Yes"])].copy()
+    # the same DK leg can be listed in both the main and the alternate market: keep the better price
+    dk = dk.sort_values("price", ascending=False).drop_duplicates(["market", "player", "point"])
     sharp = df[df["book"].isin(SHARP) & df["side"].isin(["Over", "Yes"]) & df["fair"].notna()]
     fair = sharp.groupby(["market", "player", "point"], dropna=False).agg(
         sharp_fair=("fair", "mean"), sharp_books=("book", lambda s: ",".join(sorted(set(s)))))

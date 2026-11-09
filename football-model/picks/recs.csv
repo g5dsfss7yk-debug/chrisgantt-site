@@ -4,9 +4,11 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results
 3,2026-11-06,cfb,parlay,fun,2,190.0,ml:South Florida | ml:SMU,,loss,loss win
 4,2026-11-07,cfb,teaser,fun,2,,spread:LSU:0 | total:LSU:under:59.5,best LSU play,loss,loss win
 5,2026-11-07,cfb,teaser,fun,2,,spread:Louisiana Tech:-1 | spread:LSU:0,,loss,win loss
-6,2026-11-08,nfl,parlay,fun,2,,prop:Matthew Golden:receiving_yards:40 | prop:Rhamondre Stevenson:rushing_yards:40,model 76% x 71%,pending,pending pending
-7,2026-11-08,nfl,parlay,fun,2,,prop:Matthew Golden:receiving_yards:40 | prop:Rhamondre Stevenson:rushing_yards:40 | prop:Jordan Love:passing_yards:175,,pending,pending pending pending
-8,2026-11-08,nfl,single,fun,2,+112 or longer,prop:Rhamondre Stevenson:anytime_td:1,model 47%,pending,pending
+6,2026-11-08,nfl,parlay,fun,2,,prop:Matthew Golden:receiving_yards:40 | prop:Rhamondre Stevenson:rushing_yards:40,model 76% x 71%,loss,win loss
+7,2026-11-08,nfl,parlay,fun,2,,prop:Matthew Golden:receiving_yards:40 | prop:Rhamondre Stevenson:rushing_yards:40 | prop:Jordan Love:passing_yards:175,,loss,win loss win
+8,2026-11-08,nfl,single,fun,2,+112 or longer,prop:Rhamondre Stevenson:anytime_td:1,model 47%,win,win
 9,2026-11-08,nfl,parlay,fun,2,,prop:Colston Loveland:receiving_yards:40 | prop:D'Andre Swift:rushing_yards:50,model 72% x 68%,pending,pending pending
 10,2026-11-08,nfl,parlay,fun,2,,prop:Colston Loveland:receiving_yards:40 | prop:Rome Odunze:receiving_yards:30 | prop:D'Andre Swift:rushing_yards:50,,pending,pending pending pending
 11,2026-11-08,nfl,single,fun,2,-130 or longer,prop:D'Andre Swift:anytime_td:1,model 60%,pending,pending
+12,2026-11-09,nfl,parlay,backed,2.0,+211 (DK -139/-123),prop:Aaron Jones:rushing_yards:30 | prop:Jordan Addison:receiving_yards:40,model 75% x 60% vs DK 58%/55%; sharp main lines disagree (Jones 33.5 / Addison 40.5 ~50%),pending,
+13,2026-11-09,nfl,parlay,fun,1.0,~+135 (DK -383/-115),prop:James Cook:rushing_yards:60 | prop:James Cook:anytime_td:1,"model 70% x 55%, no edge vs DK",pending,
