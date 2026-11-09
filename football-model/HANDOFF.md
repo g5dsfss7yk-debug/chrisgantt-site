@@ -31,6 +31,10 @@ Chris bets $1-3 on DraftKings for fun: prop parlays and teasers. Wants plain, sh
   trust the market line over the model.
 - Game-day inactives (ESPN, ~90 min before kickoff) now set players Out in all checks/projections.
 
+- Added `props --scan TEAM` (DK ladder edge scanner) and `run.py parlay` (boost EV). README "Betting rules".
+- Chris: no gut overrides - recommend what the tools say (see README). Earlier I wrongly downgraded
+  model legs (Jones, Gainwell, Mayfield) on market disagreement.
+
 ## To do next
 1. `python recs.py grade` - #9-#15 pending.
 3. Idea: flag props where the model median is far from DK's main line (role/volume news the model lacks).

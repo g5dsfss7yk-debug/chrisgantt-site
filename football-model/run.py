@@ -412,6 +412,7 @@ def _ou_props(args, d, today, qbs):
     hist_from = int(done["season"].max()) - 2
     markets = args.market or list(statprops.MARKETS)
     today = statprops.prepare(today)
+    scan_rows = []
     for market in markets:
         stat, pos = statprops.MARKETS[market]
         pre = statprops.prepare(done)
@@ -433,6 +434,8 @@ def _ou_props(args, d, today, qbs):
         has_listed = cand[qb & listed]["team"].unique()
         top = cand[qb & ~cand["team"].isin(has_listed)].sort_values("proj").groupby("team").tail(1).index
         cand = cand[~qb | (listed & qb) | cand.index.isin(top)]
+        if args.scan and market in ("receiving_yards", "rushing_yards", "passing_yards"):
+            scan_rows += _scan(args, market, cand.assign(proj=cand["proj"].values), sm)
         print(f"\n{market.replace('_', ' ')}  (median = model's fair line; P = chance of going over the line you gave)")
         for r in cand.sort_values(["team", "proj"], ascending=[True, False]).itertuples(index=False):
             med = sm.median(r.position, r.proj, getattr(r, 'spread_for', None))
@@ -449,6 +452,8 @@ def _ou_props(args, d, today, qbs):
                 elif ps >= OU_VALUE:
                     out += "  (add @price to check value)"
             print(out)
+    if args.scan:
+        _print_scan(scan_rows)
     print(f"\nVALUE = model chance beats DK's implied chance by {LADDER_EDGE:.0%}+. Yardage ladders were calibrated"
           " out of sample in 2023-26 (said 70-75%, hit 76%), so the model's chance is if anything low."
           " Give prices as \"Name:market=40+@-250\".")
@@ -475,6 +480,83 @@ def cmd_odds(args):
         print(f"  {r.player:24} {r.market:16} {pt:6} DK {r.price:+5.0f} ({r.dk_implied:.0%})  "
               f"sharp {r.sharp_fair:.0%} [{r.sharp_books}]  edge {r.edge_vs_sharp:+.0%}  {flag}")
     print("\nCheck legs with the model too: run.py props --line \"Name:receiving_yards=40+@-250\"")
+
+
+def cmd_parlay(args):
+    """Is a (boosted) parlay worth it? Uses the chances you give (model or sharp)."""
+    from nflmodel import odds
+    legs = []
+    for x in args.leg:
+        q, price = x.split("@")
+        q = float(q.rstrip("%")) / (100 if q.endswith("%") or float(q.rstrip("%")) > 1 else 1)
+        legs.append((q, float(price)))
+    p, pay, ev = odds.parlay_ev(legs, args.boost / 100)
+    dec = pay - 1
+    am = f"+{dec * 100:.0f}" if dec >= 1 else f"-{100 / dec:.0f}"
+    print(f"chance {p:.1%}  pays {am} (decimal {pay:.2f}{f', with +{args.boost:g}% boost' if args.boost else ''})")
+    print(f"expected return {ev:+.1%} per $1  -> {'GOOD BET' if ev > 0 else 'losing bet'}"
+          " (legs in one game are treated as independent; same-game legs that help each other are a bit better)")
+
+
+def _scan(args, market, cand, sm):
+    """Each DK ladder rung for this market: model chance, sharp-anchored chance, DK's price."""
+    from nflmodel import odds
+    if not hasattr(_scan, "cache"):
+        _scan.cache = odds.ladders("nfl", args.scan)
+    dk, sh = _scan.cache
+    if dk.empty:
+        return []
+    norm = lambda s: lineups._norm(pd.Series([s]))[0]
+    dk = dk[dk["market"] == market].assign(key=lambda x: x["player"].map(norm))
+    sh = sh[sh["market"] == market].assign(key=lambda x: x["player"].map(norm))
+    out = []
+    for r in cand.itertuples(index=False):
+        k, sf = norm(r.player_display_name), getattr(r, "spread_for", None)
+        rungs = dk[dk["key"] == k]
+        if rungs.empty:
+            continue
+        shape = None
+        main = sh[sh["key"] == k]
+        if len(main) and float(main["point"].iloc[0]) >= 19.5:  # tiny main lines (a TE at 7.5) stretch badly
+            # Sharp-anchored chances: the shape of outcomes (actual / projection) for players
+            # projected near the sharp main number, pooled over 7 neighbouring bins so one noisy bin does not
+            # decide it, scaled so the chance at the sharp books' main number equals their no-vig
+            # chance; the other rungs are read off that scaled shape.
+            L, q = float(main["point"].iloc[0]), float(main["fair"].iloc[0])
+            (ed, vals), _ = sm._dist(r.position, sf)
+            i = int(np.clip(np.searchsorted(ed, L, side="right") - 1, 0, len(vals) - 1))  # players projected near the market's number
+            js = range(max(0, i - 3), min(len(vals), i + 4))
+            ratio = np.concatenate([vals[j] / max((ed[j] + ed[j + 1]) / 2, 1.0) for j in js])
+            qv = np.quantile(ratio, 1 - q)
+            if qv > 0:
+                shape = ratio * (L / qv)
+        for x in rungs.itertuples(index=False):
+            pm = sm.p_over(r.position, r.proj, x.point, sf)
+            ps_ = float((shape > x.point).mean()) if shape is not None else np.nan
+            out.append((r.team, r.player_display_name, market, x.point + 0.5, x.price, x.implied, pm, ps_))
+    return out
+
+
+def _print_scan(rows):
+    if not rows:
+        return
+    df = pd.DataFrame(rows, columns=["team", "player", "market", "rung", "price", "dk", "model", "sharp"])
+    df["e_model"], df["e_sharp"] = df["model"] - df["dk"], df["sharp"] - df["dk"]
+    df["best"] = df[["e_model", "e_sharp"]].min(axis=1, skipna=False)
+    df = df[(df["e_model"] >= LADDER_EDGE) | (df["e_sharp"] >= LADDER_EDGE)]
+    df = df[(df["price"] >= -600) & (df["price"] <= 400)]
+    print("\nDraftKings ladder rungs with an edge (model = our projection; sharp = Pinnacle/FanDuel main line"
+          " stretched to this rung; BOTH = both beat DK by 3%+, the ones to bet):")
+    if df.empty:
+        print("  none")
+        return
+    df = df.sort_values(["best", "e_model"], ascending=False)
+    for r in df.itertuples(index=False):
+        both = "BOTH" if r.e_model >= LADDER_EDGE and r.e_sharp >= LADDER_EDGE else (
+            "model only" if r.e_model >= LADDER_EDGE else "sharp only")
+        sh = "  n/a" if pd.isna(r.sharp) else f"{r.sharp:4.0%}"
+        print(f"  {r.team:3} {r.player:22} {r.market:15} {r.rung:g}+ DK {r.price:+5.0f} ({r.dk:.0%})  "
+              f"model {r.model:.0%}  sharp {sh}  {both}")
 
 
 def cmd_lineup(args):
@@ -531,6 +613,10 @@ def main():
     pr.add_argument("--line", action="append", help='book line, e.g. "CeeDee Lamb:receptions=5.5"')
     pr.add_argument("--no-ou", action="store_true", help="anytime/first TD only")
     pr.add_argument("--qb", action="append", help='confirmed starter, e.g. BAL="Tyler Huntley"')
+    pr.add_argument("--scan", help="price every DraftKings ladder rung for this team's game (odds API), e.g. Bears")
+    pa = sub.add_parser("parlay", help="parlay chance and expected return, with a DK profit boost")
+    pa.add_argument("--leg", action="append", required=True, help='chance@price, e.g. "0.72@-134" or "72%%@-134"')
+    pa.add_argument("--boost", type=float, default=0.0, help="profit boost in percent, e.g. 30")
     ln = sub.add_parser("lineup")
     ln.add_argument("--season", type=int)
     ln.add_argument("--week", type=int)
@@ -541,7 +627,7 @@ def main():
     od.add_argument("--min-edge", type=float, default=0.0)
     args = ap.parse_args()
     {"backtest": cmd_backtest, "card": cmd_card, "grade": cmd_grade, "props": cmd_props,
-     "lineup": cmd_lineup, "odds": cmd_odds}[args.cmd](args)
+     "lineup": cmd_lineup, "odds": cmd_odds, "parlay": cmd_parlay}[args.cmd](args)
 
 
 if __name__ == "__main__":

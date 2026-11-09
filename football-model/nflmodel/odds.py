@@ -125,3 +125,32 @@ def compare(df: pd.DataFrame) -> pd.DataFrame:
     dk["dk_implied"] = dk["implied"]
     dk["edge_vs_sharp"] = dk["sharp_fair"] - dk["dk_implied"]
     return dk[["player", "market", "point", "price", "dk_implied", "sharp_fair", "sharp_books", "edge_vs_sharp"]]
+
+
+def ladders(league: str, team: str) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """(DraftKings Over/Yes rungs, sharp main lines) for one team's next game.
+    Sharp main line = per player and market, the sharp books' two-sided number closest to 50/50,
+    with its average no-vig Over chance."""
+    ev = find_event(league, team)
+    if ev is None:
+        raise SystemExit(f"no upcoming {league} game found for {team}")
+    df = props(league, ev)
+    if df.empty:
+        return df, df
+    dk = df[(df["book"] == "draftkings") & df["side"].isin(["Over", "Yes"])]
+    dk = dk.sort_values("price", ascending=False).drop_duplicates(["market", "player", "point"])
+    sh = df[df["book"].isin(SHARP) & df["side"].isin(["Over", "Yes"]) & df["fair"].notna()]
+    sh = sh.groupby(["market", "player", "point"], dropna=False).agg(fair=("fair", "mean"), books=("book", "nunique")).reset_index()
+    sh = sh.assign(off=(sh["fair"] - 0.5).abs()).sort_values("off").drop_duplicates(["market", "player"])
+    return dk, sh.drop(columns="off")
+
+
+def parlay_ev(legs: list[tuple[float, float]], boost: float = 0.0) -> tuple[float, float, float]:
+    """legs = [(win chance, American price)]; boost = profit boost (0.30 = +30%).
+    Returns (parlay chance, decimal payout incl. boost, expected return per $1)."""
+    p, dec = 1.0, 1.0
+    for q, price in legs:
+        p *= q
+        dec *= 1 + (price / 100 if price > 0 else 100 / -price)
+    pay = 1 + (dec - 1) * (1 + boost)
+    return p, pay, p * pay - 1

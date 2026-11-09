@@ -237,6 +237,15 @@ Graded against the CLOSING line (what you actually bet), out of sample. Scripts:
 - Expect less than the table: many variables were tried, which flatters backtests.
 - Prop prices: `run.py props --line "Name:receiving_yards=40+@-250"` prints the edge vs DK.
 - Every recommended combo is logged and graded in `picks/recs.csv` with `recs.py`.
+- **No gut overrides (Chris, Nov 8).** Picks come from the tools' output only. Do not drop or
+  downgrade a model leg because it "disagrees with the market" or "looks off"; the model's 3%+
+  ladder edges are the audited bet (hit 76% at 70-75%). Only skip a leg for a failed check
+  (player inactive / QB change / NOT VERIFIED item), and say which check.
+- **Ladder scanner**: `run.py props --week N --team X --team Y --scan Bears` prices every DK rung:
+  `model` (audited), `sharp` (sharp main line stretched to the rung with the model's outcome
+  shape; untested, no prop-odds archive), BOTH = both beat DK by 3%+. Rank: BOTH > model only > sharp only.
+- **Boosts**: `run.py parlay --leg "72%@-134" --leg "68%@-217" --boost 30` = chance and expected
+  return; a DK profit boost often turns a fair parlay into a winning one. Use boosts on legs with edges.
 - **Markets the user's DraftKings account does not offer**: receptions, rush attempts, and any
   unders (props are "X+" over ladders only). Build prop legs from yards, TDs and passing only.
 - **Live odds (The Odds API)**: `python run.py odds --team Bears` lists DraftKings legs with the sharp
