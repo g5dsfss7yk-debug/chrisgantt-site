@@ -16,3 +16,4 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results
 15,2026-11-08,nfl,parlay,fun,1.0,placed w/ +30% parlay boost,prop:D'Andre Swift:rushing_yards:65 | prop:Colston Loveland:receiving_yards:40 | prop:Kenny Gainwell:rushing_yards:20,"Gainwell 20+ model 73% vs 58%, but model median 32 vs DK 21.5 - role risk; placed with Swift 65+ (not 60+)",pending,
 16,2026-11-08,nfl,single,backed,2.0,+100 live (halftime),prop:Bucky Irving:rushing_yards:60,live model 69% vs DK 50%; has 32 at half,pending,
 17,2026-11-08,nfl,single,backed,1.0,+205 live (halftime),prop:Bucky Irving:rushing_yards:70,live model 55% vs DK 33%,pending,
+18,2026-11-08,nfl,single,backed,1.0,+270 live (Q3 14:07),prop:Bucky Irving:rushing_yards:80,live model 64% vs DK 27%; has 39,pending,

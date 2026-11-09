@@ -165,7 +165,13 @@ def game_state(espn_id) -> dict:
     comp = s["header"]["competitions"][0]
     st = comp["status"]
     period = int(st.get("period", 0) or 0)
-    clock = float(st.get("clock", 0) or 0)
+    # the raw clock field reads 0 before the first snap of a quarter; the displayed clock does not
+    disp = str(st.get("displayClock") or "")
+    if ":" in disp:
+        mm, ss = disp.split(":")
+        clock = int(mm) * 60 + float(ss)
+    else:
+        clock = float(st.get("clock", 0) or 0)
     name = st["type"]["name"]
     if name == "STATUS_HALFTIME":
         secs = 1800.0
