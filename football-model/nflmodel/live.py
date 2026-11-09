@@ -28,7 +28,7 @@ BINS = 30
 SPLITS = data.RAW / "live_splits"
 PBP_COLS = ["game_id", "season", "week", "home_team", "away_team", "posteam", "game_seconds_remaining",
             "play_type", "two_point_attempt", "rusher_player_id", "receiver_player_id", "passer_player_id",
-            "rushing_yards", "receiving_yards", "passing_yards", "pass_attempt", "rush_attempt",
+            "rushing_yards", "receiving_yards", "passing_yards", "pass_attempt", "rush_attempt", "sack",
             "total_home_score", "total_away_score"]
 
 
@@ -48,6 +48,8 @@ def splits(season: int, refresh: bool = False) -> pd.DataFrame:
                              ("receiver_player_id", "receiving_yards", "rec"),
                              ("passer_player_id", "passing_yards", "pass")):
         x = plays.dropna(subset=[col])
+        if kind == "pass":  # ESPN's box score does not count sacks as attempts
+            x = x[x["sack"] != 1]
         ev.append(pd.DataFrame({"game_id": x["game_id"], "team": x["posteam"], "player_id": x[col],
                                 "t": x["game_seconds_remaining"], "kind": kind,
                                 "yds": x[yards].fillna(0).astype(float), "n": 1.0}))
@@ -96,7 +98,11 @@ def rows_for(market: str, sp: pd.DataFrame, pre: pd.DataFrame) -> pd.DataFrame:
     x = x.assign(cur_yds=x[f"cur_yds_{k}"], cur_n=x[f"cur_n_{k}"], cur_n_other=x[f"cur_n_{other}"],
                  final=x[f"final_{k}"], frac_left=x["secs_left"] / 3600)
     x["rest"] = x["final"] - x["cur_yds"]
-    return x
+    # Only players who have touched the ball already: play-by-play has no row for a player who
+    # never gets the ball, so for someone still at zero the sample would only hold those who later
+    # did - too optimistic. Live, a player with no touch yet gets no chance (see run.py live).
+    touched = x["cur_n_rush"] + x["cur_n_rec"] + x["cur_n_pass"]
+    return x[touched >= 1]
 
 
 def features(market: str) -> list[str]:

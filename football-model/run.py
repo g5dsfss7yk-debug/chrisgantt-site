@@ -606,6 +606,8 @@ def cmd_live(args):
                 return (float(b["yds"].sum()), float(b["n"].sum())) if len(b) else (0.0, 0.0)
             cy, cn = stat(cat[mk])
             _, on = stat(other[mk])
+            if cn + on + sum(stat(c)[1] for c in ("passing",) if c not in (cat[mk], other[mk])) < 1:
+                continue  # no touch yet: the model is not trained for these (live.rows_for)
             me, opp = state["score"].get(side, 0), state["score"].get("away" if side == "home" else "home", 0)
             x = pd.DataFrame([{**{c: getattr(r, c) for c in live.PRE}, "position": r.position, "cur_yds": cy,
                                "cur_n": cn, "cur_n_other": on, "margin": me - opp, "secs_left": secs,
