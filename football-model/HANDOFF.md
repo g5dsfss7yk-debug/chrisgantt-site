@@ -23,6 +23,11 @@ Chris bets $1-3 on DraftKings for fun: prop parlays and teasers. Wants plain, sh
   main lines (Jones 33.5, Addison 40.5 at ~50%) disagree with the model (medians 54 / 48).
 - Logged #13 (fun): James Cook 60+ rush + Cook anytime TD.
 
+- Clock note: the container's "today" is UTC; at Nov 9 01:10 UTC it was still Sun Nov 8 8:10pm ET.
+- SNF TB@CHI: logged #14 (backed, model edge) Swift 60+ rush + Loveland 40+ rec; #15 (fun) same + Gainwell 20+ rush.
+  Model's Mayfield passing projection (median ~100) looked broken (thumb tag?) - ignored.
+
 ## To do next
-1. `python recs.py grade` - #9-#13 pending.
+1. `python recs.py grade` - #9-#15 pending.
+3. Look into why the model projects Baker Mayfield at ~100 passing yards (TB@CHI, week 9).
 2. When model and sharp books disagree a lot (Jones: model 54 yds, market 33.5), check role/usage news.
