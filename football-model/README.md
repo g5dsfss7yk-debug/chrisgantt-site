@@ -239,4 +239,9 @@ Graded against the CLOSING line (what you actually bet), out of sample. Scripts:
 - Every recommended combo is logged and graded in `picks/recs.csv` with `recs.py`.
 - **Markets the user's DraftKings account does not offer**: receptions, rush attempts, and any
   unders (props are "X+" over ladders only). Build prop legs from yards, TDs and passing only.
+- **Live odds (The Odds API)**: `python run.py odds --team Bears` lists DraftKings legs with the sharp
+  books' no-vig chance (Pinnacle first). Needs `ODDS_API_KEY` set in the environment's settings
+  (the API takes the key in the URL, so the proxy cannot add it).
+- **RB rushing game script (Nov 9)**: favored backs' ladders now come from favored backs' history
+  and are not shrunk toward 50/50 (2023-26: model 72-73% vs actual 79-80% before; 77-78% after).
 

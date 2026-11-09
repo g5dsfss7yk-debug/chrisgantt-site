@@ -110,23 +110,27 @@ class StatModel:
         if spread_for is not None and not pd.isna(spread_for):
             k = _script(pd.Series([spread_for])).iloc[0]
             if (pos, k) in self.dist:
-                return self.dist[(pos, k)]
-        return self.dist.get((pos, None))
+                return self.dist[(pos, k)], k
+        return self.dist.get((pos, None)), None
 
     def project(self, d: pd.DataFrame) -> pd.Series:
         return pd.Series(self.m.predict(d[self.feats].fillna(0)), index=d.index)
 
     def p_over(self, pos: str, proj: float, line: float, spread_for=None) -> float:
-        dist = self._dist(pos, spread_for)
+        dist, k = self._dist(pos, spread_for)
         if dist is None:
             return np.nan
         edges, vals = dist
         i = int(np.clip(np.searchsorted(edges, proj, side="right") - 1, 0, len(vals) - 1))
         v = vals[i]
-        return 0.5 + SHRINK * (float((v > line).mean()) - 0.5) if len(v) else np.nan
+        # Favored backs' rushing chances are not pulled toward 50/50: out of sample (2023-26) they
+        # hit 79-80% where the shrunk chance said 75% and the unshrunk 77-78%; for underdog and
+        # even-game backs the shrink stays (unshrunk said 72%, they hit 67-70%).
+        shrink = 1.0 if k == "fav" else SHRINK
+        return 0.5 + shrink * (float((v > line).mean()) - 0.5) if len(v) else np.nan
 
     def median(self, pos: str, proj: float, spread_for=None) -> float:
-        edges, vals = self._dist(pos, spread_for)
+        edges, vals = self._dist(pos, spread_for)[0]
         i = int(np.clip(np.searchsorted(edges, proj, side="right") - 1, 0, len(vals) - 1))
         return float(np.median(vals[i]))
 

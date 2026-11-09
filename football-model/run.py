@@ -454,6 +454,29 @@ def _ou_props(args, d, today, qbs):
           " Give prices as \"Name:market=40+@-250\".")
 
 
+def cmd_odds(args):
+    """DraftKings' over/yes legs with the sharp books' no-vig chance for the same bet. A positive
+    edge means DraftKings pays more than the sharp market thinks the bet is worth."""
+    from nflmodel import odds
+    if not odds.key():
+        raise SystemExit("ODDS_API_KEY is not set: add it in the environment's settings, then start a new session")
+    ev = odds.find_event(args.league, args.team)
+    if ev is None:
+        raise SystemExit(f"no upcoming {args.league} game found for {args.team}")
+    cmp = odds.compare(odds.props(args.league, ev))
+    if cmp.empty:
+        print("no DraftKings props posted for this game yet")
+        return
+    has = cmp[cmp["sharp_fair"].notna()].sort_values("edge_vs_sharp", ascending=False)
+    print(f"DraftKings legs priced by sharp books too ({len(has)} of {len(cmp)}); edge = sharp fair - DK implied")
+    for r in has[has["edge_vs_sharp"] >= args.min_edge].itertuples(index=False):
+        pt = "" if pd.isna(r.point) else f"{r.point + 0.5:g}+" if r.market != "anytime_td" else ""
+        flag = "VALUE" if r.edge_vs_sharp >= 0.03 else ""
+        print(f"  {r.player:24} {r.market:16} {pt:6} DK {r.price:+5.0f} ({r.dk_implied:.0%})  "
+              f"sharp {r.sharp_fair:.0%} [{r.sharp_books}]  edge {r.edge_vs_sharp:+.0%}  {flag}")
+    print("\nCheck legs with the model too: run.py props --line \"Name:receiving_yards=40+@-250\"")
+
+
 def cmd_lineup(args):
     games = data.load_games(args.refresh)
     season = args.season or data.current_season()
@@ -512,9 +535,13 @@ def main():
     ln.add_argument("--season", type=int)
     ln.add_argument("--week", type=int)
     ln.add_argument("--team", action="append")
+    od = sub.add_parser("odds", help="DraftKings prop prices vs the sharp books (needs ODDS_API_KEY)")
+    od.add_argument("--team", required=True, help="either team, e.g. Bears")
+    od.add_argument("--league", choices=["nfl", "cfb"], default="nfl")
+    od.add_argument("--min-edge", type=float, default=0.0)
     args = ap.parse_args()
     {"backtest": cmd_backtest, "card": cmd_card, "grade": cmd_grade, "props": cmd_props,
-     "lineup": cmd_lineup}[args.cmd](args)
+     "lineup": cmd_lineup, "odds": cmd_odds}[args.cmd](args)
 
 
 if __name__ == "__main__":
