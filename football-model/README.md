@@ -249,6 +249,10 @@ Graded against the CLOSING line (what you actually bet), out of sample. Scripts:
   play-by-play cut every 7.5 min, 2018+). Audit `audit/live_audit.py` (train 2018-22, test 2023-26):
   calibrated within 1 point through the 3rd quarter (said 55% hit 54%, 85% hit 85%); 4th quarter ran
   3-4 points high, so 3.5 points are taken off there. Bet rungs 3%+ over DK, at or better than shown.
+- **Bet shape (Nov 8)**: parlays multiply misses (two 72% legs win 52%, three win 37%). Default
+  to SINGLES on legs the model puts at 70%+ with a 3%+ edge (the audited 76% hit rate), 2-leg max
+  for parlays, teaser legs on NFL dogs +1 to +2.5, and live rungs at halftime (`run.py live`).
+  3+ leg parlays only with a boost, and only legs that each have an edge.
 - **Boosts**: `run.py parlay --leg "72%@-134" --leg "68%@-217" --boost 30` = chance and expected
   return; a DK profit boost often turns a fair parlay into a winning one. Use boosts on legs with edges.
 - **Markets the user's DraftKings account does not offer**: receptions, rush attempts, and any
