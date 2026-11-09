@@ -207,7 +207,7 @@ def main():
     ad.add_argument("--kind", choices=["single", "parlay", "teaser"], required=True)
     ad.add_argument("--tier", choices=["backed", "fun"], required=True,
                     help="backed = one of the backtested NFL bets; fun = no proven edge")
-    ad.add_argument("--stake", type=float, default=2)
+    ad.add_argument("--stake", type=float, default=3)
     ad.add_argument("--odds")
     ad.add_argument("--note")
     ad.add_argument("--leg", action="append", required=True)

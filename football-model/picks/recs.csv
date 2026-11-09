@@ -17,5 +17,5 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results,placed,placed_s
 16,2026-11-08,nfl,single,backed,2.0,+100 live (halftime),prop:Bucky Irving:rushing_yards:60,live model 69% vs DK 50%; has 32 at half,pending,pending,no,,
 17,2026-11-08,nfl,single,backed,1.0,+205 live (halftime),prop:Bucky Irving:rushing_yards:70,live model 55% vs DK 33%,pending,pending,no,,
 18,2026-11-08,nfl,single,backed,1.0,+270 live (Q3 14:07),prop:Bucky Irving:rushing_yards:80,live model 64% vs DK 27%; has 39,pending,pending,no,,
-19,2026-11-09,nfl,single,backed,2.0,-139,prop:Aaron Jones:rushing_yards:30,model 75% vs DK 58%,pending,,,,
-20,2026-11-09,nfl,single,backed,2.0,-214,prop:Aaron Jones:rushing_yards:25,model 78% vs DK 68%,pending,,,,
+19,2026-11-09,nfl,single,backed,3,-139,prop:Aaron Jones:rushing_yards:30,model 75% vs DK 58%,pending,,,,
+20,2026-11-09,nfl,single,backed,3,-214,prop:Aaron Jones:rushing_yards:25,model 78% vs DK 68%,pending,,,,

@@ -1,6 +1,6 @@
 # Handoff (Nov 9 2026)
 
-Chris bets $1-3 on DraftKings for fun: prop parlays and teasers. Wants plain, short answers.
+Chris bets $3 per pick on DraftKings for fun: prop parlays and teasers. Wants plain, short answers.
 
 ## Ground rules
 - Before any pick: QB (incl. Out/Doubtful -> backup), injuries, weather (forecast + ESPN, rain flag),
