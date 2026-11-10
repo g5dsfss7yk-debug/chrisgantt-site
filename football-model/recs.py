@@ -70,6 +70,14 @@ def _summary(lg, event_id):
     return _get(ESPN.format(lg=_league(lg), what="summary") + f"?event={event_id}")
 
 
+def _norm_name(n: str) -> str:
+    """'Aaron Jones Sr.' and 'Aaron Jones' match; so do 'Kenneth'/'Kenny'-free spellings with
+    punctuation (D'Andre / DAndre) and suffixes (Jr., Sr., II, III, IV)."""
+    import re
+    n = re.sub(r"[^a-z ]", "", str(n).lower())
+    return re.sub(r"\s+(jr|sr|ii|iii|iv|v)$", "", n.strip())
+
+
 def _player_stats(lg, events, name):
     """{(category, label): value} for a player from the day's box scores, or None."""
     for e in events:
@@ -81,7 +89,7 @@ def _player_stats(lg, events, name):
         for team in box.get("players", []):
             for cat in team["statistics"]:
                 for a in cat["athletes"]:
-                    if a["athlete"]["displayName"].lower() == name.lower():
+                    if _norm_name(a["athlete"]["displayName"]) == _norm_name(name):
                         found = True
                         for lab, v in zip(cat["labels"], a["stats"]):
                             out[(cat["name"], lab)] = v
