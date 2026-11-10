@@ -555,12 +555,15 @@ def _scan(args, market, cand, sm):
         for x in rungs.itertuples(index=False):
             pm = sm.p_over(r.position, r.proj, x.point, sf)
             ps_ = float((shape > x.point).mean()) if shape is not None else np.nan
+            sm_pt = float(main["point"].iloc[0]) if len(main) else np.nan
+            sm_fair = float(main["fair"].iloc[0]) if len(main) else np.nan
             out.append((r.team, r.player_display_name, market, x.point + 0.5, x.price, x.implied, pm, ps_,
-                        r.game_id, r.proj))
+                        r.game_id, r.proj, sm_pt, sm_fair))
     return out
 
 
-SCAN_COLS = ["team", "player", "market", "rung", "price", "dk", "model", "sharp", "game_id", "proj"]
+SCAN_COLS = ["team", "player", "market", "rung", "price", "dk", "model", "sharp", "game_id", "proj",
+             "sharp_main", "sharp_main_fair"]
 RUNGS = data.ROOT / "picks" / "rungs"
 
 

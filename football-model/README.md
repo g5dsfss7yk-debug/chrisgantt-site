@@ -231,6 +231,8 @@ picks. The only test that counts is audit E (`audit/vs_dk.py`): the model's chan
 real prices, graded on results. There was no archive of DK prices, so it starts now:
 `run.py props --week N --scan all` before each slate (about 7 odds-API credits a game, ~100 a
 Sunday; 500 free a month) saves every DK rung with the model's chance to `picks/rungs/`.
+Audit F (`audit/shading.py`, Chris's idea): does DK charge more above the sharp no-vig price for
+popular players' overs than for lesser players'? Needs no game results, only saved scans.
 Until audit E shows the bet rule making money over 2-3 weeks, pregame prop edges are NOT backed.
 
 Graded against the CLOSING line (what you actually bet), out of sample. Scripts: `audit/`.
