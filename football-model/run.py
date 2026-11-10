@@ -454,6 +454,7 @@ def _ou_props(args, d, today, qbs):
             print(out)
     if args.scan:
         _print_scan(scan_rows)
+        _archive_scan(scan_rows, data.load_games())
     print(f"\nVALUE = model chance beats DK's implied chance by {LADDER_EDGE:.0%}+. Yardage ladders were calibrated"
           " out of sample in 2023-26 (said 70-75%, hit 76%), so the model's chance is if anything low."
           " Give prices as \"Name:market=40+@-250\".")
@@ -498,19 +499,40 @@ def cmd_parlay(args):
           " (legs in one game are treated as independent; same-game legs that help each other are a bit better)")
 
 
-def _scan(args, market, cand, sm):
-    """Each DK ladder rung for this market: model chance, sharp-anchored chance, DK's price."""
+# nflverse team code -> a word of the team's name in The Odds API's event list
+NICK = {"ARI": "Cardinals", "ATL": "Falcons", "BAL": "Ravens", "BUF": "Bills", "CAR": "Panthers", "CHI": "Bears",
+        "CIN": "Bengals", "CLE": "Browns", "DAL": "Cowboys", "DEN": "Broncos", "DET": "Lions", "GB": "Packers",
+        "HOU": "Texans", "IND": "Colts", "JAX": "Jaguars", "KC": "Chiefs", "LV": "Raiders", "LAC": "Chargers",
+        "LA": "Rams", "MIA": "Dolphins", "MIN": "Vikings", "NE": "Patriots", "NO": "Saints", "NYG": "Giants",
+        "NYJ": "Jets", "PHI": "Eagles", "PIT": "Steelers", "SF": "49ers", "SEA": "Seahawks", "TB": "Buccaneers",
+        "TEN": "Titans", "WAS": "Commanders"}
+
+
+def _ladders_for(args, team):
+    """DK rungs and sharp main lines for a team's game, fetched once per game."""
     from nflmodel import odds
     if not hasattr(_scan, "cache"):
-        _scan.cache = odds.ladders("nfl", args.scan)
-    dk, sh = _scan.cache
-    if dk.empty:
-        return []
+        _scan.cache = {}
+    name = NICK.get(team, team) if args.scan.lower() == "all" else args.scan
+    if name not in _scan.cache:
+        try:
+            _scan.cache[name] = odds.ladders("nfl", name)
+        except SystemExit as e:
+            print(f"note: {e}")
+            _scan.cache[name] = (pd.DataFrame(), pd.DataFrame())
+    return _scan.cache[name]
+
+
+def _scan(args, market, cand, sm):
+    """Each DK ladder rung for this market: model chance, sharp-anchored chance, DK's price."""
     norm = lambda s: lineups._norm(pd.Series([s]))[0]
-    dk = dk[dk["market"] == market].assign(key=lambda x: x["player"].map(norm))
-    sh = sh[sh["market"] == market].assign(key=lambda x: x["player"].map(norm))
     out = []
     for r in cand.itertuples(index=False):
+        dk, sh = _ladders_for(args, r.team)
+        if dk.empty:
+            continue
+        dk = dk[dk["market"] == market].assign(key=lambda x: x["player"].map(norm))
+        sh = sh[sh["market"] == market].assign(key=lambda x: x["player"].map(norm))
         k, sf = norm(r.player_display_name), getattr(r, "spread_for", None)
         rungs = dk[dk["key"] == k]
         if rungs.empty:
@@ -533,14 +555,38 @@ def _scan(args, market, cand, sm):
         for x in rungs.itertuples(index=False):
             pm = sm.p_over(r.position, r.proj, x.point, sf)
             ps_ = float((shape > x.point).mean()) if shape is not None else np.nan
-            out.append((r.team, r.player_display_name, market, x.point + 0.5, x.price, x.implied, pm, ps_))
+            out.append((r.team, r.player_display_name, market, x.point + 0.5, x.price, x.implied, pm, ps_,
+                        r.game_id, r.proj))
     return out
+
+
+SCAN_COLS = ["team", "player", "market", "rung", "price", "dk", "model", "sharp", "game_id", "proj"]
+RUNGS = data.ROOT / "picks" / "rungs"
+
+
+def _archive_scan(rows, games):
+    """Save EVERY scanned DK rung (not only edges) with the model's chance and the time, so the
+    model can be graded against DraftKings' real prices (audit/vs_dk.py). Rows scanned after
+    kickoff are marked and left out of that test."""
+    if not rows:
+        return
+    df = pd.DataFrame(rows, columns=SCAN_COLS)
+    now = pd.Timestamp.now(tz="UTC")
+    g = games.set_index("game_id")
+    kick = pd.to_datetime(g["gameday"].dt.strftime("%Y-%m-%d") + " " + g["gametime"].astype(str)).dt.tz_localize(
+        "America/New_York").dt.tz_convert("UTC")
+    df["snapshot_utc"] = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+    df["pregame"] = df["game_id"].map(kick) > now
+    RUNGS.mkdir(parents=True, exist_ok=True)
+    f = RUNGS / f"{now:%Y%m%dT%H%M%S}.csv"
+    df.to_csv(f, index=False)
+    print(f"\n(saved {len(df)} DK rungs with model chances to {f.relative_to(data.ROOT)} for the DK-price test)")
 
 
 def _print_scan(rows):
     if not rows:
         return
-    df = pd.DataFrame(rows, columns=["team", "player", "market", "rung", "price", "dk", "model", "sharp"])
+    df = pd.DataFrame(rows, columns=SCAN_COLS)
     df["e_model"], df["e_sharp"] = df["model"] - df["dk"], df["sharp"] - df["dk"]
     df["best"] = df[["e_model", "e_sharp"]].min(axis=1, skipna=False)
     df = df[(df["e_model"] >= LADDER_EDGE) | (df["e_sharp"] >= LADDER_EDGE)]
@@ -690,7 +736,8 @@ def main():
     pr.add_argument("--line", action="append", help='book line, e.g. "CeeDee Lamb:receptions=5.5"')
     pr.add_argument("--no-ou", action="store_true", help="anytime/first TD only")
     pr.add_argument("--qb", action="append", help='confirmed starter, e.g. BAL="Tyler Huntley"')
-    pr.add_argument("--scan", help="price every DraftKings ladder rung for this team's game (odds API), e.g. Bears")
+    pr.add_argument("--scan", help="price every DraftKings ladder rung for this team's game (odds API), e.g. Bears; 'all' = every game"
+                         " in the week (about 7 credits a game)")
     pa = sub.add_parser("parlay", help="parlay chance and expected return, with a DK profit boost")
     pa.add_argument("--leg", action="append", required=True, help='chance@price, e.g. "0.72@-134" or "72%%@-134"')
     pa.add_argument("--boost", type=float, default=0.0, help="profit boost in percent, e.g. 30")

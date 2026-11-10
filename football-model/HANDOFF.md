@@ -37,7 +37,14 @@ Chris bets $3 per pick on DraftKings for fun: prop parlays and teasers. Wants pl
 
 - Live model built (`run.py live`), audited 2023-26; first use: #16/#17 Irving 60+/70+ at halftime TB@CHI.
 
+- RE-EVALUATION (Nov 10, Chris: "don't patch"): pregame props are 5-6 live vs 67% predicted; the
+  audits never tested picks against DK prices (selection: model-vs-book disagreements). Built the
+  DK-price test: `props --scan all` archives every rung -> `audit/vs_dk.py` grades profit per edge
+  bucket. Pregame props NOT backed until it shows profit. Option for Chris: paid Odds API
+  historical props (2023+) to run audit E on past seasons now instead of waiting.
+
 ## To do next
+0. Before every slate: `python run.py props --week N --scan all`; after: `python audit/vs_dk.py`.
 1. `python recs.py grade` - #9-#15 pending.
 3. Idea: flag props where the model median is far from DK's main line (role/volume news the model lacks).
 2. When model and sharp books disagree a lot (Jones: model 54 yds, market 33.5), check role/usage news.

@@ -222,7 +222,17 @@ could not confirm is listed under **NOT VERIFIED** at the end of the card:
   and not used in the picks (they lowered STRONG in both periods); each college card shows them as a
   `roster:` line.
 
-## Betting rules (audit, Nov 8 2026)
+## Betting rules (audit, Nov 8 2026; re-evaluation Nov 10)
+
+**Re-evaluation (Nov 10).** Audits A-D test whether the model's chances are right across ALL
+players. Bets are only placed where the model disagrees with DraftKings, and that is exactly where
+it is most likely to be missing something the book knows. A calibrated model can still lose on its
+picks. The only test that counts is audit E (`audit/vs_dk.py`): the model's chances against DK's
+real prices, graded on results. There was no archive of DK prices, so it starts now:
+`run.py props --week N --scan all` before each slate (about 7 odds-API credits a game, ~100 a
+Sunday; 500 free a month) saves every DK rung with the model's chance to `picks/rungs/`.
+Until audit E shows the bet rule making money over 2-3 weeks, pregame prop edges are NOT backed.
+
 Graded against the CLOSING line (what you actually bet), out of sample. Scripts: `audit/`.
 
 | Bet | 2015-22 | 2023-26 | 2025-26 | Needs | Verdict |
@@ -231,7 +241,7 @@ Graded against the CLOSING line (what you actually bet), out of sample. Scripts:
 | Teaser leg, NFL fav -7.5 to -8.5 | 77.4% | 62.3% | 64% | 73.9% | dead - do not use |
 | Model LEAN+STRONG spread, vs close | 54.0% | **55.9%** | 55.7% | 52.4% | backed, small edge |
 | Model STRONG only, vs close | 54.1% | 51.9% | 43.9% | 52.4% | no better than LEAN - merged |
-| Prop yardage ladders, model 70-75% | | hit 76.2% | | DK implied | calibrated - bet only when the model beats DK's price by 3%+ |
+| Prop yardage ladders, model 70-75% | | hit 76.2% | | DK implied | calibrated overall, but **UNPROVEN vs DK prices** (live: pregame legs 5-6 when the model said 67%). Not backed until audit E shows a profit |
 | College spreads/totals (live 2026) | | | 30-41 | | fun only |
 
 - Expect less than the table: many variables were tried, which flatters backtests.
