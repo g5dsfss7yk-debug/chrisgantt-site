@@ -247,6 +247,8 @@ Graded against the CLOSING line (what you actually bet), out of sample. Scripts:
 - Expect less than the table: many variables were tried, which flatters backtests.
 - Prop prices: `run.py props --line "Name:receiving_yards=40+@-250"` prints the edge vs DK.
 - Every recommended combo is logged and graded in `picks/recs.csv` with `recs.py`.
+- **No guessing (Chris, Nov 10).** Every chance, price or dollar figure quoted must come from a
+  tool's output or a tested result, named as such; otherwise say "I don't know".
 - **No gut overrides (Chris, Nov 8).** Picks come from the tools' output only. Do not drop or
   downgrade a model leg because it "disagrees with the market" or "looks off"; the model's 3%+
   ladder edges are the audited bet (hit 76% at 70-75%). Only skip a leg for a failed check

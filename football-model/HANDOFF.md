@@ -3,6 +3,10 @@
 Chris bets $3 per pick on DraftKings for fun: prop parlays and teasers. Wants plain, short answers.
 
 ## Ground rules
+- **NO GUESSING (Chris, repeated).** Every number given to Chris must come from a tool's output
+  (run.py, recs.py, audit/*) or a tested result, and say which. No eyeballed chances ("coin flip",
+  "maybe 30%"), no estimated cash-out values, no arithmetic on assumptions. If no tool gives the
+  number, say "I don't know" or run a tool that does. Never recommend against a tool's output on gut.
 - Before any pick: QB (incl. Out/Doubtful -> backup), injuries, weather (forecast + ESPN, rain flag),
   surface, form. The cards and `run.py props` print these; read the NOT VERIFIED list.
 - Chris's DK has NO receptions, NO rush attempts, NO unders. Prop legs = yards / TDs / passing "X+" ladders.
