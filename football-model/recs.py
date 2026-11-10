@@ -29,7 +29,7 @@ from nflmodel.data import ROOT
 
 LOG = ROOT / "picks" / "recs.csv"
 COLS = ["id", "date", "league", "kind", "tier", "stake", "odds", "legs", "note", "result", "leg_results",
-        "placed", "placed_stake", "to_pay", "leg_probs", "source"]
+        "placed", "placed_stake", "to_pay", "leg_probs", "source", "dk_probs"]
 ESPN = "https://site.api.espn.com/apis/site/v2/sports/football/{lg}/{what}"
 STAT = {"passing_yards": ("passing", "YDS"), "passing_tds": ("passing", "TD"),
         "completions": ("passing", "C/ATT"), "rushing_yards": ("rushing", "YDS"),
@@ -165,7 +165,16 @@ def cmd_add(a):
     row = {"id": int(df["id"].astype(int).max()) + 1 if len(df) else 1, "date": a.date, "league": a.league,
            "kind": a.kind, "tier": a.tier, "stake": a.stake, "odds": a.odds or "", "legs": " | ".join(a.leg),
            "note": a.note or "", "result": "pending", "leg_results": "",
-           "leg_probs": " ".join(a.prob) if a.prob else "", "source": a.source}
+           "leg_probs": " ".join(a.prob) if a.prob else "", "source": a.source,
+           "dk_probs": " ".join(a.dk) if a.dk else ""}
+    if a.dk:
+        assert len(a.dk) == len(a.leg), "give one --dk per --leg (use - if unknown)"
+    # one leg per player per day: one bad game should not sink several bets
+    day = df[(df["date"] == a.date) & (df["result"] == "pending")]
+    players = {l.split(":")[1] for legs in day["legs"] for l in str(legs).split(" | ") if l.startswith("prop:")}
+    dup = [l.split(":")[1] for l in a.leg if l.startswith("prop:") and l.split(":")[1] in players]
+    if dup and not a.allow_same_player:
+        raise SystemExit(f"already a pending rec today with {', '.join(dup)} - one leg per player (--allow-same-player to override)")
     if a.prob:
         assert len(a.prob) == len(a.leg), "give one --prob per --leg (use - if unknown)"
     pd.concat([df, pd.DataFrame([row])], ignore_index=True)[COLS].to_csv(LOG, index=False)
@@ -215,12 +224,14 @@ def legs_report(df):
     what actually happens? (pregame model vs live model, and placed bets only)."""
     rows = []
     for r in df.itertuples(index=False):
-        res, probs = str(r.leg_results).split(), str(r.leg_probs).split()
+        res, probs, dks = str(r.leg_results).split(), str(r.leg_probs).split(), str(r.dk_probs).split()
         for i, leg in enumerate(str(r.legs).split(" | ")):
             if i >= len(res) or res[i] not in ("win", "loss"):
                 continue
             p = probs[i] if i < len(probs) else "-"
+            q = dks[i] if i < len(dks) else "-"
             rows.append({"leg": leg, "won": res[i] == "win", "p": float(p) if p not in ("-", "") else None,
+                         "dk": float(q) if q not in ("-", "") else None,
                          "source": r.source or "?", "placed": r.placed == "yes"})
     if not rows:
         return
@@ -228,6 +239,7 @@ def legs_report(df):
     # the same leg in two parlays counts once; it is "placed" if any bet holding it was placed
     lg["placed"] = lg.groupby(["leg", "source"])["placed"].transform("max")
     lg["p"] = lg.groupby(["leg", "source"])["p"].transform("first")
+    lg["dk"] = lg.groupby(["leg", "source"])["dk"].transform("first")
     lg = lg.drop_duplicates(["leg", "source"])
     print("\nLEGS (each graded leg once; model = chance when recommended):")
     for name, g in [("all", lg)] + [(f"source={k}", v) for k, v in lg.groupby("source")] + [("placed bets", lg[lg["placed"]])]:
@@ -235,6 +247,9 @@ def legs_report(df):
             continue
         known = g[g["p"].notna()]
         exp = f"model said {known['p'].mean():.0%} (on {len(known)})" if len(known) else "no model chance logged"
+        kd = g[g["dk"].notna()]
+        if len(kd):
+            exp += f", DK said {kd['dk'].mean():.0%} (on {len(kd)})"
         print(f"  {name:13} {g['won'].sum()}-{(~g['won']).sum()}  hit {g['won'].mean():.0%}   {exp}")
     k = lg[lg["p"].notna()]
     if len(k) >= 20:
@@ -258,6 +273,8 @@ def main():
     ad.add_argument("--leg", action="append", required=True)
     ad.add_argument("--prob", action="append", help="model chance for each leg, in order (0.75, or - if none)")
     ad.add_argument("--source", choices=["pregame", "live", "teaser", "none"], default="pregame")
+    ad.add_argument("--dk", action="append", help="DK implied chance for each leg, in order (0.66, or -)")
+    ad.add_argument("--allow-same-player", action="store_true")
     ad.set_defaults(f=cmd_add)
     sub.add_parser("grade").set_defaults(f=cmd_grade)
     pl = sub.add_parser("placed", help="mark a rec as bet (with stake and DK's To Pay) or not bet")

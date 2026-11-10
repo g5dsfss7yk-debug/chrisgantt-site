@@ -249,6 +249,12 @@ Graded against the CLOSING line (what you actually bet), out of sample. Scripts:
 - Expect less than the table: many variables were tried, which flatters backtests.
 - Prop prices: `run.py props --line "Name:receiving_yards=40+@-250"` prints the edge vs DK.
 - Every recommended combo is logged and graded in `picks/recs.csv` with `recs.py`.
+- **Why picks missed (Nov 10 review of every logged pregame leg vs DK's price at the time):**
+  legs where the model was 6+ points above DK went 0-5 (Swift, Jones, Gainwell - role/committee
+  news the model cannot see); legs within 6 points of DK went 5-7. So a big model-over-DK gap is
+  treated as missing information: the scan marks it SKIP (`MAX_MODEL_GAP`). Also one leg per
+  player per day (`recs.py add` refuses a second), since one bad game sank 4 Swift legs. Small
+  sample (12 legs): audit E's edge buckets will confirm or move the 6-point cutoff.
 - **No guessing (Chris, Nov 10).** Every chance, price or dollar figure quoted must come from a
   tool's output or a tested result, named as such; otherwise say "I don't know".
 - **No gut overrides (Chris, Nov 8).** Picks come from the tools' output only. Do not drop or

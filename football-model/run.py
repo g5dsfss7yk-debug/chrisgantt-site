@@ -319,6 +319,10 @@ def cmd_grade(args):
 
 
 LADDER_EDGE = 0.03
+# Live record Nov 8-9: legs where the model was 6+ points above DK's implied chance went 0-5
+# (Swift, Jones, Gainwell: role/committee news the model cannot see); legs within 6 points went
+# 5-7. Big gaps are treated as missing information, not edges, until audit E says otherwise.
+MAX_MODEL_GAP = 0.06
 
 
 def _fair_american(p: float) -> str:
@@ -603,6 +607,8 @@ def _print_scan(rows):
     for r in df.itertuples(index=False):
         both = "BOTH" if r.e_model >= LADDER_EDGE and r.e_sharp >= LADDER_EDGE else (
             "model only" if r.e_model >= LADDER_EDGE else "sharp only")
+        if r.e_model > MAX_MODEL_GAP:
+            both = "SKIP: model 6+ pts over DK (missing news?)"
         sh = "  n/a" if pd.isna(r.sharp) else f"{r.sharp:4.0%}"
         print(f"  {r.team:3} {r.player:22} {r.market:15} {r.rung:g}+ DK {r.price:+5.0f} ({r.dk:.0%})  "
               f"model {r.model:.0%}  sharp {sh}  {both}")
