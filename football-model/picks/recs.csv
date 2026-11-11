@@ -21,5 +21,5 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results,placed,placed_s
 20,2026-11-09,nfl,single,backed,3,-192,prop:Aaron Jones:rushing_yards:25,model 77% vs DK 66% (Mon 4:30pm CT price),loss,loss,yes,3,4.56,0.77,pregame,0.66
 21,2026-11-09,nfl,single,backed,3,-227,prop:Keon Coleman:receiving_yards:15,model 73% vs DK 69%,win,win,yes,3,4.32,0.73,pregame,0.69
 22,2026-11-09,nfl,single,fun,3,-120 (assumed),prop:Josh Allen:anytime_td:1,Chris's own pick (gut); model 31%,loss,loss,yes,3,5.5,0.31,none,0.545
-23,2026-11-10,cfb,single,fun,3,-105,total:Ohio:over:47.5,"pick mode: model 52%, 3/3 agree",pending,,,,,0.52,pregame,0.512
-24,2026-11-10,cfb,single,fun,3,-102,spread:Ohio:-1.5,"pick mode: model 50%, 2/3 agree",pending,,,,,0.50,pregame,0.505
+23,2026-11-10,cfb,single,fun,3,-105,total:Ohio:over:47.5,"pick mode: model 52%, 3/3 agree",win,win,,,,0.52,pregame,0.512
+24,2026-11-10,cfb,single,fun,3,-102,spread:Ohio:-1.5,"pick mode: model 50%, 2/3 agree",loss,loss,,,,0.50,pregame,0.505
