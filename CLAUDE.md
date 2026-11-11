@@ -10,3 +10,7 @@
 3. **If unsure what Chris means, ask** - do not pick an interpretation and run with it.
 4. Plain, short answers. Chris bets $3 per pick on DraftKings: no receptions, no rush attempts,
    no unders. Read football-model/HANDOFF.md before betting work.
+5. **Pick mode (Chris chose it, Nov 10).** For every game Chris asks about, give the model's side
+   for each market with its chance from the tool and how many models agree - never just "no bet".
+   Say plainly whether it has a proven edge (only NFL dog teasers do). Log every pick with
+   `recs.py add ... --prob --dk` so `recs.py grade` shows whether following the model wins.
