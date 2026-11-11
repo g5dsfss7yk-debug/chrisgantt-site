@@ -28,3 +28,4 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results,placed,placed_s
 27,2026-11-11,cfb,single,fun,3,-112,total:Central Michigan:over:42.5,"pick mode: P 51%, 2/3",pending,,,,,0.51,pregame,0.528
 28,2026-11-11,cfb,single,fun,3,-102,spread:Buffalo:-1.5,"pick mode: P 51%, 3/3",pending,,,,,0.51,pregame,0.505
 29,2026-11-11,cfb,single,fun,3,-110,total:Ball State:over:51.5,"pick mode: P 51%, 3/3; rain risk 59%",pending,,,,,0.51,pregame,0.524
+30,2026-11-11,cfb,single,fun,3,-115,total:Toledo:under:52.5,"pick mode: P 50%, 2/3",pending,,,,,0.50,pregame,0.535
