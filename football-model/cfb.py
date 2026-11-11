@@ -77,7 +77,10 @@ def _find(games, name):
 
 def cmd_card(args):
     df = pipeline.load(args.refresh)
-    upcoming = df[df["result"].isna()]
+    # games from today on: the source leaves a few old games without a score (e.g. 2024-09-28),
+    # which made the card show a stale day
+    today = pd.Timestamp.now(tz="America/New_York").tz_localize(None).normalize()
+    upcoming = df[df["result"].isna() & (df["gameday"] >= today)]
     day = pd.Timestamp(args.date) if args.date else upcoming["gameday"].min()
     games = upcoming[upcoming["gameday"] == day].sort_values("kickoff_et")
     spread = markets.spread_market().fit(df)

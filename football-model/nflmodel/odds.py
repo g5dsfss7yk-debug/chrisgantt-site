@@ -79,7 +79,7 @@ def find_event(league: str, team: str) -> str | None:
     """Event id for the next game of a team (full name or a word of it, e.g. 'Bears')."""
     ev = events(league)
     t = team.lower()
-    hit = ev[ev["home"].str.lower().str.contains(t) | ev["away"].str.lower().str.contains(t)]
+    hit = ev[ev["home"].str.lower().str.contains(t, regex=False) | ev["away"].str.lower().str.contains(t, regex=False)]
     return None if hit.empty else hit.sort_values("kickoff")["id"].iloc[0]
 
 
