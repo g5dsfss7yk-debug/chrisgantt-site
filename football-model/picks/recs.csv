@@ -23,3 +23,8 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results,placed,placed_s
 22,2026-11-09,nfl,single,fun,3,-120 (assumed),prop:Josh Allen:anytime_td:1,Chris's own pick (gut); model 31%,loss,loss,yes,3,5.5,0.31,none,0.545
 23,2026-11-10,cfb,single,fun,3,-105,total:Ohio:over:47.5,"pick mode: model 52%, 3/3 agree",win,win,,,,0.52,pregame,0.512
 24,2026-11-10,cfb,single,fun,3,-102,spread:Ohio:-1.5,"pick mode: model 50%, 2/3 agree",loss,loss,,,,0.50,pregame,0.505
+25,2026-11-11,cfb,single,fun,3,-112,spread:Toledo:-14,"pick mode: P 50%, 3/3",pending,,,,,0.50,pregame,0.528
+26,2026-11-11,cfb,single,fun,3,-118,spread:Sacramento State:17.5,"pick mode: P 52%, 3/3; both QBs changed last game",pending,,,,,0.52,pregame,0.541
+27,2026-11-11,cfb,single,fun,3,-112,total:Central Michigan:over:42.5,"pick mode: P 51%, 2/3",pending,,,,,0.51,pregame,0.528
+28,2026-11-11,cfb,single,fun,3,-102,spread:Buffalo:-1.5,"pick mode: P 51%, 3/3",pending,,,,,0.51,pregame,0.505
+29,2026-11-11,cfb,single,fun,3,-110,total:Ball State:over:51.5,"pick mode: P 51%, 3/3; rain risk 59%",pending,,,,,0.51,pregame,0.524
