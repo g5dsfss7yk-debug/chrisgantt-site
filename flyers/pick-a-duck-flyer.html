@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Arbor Lake – Pick a Duck Flyer</title>
+<style>
+  @page { size: 8.5in 11in; margin: 0; }
+  :root { --gold:#b99649; --teal:#72b1b8; --teal-dark:#3f8791; --deep:#1f5f69; --yellow:#ffd23f; --orange:#f58a1f; --cream:#fffbf0; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:8.5in;height:11in}
+  body{font-family:"Liberation Sans",Helvetica,Arial,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{position:relative;width:8.5in;height:11in;overflow:hidden;background:var(--cream);padding:.4in;display:flex;flex-direction:column;align-items:center}
+  .logo{width:4.5in;margin-top:.05in}
+  .block{flex-shrink:0;position:relative;margin-top:.2in;width:100%;border-radius:28px;overflow:hidden;text-align:center;color:#fff;
+    background:linear-gradient(180deg,#8cc6cd 0%,#5aa3ad 100%);padding:.28in .4in .3in;box-shadow:0 6px 0 var(--deep)}
+  .bubbles{position:absolute;inset:0;width:100%;height:100%;opacity:.35}
+  .kicker{position:relative;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-size:12.5pt}
+  h1{position:relative;margin-top:.04in;font-family:"DejaVu Serif",Georgia,serif;font-weight:700;font-size:70pt;line-height:1;color:var(--yellow);
+     text-shadow:0 5px 0 var(--deep),0 0 0 var(--deep);letter-spacing:-.01em;-webkit-text-stroke:2px var(--deep);paint-order:stroke fill}
+  .sub{position:relative;margin-top:.16in;font-weight:700;font-size:18pt;letter-spacing:.02em;text-shadow:0 2px 0 rgba(31,95,105,.6)}
+  .scene{position:relative;flex:1;min-height:0;width:100%;margin-top:.05in}
+  .scene svg{width:100%;height:100%}
+  .steps{display:flex;gap:.25in;justify-content:center;margin-bottom:.02in}
+  .step{display:flex;align-items:center;gap:.1in;font-weight:700;font-size:15pt;color:var(--deep)}
+  .step i{font-style:normal;display:flex;align-items:center;justify-content:center;width:.42in;height:.42in;border-radius:50%;background:var(--orange);color:#fff;font-size:15pt}
+</style>
+</head>
+<body>
+<div class="page">
+  <img class="logo" src="arbor-lake-logo.png" alt="Arbor Lake Skilled Nursing &amp; Rehabilitation Center">
+  <div class="block">
+    <svg class="bubbles" viewBox="0 0 700 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g fill="none" stroke="#fff" stroke-width="3"><circle cx="60" cy="60" r="22"/><circle cx="110" cy="130" r="10"/><circle cx="640" cy="70" r="26"/><circle cx="600" cy="150" r="12"/><circle cx="40" cy="240" r="14"/><circle cx="660" cy="240" r="20"/></g>
+    </svg>
+    <div class="kicker">Arbor Lake presents</div>
+    <h1>Pick a Duck!</h1>
+    <div class="sub">Choose a duck. Flip it over. See what you win!</div>
+  </div>
+
+  <div class="scene">
+    <svg viewBox="0 0 760 470" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fd6dc"/><stop offset="1" stop-color="#4f9ea9"/></linearGradient>
+        <radialGradient id="body" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#ffe680"/><stop offset=".6" stop-color="#ffd23f"/><stop offset="1" stop-color="#f0b21a"/></radialGradient>
+        <symbol id="duck" viewBox="0 0 140 120">
+          <path d="M8 56c-6-6-4-14 2-18 4 8 12 12 20 14z" fill="#f0b21a"/>
+          <ellipse cx="62" cy="76" rx="54" ry="36" fill="url(#body)"/>
+          <circle cx="98" cy="38" r="26" fill="url(#body)"/>
+          <path d="M118 40c12-2 20 2 22 8-6 6-16 8-24 4z" fill="#f58a1f"/>
+          <path d="M118 46c8 0 16 0 22 2" stroke="#c96a0e" stroke-width="2" fill="none"/>
+          <circle cx="104" cy="32" r="4.5" fill="#2b2b2b"/><circle cx="105.6" cy="30.4" r="1.4" fill="#fff"/>
+          <path d="M40 74c10-14 34-14 46 0-12 14-36 14-46 0z" fill="#f0b21a" opacity=".85"/>
+          <ellipse cx="84" cy="22" rx="10" ry="4" fill="#fff" opacity=".35" transform="rotate(-25 84 22)"/>
+        </symbol>
+      </defs>
+      <!-- pool -->
+      <ellipse cx="380" cy="262" rx="360" ry="196" fill="#f58a1f" opacity=".0"/>
+      <ellipse cx="380" cy="270" rx="372" ry="190" fill="#1f5f69"/>
+      <ellipse cx="380" cy="256" rx="360" ry="182" fill="url(#water)"/>
+      <g fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".6">
+        <path d="M130 200c20-10 40 10 60 0s40 10 60 0"/><path d="M500 330c20-10 40 10 60 0s40 10 60 0"/><path d="M180 350c20-10 40 10 60 0"/><path d="M520 150c20-10 40 10 60 0"/>
+      </g>
+      <!-- ducks -->
+      <use href="#duck" x="120" y="150" width="170" height="146"/>
+      <use href="#duck" x="300" y="95" width="190" height="163" transform="translate(0 0)"/>
+      <use href="#duck" x="470" y="170" width="170" height="146"/>
+      <use href="#duck" x="215" y="285" width="150" height="129"/>
+      <use href="#duck" x="410" y="300" width="150" height="129"/>
+      <use href="#duck" x="580" y="290" width="110" height="94"/>
+      <use href="#duck" x="70" y="290" width="110" height="94"/>
+      <!-- mystery marks -->
+      <g font-family="DejaVu Serif,Georgia,serif" font-weight="700" fill="#fff" stroke="#1f5f69" stroke-width="4" paint-order="stroke">
+        <text x="100" y="140" font-size="74" transform="rotate(-14 100 140)">?</text>
+        <text x="640" y="150" font-size="80" transform="rotate(12 640 150)">?</text>
+        <text x="352" y="70" font-size="60" transform="rotate(-6 352 70)">?</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="steps">
+    <div class="step"><i>1</i>Pick</div>
+    <div class="step"><i>2</i>Flip</div>
+    <div class="step"><i>3</i>Win!</div>
+  </div>
+</div>
+</body></html>
