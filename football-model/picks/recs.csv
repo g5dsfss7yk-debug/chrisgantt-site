@@ -29,3 +29,6 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results,placed,placed_s
 28,2026-11-11,cfb,single,fun,3,-108,spread:Buffalo:-1.5,"pick mode: P 51%, 3/3",pending,,,,,0.51,pregame,0.519
 29,2026-11-11,cfb,single,fun,3,-110,total:Ball State:over:51.5,"pick mode: P 51%, 3/3; rain risk 59%",pending,,,,,0.51,pregame,0.524
 30,2026-11-11,cfb,single,fun,3,-115,total:Toledo:under:52.5,"pick mode: P 50%, 2/3",pending,,,,,0.50,pregame,0.535
+31,2026-11-12,nfl,single,backed,3,-105,spread:WSH:1.5,"pick mode: card STRONG, P 58%, 3/3 (spread tiers 55.9% vs close 2023-26)",pending,,,,,0.58,pregame,0.512
+32,2026-11-12,nfl,single,fun,3,-105,total:WSH:under:40.5,"pick mode: P 51%, rain risk",pending,,,,,0.51,pregame,0.512
+33,2026-11-12,nfl,single,fun,3,-191,prop:Devin Singletary:rushing_yards:15,"pick mode: model 72% vs DK 66% (gap 6, not SKIP)",pending,,,,,0.72,pregame,0.656
