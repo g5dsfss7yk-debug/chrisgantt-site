@@ -104,6 +104,9 @@ def grade_leg(lg, day, leg):
     p = leg.split(":")
     if p[0] == "prop":
         name, stat, need = p[1], p[2], float(p[3])
+        if "/" in name:  # "A/B" = either player (e.g. "Diggs or Skattebo anytime TD")
+            res = [grade_leg(lg, day, ":".join(["prop", n, stat, p[3]])) for n in name.split("/")]
+            return "win" if "win" in res else ("pending" if "pending" in res else "loss")
         s = _player_stats(lg, events, name)
         if s is None:
             return "pending"
