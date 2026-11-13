@@ -35,9 +35,11 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results,placed,placed_s
 34,2026-11-12,nfl,teaser,fun,3.0,,spread:WSH:7.5 | total:WSH:under:46.5,"Chris's bet; assumed standard 6-pt teaser (WAS +1.5->+7.5, Under 40.5->46.5)",win,win win,yes,3,,,none,
 35,2026-11-12,nfl,parlay,fun,3.0,,spread:WSH:1.5 | total:WSH:under:40.5 | prop:Devin Singletary:rushing_yards:20,Chris's bet,loss,win loss loss,yes,3,,,none,
 36,2026-11-12,nfl,parlay,fun,1.0,,prop:Antonio Williams:receiving_yards:70 | prop:Austin Ekeler:rushing_yards:25 | prop:Stefon Diggs/Cam Skattebo:anytime_td:1,Chris's bet; TD leg = either Diggs or Skattebo,loss,loss win win,yes,1,,,none,
-37,2026-11-13,cfb,single,fun,3,-115,spread:Pittsburgh:-3,"pick mode: P 51%, 3/3; Pitt QB changed; rain/snow",pending,,,,,0.51,pregame,0.535
-38,2026-11-13,cfb,single,fun,3,-105,total:Pittsburgh:over:52.5,"pick mode: P 51%, 3/3; rain/snow",pending,,,,,0.51,pregame,0.512
-39,2026-11-13,cfb,single,fun,3,-112,spread:Illinois:10.5,"pick mode: P 50%, 3/3; UCLA QB changed",pending,,,,,0.50,pregame,0.528
-40,2026-11-13,cfb,single,fun,3,-112,total:UCLA:under:48.5,"pick mode: P 50%, 2/3",pending,,,,,0.50,pregame,0.528
-41,2026-11-13,cfb,single,fun,3,-110,spread:Houston:-7.5,"pick mode: P 52%, 3/3",pending,,,,,0.52,pregame,0.524
-42,2026-11-13,cfb,single,fun,3,-115,total:Colorado:over:51.5,"pick mode: P 50%, 3/3",pending,,,,,0.50,pregame,0.535
+37,2026-11-13,cfb,single,fun,3,-115,spread:Pittsburgh:-3,"pick mode: P 51%, 3/3; Pitt QB changed; rain/snow",pending,,yes,3,5.61,0.51,pregame,0.535
+38,2026-11-13,cfb,single,fun,3,-105,total:Pittsburgh:over:52.5,"pick mode: P 51%, 3/3; rain/snow",pending,,no,,,0.51,pregame,0.512
+39,2026-11-13,cfb,single,fun,3,-112,spread:Illinois:10.5,"pick mode: P 50%, 3/3; UCLA QB changed",pending,,no,,,0.50,pregame,0.528
+40,2026-11-13,cfb,single,fun,3,-112,total:UCLA:under:48.5,"pick mode: P 50%, 2/3",pending,,no,,,0.50,pregame,0.528
+41,2026-11-13,cfb,single,fun,3,-110,spread:Houston:-7.5,"pick mode: P 52%, 3/3",pending,,yes,3,5.73,0.52,pregame,0.524
+42,2026-11-13,cfb,single,fun,3,-115,total:Colorado:over:51.5,"pick mode: P 50%, 3/3",pending,,no,,,0.50,pregame,0.535
+43,2026-11-13,cfb,parlay,fun,3.0,,spread:Houston:-7.5 | spread:Pittsburgh:-3,Chris's bet,pending,,yes,3,,,none,
+44,2026-11-13,cfb,teaser,fun,3.0,,spread:Houston:-1.5 | spread:Pittsburgh:3,"Chris's bet; assumed 6-pt teaser on the same two: Houston -1.5, Pittsburgh +3",pending,,yes,3,,,none,
