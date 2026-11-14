@@ -1,0 +1,113 @@
+season,gameday,game_id,kind,kickoff,home_team,away_team,line,pick,p,tier,bet
+2026,2026-11-14,401861967,total,2026-11-14 12:00,UConn,James Madison,56.5,Under 56.5,0.501,,False
+2026,2026-11-14,401861967,spread,2026-11-14 12:00,UConn,James Madison,-4.5,James Madison -4.5,0.506,,False
+2026,2026-11-14,401856886,total,2026-11-14 12:00,Mississippi State,Auburn,51.5,Over 51.5,0.504,,False
+2026,2026-11-14,401856886,spread,2026-11-14 12:00,Mississippi State,Auburn,-2.5,Mississippi State +2.5,0.504,,False
+2026,2026-11-14,401858296,total,2026-11-14 12:00,Miami,Duke,55.5,Under 55.5,0.501,,False
+2026,2026-11-14,401858296,spread,2026-11-14 12:00,Miami,Duke,14.0,Duke +14.0,0.509,,False
+2026,2026-11-14,401858300,total,2026-11-14 12:00,NC State,Syracuse,54.5,Over 54.5,0.503,,False
+2026,2026-11-14,401858300,spread,2026-11-14 12:00,NC State,Syracuse,-3.0,NC State +3.0,0.509,,False
+2026,2026-11-14,401858301,total,2026-11-14 12:00,SMU,Wake Forest,60.5,Under 60.5,0.521,,False
+2026,2026-11-14,401858301,spread,2026-11-14 12:00,SMU,Wake Forest,2.5,Wake Forest +2.5,0.525,,False
+2026,2026-11-14,401858520,total,2026-11-14 12:00,Maryland,Wisconsin,40.5,Over 40.5,0.512,,False
+2026,2026-11-14,401858520,spread,2026-11-14 12:00,Maryland,Wisconsin,-8.5,Maryland +8.5,0.501,,False
+2026,2026-11-14,401858522,total,2026-11-14 12:00,Ohio State,Northwestern,45.5,Over 45.5,0.521,,False
+2026,2026-11-14,401858522,spread,2026-11-14 12:00,Ohio State,Northwestern,14.0,Northwestern +14.0,0.504,,False
+2026,2026-11-14,401856859,total,2026-11-14 12:00,Iowa State,Cincinnati,57.5,Over 57.5,0.505,,False
+2026,2026-11-14,401856859,spread,2026-11-14 12:00,Iowa State,Cincinnati,2.5,Cincinnati +2.5,0.5,,False
+2026,2026-11-14,401858297,total,2026-11-14 12:30,Clemson,Georgia Tech,47.5,Over 47.5,0.504,,False
+2026,2026-11-14,401858297,spread,2026-11-14 12:30,Clemson,Georgia Tech,15.5,Georgia Tech +15.5,0.516,,False
+2026,2026-11-14,401858525,total,2026-11-14 12:30,Rutgers,Nebraska,51.5,Over 51.5,0.51,,False
+2026,2026-11-14,401858525,spread,2026-11-14 12:30,Rutgers,Nebraska,-15.5,Rutgers +15.5,0.503,,False
+2026,2026-11-14,401856889,total,2026-11-14 12:45,Vanderbilt,Alabama,48.5,Over 48.5,0.511,,False
+2026,2026-11-14,401856889,spread,2026-11-14 12:45,Vanderbilt,Alabama,-14.0,Alabama -14.0,0.515,,False
+2026,2026-11-14,401862825,total,2026-11-14 13:00,Charlotte,East Carolina,45.5,Over 45.5,0.513,,False
+2026,2026-11-14,401862825,spread,2026-11-14 13:00,Charlotte,East Carolina,-10.5,East Carolina -10.5,0.529,,False
+2026,2026-11-14,401862829,total,2026-11-14 13:00,Temple,UAB,47.5,Over 47.5,0.509,,False
+2026,2026-11-14,401862829,spread,2026-11-14 13:00,Temple,UAB,2.5,UAB +2.5,0.505,,False
+2026,2026-11-14,401869937,total,2026-11-14 13:00,Coastal Carolina,Arkansas State,53.5,Under 53.5,0.504,,False
+2026,2026-11-14,401869937,spread,2026-11-14 13:00,Coastal Carolina,Arkansas State,1.5,Arkansas State +1.5,0.507,,False
+2026,2026-11-14,401856862,total,2026-11-14 14:00,TCU,Kansas State,44.5,Over 44.5,0.508,,False
+2026,2026-11-14,401856862,spread,2026-11-14 14:00,TCU,Kansas State,13.5,Kansas State +13.5,0.518,,False
+2026,2026-11-14,401862828,total,2026-11-14 14:00,Rice,Tulane,48.5,Over 48.5,0.505,,False
+2026,2026-11-14,401862828,spread,2026-11-14 14:00,Rice,Tulane,3.0,Tulane +3.0,0.51,,False
+2026,2026-11-14,401870769,total,2026-11-14 14:00,Sam Houston,Kennesaw State,45.5,Over 45.5,0.507,,False
+2026,2026-11-14,401870769,spread,2026-11-14 14:00,Sam Houston,Kennesaw State,-7.5,Kennesaw State -7.5,0.508,,False
+2026,2026-11-14,401871060,total,2026-11-14 15:00,Delaware,Florida International,54.5,Under 54.5,0.509,,False
+2026,2026-11-14,401871060,spread,2026-11-14 15:00,Delaware,Florida International,3.5,Delaware -3.5,0.504,,False
+2026,2026-11-14,401870796,total,2026-11-14 15:00,Missouri State,New Mexico State,49.5,Over 49.5,0.506,,False
+2026,2026-11-14,401870796,spread,2026-11-14 15:00,Missouri State,New Mexico State,1.5,New Mexico State +1.5,0.505,,False
+2026,2026-11-14,401856888,total,2026-11-14 15:00,Texas A&M,Tennessee,44.5,Over 44.5,0.502,,False
+2026,2026-11-14,401856888,spread,2026-11-14 15:00,Texas A&M,Tennessee,-1.5,Tennessee -1.5,0.507,,False
+2026,2026-11-14,401862826,total,2026-11-14 15:30,Tulsa,Florida Atlantic,72.5,Under 72.5,0.525,,False
+2026,2026-11-14,401862826,spread,2026-11-14 15:30,Tulsa,Florida Atlantic,6.5,Florida Atlantic +6.5,0.506,,False
+2026,2026-11-14,401858295,total,2026-11-14 15:30,Virginia,California,46.5,Over 46.5,0.513,,False
+2026,2026-11-14,401858295,spread,2026-11-14 15:30,Virginia,California,11.5,Virginia -11.5,0.51,,False
+2026,2026-11-14,401864536,total,2026-11-14 15:30,Northern Illinois,Nevada,47.5,Over 47.5,0.502,,False
+2026,2026-11-14,401864536,spread,2026-11-14 15:30,Northern Illinois,Nevada,-6.0,Nevada -6.0,0.519,,False
+2026,2026-11-14,401858523,total,2026-11-14 15:30,Oregon,Michigan,39.5,Over 39.5,0.518,,False
+2026,2026-11-14,401858523,spread,2026-11-14 15:30,Oregon,Michigan,10.0,Michigan +10.0,0.503,,False
+2026,2026-11-14,401870752,total,2026-11-14 15:30,Western Kentucky,Jacksonville State,54.5,Under 54.5,0.502,,False
+2026,2026-11-14,401870752,spread,2026-11-14 15:30,Western Kentucky,Jacksonville State,-7.5,Jacksonville State -7.5,0.509,,False
+2026,2026-11-14,401856883,total,2026-11-14 15:30,Georgia,Missouri,48.5,Under 48.5,0.504,,False
+2026,2026-11-14,401856883,spread,2026-11-14 15:30,Georgia,Missouri,16.5,Georgia -16.5,0.506,,False
+2026,2026-11-14,401858294,total,2026-11-14 15:30,Notre Dame,Boston College,51.5,Under 51.5,0.507,,False
+2026,2026-11-14,401858294,spread,2026-11-14 15:30,Notre Dame,Boston College,29.5,Notre Dame -29.5,0.516,,False
+2026,2026-11-14,401871061,total,2026-11-14 15:30,Liberty,Middle Tennessee,53.5,Over 53.5,0.509,,False
+2026,2026-11-14,401871061,spread,2026-11-14 15:30,Liberty,Middle Tennessee,21.0,Liberty -21.0,0.507,,False
+2026,2026-11-14,401858518,total,2026-11-14 15:30,Indiana,USC,51.5,Under 51.5,0.503,,False
+2026,2026-11-14,401858518,spread,2026-11-14 15:30,Indiana,USC,9.5,Indiana -9.5,0.505,,False
+2026,2026-11-14,401856857,total,2026-11-14 15:30,UCF,Arizona State,46.5,Over 46.5,0.51,,False
+2026,2026-11-14,401856857,spread,2026-11-14 15:30,UCF,Arizona State,3.5,Arizona State +3.5,0.509,,False
+2026,2026-11-14,401869952,total,2026-11-14 15:30,Georgia State,Georgia Southern,55.5,Over 55.5,0.503,,False
+2026,2026-11-14,401869952,spread,2026-11-14 15:30,Georgia State,Georgia Southern,-6.0,Georgia State +6.0,0.511,,False
+2026,2026-11-14,401856858,total,2026-11-14 15:30,BYU,Baylor,50.5,Under 50.5,0.501,,False
+2026,2026-11-14,401856858,spread,2026-11-14 15:30,BYU,Baylor,8.5,Baylor +8.5,0.507,,False
+2026,2026-11-14,401860916,total,2026-11-14 16:00,Texas State,Fresno State,60.5,Under 60.5,0.507,,False
+2026,2026-11-14,401860916,spread,2026-11-14 16:00,Texas State,Fresno State,10.0,Fresno State +10.0,0.505,,False
+2026,2026-11-14,401858521,total,2026-11-14 16:15,Michigan State,Washington,44.5,Over 44.5,0.503,,False
+2026,2026-11-14,401858521,spread,2026-11-14 16:15,Michigan State,Washington,-2.5,Washington -2.5,0.507,,False
+2026,2026-11-14,401856887,total,2026-11-14 16:15,Oklahoma,Ole Miss,49.5,Under 49.5,0.502,,False
+2026,2026-11-14,401856887,spread,2026-11-14 16:15,Oklahoma,Ole Miss,2.5,Ole Miss +2.5,0.518,,False
+2026,2026-11-14,401871099,total,2026-11-14 17:00,Louisiana Tech,Southern Miss,56.5,Under 56.5,0.515,,False
+2026,2026-11-14,401871099,spread,2026-11-14 17:00,Louisiana Tech,Southern Miss,17.5,Southern Miss +17.5,0.504,,False
+2026,2026-11-14,401856861,total,2026-11-14 17:30,West Virginia,Kansas,68.5,Under 68.5,0.524,,False
+2026,2026-11-14,401856861,spread,2026-11-14 17:30,West Virginia,Kansas,2.5,Kansas +2.5,0.522,,False
+2026,2026-11-14,401869928,total,2026-11-14 18:00,Marshall,App State,54.5,Under 54.5,0.513,,False
+2026,2026-11-14,401869928,spread,2026-11-14 18:00,Marshall,App State,-1.5,Marshall +1.5,0.502,,False
+2026,2026-11-14,401860914,total,2026-11-14 18:00,Boise State,Oregon State,64.5,Under 64.5,0.509,,False
+2026,2026-11-14,401860914,spread,2026-11-14 18:00,Boise State,Oregon State,16.5,Oregon State +16.5,0.521,,False
+2026,2026-11-14,401856884,total,2026-11-14 18:15,Kentucky,Florida,52.5,Over 52.5,0.502,,False
+2026,2026-11-14,401856884,spread,2026-11-14 18:15,Kentucky,Florida,3.0,Kentucky -3.0,0.501,,False
+2026,2026-11-14,401858298,total,2026-11-14 19:00,North Carolina,Louisville,57.5,Under 57.5,0.503,,False
+2026,2026-11-14,401858298,spread,2026-11-14 19:00,North Carolina,Louisville,-3.5,Louisville -3.5,0.504,,False
+2026,2026-11-14,401858524,total,2026-11-14 19:00,Penn State,Minnesota,42.5,Over 42.5,0.514,,False
+2026,2026-11-14,401858524,spread,2026-11-14 19:00,Penn State,Minnesota,12.5,Minnesota +12.5,0.507,,False
+2026,2026-11-14,401864538,total,2026-11-14 19:00,Air Force,San José State,48.5,Under 48.5,0.505,,False
+2026,2026-11-14,401864538,spread,2026-11-14 19:00,Air Force,San José State,14.0,San José State +14.0,0.505,,False
+2026,2026-11-14,401871100,total,2026-11-14 19:00,South Alabama,Troy,55.5,Under 55.5,0.513,,False
+2026,2026-11-14,401871100,spread,2026-11-14 19:00,South Alabama,Troy,3.0,Troy +3.0,0.503,,False
+2026,2026-11-14,401864539,total,2026-11-14 19:30,New Mexico,UNLV,46.5,Over 46.5,0.506,,False
+2026,2026-11-14,401864539,spread,2026-11-14 19:30,New Mexico,UNLV,17.5,New Mexico -17.5,0.5,,False
+2026,2026-11-14,401856864,total,2026-11-14 19:30,Arizona,Utah,55.5,Under 55.5,0.508,,False
+2026,2026-11-14,401856864,spread,2026-11-14 19:30,Arizona,Utah,-1.5,Utah -1.5,0.516,,False
+2026,2026-11-14,401858519,total,2026-11-14 19:30,Iowa,Purdue,47.5,Over 47.5,0.517,,False
+2026,2026-11-14,401858519,spread,2026-11-14 19:30,Iowa,Purdue,17.5,Iowa -17.5,0.514,,False
+2026,2026-11-14,401856885,total,2026-11-14 19:30,LSU,Texas,46.5,Over 46.5,0.502,,False
+2026,2026-11-14,401856885,spread,2026-11-14 19:30,LSU,Texas,4.5,Texas +4.5,0.504,,False
+2026,2026-11-14,401858299,total,2026-11-14 19:30,Virginia Tech,Stanford,57.5,Under 57.5,0.501,,False
+2026,2026-11-14,401858299,spread,2026-11-14 19:30,Virginia Tech,Stanford,16.5,Virginia Tech -16.5,0.504,,False
+2026,2026-11-14,401856882,total,2026-11-14 19:45,Arkansas,South Carolina,52.5,Over 52.5,0.503,,False
+2026,2026-11-14,401856882,spread,2026-11-14 19:45,Arkansas,South Carolina,-7.5,South Carolina -7.5,0.515,,False
+2026,2026-11-14,401862827,total,2026-11-14 21:00,UTSA,North Texas,76.5,Under 76.5,0.532,,False
+2026,2026-11-14,401862827,spread,2026-11-14 21:00,UTSA,North Texas,-2.5,North Texas -2.5,0.506,,False
+2026,2026-11-14,401856863,total,2026-11-14 21:30,Oklahoma State,Texas Tech,73.5,Under 73.5,0.559,,False
+2026,2026-11-14,401856863,spread,2026-11-14 21:30,Oklahoma State,Texas Tech,3.5,Texas Tech +3.5,0.508,,False
+2026,2026-11-14,401860915,total,2026-11-14 21:30,San Diego State,Utah State,43.5,Over 43.5,0.502,,False
+2026,2026-11-14,401860915,spread,2026-11-14 21:30,San Diego State,Utah State,-3.0,Utah State -3.0,0.508,,False
+2026,2026-11-14,401864540,total,2026-11-14 22:00,UTEP,Wyoming,40.5,Over 40.5,0.535,,False
+2026,2026-11-14,401864540,spread,2026-11-14 22:00,UTEP,Wyoming,-7.0,Wyoming -7.0,0.519,,False
+2026,2026-11-14,401860917,total,2026-11-14 22:30,Washington State,Colorado State,64.5,Under 64.5,0.511,,False
+2026,2026-11-14,401860917,spread,2026-11-14 22:30,Washington State,Colorado State,8.5,Washington State -8.5,0.508,,False
+2026,2026-11-14,401864537,total,2026-11-14 23:00,Hawai'i,North Dakota State,39.5,Over 39.5,0.516,,False
+2026,2026-11-14,401864537,spread,2026-11-14 23:00,Hawai'i,North Dakota State,-7.0,North Dakota State -7.0,0.503,,False
