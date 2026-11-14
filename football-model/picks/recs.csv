@@ -107,12 +107,12 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results,placed,placed_s
 106,2026-11-14,cfb,single,fun,3,-118,total:Virginia:over:46.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.541
 107,2026-11-14,cfb,single,fun,3,-108,spread:Jacksonville State:-7.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.519
 108,2026-11-14,cfb,single,fun,3,-112,total:Western Kentucky:under:54.5,"pick mode: P 50%, 3/3",pending,pending,,,,0.50,pregame,0.528
-109,2026-11-14,cfb,single,fun,3,-108,spread:Fresno State:10,"pick mode: P 50%, 2/3",pending,pending,,,,0.50,pregame,0.519
+109,2026-11-14,cfb,single,fun,3,-115,spread:Fresno State:11.5,pick mode (2:38 CT line): P 51%,pending,pending,,,,0.51,pregame,0.535
 110,2026-11-14,cfb,single,fun,3,-112,total:Texas State:under:60.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.528
 111,2026-11-14,cfb,single,fun,3,-108,spread:Washington:-2.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.519
 112,2026-11-14,cfb,single,fun,3,-102,total:Michigan State:over:44.5,"pick mode: P 50%, 2/3",pending,pending,,,,0.50,pregame,0.505
 113,2026-11-14,cfb,single,fun,3,-105,spread:Ole Miss:2.5,"pick mode: P 52%, 3/3",pending,pending,,,,0.52,pregame,0.512
-114,2026-11-14,cfb,single,fun,3,-112,total:Oklahoma:under:49.5,"pick mode: P 50%, 2/3",pending,pending,,,,0.50,pregame,0.528
+114,2026-11-14,cfb,single,fun,3,-112,total:Oklahoma:over:48.5,pick mode (2:38 CT line): P 50%,pending,pending,,,,0.50,pregame,0.528
 115,2026-11-14,cfb,single,fun,3,-112,spread:Southern Miss:17.5,"pick mode: P 50%, 3/3; QB chg",pending,pending,,,,0.50,pregame,0.528
 116,2026-11-14,cfb,single,fun,3,-115,total:Louisiana Tech:under:56.5,"pick mode: P 52%, 3/3; QB chg",pending,pending,,,,0.52,pregame,0.535
 117,2026-11-14,cfb,single,fun,3,-112,spread:Kansas:2.5,"pick mode: P 52%, 3/3",pending,pending,,,,0.52,pregame,0.528
