@@ -250,6 +250,11 @@ Graded against the CLOSING line (what you actually bet), out of sample. Scripts:
 - Expect less than the table: many variables were tried, which flatters backtests.
 - Prop prices: `run.py props --line "Name:receiving_yards=40+@-250"` prints the edge vs DK.
 - Every recommended combo is logged and graded in `picks/recs.csv` with `recs.py`.
+- **Rule scan (Nov 14, `audit/rule_scan.py`)**: 966 simple NFL rules x bets vs the CLOSING line,
+  found on 2009-17, validated 2018-22, confirmed 2023-26. 16 passed find+validate, 5 also 2023-26.
+  Most consistent: HOME QB CHANGE -> UNDER (56.5% / 59.2% / 54.5%, 457 games) and DIVISION GAME
+  wk1-4 -> DOG ATS (60.1% / 55.4% / 54.1%, 344). Several 'team lost by 14+ last week -> under'
+  rules won 56-64% for years then lost in 2023-26 (edges fade). 966 tries means some survivors are luck.
 - **Why picks missed (Nov 10 review of every logged pregame leg vs DK's price at the time):**
   legs where the model was 6+ points above DK went 0-5 (Swift, Jones, Gainwell - role/committee
   news the model cannot see); legs within 6 points of DK went 5-7. So a big model-over-DK gap is
