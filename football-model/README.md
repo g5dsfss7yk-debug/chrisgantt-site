@@ -250,6 +250,11 @@ Graded against the CLOSING line (what you actually bet), out of sample. Scripts:
 - Expect less than the table: many variables were tried, which flatters backtests.
 - Prop prices: `run.py props --line "Name:receiving_yards=40+@-250"` prints the edge vs DK.
 - Every recommended combo is logged and graded in `picks/recs.csv` with `recs.py`.
+- **Rebuild test (Nov 14, `audit/market_error_model.py nfl|cfb`)**: a model of the CLOSING line's
+  mistakes from situations only (no team strength), walk-forward. NFL spreads/totals and college
+  spreads: no edge (47-54%). College totals when the model says 56%+: 55.6% (2018-22, 656) and
+  53.4% (2023-26, 481) - best of 32 settings tried, so partly luck. Old NFL model re-tested vs close:
+  STRONG 54.8% (2015-22) / 55.6% (2023-26); LEAN+STRONG 51.8% / 55.6% (weaker than claimed before).
 - **Rule scan (Nov 14, `audit/rule_scan.py`)**: 966 simple NFL rules x bets vs the CLOSING line,
   found on 2009-17, validated 2018-22, confirmed 2023-26. 16 passed find+validate, 5 also 2023-26.
   Most consistent: HOME QB CHANGE -> UNDER (56.5% / 59.2% / 54.5%, 457 games) and DIVISION GAME
