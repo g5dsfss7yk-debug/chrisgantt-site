@@ -75,6 +75,36 @@ def _find(games, name):
     return hits[0]
 
 
+def _espn_times(upcoming, day):
+    """Kickoff times from ESPN, not the schedule file: the file can miss reschedules (Ole Miss @
+    Oklahoma moved from Sat 11/14 to Sun 11/15 and the file still said Saturday). Games ESPN puts
+    on another day are dropped from this card with a note; changed times are corrected."""
+    import json
+    import urllib.request
+    near = upcoming[(upcoming["gameday"] >= day - pd.Timedelta(days=1)) & (upcoming["gameday"] <= day + pd.Timedelta(days=1))].copy()
+    espn = {}
+    for d in (day - pd.Timedelta(days=1), day, day + pd.Timedelta(days=1)):
+        url = ("https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard"
+               f"?dates={d:%Y%m%d}&groups=80&limit=400")
+        try:
+            with urllib.request.urlopen(url, timeout=20) as r:
+                for e in json.load(r).get("events", []):
+                    espn[str(e["id"])] = pd.Timestamp(e["date"]).tz_convert("America/New_York")
+        except Exception as ex:
+            print(f"note: could not check kickoff times with ESPN ({ex}); times are from the schedule file")
+            return upcoming[upcoming["gameday"] == day]
+    for i, g in near.iterrows():
+        t = espn.get(str(g["game_id"]))
+        if t is None:
+            continue
+        if abs((t - g["kickoff_et"]).total_seconds()) > 15 * 60:
+            print(f"TIME CHANGED (ESPN): {g['away_team']} @ {g['home_team']} now {t:%a %m/%d %I:%M%p} ET"
+                  f" (schedule file said {g['kickoff_et']:%a %m/%d %I:%M%p})")
+            near.at[i, "kickoff_et"] = t
+            near.at[i, "gameday"] = t.tz_localize(None).normalize()
+    return near[near["gameday"] == day]
+
+
 def cmd_card(args):
     df = pipeline.load(args.refresh)
     # games from today on: the source leaves a few old games without a score (e.g. 2024-09-28),
@@ -82,7 +112,7 @@ def cmd_card(args):
     today = pd.Timestamp.now(tz="America/New_York").tz_localize(None).normalize()
     upcoming = df[df["result"].isna() & (df["gameday"] >= today)]
     day = pd.Timestamp(args.date) if args.date else upcoming["gameday"].min()
-    games = upcoming[upcoming["gameday"] == day].sort_values("kickoff_et")
+    games = _espn_times(upcoming, day).sort_values("kickoff_et")
     spread = markets.spread_market().fit(df)
     total = markets.total_market().fit(df)
 

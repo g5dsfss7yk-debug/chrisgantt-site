@@ -46,10 +46,15 @@ def _league(lg):
 
 
 def _events(lg, day):
-    url = ESPN.format(lg=_league(lg), what="scoreboard") + f"?dates={pd.Timestamp(day):%Y%m%d}&limit=400"
-    if lg != "nfl":
-        url += "&groups=80"
-    return _get(url).get("events", [])
+    """The day's games plus the next day's: a game can be moved (Ole Miss @ Oklahoma, logged for
+    Sat 11/14, was played Sun 11/15)."""
+    out = []
+    for d in (pd.Timestamp(day), pd.Timestamp(day) + pd.Timedelta(days=1)):
+        url = ESPN.format(lg=_league(lg), what="scoreboard") + f"?dates={d:%Y%m%d}&limit=400"
+        if lg != "nfl":
+            url += "&groups=80"
+        out += _get(url).get("events", [])
+    return out
 
 
 def _team_match(c, team):
