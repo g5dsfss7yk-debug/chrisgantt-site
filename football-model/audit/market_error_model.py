@@ -65,38 +65,9 @@ def build() -> pd.DataFrame:
 
 
 def build_cfb() -> pd.DataFrame:
-    """College version: same idea, college situational inputs (travel, neutral site, FCS, conference
-    game, QB change/new QB, rest, line and total movement, last margin, turnover margin)."""
-    from cfbmodel import pipeline as cp
-    d = cp.load()
-    d = d[d["spread_close"].notna() & d["total_line"].notna()].copy().sort_values("gameday").reset_index(drop=True)
-    last, hp, ap = {}, [], []
-    for r in d.itertuples(index=False):
-        hp.append(last.get((r.season, r.home_team), 0.0)); ap.append(last.get((r.season, r.away_team), 0.0))
-        if pd.notna(r.result):
-            last[(r.season, r.home_team)], last[(r.season, r.away_team)] = r.result, -r.result
-    line, open_ = d["spread_close"], d["spread_open"].fillna(d["spread_close"])
-    X = pd.DataFrame({
-        "line": line, "abs_line": line.abs(), "line_move": line - open_,
-        "total_line": d["total_line"], "total_move": d["total_line"] - d["total_open"].fillna(d["total_line"]),
-        "key3": (line.abs() == 3).astype(int), "key7": (line.abs() == 7).astype(int),
-        "rest_diff": d["rest_diff"].clip(-10, 10), "home_rest": d["home_rest"].clip(3, 15), "away_rest": d["away_rest"].clip(3, 15),
-        "home_qb_change": d["home_qb_change"].fillna(0), "away_qb_change": d["away_qb_change"].fillna(0),
-        "home_new_qb": d["home_new_qb"].fillna(0), "away_new_qb": d["away_new_qb"].fillna(0),
-        "home_prev": pd.Series(hp).clip(-45, 45), "away_prev": pd.Series(ap).clip(-45, 45),
-        "neutral": d["neutral"].fillna(0).astype(int), "conf": d["conf_game"].fillna(0).astype(int),
-        "fcs_diff": d["fcs_diff"].fillna(0), "week": d["week"], "early": d["early_season"].fillna(0),
-        "travel_diff": d["travel_diff"].fillna(0), "tz_diff": d["tz_diff"].fillna(0),
-        "turf": d["turf"].fillna(0), "dome": d["dome"].fillna(0), "to_diff": d["to_diff"].fillna(0),
-    })
-    d = pd.concat([d[["game_id", "season", "week", "gameday", "home_team", "away_team", "result", "total"]],
-                   X.add_prefix("x_")], axis=1)
-    m = d["result"] - line.values
-    t = d["total"] - d["x_total_line"]
-    d["y_cover"] = np.where(m == 0, np.nan, (m > 0).astype(float))
-    d["y_over"] = np.where(t == 0, np.nan, (t > 0).astype(float))
-    d.loc[d["result"].isna(), ["y_cover", "y_over"]] = np.nan
-    return d
+    """College version (cfbmodel/situational.py holds the feature code the card also uses)."""
+    from cfbmodel import pipeline as cp, situational
+    return situational.features(cp.load()).reset_index(drop=True)
 
 
 LEARNERS = {

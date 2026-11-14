@@ -128,6 +128,17 @@ def cmd_card(args):
         i, _ = _find(games, team.strip())
         tline[i] = float(val)
     pt = total.predict(games, tline)
+    # situational totals model (cfbmodel/situational.py): the only college pick that held up out of
+    # sample (56%+: 55.6% 2018-22, 53.4% 2023-26 vs the closing total)
+    from cfbmodel import situational
+    sdf = df.copy()
+    sdf.loc[games.index, "spread_close"] = line.values
+    sdf.loc[games.index, "total_line"] = tline.values
+    try:
+        sit = situational.total_probs(sdf, games["game_id"])
+    except Exception as e:
+        print(f"note: situational totals model failed ({e})")
+        sit = pd.Series(dtype=float)
 
     print("\n*** WARNING: this college model has NO skill. Out of sample vs closing lines (2019-26):"
           " spreads 48.2% of 6,451, totals 47.5-49.9% (unders 48.3%). -110 needs 52.4%. Picks are"
@@ -155,6 +166,11 @@ def cmd_card(args):
             tlabel, tprob = (f"Over {t.line:g}", t.p) if t.p >= 0.5 else (f"Under {t.line:g}", 1 - t.p)
             ttier = ""
             print(f"   total:   {tlabel:30} P {tprob:.0%}  models {int(t.agree)}/{int(t.n_models)}  PICK")
+            sp = sit.get(g.game_id, np.nan)
+            if pd.notna(sp):
+                slabel, sprob = (f"Over {t.line:g}", sp) if sp >= 0.5 else (f"Under {t.line:g}", 1 - sp)
+                tag = "BET (56%+: 53.4% in 2023-26)" if sprob >= situational.BET_AT else "no bet (under 56%)"
+                print(f"   SITUATIONAL total: {slabel:20} P {sprob:.0%}  {tag}")
             if t.line >= HIGH_TOTAL_UNDER:
                 print(f"   total:   Under {t.line:g}  total of {HIGH_TOTAL_UNDER}+: watch only (faded in 2024-2025)")
             rows.append({"season": g.season, "gameday": f"{day:%Y-%m-%d}", "game_id": g.game_id, "kind": "total",
