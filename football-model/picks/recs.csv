@@ -156,3 +156,8 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results,placed,placed_s
 155,2026-11-14,cfb,single,fun,3,-108,spread:North Dakota State:-7,"pick mode: P 50%, 2/3",pending,pending,,,,0.50,pregame,0.519
 156,2026-11-14,cfb,single,fun,3,-108,total:Hawai'i:over:39.5,"pick mode: P 52%, 3/3",pending,pending,,,,0.52,pregame,0.519
 157,2026-11-14,cfb,teaser,fun,3.0,,spread:Ole Miss:8.5 | total:Louisiana Tech:under:62.5,"Chris's bet; assumed 6-pt: Ole Miss +8.5, Under 62.5",pending,pending pending,yes,3,,,none,
+158,2026-11-15,nfl,single,backed,3,-112,spread:KC:-3,"STRONG spread (card P 55%, 3/3); STRONG vs close 55.6% 2023-26",pending,,,,,0.55,pregame,0.528
+159,2026-11-15,nfl,teaser,backed,3,,spread:NE:8.5 | spread:CAR:8.5,dog teaser +1..+2.5 (79.4% per leg 2023-26),pending,,,,,0.77 0.77,teaser,- -
+160,2026-11-15,nfl,single,backed,3,-112,total:CLE:under:40.5,home QB change -> under (rule scan 54.5% 2023-26); ONLY if Watson starts (Sanders started last game),pending,,,,,-,pregame,0.528
+161,2026-11-15,nfl,single,backed,3,-108,total:LV:under:40.5,home QB change -> under; ONLY if Mendoza starts (Cousins started last game),pending,,,,,-,pregame,0.519
+162,2026-11-16,nfl,single,backed,3,-110,total:BAL:under:38.5,home QB change -> under; ONLY if Huntley starts (Fagnano started last game),pending,,,,,-,pregame,0.524
