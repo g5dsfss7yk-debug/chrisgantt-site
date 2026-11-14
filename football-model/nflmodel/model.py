@@ -1,0 +1,252 @@
+"""Two-stage models: rate the game, then judge it against the betting line.
+
+Stage 1 (rating): several different learners (LEARNERS) each predict the home margin /
+game total from football features, never looking at a betting line. Their average is
+the ensemble rating; how many of them land on the same side of the line is reported as
+agreement.
+
+Stage 2 (edge): the market is usually right, so the gap between the rating and the line
+is only partly real. A logistic regression, fit on out-of-sample ensemble ratings from
+earlier seasons, maps (rating - line) to the probability the bet wins. These
+probabilities are calibrated: a 56% pick has historically won about 56% of the time.
+
+Spreads are judged against the *opening* line using only information known when lines
+open (OPEN_FEATURES). Totals are judged against the closing total on game day, when the
+weather forecast and injury report are in (CLOSE_TOTAL_FEATURES).
+"""
+from __future__ import annotations
+
+import hashlib
+import inspect
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+from sklearn.ensemble import ExtraTreesRegressor, HistGradientBoostingRegressor
+from sklearn.linear_model import LogisticRegression, Ridge
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+# Known when lines open, early in the week.
+OPEN_FEATURES = [
+    "elo_diff", "nfelo_diff", "nfelo_qb_diff", "form_diff", "epa_diff", "sr_diff",
+    "to_diff", "luck_diff", "qb_val_diff", "qb_exp_diff", "home_new_qb", "away_new_qb",
+    "ret_off_diff", "ret_def_diff", "add_off_diff", "add_def_diff", "coach_tenure_diff",
+    "elo_stale_diff", "epa_stale_diff",
+    "home_field", "div_game", "rest_diff", "home_off_bye", "away_off_bye",
+    "home_short_week", "away_short_week", "travel", "away_tz_east", "body_clock_early",
+    "explosive_diff", "rz_diff", "st_diff", "fg_diff", "sack_matchup_diff",
+]
+# Tested together against the opening line and NOT used: they added bets but lowered the
+# LEAN tier in both periods (2015-22 57.9% -> 56.2%, 2023-26 57.6% -> 55.9%); STRONG was flat.
+NEW_OPEN_FEATURES = ["pen_diff", "go4_diff", "home_style_shift", "away_style_shift", "motivation_diff",
+                     "home_field_2020", "denver_home", "turf"]
+# Known only on game day.
+LATE_FEATURES = ["inj_off_diff", "inj_def_diff", "home_backup_qb", "away_backup_qb",
+                 "away_dome_team_cold", "home_dome_team_cold",
+                 "ol_inj_diff", "rush_inj_diff", "sec_inj_diff", "ol_cluster_diff", "sec_cluster_diff",
+                 "ol_exposed_diff"]
+CLOSE_TOTAL_FEATURES = [
+    "off_sum", "def_sum", "league_pts", "epa_off_sum", "epa_def_sum", "sr_off_sum", "sr_def_sum",
+    "season_tot_sum", "stale_sum", "home_new_qb", "away_new_qb", "home_backup_qb", "away_backup_qb",
+    "inj_off_sum", "inj_def_sum", "div_game", "home_field",
+    "dome", "cold", "heat", "wind", "high_wind", "gusty", "rain", "snow", "wet_wind", "turf",
+    "pace_sum", "plays_sum", "pass_rate_sum", "explosive_sum", "rz_sum",
+    "sec_inj_sum", "rush_inj_sum", "ol_inj_sum", "def_cluster_sum",
+    # Nov 2026 review (nflmodel.extra), each tested alone then together against the closing total:
+    # every-game hit rate 2015-22 50.3% -> 51.0%, 2023-26 50.2% -> 51.4%; MAE 10.68 -> 10.68, 10.40 -> 10.38.
+    # The other pressure, Next Gen and tackling sums did not help both periods and are not used.
+    "x_ref_over", "x_pressure_allowed_sum",
+]
+FIRST_TRAIN_SEASON = 2009   # injury reports and nfelo opening lines start here
+MIN_STAGE2_SEASONS = 2
+CENTER_N = 400   # games in the trailing average miss that totals are re-leveled by
+CENTER_LAG = 16  # skip about one week of games so a game is never leveled with its own week
+
+
+# Three different kinds of learner: linear, boosted trees, randomized trees.
+LEARNERS = {
+    "ridge": lambda: make_pipeline(StandardScaler(), Ridge(alpha=10.0)),
+    "boost": lambda: HistGradientBoostingRegressor(max_depth=3, learning_rate=0.04, max_iter=250,
+                                                   min_samples_leaf=60, l2_regularization=1.0,
+                                                   random_state=0),
+    "trees": lambda: ExtraTreesRegressor(n_estimators=200, min_samples_leaf=40, max_features=0.5,
+                                         n_jobs=-1, random_state=0),
+}
+
+
+class Market:
+    """Stage 1 + stage 2 for one bet type.
+
+    kind="spread": target = home margin, P = home covers.
+    kind="total":  target = combined points, P = over.
+    """
+
+    def __init__(self, kind: str, features: list[str], line: str, learners=tuple(LEARNERS),
+                 center_on: str = "result"):
+        self.kind, self.features, self.line, self.learners = kind, features, line, list(learners)
+        # "result": re-level on the model's recent miss against final scores (NFL).
+        # "line": center on the model's recent gap to the betting line (college: in 2024-2026
+        # its picks won 51.5% this way vs 50.0% re-leveled on results, with an even Over/Under split).
+        self.center_on = center_on
+        # Totals: stage 2 has no fixed intercept. A fixed one learns the past Over/Under
+        # rate (NFL Unders hit 53-55% in 2015-2023) and the model's past scoring level, and
+        # keeps applying them after scoring shifts (Overs hit 52-54% in 2024-2026). Instead
+        # the rating is re-leveled by how far it has recently missed the actual scores
+        # (CENTER_N games, ending CENTER_LAG games back so same-week results are not used).
+        # Centering on the model's gap to the *line* (the earlier fix) kept the model's own
+        # low scoring level and still leaned Under ~60% of the time in 2024-2026.
+        self.intercept = kind == "spread"
+        self.center = 0.0
+        self.target = "result" if kind == "spread" else "total"
+
+    def _rating_fit(self, d):
+        X, y = d[self.features], d[self.target]
+        return {n: LEARNERS[n]().fit(X, y) for n in self.learners}
+
+    def _ratings(self, fitted, X):
+        return pd.DataFrame({n: m.predict(X) for n, m in fitted.items()}, index=X.index)
+
+    def _oos_ratings(self, d):
+        """Ensemble ratings for each training season from models fit on earlier seasons only."""
+        out = pd.Series(np.nan, index=d.index)
+        seasons = sorted(d["season"].unique())
+        for s in seasons[MIN_STAGE2_SEASONS:]:
+            cur = d["season"] == s
+            out[cur] = self._ratings(self._rating_fit(d[d["season"] < s]), d.loc[cur, self.features]).mean(axis=1)
+        return out
+
+    def _x2(self, rating, line):
+        rating, line = np.asarray(rating, float), np.asarray(line, float)
+        return (rating - line).reshape(-1, 1)
+
+    def _train(self, df):
+        d = df[df["result"].notna() & (df["season"] >= FIRST_TRAIN_SEASON)]
+        return d.sort_values("gameday", kind="stable") if "gameday" in d else d
+
+    def fit(self, df: pd.DataFrame) -> "Market":
+        d = self._train(df)
+        self.rating = self._rating_fit(d)
+        return self._fit_edge(d, self._oos_ratings(d))
+
+    def _fit_edge(self, d, oos) -> "Market":
+        """Stage 2 from out-of-sample ensemble ratings (oos, aligned to d's rows)."""
+        e = d.assign(r=oos).dropna(subset=["r", self.line])
+        if self.center_on == "result":
+            miss, lag = e["r"] - e[self.target], CENTER_LAG  # + = model rated the game higher than it finished
+        else:
+            miss, lag = e["r"] - e[self.line], 1
+        shift = pd.Series(0.0, index=e.index)
+        if not self.intercept:
+            shift = miss.shift(lag).rolling(CENTER_N, min_periods=CENTER_N // 4).mean()
+            self.center = float(miss.tail(CENTER_N).mean())
+        e = e.assign(shift=shift).dropna(subset=["shift"])
+        diff = e[self.target] - e[self.line]
+        e, diff = e[diff != 0], diff[diff != 0]  # pushes carry no information
+        x = self._x2(e["r"] - e["shift"], e[self.line])
+        self.edge = LogisticRegression(C=1.0, fit_intercept=self.intercept).fit(x, (diff > 0).astype(int))
+        return self
+
+    def predict(self, df: pd.DataFrame, line: pd.Series | None = None) -> pd.DataFrame:
+        return self._predict_each(self._ratings(self.rating, df[self.features]), df,
+                                  df[self.line] if line is None else line)
+
+    def _predict_each(self, each, df, line):
+        rating = each.mean(axis=1).values
+        ok = line.notna().values
+        p = np.full(len(df), np.nan)
+        if ok.any():
+            p[ok] = self.edge.predict_proba(self._x2(rating[ok] - self.center, line[ok]))[:, 1]
+        side = np.sign(rating - self.center - line.values)
+        agree = (np.sign(each.values - self.center - line.values[:, None]) == side[:, None]).sum(axis=1)
+        out = pd.DataFrame({"rating": rating, "line": line.values, "p": p, "agree": agree,
+                            "n_models": len(self.learners)}, index=df.index)
+        return out.join(each.add_prefix("rating_"))
+
+
+# Injuries, backup QB and line/secondary clusters added to the spread model (Nov 2026):
+# LEAN vs the opener 57.9% -> 59.0% (2015-22) and 57.2% -> 57.8% (2023-26); every-game picks vs
+# the close 50.1% -> 50.7% (2023-26). Weather and turf were tested for spreads too and lowered
+# LEAN in both periods (57.3% / 56.4%), so they stay in the totals and props models only.
+# The 13 nflmodel.extra ratings (pressure, bad throws, drops, missed tackles, CPOE, time to throw,
+# aggressiveness, separation, YAC and rush yards over expected, referee home margin) were each
+# tested alone; none beat 59.0% / 57.8% in both periods (best: time to throw 58.6% / 57.6%).
+SPREAD_FEATURES = OPEN_FEATURES + LATE_FEATURES
+
+
+def spread_market(learners=tuple(LEARNERS)) -> Market:
+    return Market("spread", SPREAD_FEATURES, "spread_open", learners)
+
+
+def total_market(learners=tuple(LEARNERS)) -> Market:
+    return Market("total", CLOSE_TOTAL_FEATURES, "total_line", learners)
+
+
+# --- evaluation ---------------------------------------------------------------------
+CACHE = Path(__file__).resolve().parent.parent / "data" / "cache" / "stage1"
+
+
+def stage1_by_season(m: Market, df: pd.DataFrame, upto: int) -> pd.DataFrame:
+    """Per-learner ratings for every completed game from FIRST_TRAIN_SEASON + MIN_STAGE2_SEASONS
+    through `upto`, each season rated by learners fit only on earlier seasons.
+
+    This is the expensive part of a backtest, and it does not depend on the betting line or
+    the season being tested, so each season is fit once and saved to disk (keyed by the
+    features, target, learner settings and a hash of the data). Re-running a backtest, or
+    testing the same features against another line, reuses it.
+    """
+    d = m._train(df)
+    cols = list(dict.fromkeys(m.features + [m.target, "season"]))
+    key = hashlib.sha1(repr((m.features, m.target, m.learners, [inspect.getsource(LEARNERS[n]) for n in m.learners],
+                             int(pd.util.hash_pandas_object(d[cols], index=True).sum()))).encode()).hexdigest()[:16]
+    path = CACHE / f"{key}.pkl"
+    cached = pd.read_pickle(path) if path.exists() else {}
+    seasons = sorted(d["season"].unique())
+    for k in [s for s in seasons[MIN_STAGE2_SEASONS:] if s <= upto and s not in cached]:
+        cur = d["season"] == k
+        cached[k] = m._ratings(m._rating_fit(d[d["season"] < k]), d.loc[cur, m.features])
+    CACHE.mkdir(parents=True, exist_ok=True)
+    pd.to_pickle(cached, path)
+    return pd.concat([cached[k] for k in sorted(cached) if k <= upto])
+
+
+def walk_forward(df: pd.DataFrame, make, seasons) -> pd.DataFrame:
+    """Out-of-sample predictions: each season predicted by a model fit on earlier seasons.
+
+    Same result as fitting make() on all seasons before s for each test season s, but each
+    season's stage-1 learners are fit once (see stage1_by_season) instead of once per test season.
+    """
+    m = make()
+    each = stage1_by_season(m, df, max(seasons))
+    d = m._train(df)
+    out = []
+    for s in seasons:
+        train = d[d["season"] < s]
+        m._fit_edge(train, each.reindex(train.index).mean(axis=1, skipna=False))
+        test = df[(df["season"] == s) & df["result"].notna()]
+        out.append(pd.concat([test, m._predict_each(each.loc[test.index], test, test[m.line])], axis=1))
+    return pd.concat(out)
+
+
+def record(p: pd.DataFrame, target: str, threshold: float) -> dict:
+    """Bets where P(win) >= threshold on either side, graded against p['line']."""
+    d = p.dropna(subset=["p", "line"])
+    side = np.where(d["p"] >= 0.5, 1, -1)
+    conf = np.maximum(d["p"], 1 - d["p"])
+    outcome = np.sign(d[target] - d["line"])
+    bet = (conf >= threshold) & (outcome != 0)
+    wins = int(((side == outcome) & bet).sum())
+    n = int(bet.sum())
+    return {"bets": n, "wins": wins, "rate": wins / n if n else float("nan"),
+            "roi": (wins * 100 / 110 - (n - wins)) / n if n else float("nan")}
+
+
+def calibration(p: pd.DataFrame, target: str) -> pd.DataFrame:
+    """Predicted vs actual win rate of the favored side, by confidence bucket."""
+    d = p.dropna(subset=["p", "line"])
+    d = d[np.sign(d[target] - d["line"]) != 0]
+    conf = np.maximum(d["p"], 1 - d["p"])
+    won = np.where(d["p"] >= 0.5, d[target] > d["line"], d[target] < d["line"])
+    b = pd.cut(conf, [0.5, 0.52, 0.54, 0.56, 0.58, 0.6, 1.0])
+    return pd.DataFrame({"predicted": conf, "actual": won}).groupby(b, observed=True).agg(
+        n=("actual", "size"), predicted=("predicted", "mean"), actual=("actual", "mean")).round(3)

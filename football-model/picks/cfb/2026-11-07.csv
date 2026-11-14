@@ -1,0 +1,5 @@
+season,gameday,game_id,kind,kickoff,home_team,away_team,line,pick,p,tier,bet
+2026,2026-11-07,401856740,total,2026-11-07 15:30,LSU,Alabama,53.5,Under 53.5,0.514,,False
+2026,2026-11-07,401856740,spread,2026-11-07 15:30,LSU,Alabama,6.0,LSU -6.0,0.502,,False
+2026,2026-11-07,401871098,total,2026-11-07 16:00,Troy,Louisiana Tech,47.5,Under 47.5,0.503,,False
+2026,2026-11-07,401871098,spread,2026-11-07 16:00,Troy,Louisiana Tech,-7.0,Troy +7.0,0.5,,False
