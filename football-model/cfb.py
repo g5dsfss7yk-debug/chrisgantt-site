@@ -129,6 +129,9 @@ def cmd_card(args):
         tline[i] = float(val)
     pt = total.predict(games, tline)
 
+    print("\n*** WARNING: this college model has NO skill. Out of sample vs closing lines (2019-26):"
+          " spreads 48.2% of 6,451, totals 47.5-49.9% (unders 48.3%). -110 needs 52.4%. Picks are"
+          " coin flips at best. (Nov 14 test, see football-model/README.md) ***")
     print(f"\nCFB card {day:%a %m/%d/%Y}  (fair = model's line for the home team; P = chance the bet wins vs the line"
           f" you gave; models = how many of {len(model.LEARNERS)} agree)\n")
     rows = []

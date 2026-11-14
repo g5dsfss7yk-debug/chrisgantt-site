@@ -245,6 +245,7 @@ Graded against the CLOSING line (what you actually bet), out of sample. Scripts:
 | Model STRONG only, vs close | 54.1% | 51.9% | 43.9% | 52.4% | no better than LEAN - merged |
 | Prop yardage ladders, model 70-75% | | hit 76.2% | | DK implied | calibrated overall, but **UNPROVEN vs DK prices** (live: pregame legs 5-6 when the model said 67%). Not backed until audit E shows a profit |
 | College spreads/totals (live 2026) | | | 30-41 | | fun only |
+| **College model vs CLOSING lines, out of sample 2019-26 (Nov 14)** | | spreads 48.2% (6,451), totals 47.5-49.9% (unders 48.3%) | | 52.4% | **NO SKILL - worse than a coin flip** |
 
 - Expect less than the table: many variables were tried, which flatters backtests.
 - Prop prices: `run.py props --line "Name:receiving_yards=40+@-250"` prints the edge vs DK.
