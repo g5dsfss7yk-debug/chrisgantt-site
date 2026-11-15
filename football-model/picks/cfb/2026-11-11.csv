@@ -1,0 +1,7 @@
+season,gameday,game_id,kind,kickoff,home_team,away_team,line,pick,p,tier,bet
+2026,2026-11-11,401866463,total,2026-11-11 19:30,Toledo,Massachusetts,52.5,Under 52.5,0.504,,False
+2026,2026-11-11,401866463,spread,2026-11-11 19:30,Toledo,Massachusetts,14.0,Toledo -14.0,0.502,,False
+2026,2026-11-11,401866462,total,2026-11-11 19:30,Central Michigan,Sacramento State,42.5,Over 42.5,0.507,,False
+2026,2026-11-11,401866462,spread,2026-11-11 19:30,Central Michigan,Sacramento State,17.5,Sacramento State +17.5,0.521,,False
+2026,2026-11-11,401866461,total,2026-11-11 19:30,Ball State,Buffalo,51.5,Over 51.5,0.512,,False
+2026,2026-11-11,401866461,spread,2026-11-11 19:30,Ball State,Buffalo,-1.5,Buffalo -1.5,0.511,,False

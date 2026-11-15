@@ -1,0 +1,11 @@
+season,gameday,game_id,kind,kickoff,home_team,away_team,line,pick,p,tier,bet
+2026,2026-11-06,401858288,total,2026-11-06 19:00,SMU,Virginia Tech,56.5,Under 56.5,0.505,,False
+2026,2026-11-06,401858288,spread,2026-11-06 19:00,SMU,Virginia Tech,5.5,SMU -5.5,0.505,,False
+2026,2026-11-06,401862818,total,2026-11-06 19:30,East Carolina,South Florida,39.5,Over 39.5,0.522,,False
+2026,2026-11-06,401862818,spread,2026-11-06 19:30,East Carolina,South Florida,1.5,South Florida +1.5,0.513,,False
+2026,2026-11-06,401858510,total,2026-11-06 20:00,Illinois,Nebraska,50.5,Under 50.5,0.502,,False
+2026,2026-11-06,401858510,spread,2026-11-06 20:00,Illinois,Nebraska,-4.5,Nebraska -4.5,0.506,,False
+2026,2026-11-06,401864533,total,2026-11-06 21:00,Nevada,New Mexico,38.5,Over 38.5,0.522,,False
+2026,2026-11-06,401864533,spread,2026-11-06 21:00,Nevada,New Mexico,-10.0,New Mexico -10.0,0.504,,False
+2026,2026-11-06,401856855,total,2026-11-06 22:15,Arizona,TCU,46.5,Over 46.5,0.502,,False
+2026,2026-11-06,401856855,spread,2026-11-06 22:15,Arizona,TCU,7.0,Arizona -7.0,0.507,,False

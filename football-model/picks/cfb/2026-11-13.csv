@@ -1,0 +1,7 @@
+season,gameday,game_id,kind,kickoff,home_team,away_team,line,pick,p,tier,bet
+2026,2026-11-13,401858293,total,2026-11-13 19:00,Pittsburgh,Florida State,52.5,Over 52.5,0.508,,False
+2026,2026-11-13,401858293,spread,2026-11-13 19:00,Pittsburgh,Florida State,3.0,Pittsburgh -3.0,0.511,,False
+2026,2026-11-13,401858526,total,2026-11-13 21:00,UCLA,Illinois,48.5,Under 48.5,0.502,,False
+2026,2026-11-13,401858526,spread,2026-11-13 21:00,UCLA,Illinois,10.5,Illinois +10.5,0.505,,False
+2026,2026-11-13,401856860,total,2026-11-13 22:15,Colorado,Houston,51.5,Over 51.5,0.504,,False
+2026,2026-11-13,401856860,spread,2026-11-13 22:15,Colorado,Houston,-7.5,Houston -7.5,0.516,,False
