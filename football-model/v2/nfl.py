@@ -15,6 +15,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import Ridge
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 from nflmodel import data, teams
 
@@ -22,6 +24,29 @@ STATS = ["epa", "sr", "explosive", "giveaways", "st_epa", "plays", "press"]   # 
 HALF_LIFE = 4          # games (picked on 2015-22 only, see v2/grid.py)
 CARRY = 0.65           # share of last season kept at a new season
 FIRST_TEST = 2015
+SCALE = True           # standardize features before the ridge (without it the ridge zeroes the rate stats)
+ALPHA = {"spread": 10.0, "total": 10.0}   # picked on 2015-22 only (v2/improve.py)
+OUTDOOR_WIND = 8.3     # mean outdoor wind 2009-26 (mph): used when a game's wind is still unknown
+WIND_FROM = 2019       # first season where games.csv misses wind for outdoor games
+
+
+def fill_wind(d: pd.DataFrame) -> pd.DataFrame:
+    """games.csv has no wind for many outdoor games (46% of 2022, every game since 2026 week 5).
+    Fill from the play-by-play weather text, then the kickoff forecast for unplayed games."""
+    d = d.copy()
+    try:
+        w = data.load_game_weather(range(WIND_FROM, data.current_season() + 1))
+        txt = w.set_index("game_id")["weather"].str.extract(r"Wind:\s*[A-Za-z]*\s*(\d+)")[0].astype(float)
+        d["wind"] = d["wind"].fillna(d["game_id"].map(txt))
+    except Exception as e:
+        print(f"warning: no play-by-play weather ({e})")
+    try:
+        f = data.load_forecasts()
+        if len(f):
+            d["wind"] = d["wind"].fillna(d["game_id"].map(f.drop_duplicates("game_id").set_index("game_id")["wind"]))
+    except Exception as e:
+        print(f"warning: no forecasts ({e})")
+    return d
 
 
 def team_games() -> pd.DataFrame:
@@ -75,7 +100,7 @@ def ratings(g: pd.DataFrame, p: pd.DataFrame) -> pd.DataFrame:
 def build() -> pd.DataFrame:
     g, p = team_games()
     rt = ratings(g, p)
-    d = g.merge(rt, on="game_id")
+    d = fill_wind(g.merge(rt, on="game_id"))
     n = data.load_nfelo()[["season", "week", "home_fr", "home_line_open", "total_line_open"]]
     d = d.merge(n, on=["season", "week", "home_fr"], how="left")
     d["spread_open"] = -d["home_line_open"]           # + = home favored, like spread_line
@@ -84,9 +109,12 @@ def build() -> pd.DataFrame:
     d = d.sort_values("gameday").reset_index(drop=True)
     last, hq, aq = {}, [], []
     for r in d.itertuples(index=False):
-        hq.append(int(last.get((r.season, r.home_fr), r.home_qb_id) != r.home_qb_id))
-        aq.append(int(last.get((r.season, r.away_fr), r.away_qb_id) != r.away_qb_id))
-        last[(r.season, r.home_fr)], last[(r.season, r.away_fr)] = r.home_qb_id, r.away_qb_id
+        for side, fr, q, out in (("home", r.home_fr, r.home_qb_id, hq), ("away", r.away_fr, r.away_qb_id, aq)):
+            if pd.isna(q):                    # starter not listed yet (future weeks): no change, keep the last one
+                out.append(0)
+                continue
+            out.append(int(last.get((r.season, fr), q) != q))
+            last[(r.season, fr)] = q
     d["home_qb_change"], d["away_qb_change"] = hq, aq
     return d
 
@@ -108,7 +136,7 @@ def X(d: pd.DataFrame, line: pd.Series, kind: str) -> pd.DataFrame:
         f["neutral"] = (d["location"] == "Neutral").astype(int)
     else:
         f["pts"] = d["home_pf"] + d["home_pa"] + d["away_pf"] + d["away_pa"]
-        f["wind"] = d["wind"].fillna(0).where(~d["roof"].isin(["dome", "closed"]), 0)
+        f["wind"] = d["wind"].fillna(OUTDOOR_WIND).where(~d["roof"].isin(["dome", "closed"]), 0)
         f["dome"] = d["roof"].isin(["dome", "closed"]).astype(int)
         f["qb"] = d["home_qb_change"] + d["away_qb_change"]
     f["line"] = line
@@ -123,8 +151,9 @@ def X(d: pd.DataFrame, line: pd.Series, kind: str) -> pd.DataFrame:
 
 def fit(train: pd.DataFrame, kind: str, line_col: str):
     y = train["result"] if kind == "spread" else train["total"]
-    m = Ridge(alpha=30.0).fit(X(train, train[line_col], kind), y)
-    return m
+    ridge = Ridge(alpha=ALPHA[kind])
+    m = make_pipeline(StandardScaler(), ridge) if SCALE else ridge
+    return m.fit(X(train, train[line_col], kind), y)
 
 
 def walk_forward(d: pd.DataFrame, kind: str, line_col: str) -> pd.DataFrame:
@@ -132,6 +161,8 @@ def walk_forward(d: pd.DataFrame, kind: str, line_col: str) -> pd.DataFrame:
     done = d[d["result"].notna() & d[line_col].notna() & (d["season"] >= 2009)]
     for s in range(FIRST_TEST, int(d["season"].max()) + 1):
         tr = done[done["season"] < s]
+        if tr.empty:
+            continue
         te = d[(d["season"] == s) & d[line_col].notna()].copy()
         m = fit(tr, kind, line_col)
         te["pred"] = m.predict(X(te, te[line_col], kind))

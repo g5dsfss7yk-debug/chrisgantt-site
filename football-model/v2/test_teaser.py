@@ -5,13 +5,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import numpy as np, pandas as pd
 from v2 import nfl
 d = nfl.build()
-p = nfl.walk_forward(d, "spread", "spread_open")
+p = nfl.walk_forward(d, "spread", "spread_line")       # like the card: fit on and pick vs the game-day line
 p = p[p.result.notna() & p.spread_line.notna()]
-pick_home = p.pred > p.spread_open
+pick_home = p.pred > p.spread_line
 line = p.spread_line                                   # bet at close
 pick_line = np.where(pick_home, -line, line)           # points the pick gets (+ = dog)
 margin = np.where(pick_home, p.result, -p.result)      # pick's margin
-p = p.assign(pick_line=pick_line, margin=margin, edge=(p.pred - p.spread_open).abs())
+p = p.assign(pick_line=pick_line, margin=margin, edge=(p.pred - p.spread_line).abs())
 p["tease_won"] = (p.margin + p.pick_line + 6) > 0
 p["su_won"] = p.margin > 0
 b = pd.cut(p.pick_line, [-30, -7.5, -3.5, -1, 0.5, 2.5, 3.5, 6.5, 30],

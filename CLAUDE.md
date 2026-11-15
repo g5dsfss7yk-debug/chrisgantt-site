@@ -13,11 +13,14 @@
 5. **V2 model, a pick on every game (Chris, Nov 15).** The old NFL model is scratched. Use
    `python football-model/v2/card.py` (new model, play-by-play ratings, walk-forward tested): give a
    spread, winner and total pick on EVERY game - no "no bet", no "coin toss". Each pick carries its
-   tested record, ALWAYS both periods (2015-22 / 2023-26): spread edge 1+ pts vs the game-day line 52.6% / 49.5%
+   tested record, ALWAYS both periods (2015-22 / 2023-26): game-day spread picks (model fit on and graded at
+   the game-day line; re-tested Nov 15 after the wind/scaling fixes, v2/improve.py): all games 52.4% / 50.7%, edge 1+ pts
+   52.8% / 55.0%, edge 2+ 57.0% of 214 / 58.1% of 62 (few games, not proven; break-even 52.4%)
    (Chris does NOT bet early - Nov 15: injuries and lineup changes after an early bet leave him stuck
    with a bad pick. Never quote opening-line records or suggest betting early);
-   totals 51.2% and biased to Overs; teaser legs (2-team -120 needs 73.9%): v2 dog +1..+2.5 69.9% / 80.0%,
-   +3..+3.5 79.1% / 69.7%, favorite -3.5..-7.5 teased 70.9% / 71.4%. Flaws found Nov 15: README "V2 flaws".
+   totals all games 53.2% / 51.7%, edge 1+ 55.8% / 50.8% (still picks Over more often: 61% of 2023-26 games);
+   teaser legs (2-team -120 needs 73.9%): v2 dog +1..+2.5 69.7% / 77.9%,
+   +3..+3.5 76.9% / 70.4%, favorite -3.5..-7.5 teased 70.0% / 74.6%. Flaws found Nov 15: README "V2 flaws".
    Parlays/teasers are built from these legs. Props + alt spreads/totals: `python football-model/v2/props_card.py --before HH:MM`
    (v2 props model; shows the TESTED 2023-26 hit rate for the model's range vs DK's implied chance;
    whether it beats DK's prices is not tested yet - say so). Skip legs marked ROLE CHECK unless

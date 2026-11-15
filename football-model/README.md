@@ -316,3 +316,27 @@ Graded against the CLOSING line (what you actually bet), out of sample. Scripts:
 7. ROLE CHECK flags any teammate who missed one of the last 3 games - also flags players who are on IR or cut.
 8. Props vs DK prices still untested: audit/v2_vs_dk.py grades the Nov 15 saved prices (made by the
    card BEFORE fix 4).
+
+## V2 fixes Nov 15 (second session) - `PYTHONPATH=. python v2/improve.py` reproduces the numbers
+Records are walk-forward, 2015-22 / 2023-26, pick graded at the game-day line.
+1. **Wind was missing.** games.csv has no wind for 46% of 2022 outdoor games, 21% of 2023 and every game
+   since 2026 week 5; the totals model read that as 0 mph and picked Over in 100% of 2026 games from
+   week 5 on. Now filled from the play-by-play weather text, then the kickoff forecast, else the outdoor
+   average (8.3 mph). 2026 Over picks: 92% -> 70%.
+2. **The ridge ignored most play-by-play stats.** Features were not put on one scale, so the rate stats
+   (EPA/play, success rate, pressure) were shrunk to almost nothing. Now standardized; ridge strength 10,
+   picked on 2015-22 only.
+3. **The card fit the spread model on the opening line but picked against DK's game-day line.** Now fit
+   on the game-day line. Before (old card method): edge 1+ 52.7% / 49.0%. After: 52.8% of 849 / 55.0% of 311;
+   edge 2+ 57.0% of 214 / 58.1% of 62. All games 52.4% / 50.7%. Break-even is 52.4%: the samples are too
+   small to call this a proven edge.
+4. Totals after the fixes: all games 53.2% / 51.7%, edge 1+ 55.8% / 50.8%. No edge in 2023-26. Removing the
+   Over lean with a trailing average was tested and did not raise the win rate, so it is not used.
+5. Teaser legs re-tested: dog +1..+2.5 69.7% / 77.9%, +3..+3.5 76.9% / 70.4%, favorite -3.5..-7.5 teased
+   70.0% / 74.6%. None clears 73.9% in both periods.
+6. Bugs: a game with no starter listed yet (weeks 12+) counted as a QB change; test_nfl.py crashed on
+   totals vs the opener (no opening totals before 2024); the card priced games already in progress against
+   DK's live line (now skipped).
+7. Still open: the card's QB names come from nflverse and can be stale (Nov 15: it listed Darnold for SEA
+   while ESPN had him Out). props_card.py's alt spreads still fit on the opener and its calibration was
+   not re-run after fix 2.

@@ -12,6 +12,13 @@
   (1 game): rungs where model beat DK by 3%+ went 0-11 / 19% and lost money. Flaws list: README "V2 flaws".
 - Odds API: 9 credits left this month (500/mo; a props pull ~11 per game). Use --cached.
 
+## Second session Nov 15 (~1:30 CT): model fixes, details in README "V2 fixes Nov 15"
+- Fixed: missing wind (cause of the 2026 Over lean), unscaled features, card now fits on the game-day line,
+  QB-change bug for unlisted starters, card skips games in progress. New records are in CLAUDE.md rule 5.
+- Still no proven edge on spreads or totals. Spread edge 2+ is 57.0% of 214 / 58.1% of 62: watch it, small sample.
+- #160: Watson started (ESPN box score). #161: LV inactives were not posted at 12:40 CT; ESPN had Darnold (SEA) Out.
+- One odds API call was made by `card.py --cached` (no cache existed in the new container); credits left not seen.
+
 ## Next steps
 1. After ~3:30 CT: `PYTHONPATH=. python audit/v2_vs_dk.py` (8 early games). If model-over-DK rungs lose money,
    drop that bet type from the props card. Then `python recs.py grade`.
