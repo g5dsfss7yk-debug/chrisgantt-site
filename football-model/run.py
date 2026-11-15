@@ -215,7 +215,7 @@ def cmd_card(args):
             if tier and qb_flags and not tier.startswith("SKIP"):
                 tier = "HOLD (QB check)"
             each = "  ".join(f"{n} {g.home_team} {-s[f'rating_{n}']:+.1f}" for n in model.LEARNERS)
-            shown = tier or "PICK"  # every game gets the model's side; STRONG/LEAN are the tested tiers
+            shown = tier or "no bet (not LEAN/STRONG)"
             agree = o.agree if still else s.agree
             print(f"   spread {label:14} P {prob:.0%}  models {int(agree)}/{int(s.n_models)}  ({each})  {shown}")
             picks.append(("spread", s.line, label, prob, tier))
@@ -230,7 +230,7 @@ def cmd_card(args):
         if not np.isnan(t.line):
             lean = "Over" if t.p >= 0.5 else "Under"
             level = t.rating - total.center
-            print(f"   total  {lean} {t.line:g}: model {level:.1f}  P {max(t.p, 1 - t.p):.0%}  PICK")
+            print(f"   total  no bet (NFL totals model: no edge); model leans {lean} {t.line:g}  P {max(t.p, 1 - t.p):.0%}")
             picks.append(("total", t.line, f"{lean} {t.line:g}", max(t.p, 1 - t.p), None))
             if not g.dome and (g.wind >= WEATHER_UNDER_WIND or g.rain or g.snow):
                 why = f"wind {g.wind:.0f} mph" if g.wind >= WEATHER_UNDER_WIND else "rain/snow forecast"
@@ -612,6 +612,8 @@ def _print_scan(rows):
     df["best"] = df[["e_model", "e_sharp"]].min(axis=1, skipna=False)
     df = df[(df["e_model"] >= LADDER_EDGE) | (df["e_sharp"] >= LADDER_EDGE)]
     df = df[(df["price"] >= -600) & (df["price"] <= 400)]
+    print("\n*** PROPS ARE NOT A TESTED BET (pregame legs hit 46% vs 61% predicted, Nov 8-12). This list only"
+          " feeds the DK-price test (audit/vs_dk.py); do not recommend these. ***")
     print("\nDraftKings ladder rungs with an edge (model = our projection; sharp = Pinnacle/FanDuel main line"
           " stretched to this rung; BOTH = both beat DK by 3%+, the ones to bet):")
     if df.empty:

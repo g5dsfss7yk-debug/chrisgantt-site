@@ -10,11 +10,14 @@ Chris bets $3 per pick on DraftKings for fun: prop parlays and teasers. Wants pl
 - Before any pick: QB (incl. Out/Doubtful -> backup), injuries, weather (forecast + ESPN, rain flag),
   surface, form. The cards and `run.py props` print these; read the NOT VERIFIED list.
 - Chris's DK has NO receptions, NO rush attempts, NO unders. Prop legs = yards / TDs / passing "X+" ladders.
-- Only call a bet "backed" if it is one of these (audit vs closing lines, README "Betting rules"):
-  1. 6-pt teaser legs on NFL underdogs +1 to +2.5 (79% in 2023-26; needs ~74%)
-  2. Model spreads vs your line (55-56% vs close; small edge)
-  3. Prop ladder legs only when the model or sharp books beat DK's price by 3%+
-- Everything else is "fun only". College has no proven edge (30-41 live). Favorite teasers are dead.
+- **Only these are bets** (CLAUDE.md rule 5, README "Rebuild test"/"Rule scan"/"BET EARLY"/"Miss review"):
+  1. NFL 6-pt teaser legs on dogs +1 to +2.5 (79.4% per leg 2023-26).
+  2. NFL model spread LEAN/STRONG bet EARLY (`run.py early`, 56.7%/57.1% vs opener); on game day
+     STRONG only. The card SKIPs 0-3 pt favorites and 7.5-10 pt dogs (48% / 52%).
+  3. NFL home-team QB change -> Under, once the change is confirmed (54.5% 2023-26).
+  4. College SITUATIONAL total 56%+ from `cfb.py card` (53.4% 2023-26).
+- RETIRED (tested, no edge): old college model (spreads 48.2%, totals <50%; hidden unless
+  `cfb.py card --old`), NFL totals, pregame props, live props. Do not recommend them.
 - Log every recommended combo: `python recs.py add ...`; grade: `python recs.py grade`.
 
 ## New this session (Nov 9, MNF)

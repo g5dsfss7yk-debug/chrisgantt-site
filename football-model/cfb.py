@@ -137,10 +137,11 @@ def cmd_card(args):
     try:
         sit = situational.total_probs(sdf, games["game_id"])
     except Exception as e:
-        print(f"note: situational totals model failed ({e})")
+        print("note: no SITUATIONAL total without a line: give DraftKings' numbers with --line/--total"
+              f" ({type(e).__name__})")
         sit = pd.Series(dtype=float)
 
-    print("\n*** WARNING: this college model has NO skill. Out of sample vs closing lines (2019-26):"
+    if args.old: print("\n*** WARNING: this college model has NO skill. Out of sample vs closing lines (2019-26):"
           " spreads 48.2% of 6,451, totals 47.5-49.9% (unders 48.3%). -110 needs 52.4%. Picks are"
           " coin flips at best. (Nov 14 test, see football-model/README.md) ***")
     print(f"\nCFB card {day:%a %m/%d/%Y}  (fair = model's line for the home team; P = chance the bet wins vs the line"
@@ -165,14 +166,14 @@ def cmd_card(args):
         if not np.isnan(t.p):
             tlabel, tprob = (f"Over {t.line:g}", t.p) if t.p >= 0.5 else (f"Under {t.line:g}", 1 - t.p)
             ttier = ""
-            print(f"   total:   {tlabel:30} P {tprob:.0%}  models {int(t.agree)}/{int(t.n_models)}  PICK")
+            if args.old:
+                print(f"   old model total (NO SKILL): {tlabel:20} P {tprob:.0%}")
             sp = sit.get(g.game_id, np.nan)
             if pd.notna(sp):
                 slabel, sprob = (f"Over {t.line:g}", sp) if sp >= 0.5 else (f"Under {t.line:g}", 1 - sp)
                 tag = "BET (56%+: 53.4% in 2023-26)" if sprob >= situational.BET_AT else "no bet (under 56%)"
                 print(f"   SITUATIONAL total: {slabel:20} P {sprob:.0%}  {tag}")
-            if t.line >= HIGH_TOTAL_UNDER:
-                print(f"   total:   Under {t.line:g}  total of {HIGH_TOTAL_UNDER}+: watch only (faded in 2024-2025)")
+
             rows.append({"season": g.season, "gameday": f"{day:%Y-%m-%d}", "game_id": g.game_id, "kind": "total",
                          "kickoff": _kickoff(g),
                          "home_team": g.home_team, "away_team": g.away_team, "line": t.line, "pick": tlabel,
@@ -184,13 +185,19 @@ def cmd_card(args):
         else:
             label, prob = f"{g.away_team} {s.line:+.1f}", 1 - s.p
         tier = "STRONG" if prob >= STRONG and s.agree == s.n_models and not flags else ""
-        print(f"   vs line: {label:30} P {prob:.0%}  models {int(s.agree)}/{int(s.n_models)}  {tier or 'PICK'}")
+        if args.old:
+            print(f"   old model spread (NO SKILL): {label:20} P {prob:.0%}")
+        else:
+            print("   spread: no bet (college spreads have no tested edge)")
         rows.append({"season": g.season, "gameday": f"{day:%Y-%m-%d}", "game_id": g.game_id, "kind": "spread",
                      "kickoff": _kickoff(g),
                      "home_team": g.home_team, "away_team": g.away_team, "line": s.line, "pick": label,
                      "p": round(prob, 3), "tier": tier, "bet": tier == "STRONG"})
     unverified.show()
-    run._best_bets(pd.DataFrame(rows), college=True)
+    sb = [(g.away_team, g.home_team, sit.get(g.game_id)) for g in games.itertuples(index=False)]
+    sb = [(a, h, q) for a, h, q in sb if q is not None and pd.notna(q) and max(q, 1 - q) >= situational.BET_AT]
+    print("\nBETS ON THIS CARD (college SITUATIONAL total 56%+, 53.4% vs close 2023-26):")
+    print("\n".join(f"  {a} @ {h}: {'Over' if q >= .5 else 'Under'}  P {max(q, 1 - q):.0%}" for a, h, q in sb) or "  none")
     run._save_picks(pd.DataFrame(rows), PICKS / f"{day:%Y-%m-%d}.csv", args.force)
 
 
@@ -231,6 +238,7 @@ def main():
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("backtest")
     c = sub.add_parser("card")
+    c.add_argument("--old", action="store_true", help="also show the retired college model's picks (no skill)")
     c.add_argument("--date", help="game day, YYYY-MM-DD (default: next day with games)")
     c.add_argument("--line", action="append", help='your book\'s spread for a team, e.g. "Iowa=-7.5"')
     c.add_argument("--total", action="append", help='your book\'s total for a game, by either team, e.g. "Iowa=40.5"')
