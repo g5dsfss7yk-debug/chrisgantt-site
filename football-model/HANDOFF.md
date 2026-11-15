@@ -1,3 +1,26 @@
+# HANDOFF - Nov 15 2026, ~12:30 CT (read CLAUDE.md first)
+
+## State
+- OLD NFL model scratched. V2 built from scratch: v2/nfl.py (game model: play-by-play ratings incl. QB pressure),
+  v2/props.py (props: own history + long-run star level + opposing defense by position + QB pressure),
+  v2/card.py (spread/winner/total every game), v2/props_card.py (props + alt spreads/totals vs DK).
+- Chris does NOT bet early (injuries/lineup changes). Game-day records only, both periods (2015-22 / 2023-26).
+- Tested game-day: spreads ~51-53% / ~49-51% (no edge either period); totals ~51% (Over bias); teaser legs
+  dog +1..+2.5 69.9% / 80.0% (needs 73.9%); home QB change -> Under 56.5% / 54.5% (only bet type with an edge
+  in both periods). Adding defense/pressure/star features changed accuracy <1% (v2/compare_props.py).
+- Props vs DK prices: NOT proven. audit/v2_vs_dk.py grades saved DK rungs (picks/rungs_v2/). After NE@DET only
+  (1 game): rungs where model beat DK by 3%+ went 0-11 / 19% and lost money. Flaws list: README "V2 flaws".
+- Odds API: 9 credits left this month (500/mo; a props pull ~11 per game). Use --cached.
+
+## Next steps
+1. After ~3:30 CT: `PYTHONPATH=. python audit/v2_vs_dk.py` (8 early games). If model-over-DK rungs lose money,
+   drop that bet type from the props card. Then `python recs.py grade`.
+2. Pending today: #160 CLE Under 40.5 (only if Watson starts), #161 LV Under 40.5 (only if Mendoza starts) -
+   check starters/inactives (data.gameday_inactives). #162 BAL Under (Mon, only if Huntley starts).
+   Teasers #182 CAR+7.5/SF+1.5, #183 SF+1.5/CIN+2.5; spreads #167-173; props/parlays #175-181.
+3. NE@DET results: #166, #174, #176, #181 lost.
+4. Placed record (recs.py): 3-12, net -$30 before today; ask Chris which of today's he placed (recs.py placed).
+
 # NOV 15 2026: OLD NFL MODEL SCRATCHED. Use v2/card.py (see CLAUDE.md rule 5). Tests: v2/test_nfl.py, v2/test_teaser.py, v2/grid.py.
 
 # Handoff (Nov 9 2026)
