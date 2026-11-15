@@ -198,7 +198,21 @@ def cmd_card(args):
             if o.line != s.line:
                 moved = "past the model's number" if not still else "model still past it"
                 print(f"   line   {moved}")
-            if tier and qb_flags:
+            # Miss review (Nov 15, LEAN+STRONG vs the opener 2015-26): picks on 0-3 pt favorites won 48.0%
+            # (100) and on 7.5-10 pt dogs 51.6% (64, most 10+ pt misses); without them 57.8% (2015-22)
+            # and 59.7% (2023-26). Model dog picks of +1..+3 teased 6 points won 79.4% (262).
+            pick_home = label.startswith(g.home_team)
+            pick_fav = s.line != 0 and ((s.line > 0) == pick_home)
+            size = abs(s.line)
+            qual = tier in ("STRONG", "LEAN")
+            if qual:
+                if pick_fav and size <= 3:
+                    tier = "SKIP (model on 0-3 pt favorites: 48%)"
+                elif not pick_fav and 7.5 <= size <= 10:
+                    tier = "SKIP (model on 7.5-10 pt dogs: 52%)"
+            if qual and not pick_fav and 1 <= size <= 3:
+                print(f"   MODEL DOG + TEASER: {label.split()[0]} +{size + TEASER_PTS:g}  (model dog picks +1..+3 teased 6: 79.4%)")
+            if tier and qb_flags and not tier.startswith("SKIP"):
                 tier = "HOLD (QB check)"
             each = "  ".join(f"{n} {g.home_team} {-s[f'rating_{n}']:+.1f}" for n in model.LEARNERS)
             shown = tier or "PICK"  # every game gets the model's side; STRONG/LEAN are the tested tiers

@@ -15,7 +15,7 @@ season,week,game_id,kind,kickoff,home_team,away_team,line,pick,p,tier,bet,qb_che
 2026,10,2026_10_HOU_CLE,total,2026-11-15 13:00,CLE,HOU,40.5,Over 40.5,0.517,,False,True
 2026,10,2026_10_JAX_TEN,spread,2026-11-15 13:00,TEN,JAX,-10.5,JAX -10.5,0.536,,False,False
 2026,10,2026_10_JAX_TEN,total,2026-11-15 13:00,TEN,JAX,46.5,Under 46.5,0.509,,False,False
-2026,10,2026_10_KC_ATL,spread,2026-11-15 13:00,ATL,KC,-3.0,KC -3.0,0.553,STRONG,True,False
+2026,10,2026_10_KC_ATL,spread,2026-11-15 13:00,ATL,KC,-3.0,KC -3.0,0.553,SKIP (model on 0-3 pt favorites: 48%),False,False
 2026,10,2026_10_KC_ATL,total,2026-11-15 13:00,ATL,KC,47.5,Over 47.5,0.502,,False,False
 2026,10,2026_10_MIA_IND,spread,2026-11-15 13:00,IND,MIA,4.5,IND -4.5,0.53,,False,False
 2026,10,2026_10_MIA_IND,total,2026-11-15 13:00,IND,MIA,37.5,Over 37.5,0.535,,False,False
@@ -31,4 +31,4 @@ season,week,game_id,kind,kickoff,home_team,away_team,line,pick,p,tier,bet,qb_che
 2026,10,2026_10_PIT_CIN,spread,2026-11-15 20:20,CIN,PIT,3.5,PIT +3.5,0.511,,False,False
 2026,10,2026_10_PIT_CIN,total,2026-11-15 20:20,CIN,PIT,49.5,Over 49.5,0.503,,False,False
 2026,10,2026_10_LAC_BAL,spread,2026-11-16 20:15,BAL,LAC,4.5,LAC +4.5,0.573,HOLD (QB check),False,True
-2026,10,2026_10_LAC_BAL,total,2026-11-16 20:15,BAL,LAC,38.5,Over 38.5,0.506,,False,True
+2026,10,2026_10_LAC_BAL,total,2026-11-16 20:15,BAL,LAC,38.5,Over 38.5,0.505,,False,True

@@ -250,6 +250,10 @@ Graded against the CLOSING line (what you actually bet), out of sample. Scripts:
 - Expect less than the table: many variables were tried, which flatters backtests.
 - Prop prices: `run.py props --line "Name:receiving_yards=40+@-250"` prints the edge vs DK.
 - Every recommended combo is logged and graded in `picks/recs.csv` with `recs.py`.
+- **Miss review (Nov 15)**: losing NFL spread bets lose by 10.1 pts on average (any bet); the model's
+  losses average 8.9. Weak spots cut from LEAN/STRONG: 0-3 pt favorites (48.0%, 100) and 7.5-10 pt dogs
+  (51.6%, 64). After: 57.8% (2015-22) / 59.7% (2023-26) vs the opener (cuts chosen on this data).
+  LEAN/STRONG dog picks +1..+3 teased 6 won 79.4% (262): the card prints MODEL DOG + TEASER.
 - **BET EARLY (Nov 15)**: the NFL model's edge is mostly against the OPENING number (LEAN+STRONG
   56.7% 2015-22, 57.1% 2023-26; vs close 51.8% / 55.6%). `run.py early` prices the week vs DraftKings'
   current line as soon as it is posted. College does not work this way (about 50% vs open too).
