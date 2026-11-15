@@ -94,7 +94,10 @@ if CACHE.exists():
 else:
     for mk in set(MK.values()):
         m = props.StatModel(mk); x = m.rows(hist); models[mk] = m.fit(x)
-    pickle.dump(models, open(CACHE, "wb"))
+    try:
+        pickle.dump(models, open(CACHE, "wb"))
+    except Exception:
+        CACHE.unlink(missing_ok=True)
 odds.TTL = 10**9 if a.cached else 0
 evs = odds.events("nfl")
 allrows = []
@@ -142,6 +145,8 @@ for r in g.sort_values(["gameday", "gametime"]).itertuples(index=False):
             pl["spread_for"] = dk_line if t_home else -dk_line
             pl["pts"] = tot / 2 + pl["spread_for"] / 2
             pl["home"] = int(t_home)
+            opp = teams.franchise(r.away_team) if t_home else teams.franchise(r.home_team)
+            pl = props.with_opponent(pl, s, opp)   # opposing defense: yards/TDs allowed, QB pressure
             rung = 1 if mk == "anytime_td" else int(np.ceil(o.get("point", 0.5)))
             pred = models[mk].predict(pl)[0]
             p = models[mk].p_reach(pred, rung)

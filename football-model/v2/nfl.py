@@ -18,7 +18,7 @@ from sklearn.linear_model import Ridge
 
 from nflmodel import data, teams
 
-STATS = ["epa", "sr", "explosive", "giveaways", "st_epa", "plays"]
+STATS = ["epa", "sr", "explosive", "giveaways", "st_epa", "plays", "press"]   # press: (sacks+QB hits)/dropback
 HALF_LIFE = 4          # games (picked on 2015-22 only, see v2/grid.py)
 CARRY = 0.65           # share of last season kept at a new season
 FIRST_TEST = 2015
@@ -29,6 +29,7 @@ def team_games() -> pd.DataFrame:
     g = g[g["game_type"].isin(["REG", "WC", "DIV", "CON", "SB"])].copy()
     p = data.load_team_pbp(range(2008, data.current_season() + 1))
     p["team"] = p["team"].map(teams.franchise)
+    p["press"] = (p["sacks"] + p["qb_hits"]) / p["dropbacks"].clip(lower=1)   # o_press = line allows, d_press = defense makes
     g["home_fr"], g["away_fr"] = g["home_team"].map(teams.franchise), g["away_team"].map(teams.franchise)
     return g, p
 
