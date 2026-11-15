@@ -23,6 +23,8 @@
    +3..+3.5 76.9% / 70.4%, favorite -3.5..-7.5 teased 70.0% / 74.6%. **Best tested bet (v2/dig.py): teaser leg on EVERY dog
    +1.5..+2.5, no model: 72.7% (1999-2014) / 77.0% / 77.3%; with total <= 44: 75.9% / 77.4% / 78.9%. Card prints BEST TEASER LEG.
    DK's teaser price is not checked by any tool - Chris reads it on the slip (needs 73.9% at -120, 75.2% at -130).**
+   Card layout (Chris, Nov 15): keep a pick on every game; mark the tested teaser legs (">> TEASER LEG"); show every
+   "** CHANGE" line (QB out/changed per ESPN, line or total moved 2+ since the opener, wind 15+, rain, skill players out).
    Flaws found Nov 15: README "V2 flaws".
    Parlays/teasers are built from these legs. Props + alt spreads/totals: `python football-model/v2/props_card.py --before HH:MM`
    (v2 props model; shows the TESTED 2023-26 hit rate for the model's range vs DK's implied chance;
