@@ -28,7 +28,7 @@ def value(s, mk):
 def main():
     d = pd.concat([pd.read_csv(f) for f in sorted(D.glob("*.csv"))], ignore_index=True)
     d = d.sort_values("snapshot_utc").drop_duplicates(["game", "market", "bet"], keep="last")
-    g = data.load_games()
+    g = data.load_games(refresh=True)
     out = []
     for game, h in d.groupby("game"):
         away, home = game.split("@")
