@@ -33,7 +33,11 @@ ap.add_argument("--min-edge", type=float, default=0.03)
 ap.add_argument("--cached", action="store_true", help="use saved DK prices, spend no API credits")
 a = ap.parse_args()
 s = props.load()
-nxt = props.next_game(s[s.season == data.current_season()])
+# same inputs as training: career history (games count, weighted averages run across seasons),
+# kept to players who have played this season. (Before Nov 15 PM this used this season only,
+# so every player looked like a rookie to the model - fixed.)
+nxt = props.next_game(s[s.season >= 2015])
+nxt = nxt[nxt.player_id.isin(s.loc[s.season == data.current_season(), "player_id"])]
 nxt["key"] = nxt["player_display_name"].map(norm)
 d = nfl.build()
 season = data.current_season()
@@ -137,7 +141,7 @@ for r in g.sort_values(["gameday", "gametime"]).itertuples(index=False):
     df["model"] = df.v2
     # the alt-spread table is for the home side; an away number uses its mirror
     hm = NICK[r.home_team]
-    df["v2"] = [(1 - tested(m, 1 - v)) if (m == "alt spread" and not b.startswith(r.home_team)) else tested(m, v)
+    df["v2"] = [(None if tested(m, 1 - v) is None else 1 - tested(m, 1 - v)) if (m == "alt spread" and not b.startswith(r.home_team)) else tested(m, v)
                 for m, v, b in zip(df.market, df.v2, df.bet)]
     df = df[df.v2.notna()]
     df["dk"] = df.price.map(odds.implied)

@@ -12,9 +12,13 @@ from nflmodel import odds, data
 from run import NICK
 
 # tested records (2023-26, v2 walk-forward). Spread vs opening line, edge = |model - line|.
-SPREAD_REC = [(1.0, "55.0% (333 picks)"), (0.0, "51.3% (all games)")]
-TOTAL_REC = "51.2% (493 picks, totals vs close 2023-26)"
-TEASE = {(1, 2.5): "79.3% per leg (135)", (3, 3.5): "72.8% per leg (136)"}
+# Edge measured vs DK's CURRENT line, graded at the close (game day): 2015-22 / 2023-26.
+# (vs the OPENING line it was 56.4% / 55.0% - that needs the bet placed when lines open.)
+SPREAD_REC = [(1.0, "52.6% (2015-22) / 49.5% (2023-26) on game day; 56.4% / 55.0% if bet at the opener"),
+              (0.0, "51.3% (all games)")]
+TOTAL_REC = "51.2% (2023-26); model leans Over in 92% of 2026 games while 52% went Over - biased"
+TEASE = {(1, 2.5): "69.9% (2015-22) / 80.0% (2023-26) per leg", (3, 3.5): "79.1% / 69.7% per leg",
+         (-7.5, -3.5): "70.9% / 71.4% per leg"}
 
 ap = argparse.ArgumentParser(); ap.add_argument("--week", type=int); ap.add_argument("--before"); ap.add_argument("--after"); ap.add_argument("--cached", action="store_true")
 a = ap.parse_args()

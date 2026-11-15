@@ -301,3 +301,18 @@ Graded against the CLOSING line (what you actually bet), out of sample. Scripts:
 - **RB rushing game script (Nov 9)**: favored backs' ladders now come from favored backs' history
   and are not shrunk toward 50/50 (2023-26: model 72-73% vs actual 79-80% before; 77-78% after).
 
+
+
+## V2 flaws found Nov 15 (checked with data, /tmp scripts reproduced in v2/)
+1. Spread "55%" was the record vs the OPENING line. On game day the card compares to DK's current
+   line, where the record is 52.6% (2015-22) / 49.5% (2023-26). Card labels fixed.
+2. Teaser records were quoted for 2023-26 only. 2015-22: dog +1..+2.5 69.9% (below 73.9% needed).
+3. Totals lean Over: 2026 model picked Over in 92% of games, 52% went Over (+1.36 pts bias).
+4. Props card fed the model this-season-only history (games count ~6 vs ~52 in training, weighted
+   averages different for 33-43% of players). Fixed: career history like training. After the fix,
+   Tuten TD, Stroud 250+, Love 256+, Goff 3+ TD no longer beat DK.
+5. Anytime TD: top-range chances have too few test cases, so stars (Gibbs) get no tested number.
+6. Props are priced before game-day inactives (posted ~90 min before kickoff); re-run needs API credits.
+7. ROLE CHECK flags any teammate who missed one of the last 3 games - also flags players who are on IR or cut.
+8. Props vs DK prices still untested: audit/v2_vs_dk.py grades the Nov 15 saved prices (made by the
+   card BEFORE fix 4).
