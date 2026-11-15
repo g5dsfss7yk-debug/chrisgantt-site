@@ -77,13 +77,24 @@ def tested(market, p):
     """The 2023-26 hit rate of rungs the model gave a chance in the same 5-point range."""
     c = CAL[market]
     i = int(np.clip(np.searchsorted(c["edges"], p, side="left") - 1, 0, len(c["hit"]) - 1))
-    return c["hit"][i]
+    # above the top tested range (too few cases, e.g. star TDs): use the highest range that was
+    # tested - the real rate there is at least as high, so this errs low, not high
+    j = i
+    while j > 0 and c["hit"][j] is None and p > c["edges"][j]:
+        j -= 1
+    return c["hit"][j] if c["hit"][j] is not None and (j == i or p > c["edges"][j]) else c["hit"][i]
 
 
 models = {}
 hist = props.history(s[s.season >= 2015].copy())
-for mk in set(MK.values()):
-    m = props.StatModel(mk); x = m.rows(hist); models[mk] = m.fit(x)
+import pickle
+CACHE = Path(__file__).parent / f"props_models_{pd.Timestamp.now('UTC'):%Y%m%d}.pkl"   # refit once a day
+if CACHE.exists():
+    models = pickle.load(open(CACHE, "rb"))
+else:
+    for mk in set(MK.values()):
+        m = props.StatModel(mk); x = m.rows(hist); models[mk] = m.fit(x)
+    pickle.dump(models, open(CACHE, "wb"))
 odds.TTL = 10**9 if a.cached else 0
 evs = odds.events("nfl")
 allrows = []
