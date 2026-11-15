@@ -250,6 +250,9 @@ Graded against the CLOSING line (what you actually bet), out of sample. Scripts:
 - Expect less than the table: many variables were tried, which flatters backtests.
 - Prop prices: `run.py props --line "Name:receiving_yards=40+@-250"` prints the edge vs DK.
 - Every recommended combo is logged and graded in `picks/recs.csv` with `recs.py`.
+- **BET EARLY (Nov 15)**: the NFL model's edge is mostly against the OPENING number (LEAN+STRONG
+  56.7% 2015-22, 57.1% 2023-26; vs close 51.8% / 55.6%). `run.py early` prices the week vs DraftKings'
+  current line as soon as it is posted. College does not work this way (about 50% vs open too).
 - **Rebuild test (Nov 14, `audit/market_error_model.py nfl|cfb`)**: a model of the CLOSING line's
   mistakes from situations only (no team strength), walk-forward. NFL spreads/totals and college
   spreads: no edge (47-54%). College totals when the model says 56%+: 55.6% (2018-22, 656) and

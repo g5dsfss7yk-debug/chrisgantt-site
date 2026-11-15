@@ -691,6 +691,36 @@ def cmd_live(args):
     print("\nPrices move fast: check DK's price is still at or better than shown before betting.")
 
 
+def cmd_early(args):
+    """Bet early: the model's spread picks against DraftKings' CURRENT line for a week, run as soon
+    as DK posts it (Sunday night / Monday). Audit A (audit/spread_teaser_audit.py): LEAN+STRONG vs the
+    OPENING line won 56.7% (2015-22, 556) and 57.1% (2023-26, 324); STRONG alone 63.9% / 57.2%.
+    By kickoff the line has usually moved toward the model, and the edge vs the close is smaller."""
+    import subprocess
+    import sys
+    from nflmodel import odds
+    season = data.current_season()
+    g = data.load_games()
+    wk = args.week or int(g[(g["season"] == season) & g["result"].isna()]["week"].min())
+    g = g[(g["season"] == season) & (g["week"] == wk)]
+    odds.TTL = 0
+    ev = odds._get("/sports/americanfootball_nfl/odds", bookmakers="draftkings", markets="spreads", oddsFormat="american")
+    lines = []
+    for r in g.itertuples(index=False):
+        e = [x for x in ev if NICK[r.home_team] in x["home_team"] and NICK[r.away_team] in x["away_team"]]
+        if not e or not e[0]["bookmakers"]:
+            print(f"no DraftKings line yet: {r.away_team} @ {r.home_team}")
+            continue
+        for m in e[0]["bookmakers"][0]["markets"]:
+            for o in m["outcomes"]:
+                if NICK[r.home_team] in o["name"]:
+                    lines += ["--line", f"{r.home_team}={o['point']:g}"]
+    if not lines:
+        raise SystemExit("DraftKings has not posted this week's lines yet")
+    print(f"week {wk}: DraftKings lines now; bet LEAN/STRONG picks at these numbers right away\n")
+    subprocess.run([sys.executable, str(Path(__file__).resolve()), "card", "--week", str(wk), "--force"] + lines)
+
+
 def cmd_lineup(args):
     games = data.load_games(args.refresh)
     season = args.season or data.current_season()
@@ -750,6 +780,8 @@ def main():
     pa = sub.add_parser("parlay", help="parlay chance and expected return, with a DK profit boost")
     pa.add_argument("--leg", action="append", required=True, help='chance@price, e.g. "0.72@-134" or "72%%@-134"')
     pa.add_argument("--boost", type=float, default=0.0, help="profit boost in percent, e.g. 30")
+    ea = sub.add_parser("early", help="model spread picks vs DraftKings' current line - run when lines open")
+    ea.add_argument("--week", type=int)
     lv = sub.add_parser("live", help="in-game ladder edges vs DraftKings live prices (needs ODDS_API_KEY)")
     lv.add_argument("--team", required=True, help="team code, e.g. CHI")
     lv.add_argument("--odds-team", help="name for the odds API if the code does not match, e.g. Bears")
@@ -764,7 +796,7 @@ def main():
     od.add_argument("--min-edge", type=float, default=0.0)
     args = ap.parse_args()
     {"backtest": cmd_backtest, "card": cmd_card, "grade": cmd_grade, "props": cmd_props,
-     "lineup": cmd_lineup, "odds": cmd_odds, "parlay": cmd_parlay, "live": cmd_live}[args.cmd](args)
+     "lineup": cmd_lineup, "odds": cmd_odds, "parlay": cmd_parlay, "live": cmd_live, "early": cmd_early}[args.cmd](args)
 
 
 if __name__ == "__main__":

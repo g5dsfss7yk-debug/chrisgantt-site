@@ -162,3 +162,5 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results,placed,placed_s
 161,2026-11-15,nfl,single,backed,3,-108,total:LV:under:40.5,home QB change -> under; ONLY if Mendoza starts (Cousins started last game),pending,pending,,,,-,pregame,0.519
 162,2026-11-16,nfl,single,backed,3,-110,total:BAL:under:38.5,home QB change -> under; ONLY if Huntley starts (Fagnano started last game),pending,pending,,,,-,pregame,0.524
 163,2026-11-14,cfb,parlay,fun,3,+310,spread:Louisiana Tech:-17.5 | total:Louisiana Tech:under:55.5,"Chris's SGP, $0.60 BONUS bet (no cash staked)",loss,win loss,yes,0,,,none,
+164,2026-11-22,nfl,single,backed,3,-110,spread:ARI:14,"EARLY bet (STRONG vs opener 63.9%/57.2%): card P 57%, 3/3",pending,,,,,0.57,pregame,0.524
+165,2026-11-22,nfl,single,backed,3,-110,spread:MIA:16.5,"EARLY bet (LEAN+STRONG vs opener 56.7%/57.1%): card P 55%, 3/3",pending,,,,,0.55,pregame,0.524
