@@ -340,3 +340,16 @@ Records are walk-forward, 2015-22 / 2023-26, pick graded at the game-day line.
 7. Still open: the card's QB names come from nflverse and can be stale (Nov 15: it listed Darnold for SEA
    while ESPN had him Out). props_card.py's alt spreads still fit on the opener and its calibration was
    not re-run after fix 2.
+
+## Dig for a game-day edge (Nov 15, `PYTHONPATH=. python v2/dig.py`)
+Five ideas fixed before looking, graded at the closing line, 1999-2014 / 2015-22 / 2023-26.
+1. **Teaser leg on EVERY dog +1.5 to +2.5 (6 points, no model): 72.7% of 395 / 77.0% of 283 / 77.3% of 207.**
+   With the game total 44 or less: 75.9% of 278 / 77.4% of 115 / 78.9% of 109 - above the 73.9% a 2-team
+   -120 teaser needs in all three periods. Total over 44: 65.0% / 76.8% / 75.5%. Actual same-week 2-team
+   teasers of these dogs won 55.0% / 60.6% / 63.8% (break-even 54.5% at -120, 56.5% at -130, 58.3% at -140).
+   The v2 model's dog picks did worse than all dogs (69.7% in 2015-22), so the model is NOT used to pick legs.
+   DK's teaser price was not checked - read it on the bet slip.
+2. Dog +3: 72.7% / 75.0% / 66.7%. Dog +3.5..+6.5: 67.7% / 73.9% / 67.9%. Favorite -7.5..-8.5: 72.7% / 76.8% / 63.2%. No.
+3. Moneylines at closing prices: no price range made money in both 2015-22 and 2023-26.
+4. Fading lines that stray from the market's own team ratings: 51-55% / 49-52% / 42-49%. No.
+5. nfelo's line vs the close: 53-57% / 56-58% / 47-51%. Worked for years, not since 2023. No.

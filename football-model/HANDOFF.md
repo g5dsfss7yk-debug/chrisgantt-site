@@ -19,6 +19,9 @@
 - #160: Watson started (ESPN box score). #161: LV inactives were not posted at 12:40 CT; ESPN had Darnold (SEA) Out.
 - One odds API call was made by `card.py --cached` (no cache existed in the new container); credits left not seen.
 
+- Dig (v2/dig.py, README "Dig for a game-day edge"): only teaser legs on every dog +1.5..+2.5 held in all periods
+  (best with total <= 44). Moneylines, market-rating fades and nfelo vs close did not. No such dog on Nov 15's late games.
+
 ## Next steps
 1. After ~3:30 CT: `PYTHONPATH=. python audit/v2_vs_dk.py` (8 early games). If model-over-DK rungs lose money,
    drop that bet type from the props card. Then `python recs.py grade`.

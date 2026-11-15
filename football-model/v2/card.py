@@ -61,6 +61,11 @@ for r in g.sort_values(["gameday", "gametime"]).itertuples(index=False):
     print(f"  SPREAD  {team} {pts:+g}   model margin {pred:+.1f} (home), edge {abs(edge):.1f} pts   tested {rec}")
     print(f"  WINNER  {r.home_team if pred > 0 else r.away_team} ML {ml.get('home' if pred > 0 else 'away')}")
     print(f"  TOTAL   {'Over' if ptot > tot else 'Under'} {tot:g}   model {ptot:.1f}   edge {abs(ptot - tot):.1f}   tested {next(t for lo, t in TOTAL_REC if abs(ptot - tot) >= lo)}")
+    if 1.5 <= abs(dk_line) <= 2.5:                       # v2/dig.py: every dog in this range, model not needed
+        dog = r.away_team if dk_line > 0 else r.home_team
+        low = "total 44 or less: 75.9% / 77.4% / 78.9%" if tot <= 44 else "total over 44: 65.0% / 76.8% / 75.5%"
+        print(f"  BEST TEASER LEG  {dog} {abs(dk_line) + 6:+g}   every dog +1.5..+2.5 teased 6: 72.7% (1999-2014) / 77.0% (2015-22) / "
+              f"77.3% (2023-26); {low}. Needs 73.9% at -120, 75.2% at -130 - check DK's teaser price")
     for (lo, hi), t in TEASE.items():
         if lo <= pts <= hi:
             print(f"  TEASER  {team} {pts + 6:+g}   tested {t}")
