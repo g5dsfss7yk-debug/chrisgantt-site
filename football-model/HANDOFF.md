@@ -1,5 +1,7 @@
 # HANDOFF - Nov 15 2026, ~1:15 CT (read CLAUDE.md first)
 
+**New agent: read `AGENT_HANDOFF.md` first - it is the full standalone handoff.**
+
 **Branch: `claude/pensive-wright-l3v5cy`** holds everything below. `claude/football-model` is ONE SESSION BEHIND
 (no fixes, no dig, old card) - Chris has not said to push there. Start the new chat on pensive-wright.
 
