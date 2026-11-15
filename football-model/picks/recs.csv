@@ -173,3 +173,10 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results,placed,placed_s
 172,2026-11-15,nfl,single,fun,3.0,-110,spread:KC:-3,V2 model spread (edge <1: 51.3% 2023-26),pending,,,,,0.513,pregame,0.524
 173,2026-11-15,nfl,single,backed,3.0,-110,spread:MIA:4.5,V2 model spread (edge 1+: 55.0% of 333 2023-26),pending,,,,,0.55,pregame,0.524
 174,2026-11-15,nfl,teaser,backed,3,-120,spread:NE:8.5 | spread:CAR:7.5,V2 model dog +1..+2.5 teased 6: 79.3% per leg (135) 2023-26,pending,,,,,0.793 0.793,teaser,0.739 0.739
+175,2026-11-15,nfl,parlay,fun,3,-,spread:GB:1.5 | spread:MIA:7.5,V2 props/alt (tested = 2023-26 hit rate of that model range; vs DK prices NOT tested),pending,,,,,0.76 0.71,pregame,0.64 0.65
+176,2026-11-15,nfl,single,fun,3,+215,prop:Jameson Williams:anytime_td:1,V2 props/alt (tested = 2023-26 hit rate of that model range; vs DK prices NOT tested),pending,,,,,0.41,pregame,0.32
+177,2026-11-15,nfl,single,fun,3,-105,prop:Bhayshul Tuten:anytime_td:1,V2 props/alt (tested = 2023-26 hit rate of that model range; vs DK prices NOT tested),pending,,,,,0.63,pregame,0.51
+178,2026-11-15,nfl,single,fun,3,+100,prop:Aaron Jones:rushing_yards:30,V2 props/alt (tested = 2023-26 hit rate of that model range; vs DK prices NOT tested),pending,,,,,0.61,pregame,0.50
+179,2026-11-15,nfl,single,fun,3,-109,prop:C.J. Stroud:passing_yards:250,V2 props/alt (tested = 2023-26 hit rate of that model range; vs DK prices NOT tested),pending,,,,,0.66,pregame,0.52
+180,2026-11-15,nfl,parlay,fun,3,-,prop:C.J. Stroud:passing_yards:250 | prop:Aaron Jones:rushing_yards:30 | prop:Bhayshul Tuten:anytime_td:1,V2 props/alt (tested = 2023-26 hit rate of that model range; vs DK prices NOT tested),pending,,,,,0.66 0.61 0.63,pregame,0.52 0.50 0.51
+181,2026-11-15,nfl,parlay,fun,3,-,prop:Jameson Williams:anytime_td:1 | spread:GB:1.5,V2 props/alt (tested = 2023-26 hit rate of that model range; vs DK prices NOT tested),pending,,,,,0.41 0.76,pregame,0.32 0.64

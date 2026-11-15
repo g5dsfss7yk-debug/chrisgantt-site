@@ -1,3 +1,4 @@
 data/
 __pycache__/
 v2/*.pkl
+v2/*.npy
