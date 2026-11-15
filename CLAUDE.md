@@ -10,11 +10,10 @@
 3. **If unsure what Chris means, ask** - do not pick an interpretation and run with it.
 4. Plain, short answers. Chris bets $3 per pick on DraftKings. Player props: no receptions, no rush
    attempts, no unders (DK prop ladders are overs). Game-total unders are fine (Chris, Nov 11). Read football-model/HANDOFF.md before betting work.
-5. **Pick mode, tested bets only (Chris, Nov 14).** Give picks only of the kinds that beat closing
-   lines out of sample (README "Rebuild test" / "Rule scan"), each with its tested record:
-   (a) NFL dog teaser legs +1 to +2.5 (79.4% per leg 2023-26); (b) NFL spread LEAN/STRONG picks BET EARLY: `run.py early` as soon as DK posts
-   the week's lines (vs opening line 56.7% / 57.1%; STRONG 63.9% / 57.2%); on game day only STRONG
-   (55.6% vs close 2023-26); HOLD = QB unconfirmed; (c) NFL home-team QB change ->
-   Under (54.5% 2023-26, only once the change is confirmed); (d) college SITUATIONAL total 56%+ from
-   `cfb.py card` (53.4% 2023-26). Everything else (college spreads/old totals, NFL totals, LEAN,
-   pregame props) has no edge - say so if asked. Log every pick with `recs.py add ... --prob --dk`.
+5. **V2 model, a pick on every game (Chris, Nov 15).** The old NFL model is scratched. Use
+   `python football-model/v2/card.py` (new model, play-by-play ratings, walk-forward tested): give a
+   spread, winner and total pick on EVERY game - no "no bet", no "coin toss". Each pick carries its
+   tested record: spread edge 1+ pts 55.0% of 333 (2023-26 vs opener), edge under 1 51.3%; totals
+   51.2%; teaser legs v2 dog +1..+2.5 teased 6 79.3% per leg, +3..+3.5 72.8% (2-team -120 needs 73.9%).
+   Parlays/teasers are built from these legs. Props are not rebuilt yet (only 1 game of DK prices
+   graded). College: `cfb.py card` SITUATIONAL total. Log every pick with `recs.py add ... --prob --dk`.

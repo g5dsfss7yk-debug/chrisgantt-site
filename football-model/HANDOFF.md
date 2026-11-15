@@ -1,3 +1,5 @@
+# NOV 15 2026: OLD NFL MODEL SCRATCHED. Use v2/card.py (see CLAUDE.md rule 5). Tests: v2/test_nfl.py, v2/test_teaser.py, v2/grid.py.
+
 # Handoff (Nov 9 2026)
 
 Chris bets $3 per pick on DraftKings for fun: prop parlays and teasers. Wants plain, short answers.

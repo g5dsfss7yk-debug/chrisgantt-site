@@ -1,166 +1,175 @@
 id,date,league,kind,tier,stake,odds,legs,note,result,leg_results,placed,placed_stake,to_pay,leg_probs,source,dk_probs
-1,2026-11-06,cfb,teaser,fun,2,,spread:South Florida:7.5 | spread:Nebraska:1.5 | spread:SMU:0.5,top play,loss,win loss win,,,,,none,
-2,2026-11-06,cfb,teaser,fun,2,,spread:South Florida:7.5 | spread:New Mexico:-4,,win,win win,,,,,none,
-3,2026-11-06,cfb,parlay,fun,2,190.0,ml:South Florida | ml:SMU,,loss,loss win,,,,,none,
-4,2026-11-07,cfb,teaser,fun,2,,spread:LSU:0 | total:LSU:under:59.5,best LSU play,loss,loss win,,,,,none,
-5,2026-11-07,cfb,teaser,fun,2,,spread:Louisiana Tech:-1 | spread:LSU:0,,loss,win loss,,,,,none,
-6,2026-11-08,nfl,parlay,fun,2,,prop:Matthew Golden:receiving_yards:40 | prop:Rhamondre Stevenson:rushing_yards:40,model 76% x 71%,loss,win loss,,,,0.76 0.71,pregame,
-7,2026-11-08,nfl,parlay,fun,2,,prop:Matthew Golden:receiving_yards:40 | prop:Rhamondre Stevenson:rushing_yards:40 | prop:Jordan Love:passing_yards:175,,loss,win loss win,,,,0.76 0.71 -,pregame,
-8,2026-11-08,nfl,single,fun,2,+112 or longer,prop:Rhamondre Stevenson:anytime_td:1,model 47%,win,win,,,,0.47,pregame,
-9,2026-11-08,nfl,parlay,fun,2,,prop:Colston Loveland:receiving_yards:40 | prop:D'Andre Swift:rushing_yards:50,model 72% x 68%,loss,win loss,,,,0.72 0.68,pregame,0.68 0.70
-10,2026-11-08,nfl,parlay,fun,2,,prop:Colston Loveland:receiving_yards:40 | prop:Rome Odunze:receiving_yards:30 | prop:D'Andre Swift:rushing_yards:50,,loss,win win loss,,,,0.72 - 0.68,pregame,0.68 0.74 0.70
-11,2026-11-08,nfl,single,fun,2,-130 or longer,prop:D'Andre Swift:anytime_td:1,model 60%,loss,loss,,,,0.60,pregame,0.655
+1,2026-11-06,cfb,teaser,fun,2.0,,spread:South Florida:7.5 | spread:Nebraska:1.5 | spread:SMU:0.5,top play,loss,win loss win,,,,,none,
+2,2026-11-06,cfb,teaser,fun,2.0,,spread:South Florida:7.5 | spread:New Mexico:-4,,win,win win,,,,,none,
+3,2026-11-06,cfb,parlay,fun,2.0,190.0,ml:South Florida | ml:SMU,,loss,loss win,,,,,none,
+4,2026-11-07,cfb,teaser,fun,2.0,,spread:LSU:0 | total:LSU:under:59.5,best LSU play,loss,loss win,,,,,none,
+5,2026-11-07,cfb,teaser,fun,2.0,,spread:Louisiana Tech:-1 | spread:LSU:0,,loss,win loss,,,,,none,
+6,2026-11-08,nfl,parlay,fun,2.0,,prop:Matthew Golden:receiving_yards:40 | prop:Rhamondre Stevenson:rushing_yards:40,model 76% x 71%,loss,win loss,,,,0.76 0.71,pregame,
+7,2026-11-08,nfl,parlay,fun,2.0,,prop:Matthew Golden:receiving_yards:40 | prop:Rhamondre Stevenson:rushing_yards:40 | prop:Jordan Love:passing_yards:175,,loss,win loss win,,,,0.76 0.71 -,pregame,
+8,2026-11-08,nfl,single,fun,2.0,+112 or longer,prop:Rhamondre Stevenson:anytime_td:1,model 47%,win,win,,,,0.47,pregame,
+9,2026-11-08,nfl,parlay,fun,2.0,,prop:Colston Loveland:receiving_yards:40 | prop:D'Andre Swift:rushing_yards:50,model 72% x 68%,loss,win loss,,,,0.72 0.68,pregame,0.68 0.70
+10,2026-11-08,nfl,parlay,fun,2.0,,prop:Colston Loveland:receiving_yards:40 | prop:Rome Odunze:receiving_yards:30 | prop:D'Andre Swift:rushing_yards:50,,loss,win win loss,,,,0.72 - 0.68,pregame,0.68 0.74 0.70
+11,2026-11-08,nfl,single,fun,2.0,-130 or longer,prop:D'Andre Swift:anytime_td:1,model 60%,loss,loss,,,,0.60,pregame,0.655
 12,2026-11-09,nfl,parlay,backed,2.0,+211 (DK -139/-123),prop:Aaron Jones:rushing_yards:30 | prop:Jordan Addison:receiving_yards:40,model 75% x 60% vs DK 58%/55%; sharp main lines disagree (Jones 33.5 / Addison 40.5 ~50%),loss,loss loss,,,,0.75 0.60,pregame,0.56 0.55
 13,2026-11-09,nfl,parlay,fun,1.0,~+135 (DK -383/-115),prop:James Cook:rushing_yards:60 | prop:James Cook:anytime_td:1,"model 70% x 55%, no edge vs DK",win,win win,,,,0.70 0.55,pregame,0.79 0.535
-14,2026-11-08,nfl,parlay,backed,3,+142 (placed),prop:D'Andre Swift:rushing_yards:60 | prop:Colston Loveland:receiving_yards:40,model 72% x 73% vs DK 57%/68%; Monangai Q and off DK board,loss,loss win,yes,3,7.26,0.72 0.73,pregame,0.57 0.68
-15,2026-11-08,nfl,parlay,fun,1.0,placed w/ +30% parlay boost,prop:D'Andre Swift:rushing_yards:65 | prop:Colston Loveland:receiving_yards:40 | prop:Kenny Gainwell:rushing_yards:20,"Gainwell 20+ model 73% vs 58%, but model median 32 vs DK 21.5 - role risk; placed with Swift 65+ (not 60+)",loss,loss win loss,yes,3,18.21,- 0.73 0.73,pregame,0.52 0.68 0.58
+14,2026-11-08,nfl,parlay,backed,3.0,+142 (placed),prop:D'Andre Swift:rushing_yards:60 | prop:Colston Loveland:receiving_yards:40,model 72% x 73% vs DK 57%/68%; Monangai Q and off DK board,loss,loss win,yes,3.0,7.26,0.72 0.73,pregame,0.57 0.68
+15,2026-11-08,nfl,parlay,fun,1.0,placed w/ +30% parlay boost,prop:D'Andre Swift:rushing_yards:65 | prop:Colston Loveland:receiving_yards:40 | prop:Kenny Gainwell:rushing_yards:20,"Gainwell 20+ model 73% vs 58%, but model median 32 vs DK 21.5 - role risk; placed with Swift 65+ (not 60+)",loss,loss win loss,yes,3.0,18.21,- 0.73 0.73,pregame,0.52 0.68 0.58
 16,2026-11-08,nfl,single,backed,2.0,+100 live (halftime),prop:Bucky Irving:rushing_yards:60,live model 69% vs DK 50%; has 32 at half,win,win,no,,,0.69,live,
 17,2026-11-08,nfl,single,backed,1.0,+205 live (halftime),prop:Bucky Irving:rushing_yards:70,live model 55% vs DK 33%,win,win,no,,,0.55,live,
 18,2026-11-08,nfl,single,backed,1.0,+270 live (Q3 14:07),prop:Bucky Irving:rushing_yards:80,live model 64% vs DK 27%; has 39,win,win,no,,,0.64,live,
-19,2026-11-09,nfl,single,backed,3,-125,prop:Aaron Jones:rushing_yards:30,model 70% vs DK 56% (Mon 4:30pm CT price),loss,loss,no,,,0.70,pregame,0.56
-20,2026-11-09,nfl,single,backed,3,-192,prop:Aaron Jones:rushing_yards:25,model 77% vs DK 66% (Mon 4:30pm CT price),loss,loss,yes,3,4.56,0.77,pregame,0.66
-21,2026-11-09,nfl,single,backed,3,-227,prop:Keon Coleman:receiving_yards:15,model 73% vs DK 69%,win,win,yes,3,4.32,0.73,pregame,0.69
-22,2026-11-09,nfl,single,fun,3,-120 (assumed),prop:Josh Allen:anytime_td:1,Chris's own pick (gut); model 31%,loss,loss,yes,3,5.5,0.31,none,0.545
-23,2026-11-10,cfb,single,fun,3,-105,total:Ohio:over:47.5,"pick mode: model 52%, 3/3 agree",win,win,,,,0.52,pregame,0.512
-24,2026-11-10,cfb,single,fun,3,-102,spread:Ohio:-1.5,"pick mode: model 50%, 2/3 agree",loss,loss,,,,0.50,pregame,0.505
-25,2026-11-11,cfb,single,fun,3,-112,spread:Toledo:-14,"pick mode: P 50%, 3/3",win,win,,,,0.50,pregame,0.528
-26,2026-11-11,cfb,single,fun,3,-118,spread:Sacramento State:17.5,"pick mode: P 52%, 3/3; both QBs changed last game",loss,loss,,,,0.52,pregame,0.541
-27,2026-11-11,cfb,single,fun,3,-112,total:Central Michigan:over:42.5,"pick mode: P 51%, 2/3",loss,loss,,,,0.51,pregame,0.528
-28,2026-11-11,cfb,single,fun,3,-108,spread:Buffalo:-1.5,"pick mode: P 51%, 3/3",win,win,,,,0.51,pregame,0.519
-29,2026-11-11,cfb,single,fun,3,-110,total:Ball State:over:51.5,"pick mode: P 51%, 3/3; rain risk 59%",loss,loss,,,,0.51,pregame,0.524
-30,2026-11-11,cfb,single,fun,3,-115,total:Toledo:under:52.5,"pick mode: P 50%, 2/3",win,win,,,,0.50,pregame,0.535
-31,2026-11-12,nfl,single,backed,3,-105,spread:WSH:1.5,"pick mode: card STRONG, P 58%, 3/3 (spread tiers 55.9% vs close 2023-26)",win,win,no,,,0.58,pregame,0.512
-32,2026-11-12,nfl,single,fun,3,-105,total:WSH:under:40.5,"pick mode: P 51%, rain risk",loss,loss,no,,,0.51,pregame,0.512
-33,2026-11-12,nfl,single,fun,3,-191,prop:Devin Singletary:rushing_yards:15,"pick mode: model 72% vs DK 66% (gap 6, not SKIP)",loss,loss,no,,,0.72,pregame,0.656
-34,2026-11-12,nfl,teaser,fun,3.0,,spread:WSH:7.5 | total:WSH:under:46.5,"Chris's bet; assumed standard 6-pt teaser (WAS +1.5->+7.5, Under 40.5->46.5)",win,win win,yes,3,,,none,
-35,2026-11-12,nfl,parlay,fun,3.0,,spread:WSH:1.5 | total:WSH:under:40.5 | prop:Devin Singletary:rushing_yards:20,Chris's bet,loss,win loss loss,yes,3,,,none,
-36,2026-11-12,nfl,parlay,fun,1.0,,prop:Antonio Williams:receiving_yards:70 | prop:Austin Ekeler:rushing_yards:25 | prop:Stefon Diggs/Cam Skattebo:anytime_td:1,Chris's bet; TD leg = either Diggs or Skattebo,loss,loss win win,yes,1,,,none,
-37,2026-11-13,cfb,single,fun,3,-115,spread:Pittsburgh:-3,"pick mode: P 51%, 3/3; Pitt QB changed; rain/snow",loss,loss,yes,3,5.52,0.51,pregame,0.535
-38,2026-11-13,cfb,single,fun,3,-105,total:Pittsburgh:over:52.5,"pick mode: P 51%, 3/3; rain/snow",loss,loss,no,,,0.51,pregame,0.512
-39,2026-11-13,cfb,single,fun,3,-112,spread:Illinois:10.5,"pick mode: P 50%, 3/3; UCLA QB changed",win,win,no,,,0.50,pregame,0.528
-40,2026-11-13,cfb,single,fun,3,-112,total:UCLA:under:48.5,"pick mode: P 50%, 2/3",win,win,no,,,0.50,pregame,0.528
-41,2026-11-13,cfb,single,fun,3,-110,spread:Houston:-7.5,"pick mode: P 52%, 3/3",loss,loss,yes,3,5.72,0.52,pregame,0.524
-42,2026-11-13,cfb,single,fun,3,-115,total:Colorado:over:51.5,"pick mode: P 50%, 3/3",win,win,no,,,0.50,pregame,0.535
-43,2026-11-13,cfb,parlay,fun,3.0,,spread:Houston:-7.5 | spread:Pittsburgh:-3,Chris's bet,loss,loss loss,yes,3,10.58,,none,
-44,2026-11-13,cfb,teaser,fun,3.0,,spread:Houston:-1.5 | spread:Pittsburgh:3,"Chris's bet; assumed 6-pt teaser on the same two: Houston -1.5, Pittsburgh +3",loss,loss loss,yes,3,5.6,,none,
-45,2026-11-14,cfb,single,fun,3,-108,spread:Cincinnati:2.5,"pick mode: P 50%, 1/3",loss,loss,,,,0.50,pregame,0.519
-46,2026-11-14,cfb,single,fun,3,-115,total:Iowa State:over:57.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.535
-47,2026-11-14,cfb,single,fun,3,-112,spread:Maryland:8.5,"pick mode: P 50%, 2/3; QB chg",win,win,,,,0.50,pregame,0.528
-48,2026-11-14,cfb,single,fun,3,-118,total:Maryland:over:40.5,"pick mode: P 51%, 3/3; QB chg",win,win,,,,0.51,pregame,0.541
-49,2026-11-14,cfb,single,fun,3,-112,spread:Duke:14,"pick mode: P 51%, 3/3",win,win,,,,0.51,pregame,0.528
-50,2026-11-14,cfb,single,fun,3,-118,total:Miami:under:55.5,"pick mode: P 50%, 2/3",loss,loss,,,,0.50,pregame,0.541
-51,2026-11-14,cfb,single,fun,3,+100,spread:Mississippi State:2.5,"pick mode: P 50%, 3/3; QB chg",loss,loss,,,,0.50,pregame,0.500
-52,2026-11-14,cfb,single,fun,3,-105,total:Mississippi State:over:51.5,"pick mode: P 50%, 3/3; QB chg",loss,loss,,,,0.50,pregame,0.512
-53,2026-11-14,cfb,single,fun,3,-120,spread:NC State:3,"pick mode: P 51%, 3/3",push,push,,,,0.51,pregame,0.545
-54,2026-11-14,cfb,single,fun,3,-110,total:NC State:over:54.5,"pick mode: P 50%, 2/3",win,win,,,,0.50,pregame,0.524
-55,2026-11-14,cfb,single,fun,3,-102,spread:Northwestern:14,"pick mode: P 50%, 1/3; QB chg, QB chg",win,win,,,,0.50,pregame,0.505
-56,2026-11-14,cfb,single,fun,3,-105,total:Ohio State:over:45.5,"pick mode: P 52%, 3/3; QB chg, QB chg",win,win,,,,0.52,pregame,0.512
-57,2026-11-14,cfb,single,fun,3,-112,spread:Wake Forest:2.5,"pick mode: P 53%, 3/3; QB chg",win,win,yes,3,5.68,0.53,pregame,0.528
-58,2026-11-14,cfb,single,fun,3,-110,total:SMU:under:60.5,"pick mode: P 52%, 3/3; QB chg",win,win,,,,0.52,pregame,0.524
-59,2026-11-14,cfb,single,fun,3,-110,spread:James Madison:-4.5,"pick mode: P 51%, 3/3; QB chg",loss,loss,,,,0.51,pregame,0.524
-60,2026-11-14,cfb,single,fun,3,-112,total:UConn:under:56.5,"pick mode: P 50%, 1/3; QB chg",loss,loss,,,,0.50,pregame,0.528
-61,2026-11-14,cfb,single,fun,3,-110,spread:Georgia Tech:15.5,"pick mode: P 52%, 3/3",win,win,,,,0.52,pregame,0.524
-62,2026-11-14,cfb,single,fun,3,-112,total:Clemson:over:47.5,"pick mode: P 50%, 2/3",loss,loss,,,,0.50,pregame,0.528
-63,2026-11-14,cfb,single,fun,3,-115,spread:Rutgers:15.5,"pick mode: P 50%, 3/3",loss,loss,,,,0.50,pregame,0.535
-64,2026-11-14,cfb,single,fun,3,-110,total:Rutgers:over:51.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.524
-65,2026-11-14,cfb,single,fun,3,-110,spread:Alabama:-14,"pick mode: P 52%, 3/3",win,win,,,,0.52,pregame,0.524
-66,2026-11-14,cfb,single,fun,3,-105,total:Vanderbilt:over:48.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.512
-67,2026-11-14,cfb,single,fun,3,-108,spread:East Carolina:-10.5,"pick mode: P 53%, 3/3; QB chg, QB chg",loss,loss,,,,0.53,pregame,0.519
-68,2026-11-14,cfb,single,fun,3,-115,total:Charlotte:over:45.5,"pick mode: P 51%, 3/3; QB chg, QB chg",loss,loss,,,,0.51,pregame,0.535
-69,2026-11-14,cfb,single,fun,3,-115,spread:Arkansas State:1.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.535
-70,2026-11-14,cfb,single,fun,3,-112,total:Coastal Carolina:under:53.5,"pick mode: P 50%, 3/3",win,win,,,,0.50,pregame,0.528
-71,2026-11-14,cfb,single,fun,3,-110,spread:UAB:2.5,"pick mode: P 50%, 3/3; QB chg",win,win,,,,0.50,pregame,0.524
-72,2026-11-14,cfb,single,fun,3,-115,total:Temple:over:47.5,"pick mode: P 51%, 3/3; QB chg",loss,loss,,,,0.51,pregame,0.535
-73,2026-11-14,cfb,single,fun,3,-105,spread:Tulane:3,"pick mode: P 51%, 3/3; QB chg, QB chg",win,win,,,,0.51,pregame,0.512
-74,2026-11-14,cfb,single,fun,3,-112,total:Rice:over:48.5,"pick mode: P 51%, 3/3; QB chg, QB chg",loss,loss,,,,0.51,pregame,0.528
-75,2026-11-14,cfb,single,fun,3,-102,spread:Kennesaw State:-7.5,"pick mode: P 51%, 3/3; QB chg",win,win,,,,0.51,pregame,0.505
-76,2026-11-14,cfb,single,fun,3,-112,total:Sam Houston:over:45.5,"pick mode: P 51%, 3/3; QB chg",loss,loss,,,,0.51,pregame,0.528
-77,2026-11-14,cfb,single,fun,3,-110,spread:Kansas State:13.5,"pick mode: P 52%, 3/3; QB chg",win,win,,,,0.52,pregame,0.524
-78,2026-11-14,cfb,single,fun,3,-112,total:TCU:over:44.5,"pick mode: P 51%, 3/3; QB chg",loss,loss,,,,0.51,pregame,0.528
-79,2026-11-14,cfb,single,fun,3,-112,spread:Delaware:-3.5,"pick mode: P 50%, 3/3",win,win,,,,0.50,pregame,0.528
-80,2026-11-14,cfb,single,fun,3,-112,total:Delaware:under:54.5,"pick mode: P 51%, 3/3",win,win,,,,0.51,pregame,0.528
-81,2026-11-14,cfb,single,fun,3,-112,spread:New Mexico State:1.5,"pick mode: P 50%, 3/3; QB chg",loss,loss,,,,0.50,pregame,0.528
-82,2026-11-14,cfb,single,fun,3,-105,total:Missouri State:over:49.5,"pick mode: P 51%, 3/3; QB chg",loss,loss,,,,0.51,pregame,0.512
-83,2026-11-14,cfb,single,fun,3,+102,spread:Tennessee:-1.5,"pick mode: P 51%, 3/3",win,win,,,,0.51,pregame,0.495
-84,2026-11-14,cfb,single,fun,3,-105,total:Texas A&M:over:44.5,"pick mode: P 50%, 2/3",loss,loss,,,,0.50,pregame,0.512
-85,2026-11-14,cfb,single,fun,3,-108,spread:Baylor:8.5,"pick mode: P 51%, 3/3; rain",pending,pending,,,,0.51,pregame,0.519
-86,2026-11-14,cfb,single,fun,3,-112,total:BYU:under:50.5,"pick mode: P 50%, 2/3; rain",pending,pending,,,,0.50,pregame,0.528
-87,2026-11-14,cfb,single,fun,3,-108,spread:Georgia:-16.5,"pick mode: P 51%, 3/3",win,win,,,,0.51,pregame,0.519
-88,2026-11-14,cfb,single,fun,3,-115,total:Georgia:under:48.5,"pick mode: P 50%, 3/3",loss,loss,,,,0.50,pregame,0.535
-89,2026-11-14,cfb,single,fun,3,-108,spread:Georgia State:6,"pick mode: P 51%, 3/3; QB chg",loss,loss,,,,0.51,pregame,0.519
-90,2026-11-14,cfb,single,fun,3,-112,total:Georgia State:over:55.5,"pick mode: P 50%, 2/3; QB chg",loss,loss,,,,0.50,pregame,0.528
-91,2026-11-14,cfb,single,fun,3,-112,spread:Indiana:-9.5,"pick mode: P 50%, 3/3",win,win,,,,0.50,pregame,0.528
-92,2026-11-14,cfb,single,fun,3,-108,total:Indiana:under:51.5,"pick mode: P 50%, 3/3",win,win,,,,0.50,pregame,0.519
-93,2026-11-14,cfb,single,fun,3,-110,spread:Liberty:-21,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.524
-94,2026-11-14,cfb,single,fun,3,-108,total:Liberty:over:53.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.519
-95,2026-11-14,cfb,single,fun,3,-112,spread:Nevada:-6,"pick mode: P 52%, 3/3; QB chg",win,win,,,,0.52,pregame,0.528
-96,2026-11-14,cfb,single,fun,3,-108,total:Northern Illinois:over:47.5,"pick mode: P 50%, 3/3; QB chg",loss,loss,,,,0.50,pregame,0.519
-97,2026-11-14,cfb,single,fun,3,-110,spread:Notre Dame:-29.5,"pick mode: P 52%, 3/3",win,win,,,,0.52,pregame,0.524
-98,2026-11-14,cfb,single,fun,3,-105,total:Notre Dame:under:51.5,"pick mode: P 51%, 3/3",win,win,,,,0.51,pregame,0.512
-99,2026-11-14,cfb,single,fun,3,-112,spread:Michigan:10,"pick mode: P 50%, 3/3; QB chg, rain",loss,loss,,,,0.50,pregame,0.528
-100,2026-11-14,cfb,single,fun,3,-115,total:Oregon:over:39.5,"pick mode: P 52%, 3/3; QB chg, rain",loss,loss,,,,0.52,pregame,0.535
-101,2026-11-14,cfb,single,fun,3,-105,spread:Florida Atlantic:6.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.512
-102,2026-11-14,cfb,single,fun,3,-105,total:Tulsa:under:72.5,"pick mode: P 52%, 3/3",pending,pending,,,,0.52,pregame,0.512
-103,2026-11-14,cfb,single,fun,3,-115,spread:Arizona State:3.5,"pick mode: P 51%, 3/3; QB chg, QB chg",pending,pending,,,,0.51,pregame,0.535
-104,2026-11-14,cfb,single,fun,3,-112,total:UCF:over:46.5,"pick mode: P 51%, 3/3; QB chg, QB chg",pending,pending,,,,0.51,pregame,0.528
-105,2026-11-14,cfb,single,fun,3,-110,spread:Virginia:-11.5,"pick mode: P 51%, 3/3",win,win,,,,0.51,pregame,0.524
-106,2026-11-14,cfb,single,fun,3,-118,total:Virginia:over:46.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.541
-107,2026-11-14,cfb,single,fun,3,-108,spread:Jacksonville State:-7.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.519
-108,2026-11-14,cfb,single,fun,3,-112,total:Western Kentucky:under:54.5,"pick mode: P 50%, 3/3",loss,loss,,,,0.50,pregame,0.528
-109,2026-11-14,cfb,single,fun,3,-115,spread:Fresno State:11.5,pick mode (2:38 CT line): P 51%,win,win,,,,0.51,pregame,0.535
-110,2026-11-14,cfb,single,fun,3,-112,total:Texas State:under:60.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.528
-111,2026-11-14,cfb,single,fun,3,-108,spread:Washington:-2.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.519
-112,2026-11-14,cfb,single,fun,3,-102,total:Michigan State:over:44.5,"pick mode: P 50%, 2/3",pending,pending,,,,0.50,pregame,0.505
-113,2026-11-14,cfb,single,fun,3,-105,spread:Ole Miss:2.5,"pick mode: P 52%, 3/3",pending,pending,yes,3,5.85,0.52,pregame,0.512
-114,2026-11-14,cfb,single,fun,3,-112,total:Oklahoma:over:48.5,pick mode (2:38 CT line): P 50%,pending,pending,,,,0.50,pregame,0.528
-115,2026-11-14,cfb,single,fun,3,-112,spread:Southern Miss:17.5,"pick mode: P 50%, 3/3; QB chg",loss,loss,,,,0.50,pregame,0.528
-116,2026-11-14,cfb,single,fun,3,-115,total:Louisiana Tech:under:56.5,"pick mode: P 52%, 3/3; QB chg",loss,loss,,,,0.52,pregame,0.535
-117,2026-11-14,cfb,single,fun,3,-112,spread:Kansas:2.5,"pick mode: P 52%, 3/3",win,win,,,,0.52,pregame,0.528
-118,2026-11-14,cfb,single,fun,3,-112,total:West Virginia:under:68.5,"pick mode: P 52%, 3/3",win,win,,,,0.52,pregame,0.528
-119,2026-11-14,cfb,single,fun,3,-108,spread:Oregon State:16.5,"pick mode: P 52%, 3/3; QB chg, rain",pending,pending,,,,0.52,pregame,0.519
-120,2026-11-14,cfb,single,fun,3,-112,total:Boise State:under:64.5,"pick mode: P 51%, 3/3; QB chg, rain",pending,pending,,,,0.51,pregame,0.528
-121,2026-11-14,cfb,single,fun,3,-108,spread:Marshall:1.5,"pick mode: P 50%, 3/3; QB chg",pending,pending,,,,0.50,pregame,0.519
-122,2026-11-14,cfb,single,fun,3,-105,total:Marshall:under:54.5,"pick mode: P 51%, 3/3; QB chg",pending,pending,,,,0.51,pregame,0.512
-123,2026-11-14,cfb,single,fun,3,-112,spread:Kentucky:-3,"pick mode: P 50%, 2/3; QB chg",pending,pending,,,,0.50,pregame,0.528
-124,2026-11-14,cfb,single,fun,3,-112,total:Kentucky:over:52.5,"pick mode: P 50%, 3/3; QB chg",pending,pending,,,,0.50,pregame,0.528
-125,2026-11-14,cfb,single,fun,3,-112,spread:San José State:14,"pick mode: P 51%, 3/3; QB chg, QB chg",pending,pending,,,,0.51,pregame,0.528
-126,2026-11-14,cfb,single,fun,3,-112,total:Air Force:under:48.5,"pick mode: P 51%, 2/3; QB chg, QB chg",pending,pending,,,,0.51,pregame,0.528
-127,2026-11-14,cfb,single,fun,3,-110,spread:Louisville:-3.5,"pick mode: P 50%, 3/3",pending,pending,,,,0.50,pregame,0.524
-128,2026-11-14,cfb,single,fun,3,-110,total:North Carolina:under:57.5,"pick mode: P 50%, 3/3",pending,pending,,,,0.50,pregame,0.524
-129,2026-11-14,cfb,single,fun,3,-108,spread:Minnesota:12.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.519
-130,2026-11-14,cfb,single,fun,3,-108,total:Penn State:over:42.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.519
-131,2026-11-14,cfb,single,fun,3,-110,spread:Troy:3,"pick mode: P 50%, 2/3; QB chg, QB chg",pending,pending,,,,0.50,pregame,0.524
-132,2026-11-14,cfb,single,fun,3,-108,total:South Alabama:under:55.5,"pick mode: P 51%, 3/3; QB chg, QB chg",pending,pending,,,,0.51,pregame,0.519
-133,2026-11-14,cfb,single,fun,3,-102,spread:Utah:-1.5,"pick mode: P 52%, 3/3",pending,pending,,,,0.52,pregame,0.505
-134,2026-11-14,cfb,single,fun,3,-112,total:Arizona:under:55.5,"pick mode: P 51%, 2/3",pending,pending,,,,0.51,pregame,0.528
-135,2026-11-14,cfb,single,fun,3,-108,spread:Iowa:-17.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.519
-136,2026-11-14,cfb,single,fun,3,-112,total:Iowa:over:47.5,"pick mode: P 52%, 3/3",pending,pending,,,,0.52,pregame,0.528
-137,2026-11-14,cfb,single,fun,3,-105,spread:Texas:4.5,"pick mode: P 50%, 2/3",pending,pending,,,,0.50,pregame,0.512
-138,2026-11-14,cfb,single,fun,3,-115,total:LSU:over:46.5,"pick mode: P 50%, 2/3",pending,pending,,,,0.50,pregame,0.535
-139,2026-11-14,cfb,single,fun,3,-108,spread:New Mexico:-17.5,"pick mode: P 50%, 2/3; rain",pending,pending,,,,0.50,pregame,0.519
-140,2026-11-14,cfb,single,fun,3,-110,total:New Mexico:over:46.5,"pick mode: P 51%, 3/3; rain",pending,pending,,,,0.51,pregame,0.524
-141,2026-11-14,cfb,single,fun,3,-115,spread:Virginia Tech:-16.5,"pick mode: P 50%, 3/3",pending,pending,,,,0.50,pregame,0.535
-142,2026-11-14,cfb,single,fun,3,-105,total:Virginia Tech:under:57.5,"pick mode: P 50%, 1/3",pending,pending,,,,0.50,pregame,0.512
-143,2026-11-14,cfb,single,fun,3,-108,spread:South Carolina:-7.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.519
-144,2026-11-14,cfb,single,fun,3,-105,total:Arkansas:over:52.5,"pick mode: P 50%, 3/3",pending,pending,,,,0.50,pregame,0.512
-145,2026-11-14,cfb,single,fun,3,-112,spread:North Texas:-2.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.528
-146,2026-11-14,cfb,single,fun,3,-115,total:UTSA:under:76.5,"pick mode: P 53%, 3/3",pending,pending,,,,0.53,pregame,0.535
-147,2026-11-14,cfb,single,fun,3,-112,spread:Texas Tech:3.5,"pick mode: P 51%, 3/3; QB chg",pending,pending,,,,0.51,pregame,0.528
-148,2026-11-14,cfb,single,fun,3,-110,total:Oklahoma State:under:73.5,"pick mode: P 56%, 3/3; QB chg",pending,pending,,,,0.56,pregame,0.524
-149,2026-11-14,cfb,single,fun,3,-105,spread:Utah State:-3,"pick mode: P 51%, 3/3; QB chg, QB chg, rain",pending,pending,,,,0.51,pregame,0.512
-150,2026-11-14,cfb,single,fun,3,-115,total:San Diego State:over:43.5,"pick mode: P 50%, 2/3; QB chg, QB chg, rain",pending,pending,,,,0.50,pregame,0.535
-151,2026-11-14,cfb,single,fun,3,-105,spread:Wyoming:-7,"pick mode: P 52%, 3/3; QB chg",pending,pending,,,,0.52,pregame,0.512
-152,2026-11-14,cfb,single,fun,3,-110,total:UTEP:over:40.5,"pick mode: P 54%, 3/3; QB chg",pending,pending,,,,0.54,pregame,0.524
-153,2026-11-14,cfb,single,fun,3,-108,spread:Washington State:-8.5,"pick mode: P 51%, 2/3; QB chg",pending,pending,,,,0.51,pregame,0.519
-154,2026-11-14,cfb,single,fun,3,-105,total:Washington State:under:64.5,"pick mode: P 51%, 3/3; QB chg",pending,pending,,,,0.51,pregame,0.512
-155,2026-11-14,cfb,single,fun,3,-108,spread:North Dakota State:-7,"pick mode: P 50%, 2/3",pending,pending,,,,0.50,pregame,0.519
-156,2026-11-14,cfb,single,fun,3,-108,total:Hawai'i:over:39.5,"pick mode: P 52%, 3/3",pending,pending,,,,0.52,pregame,0.519
-157,2026-11-14,cfb,teaser,fun,3.0,,spread:Ole Miss:8.5 | total:Louisiana Tech:under:62.5,"Chris's bet; assumed 6-pt: Ole Miss +8.5, Under 62.5",loss,pending loss,yes,3,,,none,
-158,2026-11-15,nfl,single,backed,3,-112,spread:KC:-3,WITHDRAWN Nov 15: model on 0-3 pt favorites won 48.0% (miss review) - not a bet,pending,pending,no,,,0.55,pregame,0.528
-159,2026-11-15,nfl,teaser,backed,3,,spread:NE:8.5 | spread:CAR:8.5,dog teaser +1..+2.5 (79.4% per leg 2023-26),pending,pending pending,,,,0.77 0.77,teaser,- -
-160,2026-11-15,nfl,single,backed,3,-112,total:CLE:under:40.5,home QB change -> under (rule scan 54.5% 2023-26); ONLY if Watson starts (Sanders started last game),pending,pending,,,,-,pregame,0.528
-161,2026-11-15,nfl,single,backed,3,-108,total:LV:under:40.5,home QB change -> under; ONLY if Mendoza starts (Cousins started last game),pending,pending,,,,-,pregame,0.519
-162,2026-11-16,nfl,single,backed,3,-110,total:BAL:under:38.5,home QB change -> under; ONLY if Huntley starts (Fagnano started last game),pending,pending,,,,-,pregame,0.524
-163,2026-11-14,cfb,parlay,fun,3,+310,spread:Louisiana Tech:-17.5 | total:Louisiana Tech:under:55.5,"Chris's SGP, $0.60 BONUS bet (no cash staked)",loss,win loss,yes,0,,,none,
-164,2026-11-22,nfl,single,backed,3,-110,spread:ARI:14,"EARLY bet (STRONG vs opener 63.9%/57.2%): card P 57%, 3/3",pending,,,,,0.57,pregame,0.524
-165,2026-11-22,nfl,single,backed,3,-110,spread:MIA:16.5,"EARLY bet (LEAN+STRONG vs opener 56.7%/57.1%): card P 55%, 3/3",pending,,,,,0.55,pregame,0.524
+19,2026-11-09,nfl,single,backed,3.0,-125,prop:Aaron Jones:rushing_yards:30,model 70% vs DK 56% (Mon 4:30pm CT price),loss,loss,no,,,0.70,pregame,0.56
+20,2026-11-09,nfl,single,backed,3.0,-192,prop:Aaron Jones:rushing_yards:25,model 77% vs DK 66% (Mon 4:30pm CT price),loss,loss,yes,3.0,4.56,0.77,pregame,0.66
+21,2026-11-09,nfl,single,backed,3.0,-227,prop:Keon Coleman:receiving_yards:15,model 73% vs DK 69%,win,win,yes,3.0,4.32,0.73,pregame,0.69
+22,2026-11-09,nfl,single,fun,3.0,-120 (assumed),prop:Josh Allen:anytime_td:1,Chris's own pick (gut); model 31%,loss,loss,yes,3.0,5.5,0.31,none,0.545
+23,2026-11-10,cfb,single,fun,3.0,-105,total:Ohio:over:47.5,"pick mode: model 52%, 3/3 agree",win,win,,,,0.52,pregame,0.512
+24,2026-11-10,cfb,single,fun,3.0,-102,spread:Ohio:-1.5,"pick mode: model 50%, 2/3 agree",loss,loss,,,,0.50,pregame,0.505
+25,2026-11-11,cfb,single,fun,3.0,-112,spread:Toledo:-14,"pick mode: P 50%, 3/3",win,win,,,,0.50,pregame,0.528
+26,2026-11-11,cfb,single,fun,3.0,-118,spread:Sacramento State:17.5,"pick mode: P 52%, 3/3; both QBs changed last game",loss,loss,,,,0.52,pregame,0.541
+27,2026-11-11,cfb,single,fun,3.0,-112,total:Central Michigan:over:42.5,"pick mode: P 51%, 2/3",loss,loss,,,,0.51,pregame,0.528
+28,2026-11-11,cfb,single,fun,3.0,-108,spread:Buffalo:-1.5,"pick mode: P 51%, 3/3",win,win,,,,0.51,pregame,0.519
+29,2026-11-11,cfb,single,fun,3.0,-110,total:Ball State:over:51.5,"pick mode: P 51%, 3/3; rain risk 59%",loss,loss,,,,0.51,pregame,0.524
+30,2026-11-11,cfb,single,fun,3.0,-115,total:Toledo:under:52.5,"pick mode: P 50%, 2/3",win,win,,,,0.50,pregame,0.535
+31,2026-11-12,nfl,single,backed,3.0,-105,spread:WSH:1.5,"pick mode: card STRONG, P 58%, 3/3 (spread tiers 55.9% vs close 2023-26)",win,win,no,,,0.58,pregame,0.512
+32,2026-11-12,nfl,single,fun,3.0,-105,total:WSH:under:40.5,"pick mode: P 51%, rain risk",loss,loss,no,,,0.51,pregame,0.512
+33,2026-11-12,nfl,single,fun,3.0,-191,prop:Devin Singletary:rushing_yards:15,"pick mode: model 72% vs DK 66% (gap 6, not SKIP)",loss,loss,no,,,0.72,pregame,0.656
+34,2026-11-12,nfl,teaser,fun,3.0,,spread:WSH:7.5 | total:WSH:under:46.5,"Chris's bet; assumed standard 6-pt teaser (WAS +1.5->+7.5, Under 40.5->46.5)",win,win win,yes,3.0,,,none,
+35,2026-11-12,nfl,parlay,fun,3.0,,spread:WSH:1.5 | total:WSH:under:40.5 | prop:Devin Singletary:rushing_yards:20,Chris's bet,loss,win loss loss,yes,3.0,,,none,
+36,2026-11-12,nfl,parlay,fun,1.0,,prop:Antonio Williams:receiving_yards:70 | prop:Austin Ekeler:rushing_yards:25 | prop:Stefon Diggs/Cam Skattebo:anytime_td:1,Chris's bet; TD leg = either Diggs or Skattebo,loss,loss win win,yes,1.0,,,none,
+37,2026-11-13,cfb,single,fun,3.0,-115,spread:Pittsburgh:-3,"pick mode: P 51%, 3/3; Pitt QB changed; rain/snow",loss,loss,yes,3.0,5.52,0.51,pregame,0.535
+38,2026-11-13,cfb,single,fun,3.0,-105,total:Pittsburgh:over:52.5,"pick mode: P 51%, 3/3; rain/snow",loss,loss,no,,,0.51,pregame,0.512
+39,2026-11-13,cfb,single,fun,3.0,-112,spread:Illinois:10.5,"pick mode: P 50%, 3/3; UCLA QB changed",win,win,no,,,0.50,pregame,0.528
+40,2026-11-13,cfb,single,fun,3.0,-112,total:UCLA:under:48.5,"pick mode: P 50%, 2/3",win,win,no,,,0.50,pregame,0.528
+41,2026-11-13,cfb,single,fun,3.0,-110,spread:Houston:-7.5,"pick mode: P 52%, 3/3",loss,loss,yes,3.0,5.72,0.52,pregame,0.524
+42,2026-11-13,cfb,single,fun,3.0,-115,total:Colorado:over:51.5,"pick mode: P 50%, 3/3",win,win,no,,,0.50,pregame,0.535
+43,2026-11-13,cfb,parlay,fun,3.0,,spread:Houston:-7.5 | spread:Pittsburgh:-3,Chris's bet,loss,loss loss,yes,3.0,10.58,,none,
+44,2026-11-13,cfb,teaser,fun,3.0,,spread:Houston:-1.5 | spread:Pittsburgh:3,"Chris's bet; assumed 6-pt teaser on the same two: Houston -1.5, Pittsburgh +3",loss,loss loss,yes,3.0,5.6,,none,
+45,2026-11-14,cfb,single,fun,3.0,-108,spread:Cincinnati:2.5,"pick mode: P 50%, 1/3",loss,loss,,,,0.50,pregame,0.519
+46,2026-11-14,cfb,single,fun,3.0,-115,total:Iowa State:over:57.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.535
+47,2026-11-14,cfb,single,fun,3.0,-112,spread:Maryland:8.5,"pick mode: P 50%, 2/3; QB chg",win,win,,,,0.50,pregame,0.528
+48,2026-11-14,cfb,single,fun,3.0,-118,total:Maryland:over:40.5,"pick mode: P 51%, 3/3; QB chg",win,win,,,,0.51,pregame,0.541
+49,2026-11-14,cfb,single,fun,3.0,-112,spread:Duke:14,"pick mode: P 51%, 3/3",win,win,,,,0.51,pregame,0.528
+50,2026-11-14,cfb,single,fun,3.0,-118,total:Miami:under:55.5,"pick mode: P 50%, 2/3",loss,loss,,,,0.50,pregame,0.541
+51,2026-11-14,cfb,single,fun,3.0,+100,spread:Mississippi State:2.5,"pick mode: P 50%, 3/3; QB chg",loss,loss,,,,0.50,pregame,0.500
+52,2026-11-14,cfb,single,fun,3.0,-105,total:Mississippi State:over:51.5,"pick mode: P 50%, 3/3; QB chg",loss,loss,,,,0.50,pregame,0.512
+53,2026-11-14,cfb,single,fun,3.0,-120,spread:NC State:3,"pick mode: P 51%, 3/3",push,push,,,,0.51,pregame,0.545
+54,2026-11-14,cfb,single,fun,3.0,-110,total:NC State:over:54.5,"pick mode: P 50%, 2/3",win,win,,,,0.50,pregame,0.524
+55,2026-11-14,cfb,single,fun,3.0,-102,spread:Northwestern:14,"pick mode: P 50%, 1/3; QB chg, QB chg",win,win,,,,0.50,pregame,0.505
+56,2026-11-14,cfb,single,fun,3.0,-105,total:Ohio State:over:45.5,"pick mode: P 52%, 3/3; QB chg, QB chg",win,win,,,,0.52,pregame,0.512
+57,2026-11-14,cfb,single,fun,3.0,-112,spread:Wake Forest:2.5,"pick mode: P 53%, 3/3; QB chg",win,win,yes,3.0,5.68,0.53,pregame,0.528
+58,2026-11-14,cfb,single,fun,3.0,-110,total:SMU:under:60.5,"pick mode: P 52%, 3/3; QB chg",win,win,,,,0.52,pregame,0.524
+59,2026-11-14,cfb,single,fun,3.0,-110,spread:James Madison:-4.5,"pick mode: P 51%, 3/3; QB chg",loss,loss,,,,0.51,pregame,0.524
+60,2026-11-14,cfb,single,fun,3.0,-112,total:UConn:under:56.5,"pick mode: P 50%, 1/3; QB chg",loss,loss,,,,0.50,pregame,0.528
+61,2026-11-14,cfb,single,fun,3.0,-110,spread:Georgia Tech:15.5,"pick mode: P 52%, 3/3",win,win,,,,0.52,pregame,0.524
+62,2026-11-14,cfb,single,fun,3.0,-112,total:Clemson:over:47.5,"pick mode: P 50%, 2/3",loss,loss,,,,0.50,pregame,0.528
+63,2026-11-14,cfb,single,fun,3.0,-115,spread:Rutgers:15.5,"pick mode: P 50%, 3/3",loss,loss,,,,0.50,pregame,0.535
+64,2026-11-14,cfb,single,fun,3.0,-110,total:Rutgers:over:51.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.524
+65,2026-11-14,cfb,single,fun,3.0,-110,spread:Alabama:-14,"pick mode: P 52%, 3/3",win,win,,,,0.52,pregame,0.524
+66,2026-11-14,cfb,single,fun,3.0,-105,total:Vanderbilt:over:48.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.512
+67,2026-11-14,cfb,single,fun,3.0,-108,spread:East Carolina:-10.5,"pick mode: P 53%, 3/3; QB chg, QB chg",loss,loss,,,,0.53,pregame,0.519
+68,2026-11-14,cfb,single,fun,3.0,-115,total:Charlotte:over:45.5,"pick mode: P 51%, 3/3; QB chg, QB chg",loss,loss,,,,0.51,pregame,0.535
+69,2026-11-14,cfb,single,fun,3.0,-115,spread:Arkansas State:1.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.535
+70,2026-11-14,cfb,single,fun,3.0,-112,total:Coastal Carolina:under:53.5,"pick mode: P 50%, 3/3",win,win,,,,0.50,pregame,0.528
+71,2026-11-14,cfb,single,fun,3.0,-110,spread:UAB:2.5,"pick mode: P 50%, 3/3; QB chg",win,win,,,,0.50,pregame,0.524
+72,2026-11-14,cfb,single,fun,3.0,-115,total:Temple:over:47.5,"pick mode: P 51%, 3/3; QB chg",loss,loss,,,,0.51,pregame,0.535
+73,2026-11-14,cfb,single,fun,3.0,-105,spread:Tulane:3,"pick mode: P 51%, 3/3; QB chg, QB chg",win,win,,,,0.51,pregame,0.512
+74,2026-11-14,cfb,single,fun,3.0,-112,total:Rice:over:48.5,"pick mode: P 51%, 3/3; QB chg, QB chg",loss,loss,,,,0.51,pregame,0.528
+75,2026-11-14,cfb,single,fun,3.0,-102,spread:Kennesaw State:-7.5,"pick mode: P 51%, 3/3; QB chg",win,win,,,,0.51,pregame,0.505
+76,2026-11-14,cfb,single,fun,3.0,-112,total:Sam Houston:over:45.5,"pick mode: P 51%, 3/3; QB chg",loss,loss,,,,0.51,pregame,0.528
+77,2026-11-14,cfb,single,fun,3.0,-110,spread:Kansas State:13.5,"pick mode: P 52%, 3/3; QB chg",win,win,,,,0.52,pregame,0.524
+78,2026-11-14,cfb,single,fun,3.0,-112,total:TCU:over:44.5,"pick mode: P 51%, 3/3; QB chg",loss,loss,,,,0.51,pregame,0.528
+79,2026-11-14,cfb,single,fun,3.0,-112,spread:Delaware:-3.5,"pick mode: P 50%, 3/3",win,win,,,,0.50,pregame,0.528
+80,2026-11-14,cfb,single,fun,3.0,-112,total:Delaware:under:54.5,"pick mode: P 51%, 3/3",win,win,,,,0.51,pregame,0.528
+81,2026-11-14,cfb,single,fun,3.0,-112,spread:New Mexico State:1.5,"pick mode: P 50%, 3/3; QB chg",loss,loss,,,,0.50,pregame,0.528
+82,2026-11-14,cfb,single,fun,3.0,-105,total:Missouri State:over:49.5,"pick mode: P 51%, 3/3; QB chg",loss,loss,,,,0.51,pregame,0.512
+83,2026-11-14,cfb,single,fun,3.0,+102,spread:Tennessee:-1.5,"pick mode: P 51%, 3/3",win,win,,,,0.51,pregame,0.495
+84,2026-11-14,cfb,single,fun,3.0,-105,total:Texas A&M:over:44.5,"pick mode: P 50%, 2/3",loss,loss,,,,0.50,pregame,0.512
+85,2026-11-14,cfb,single,fun,3.0,-108,spread:Baylor:8.5,"pick mode: P 51%, 3/3; rain",pending,pending,,,,0.51,pregame,0.519
+86,2026-11-14,cfb,single,fun,3.0,-112,total:BYU:under:50.5,"pick mode: P 50%, 2/3; rain",pending,pending,,,,0.50,pregame,0.528
+87,2026-11-14,cfb,single,fun,3.0,-108,spread:Georgia:-16.5,"pick mode: P 51%, 3/3",win,win,,,,0.51,pregame,0.519
+88,2026-11-14,cfb,single,fun,3.0,-115,total:Georgia:under:48.5,"pick mode: P 50%, 3/3",loss,loss,,,,0.50,pregame,0.535
+89,2026-11-14,cfb,single,fun,3.0,-108,spread:Georgia State:6,"pick mode: P 51%, 3/3; QB chg",loss,loss,,,,0.51,pregame,0.519
+90,2026-11-14,cfb,single,fun,3.0,-112,total:Georgia State:over:55.5,"pick mode: P 50%, 2/3; QB chg",loss,loss,,,,0.50,pregame,0.528
+91,2026-11-14,cfb,single,fun,3.0,-112,spread:Indiana:-9.5,"pick mode: P 50%, 3/3",win,win,,,,0.50,pregame,0.528
+92,2026-11-14,cfb,single,fun,3.0,-108,total:Indiana:under:51.5,"pick mode: P 50%, 3/3",win,win,,,,0.50,pregame,0.519
+93,2026-11-14,cfb,single,fun,3.0,-110,spread:Liberty:-21,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.524
+94,2026-11-14,cfb,single,fun,3.0,-108,total:Liberty:over:53.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.519
+95,2026-11-14,cfb,single,fun,3.0,-112,spread:Nevada:-6,"pick mode: P 52%, 3/3; QB chg",win,win,,,,0.52,pregame,0.528
+96,2026-11-14,cfb,single,fun,3.0,-108,total:Northern Illinois:over:47.5,"pick mode: P 50%, 3/3; QB chg",loss,loss,,,,0.50,pregame,0.519
+97,2026-11-14,cfb,single,fun,3.0,-110,spread:Notre Dame:-29.5,"pick mode: P 52%, 3/3",win,win,,,,0.52,pregame,0.524
+98,2026-11-14,cfb,single,fun,3.0,-105,total:Notre Dame:under:51.5,"pick mode: P 51%, 3/3",win,win,,,,0.51,pregame,0.512
+99,2026-11-14,cfb,single,fun,3.0,-112,spread:Michigan:10,"pick mode: P 50%, 3/3; QB chg, rain",loss,loss,,,,0.50,pregame,0.528
+100,2026-11-14,cfb,single,fun,3.0,-115,total:Oregon:over:39.5,"pick mode: P 52%, 3/3; QB chg, rain",loss,loss,,,,0.52,pregame,0.535
+101,2026-11-14,cfb,single,fun,3.0,-105,spread:Florida Atlantic:6.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.512
+102,2026-11-14,cfb,single,fun,3.0,-105,total:Tulsa:under:72.5,"pick mode: P 52%, 3/3",pending,pending,,,,0.52,pregame,0.512
+103,2026-11-14,cfb,single,fun,3.0,-115,spread:Arizona State:3.5,"pick mode: P 51%, 3/3; QB chg, QB chg",pending,pending,,,,0.51,pregame,0.535
+104,2026-11-14,cfb,single,fun,3.0,-112,total:UCF:over:46.5,"pick mode: P 51%, 3/3; QB chg, QB chg",pending,pending,,,,0.51,pregame,0.528
+105,2026-11-14,cfb,single,fun,3.0,-110,spread:Virginia:-11.5,"pick mode: P 51%, 3/3",win,win,,,,0.51,pregame,0.524
+106,2026-11-14,cfb,single,fun,3.0,-118,total:Virginia:over:46.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.541
+107,2026-11-14,cfb,single,fun,3.0,-108,spread:Jacksonville State:-7.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.519
+108,2026-11-14,cfb,single,fun,3.0,-112,total:Western Kentucky:under:54.5,"pick mode: P 50%, 3/3",loss,loss,,,,0.50,pregame,0.528
+109,2026-11-14,cfb,single,fun,3.0,-115,spread:Fresno State:11.5,pick mode (2:38 CT line): P 51%,win,win,,,,0.51,pregame,0.535
+110,2026-11-14,cfb,single,fun,3.0,-112,total:Texas State:under:60.5,"pick mode: P 51%, 3/3",loss,loss,,,,0.51,pregame,0.528
+111,2026-11-14,cfb,single,fun,3.0,-108,spread:Washington:-2.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.519
+112,2026-11-14,cfb,single,fun,3.0,-102,total:Michigan State:over:44.5,"pick mode: P 50%, 2/3",pending,pending,,,,0.50,pregame,0.505
+113,2026-11-14,cfb,single,fun,3.0,-105,spread:Ole Miss:2.5,"pick mode: P 52%, 3/3",pending,pending,yes,3.0,5.85,0.52,pregame,0.512
+114,2026-11-14,cfb,single,fun,3.0,-112,total:Oklahoma:over:48.5,pick mode (2:38 CT line): P 50%,pending,pending,,,,0.50,pregame,0.528
+115,2026-11-14,cfb,single,fun,3.0,-112,spread:Southern Miss:17.5,"pick mode: P 50%, 3/3; QB chg",loss,loss,,,,0.50,pregame,0.528
+116,2026-11-14,cfb,single,fun,3.0,-115,total:Louisiana Tech:under:56.5,"pick mode: P 52%, 3/3; QB chg",loss,loss,,,,0.52,pregame,0.535
+117,2026-11-14,cfb,single,fun,3.0,-112,spread:Kansas:2.5,"pick mode: P 52%, 3/3",win,win,,,,0.52,pregame,0.528
+118,2026-11-14,cfb,single,fun,3.0,-112,total:West Virginia:under:68.5,"pick mode: P 52%, 3/3",win,win,,,,0.52,pregame,0.528
+119,2026-11-14,cfb,single,fun,3.0,-108,spread:Oregon State:16.5,"pick mode: P 52%, 3/3; QB chg, rain",pending,pending,,,,0.52,pregame,0.519
+120,2026-11-14,cfb,single,fun,3.0,-112,total:Boise State:under:64.5,"pick mode: P 51%, 3/3; QB chg, rain",pending,pending,,,,0.51,pregame,0.528
+121,2026-11-14,cfb,single,fun,3.0,-108,spread:Marshall:1.5,"pick mode: P 50%, 3/3; QB chg",pending,pending,,,,0.50,pregame,0.519
+122,2026-11-14,cfb,single,fun,3.0,-105,total:Marshall:under:54.5,"pick mode: P 51%, 3/3; QB chg",pending,pending,,,,0.51,pregame,0.512
+123,2026-11-14,cfb,single,fun,3.0,-112,spread:Kentucky:-3,"pick mode: P 50%, 2/3; QB chg",pending,pending,,,,0.50,pregame,0.528
+124,2026-11-14,cfb,single,fun,3.0,-112,total:Kentucky:over:52.5,"pick mode: P 50%, 3/3; QB chg",pending,pending,,,,0.50,pregame,0.528
+125,2026-11-14,cfb,single,fun,3.0,-112,spread:San José State:14,"pick mode: P 51%, 3/3; QB chg, QB chg",pending,pending,,,,0.51,pregame,0.528
+126,2026-11-14,cfb,single,fun,3.0,-112,total:Air Force:under:48.5,"pick mode: P 51%, 2/3; QB chg, QB chg",pending,pending,,,,0.51,pregame,0.528
+127,2026-11-14,cfb,single,fun,3.0,-110,spread:Louisville:-3.5,"pick mode: P 50%, 3/3",pending,pending,,,,0.50,pregame,0.524
+128,2026-11-14,cfb,single,fun,3.0,-110,total:North Carolina:under:57.5,"pick mode: P 50%, 3/3",pending,pending,,,,0.50,pregame,0.524
+129,2026-11-14,cfb,single,fun,3.0,-108,spread:Minnesota:12.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.519
+130,2026-11-14,cfb,single,fun,3.0,-108,total:Penn State:over:42.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.519
+131,2026-11-14,cfb,single,fun,3.0,-110,spread:Troy:3,"pick mode: P 50%, 2/3; QB chg, QB chg",pending,pending,,,,0.50,pregame,0.524
+132,2026-11-14,cfb,single,fun,3.0,-108,total:South Alabama:under:55.5,"pick mode: P 51%, 3/3; QB chg, QB chg",pending,pending,,,,0.51,pregame,0.519
+133,2026-11-14,cfb,single,fun,3.0,-102,spread:Utah:-1.5,"pick mode: P 52%, 3/3",pending,pending,,,,0.52,pregame,0.505
+134,2026-11-14,cfb,single,fun,3.0,-112,total:Arizona:under:55.5,"pick mode: P 51%, 2/3",pending,pending,,,,0.51,pregame,0.528
+135,2026-11-14,cfb,single,fun,3.0,-108,spread:Iowa:-17.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.519
+136,2026-11-14,cfb,single,fun,3.0,-112,total:Iowa:over:47.5,"pick mode: P 52%, 3/3",pending,pending,,,,0.52,pregame,0.528
+137,2026-11-14,cfb,single,fun,3.0,-105,spread:Texas:4.5,"pick mode: P 50%, 2/3",pending,pending,,,,0.50,pregame,0.512
+138,2026-11-14,cfb,single,fun,3.0,-115,total:LSU:over:46.5,"pick mode: P 50%, 2/3",pending,pending,,,,0.50,pregame,0.535
+139,2026-11-14,cfb,single,fun,3.0,-108,spread:New Mexico:-17.5,"pick mode: P 50%, 2/3; rain",pending,pending,,,,0.50,pregame,0.519
+140,2026-11-14,cfb,single,fun,3.0,-110,total:New Mexico:over:46.5,"pick mode: P 51%, 3/3; rain",pending,pending,,,,0.51,pregame,0.524
+141,2026-11-14,cfb,single,fun,3.0,-115,spread:Virginia Tech:-16.5,"pick mode: P 50%, 3/3",pending,pending,,,,0.50,pregame,0.535
+142,2026-11-14,cfb,single,fun,3.0,-105,total:Virginia Tech:under:57.5,"pick mode: P 50%, 1/3",pending,pending,,,,0.50,pregame,0.512
+143,2026-11-14,cfb,single,fun,3.0,-108,spread:South Carolina:-7.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.519
+144,2026-11-14,cfb,single,fun,3.0,-105,total:Arkansas:over:52.5,"pick mode: P 50%, 3/3",pending,pending,,,,0.50,pregame,0.512
+145,2026-11-14,cfb,single,fun,3.0,-112,spread:North Texas:-2.5,"pick mode: P 51%, 3/3",pending,pending,,,,0.51,pregame,0.528
+146,2026-11-14,cfb,single,fun,3.0,-115,total:UTSA:under:76.5,"pick mode: P 53%, 3/3",pending,pending,,,,0.53,pregame,0.535
+147,2026-11-14,cfb,single,fun,3.0,-112,spread:Texas Tech:3.5,"pick mode: P 51%, 3/3; QB chg",pending,pending,,,,0.51,pregame,0.528
+148,2026-11-14,cfb,single,fun,3.0,-110,total:Oklahoma State:under:73.5,"pick mode: P 56%, 3/3; QB chg",pending,pending,,,,0.56,pregame,0.524
+149,2026-11-14,cfb,single,fun,3.0,-105,spread:Utah State:-3,"pick mode: P 51%, 3/3; QB chg, QB chg, rain",pending,pending,,,,0.51,pregame,0.512
+150,2026-11-14,cfb,single,fun,3.0,-115,total:San Diego State:over:43.5,"pick mode: P 50%, 2/3; QB chg, QB chg, rain",pending,pending,,,,0.50,pregame,0.535
+151,2026-11-14,cfb,single,fun,3.0,-105,spread:Wyoming:-7,"pick mode: P 52%, 3/3; QB chg",pending,pending,,,,0.52,pregame,0.512
+152,2026-11-14,cfb,single,fun,3.0,-110,total:UTEP:over:40.5,"pick mode: P 54%, 3/3; QB chg",pending,pending,,,,0.54,pregame,0.524
+153,2026-11-14,cfb,single,fun,3.0,-108,spread:Washington State:-8.5,"pick mode: P 51%, 2/3; QB chg",pending,pending,,,,0.51,pregame,0.519
+154,2026-11-14,cfb,single,fun,3.0,-105,total:Washington State:under:64.5,"pick mode: P 51%, 3/3; QB chg",pending,pending,,,,0.51,pregame,0.512
+155,2026-11-14,cfb,single,fun,3.0,-108,spread:North Dakota State:-7,"pick mode: P 50%, 2/3",pending,pending,,,,0.50,pregame,0.519
+156,2026-11-14,cfb,single,fun,3.0,-108,total:Hawai'i:over:39.5,"pick mode: P 52%, 3/3",pending,pending,,,,0.52,pregame,0.519
+157,2026-11-14,cfb,teaser,fun,3.0,,spread:Ole Miss:8.5 | total:Louisiana Tech:under:62.5,"Chris's bet; assumed 6-pt: Ole Miss +8.5, Under 62.5",loss,pending loss,yes,3.0,,,none,
+158,2026-11-15,nfl,single,backed,3.0,-112,spread:KC:-3,WITHDRAWN Nov 15: model on 0-3 pt favorites won 48.0% (miss review) - not a bet | VOID: old model scratched Nov 15,void,pending,no,,,0.55,pregame,0.528
+159,2026-11-15,nfl,teaser,backed,3.0,,spread:NE:8.5 | spread:CAR:8.5,dog teaser +1..+2.5 (79.4% per leg 2023-26) | VOID: old model scratched Nov 15,void,pending pending,,,,0.77 0.77,teaser,- -
+160,2026-11-15,nfl,single,backed,3.0,-112,total:CLE:under:40.5,home QB change -> under (rule scan 54.5% 2023-26); ONLY if Watson starts (Sanders started last game),pending,pending,,,,-,pregame,0.528
+161,2026-11-15,nfl,single,backed,3.0,-108,total:LV:under:40.5,home QB change -> under; ONLY if Mendoza starts (Cousins started last game),pending,pending,,,,-,pregame,0.519
+162,2026-11-16,nfl,single,backed,3.0,-110,total:BAL:under:38.5,home QB change -> under; ONLY if Huntley starts (Fagnano started last game),pending,pending,,,,-,pregame,0.524
+163,2026-11-14,cfb,parlay,fun,3.0,+310,spread:Louisiana Tech:-17.5 | total:Louisiana Tech:under:55.5,"Chris's SGP, $0.60 BONUS bet (no cash staked)",loss,win loss,yes,0.0,,,none,
+164,2026-11-22,nfl,single,backed,3.0,-110,spread:ARI:14,"EARLY bet (STRONG vs opener 63.9%/57.2%): card P 57%, 3/3 | VOID: old model scratched Nov 15",void,,,,,0.57,pregame,0.524
+165,2026-11-22,nfl,single,backed,3.0,-110,spread:MIA:16.5,"EARLY bet (LEAN+STRONG vs opener 56.7%/57.1%): card P 55%, 3/3 | VOID: old model scratched Nov 15",void,,,,,0.55,pregame,0.524
+166,2026-11-15,nfl,single,fun,3.0,-110,spread:NE:2.5,V2 model spread (edge <1: 51.3% 2023-26),pending,,,,,0.513,pregame,0.524
+167,2026-11-15,nfl,single,fun,3.0,-110,spread:JAX:-10.5,V2 model spread (edge <1: 51.3% 2023-26),pending,,,,,0.513,pregame,0.524
+168,2026-11-15,nfl,single,fun,3.0,-110,spread:NYJ:8.5,V2 model spread (edge <1: 51.3% 2023-26),pending,,,,,0.513,pregame,0.524
+169,2026-11-15,nfl,single,fun,3.0,-110,spread:CAR:1.5,V2 model spread (edge <1: 51.3% 2023-26),pending,,,,,0.513,pregame,0.524
+170,2026-11-15,nfl,single,backed,3.0,-110,spread:GB:-2.5,V2 model spread (edge 1+: 55.0% of 333 2023-26),pending,,,,,0.55,pregame,0.524
+171,2026-11-15,nfl,single,backed,3.0,-110,spread:HOU:-4.5,V2 model spread (edge 1+: 55.0% of 333 2023-26),pending,,,,,0.55,pregame,0.524
+172,2026-11-15,nfl,single,fun,3.0,-110,spread:KC:-3,V2 model spread (edge <1: 51.3% 2023-26),pending,,,,,0.513,pregame,0.524
+173,2026-11-15,nfl,single,backed,3.0,-110,spread:MIA:4.5,V2 model spread (edge 1+: 55.0% of 333 2023-26),pending,,,,,0.55,pregame,0.524
+174,2026-11-15,nfl,teaser,backed,3,-120,spread:NE:8.5 | spread:CAR:7.5,V2 model dog +1..+2.5 teased 6: 79.3% per leg (135) 2023-26,pending,,,,,0.793 0.793,teaser,0.739 0.739
