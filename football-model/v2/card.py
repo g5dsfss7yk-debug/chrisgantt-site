@@ -16,7 +16,7 @@ SPREAD_REC = [(1.0, "55.0% (333 picks)"), (0.0, "51.3% (all games)")]
 TOTAL_REC = "51.2% (493 picks, totals vs close 2023-26)"
 TEASE = {(1, 2.5): "79.3% per leg (135)", (3, 3.5): "72.8% per leg (136)"}
 
-ap = argparse.ArgumentParser(); ap.add_argument("--week", type=int); ap.add_argument("--before")
+ap = argparse.ArgumentParser(); ap.add_argument("--week", type=int); ap.add_argument("--before"); ap.add_argument("--after"); ap.add_argument("--cached", action="store_true")
 a = ap.parse_args()
 d = nfl.build()
 season = data.current_season()
@@ -27,7 +27,9 @@ mt = nfl.fit(done[done.total_line.notna()], "total", "total_line")
 g = d[(d.season == season) & (d.week == wk) & d.result.isna()].copy()
 if a.before:
     g = g[g.gametime.astype(str) <= a.before]
-odds.TTL = 0
+if a.after:
+    g = g[g.gametime.astype(str) > a.after]
+odds.TTL = 10**9 if a.cached else 0
 ev = odds._get("/sports/americanfootball_nfl/odds", bookmakers="draftkings", markets="spreads,totals,h2h", oddsFormat="american")
 for r in g.sort_values(["gameday", "gametime"]).itertuples(index=False):
     e = [x for x in ev if NICK[r.home_team] in x["home_team"] and NICK[r.away_team] in x["away_team"]]
