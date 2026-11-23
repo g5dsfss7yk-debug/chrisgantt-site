@@ -377,3 +377,28 @@ removing special teams cut it to 50.8% / 50.5%. Then three missing pieces were t
 - B (share of a defense's last-8-game sacks + QB hits made by players listed Out/Doubtful) is the only
   one that raised totals in both periods, by 0.3-0.8 points, still below break-even in 2023-26. Spreads mixed.
 - B added to TOTALS only (Chris, Nov 23; `RUSH_OUT_TOTAL` in v2/nfl.py). A and C not adopted. Data: v2/extra_data.py (nflverse player stats + injury reports; play-by-play by unit).
+
+## Four more inputs tested (Nov 23, `PYTHONPATH=. python v2/test_four.py`)
+Same test (walk-forward, game-day line, 2015-22 / 2023-26), starting from the card as it was.
+
+| Version | Spread all | Spread edge 1+ | Total all | Total edge 1+ |
+|---|---|---|---|---|
+| Baseline | 52.4% / 50.8% | 52.8% / 54.1% | 53.5% / 51.0% | 56.0% / 51.4% |
+| 1. Starting QB's own value | 52.7% / 51.8% | 54.2% / 53.3% | 52.6% / 50.1% | 55.9% / 50.8% |
+| 2. Referee crew (totals) | same | same | 53.3% / 50.9% | 55.9% / 51.2% |
+| 3. Pace and pass rate | 52.3% / 49.2% | 52.4% / 50.0% | 53.3% / 51.1% | 54.3% / 50.4% |
+| 4. Red-zone TD rate | 52.1% / 50.8% | 54.6% / 57.3% | 52.6% / 51.1% | 55.5% / 51.2% |
+| **1 + 4 (ADOPTED for spreads)** | **52.4% / 52.0%** | **54.9% of 1002 / 54.9% of 388** | 52.6% / 50.4% | 55.3% / 50.9% |
+| 1 + 2 + 3 + 4 | 52.6% / 49.9% | 55.3% / 53.3% | 53.3% / 51.3% | 54.4% / 49.8% |
+
+- QB value: the listed starter's career EPA per play (dropbacks + carries, any team), recent games weighted
+  more (half-life 20 games), shrunk 200 plays toward what new QBs produced before 2015 (-0.062).
+  So a backup now counts as a backup, not just "QB changed".
+- Spread with 1 + 4, edge 2+: 57.8% of 306 / 55.9% of 111. Edge 1+ by season 2023-26: 55%, 58%, 53%, 55%.
+  The combination was the 8th spread variant tried today, so some of the gain may be luck.
+- Totals keep the old inputs (1 and 4 lowered totals). Referee: no gain, and games.csv only posts the
+  referee after the game, so it could not be used before kickoff anyway. Pace: hurt spreads.
+- Model teaser legs after the change: dog +1..+2.5 74.1% / 82.6%, +3..+3.5 77.3% / 70.7%,
+  favorite -3.5..-7.5 69.7% / 73.6% (v2/test_teaser.py).
+- Caveat: the QB value uses the schedule's listed starter. When the schedule is stale (Nov 15: Minshew,
+  Huntley), the value is wrong too - the card's ** CHANGE QB lines matter more now.

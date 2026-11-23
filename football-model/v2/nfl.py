@@ -20,14 +20,21 @@ from sklearn.preprocessing import StandardScaler
 
 from nflmodel import data, teams
 
-STATS = ["epa", "sr", "explosive", "giveaways", "st_epa", "plays", "press"]   # press: (sacks+QB hits)/dropback
+STATS = ["epa", "sr", "explosive", "giveaways", "st_epa", "plays", "press", "rz"]   # press: (sacks+QB hits)/dropback; rz: red-zone TD rate
+TOTAL_SKIP = {"rz"}    # red-zone rate is used for spreads only (it lowered totals, v2/test_four.py)
 HALF_LIFE = 4          # games (picked on 2015-22 only, see v2/grid.py)
 CARRY = 0.65           # share of last season kept at a new season
 FIRST_TEST = 2015
+SKIP_NAN = ("_rz", "_sec_per_play", "_neutral_pass", "_no_huddle")
 # Options tested Nov 23 (v2/test_three.py); off unless the test earned them
 OPP_ADJ = 0.0          # 0..1: share of the opponent's strength taken out of each game's stats
 ST_SPLIT = False       # special teams split into FG, punting, punt return, kick return, kick coverage
 RUSH_OUT = False       # share of a defense's recent sacks + QB hits listed Out/Doubtful that week (spread + total)
+QB_VAL = False         # listed starter's own career EPA/play (any team), shrunk for few plays (spread + total)
+QB_VAL_SPREAD = True   # same, spreads only: ON since Nov 23 (with rz): spread edge 1+ 54.9% / 54.9% vs 52.8% / 54.1%
+REF_TOT = False        # crew chief's past (total - line), totals only - NOTE: games.csv posts the referee after the game
+PACE = False           # seconds per play, neutral-situation pass rate, no-huddle rate
+RZ = False             # red-zone touchdown rate (TDs per trip inside the 20)
 RUSH_OUT_TOTAL = True  # same, totals only: ON since Nov 23 (Chris) - totals 53.5% / 51.0% vs 53.2% / 50.5% without
 SCALE = True           # standardize features before the ridge (without it the ridge zeroes the rate stats)
 ALPHA = {"spread": 10.0, "total": 10.0}   # picked on 2015-22 only (v2/improve.py)
@@ -60,6 +67,7 @@ def team_games() -> pd.DataFrame:
     p = data.load_team_pbp(range(2008, data.current_season() + 1))
     p["team"] = p["team"].map(teams.franchise)
     p["press"] = (p["sacks"] + p["qb_hits"]) / p["dropbacks"].clip(lower=1)   # o_press = line allows, d_press = defense makes
+    p["rz"] = p["rz_tds"] / p["rz_trips"].where(p["rz_trips"] > 0)                 # NaN with no trips: skipped
     if ST_SPLIT:
         from v2 import extra_data
         x = extra_data.special_teams(range(2008, data.current_season() + 1))
@@ -109,6 +117,8 @@ def ratings(g: pd.DataFrame, p: pd.DataFrame) -> pd.DataFrame:
             s = st.setdefault(t, {})
             season_of.setdefault(t, r.season)
             for k, v in obs.items():
+                if pd.isna(v) and k.endswith(SKIP_NAN):
+                    continue                          # e.g. no red-zone trip: no information, keep the rating
                 v = 0.0 if pd.isna(v) else float(v)
                 s[k] = v if k not in s else (1 - a) * s[k] + a * v
                 mean[k] = v if k not in mean else 0.995 * mean[k] + 0.005 * v
@@ -120,6 +130,14 @@ def build() -> pd.DataFrame:
     g, p = team_games()
     rt = ratings(g, p)
     d = fill_wind(g.merge(rt, on="game_id"))
+    if QB_VAL or QB_VAL_SPREAD:
+        from v2 import extra_data
+        v = extra_data.qb_values()
+        for side in ("home", "away"):
+            d[f"{side}_qb_val"] = extra_data.qb_value_at(v, d[f"{side}_qb_id"], d["season"], d["week"])
+    if REF_TOT:
+        from v2 import extra_data
+        d["ref_tot"] = extra_data.referee_totals(d)
     if RUSH_OUT or RUSH_OUT_TOTAL:
         from v2 import extra_data
         ro = extra_data.rush_out_all()
@@ -149,6 +167,8 @@ def build() -> pd.DataFrame:
 def X(d: pd.DataFrame, line: pd.Series, kind: str) -> pd.DataFrame:
     f = {}
     for k in STATS:
+        if kind == "total" and k in TOTAL_SKIP:
+            continue
         if kind == "spread":
             f[f"off_{k}"] = d[f"home_o_{k}"] - d[f"away_o_{k}"]
             f[f"def_{k}"] = d[f"home_d_{k}"] - d[f"away_d_{k}"]
@@ -163,6 +183,8 @@ def X(d: pd.DataFrame, line: pd.Series, kind: str) -> pd.DataFrame:
         f["neutral"] = (d["location"] == "Neutral").astype(int)
         if RUSH_OUT:
             f["rush_out"] = d["home_rush_out"] - d["away_rush_out"]
+        if QB_VAL or QB_VAL_SPREAD:
+            f["qb_val"] = d["home_qb_val"] - d["away_qb_val"]
     else:
         f["pts"] = d["home_pf"] + d["home_pa"] + d["away_pf"] + d["away_pa"]
         f["wind"] = d["wind"].fillna(OUTDOOR_WIND).where(~d["roof"].isin(["dome", "closed"]), 0)
@@ -170,6 +192,10 @@ def X(d: pd.DataFrame, line: pd.Series, kind: str) -> pd.DataFrame:
         f["qb"] = d["home_qb_change"] + d["away_qb_change"]
         if RUSH_OUT or RUSH_OUT_TOTAL:
             f["rush_out"] = d["home_rush_out"] + d["away_rush_out"]
+        if QB_VAL:
+            f["qb_val"] = d["home_qb_val"] + d["away_qb_val"]
+        if REF_TOT:
+            f["ref_tot"] = d["ref_tot"]
     f["line"] = line
     x = pd.DataFrame(f).fillna(0)
     early = (d[["home_n", "away_n"]].fillna(0).min(axis=1) < 3).astype(float)

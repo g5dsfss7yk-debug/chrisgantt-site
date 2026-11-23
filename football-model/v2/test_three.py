@@ -9,7 +9,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import numpy as np, pandas as pd
 from v2 import nfl, extra_data
 
-BASE = list(nfl.STATS)
+BASE = [k for k in nfl.STATS if k != "rz"]   # the pre-Nov-23 inputs
+nfl.QB_VAL_SPREAD = False                    # tests start from the pre-Nov-23 card
 
 
 def grade(d, kind, line):
@@ -32,11 +33,12 @@ def run(name, opp=0.0, st=False, rush=False, keep_st=False):
     print("  total: ", grade(d, "total", "total_line"), flush=True)
 
 
-run("BASELINE (current card)")
-run("A. opponent-adjusted, half strength", opp=0.5)
-run("A. opponent-adjusted, full strength", opp=1.0)
-run("B. pass rushers Out/Doubtful", rush=True)
-run("C. special teams split (replaces the one ST number)", st=True)
-run("C. special teams split (added to the one ST number)", st=True, keep_st=True)
-run("A full + B + C replace", opp=1.0, st=True, rush=True)
-nfl.OPP_ADJ, nfl.ST_SPLIT, nfl.RUSH_OUT, nfl.STATS = 0.0, False, False, BASE
+if __name__ == "__main__":
+    run("BASELINE (current card)")
+    run("A. opponent-adjusted, half strength", opp=0.5)
+    run("A. opponent-adjusted, full strength", opp=1.0)
+    run("B. pass rushers Out/Doubtful", rush=True)
+    run("C. special teams split (replaces the one ST number)", st=True)
+    run("C. special teams split (added to the one ST number)", st=True, keep_st=True)
+    run("A full + B + C replace", opp=1.0, st=True, rush=True)
+    nfl.OPP_ADJ, nfl.ST_SPLIT, nfl.RUSH_OUT, nfl.STATS = 0.0, False, False, BASE

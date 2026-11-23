@@ -68,6 +68,11 @@ DK: 47 rungs, 4 hits, large loss. Rungs where the model was below DK: 476, hit 3
 One game is far too little; no conclusion yet.
 Chris's placed record before today (`recs.py`): 3-12, net -$30.
 
+## 4b. Added Nov 23 (v2/test_three.py, v2/test_four.py; README "Three gaps tested", "Four more inputs tested")
+- Spreads now use the starting QB's own value + red-zone TD rate: edge 1+ 54.9% of 1002 / 54.9% of 388.
+- Totals now use pass rushers listed Out/Doubtful: all games 53.5% / 51.0%.
+- Tested and not used: opponent adjustment, special teams by unit, referee crew, pace/pass rate.
+
 ## 5. What the previous agent fixed today (so you do not redo it)
 - Wind was missing in the schedule data (every game since 2026 week 5) and read as 0 mph -> totals
   model picked Over in 100% of those games. Now filled from play-by-play text / forecast.

@@ -94,3 +94,59 @@ def rush_out_all() -> pd.DataFrame:
         old.to_csv(path, index=False)
     new = pass_rush_out([cur - 1, cur])
     return pd.concat([old[old.season < cur], new[new.season == cur]], ignore_index=True)
+
+
+def qb_values(half_life: float = 20, k: float = 200, first_test: int = 2015) -> pd.DataFrame:
+    """Each QB's value BEFORE each game: weighted EPA per play (dropbacks + carries) over his career,
+    any team, recent games weighted more (half-life in games), shrunk toward what new QBs produced
+    (`k` plays of prior). Prior measured on seasons before `first_test` only."""
+    st = []
+    for s in range(2009, data.current_season() + 1):
+        a = _release("stats_player", f"stats_player_week_{s}.csv", s)
+        if a is not None:
+            st.append(a[["player_id", "season", "week", "position", "attempts", "sacks_suffered", "carries",
+                         "passing_epa", "rushing_epa"]])
+    st = pd.concat(st)
+    st = st[(st.position == "QB") & (st.attempts.fillna(0) >= 1)].fillna(0).sort_values(["player_id", "season", "week"])
+    st["plays"] = st.attempts + st.sacks_suffered + st.carries
+    st["epa"] = st.passing_epa + st.rushing_epa
+    # prior: QBs' EPA/play while they had under k career plays (seasons before first_test)
+    st["career"] = st.groupby("player_id").plays.cumsum() - st.plays
+    early = st[(st.career < k) & (st.season < first_test)]
+    prior = early.epa.sum() / early.plays.sum()
+    dec = 0.5 ** (1 / half_life)
+    out = []
+    for pid, x in st.groupby("player_id", sort=False):
+        e = p = 0.0
+        for r in x.itertuples(index=False):
+            e, p = dec * e + r.epa, dec * p + r.plays
+            out.append((pid, r.season, r.week, (e + prior * k) / (p + k)))   # value AFTER this game
+    v = pd.DataFrame(out, columns=["player_id", "season", "week", "qb_val"])
+    v.attrs["prior"] = prior
+    return v
+
+
+def qb_value_at(v: pd.DataFrame, ids: pd.Series, seasons: pd.Series, weeks: pd.Series) -> pd.Series:
+    """Value of each listed starter going into that game: his latest value from a game before it."""
+    prior = v.attrs.get("prior", np.nan)
+    v = v.copy()
+    v["key"] = (v.season * 100 + v.week).astype(float)
+    q = pd.DataFrame({"player_id": ids.values, "key": (seasons * 100 + weeks).values - 0.5, "i": range(len(ids))})
+    q = q.sort_values("key")
+    m = pd.merge_asof(q, v.sort_values("key")[["player_id", "key", "qb_val"]], on="key", by="player_id")
+    # rows hold the value AFTER each game, so the latest row strictly before this game is his pre-game value
+    m = m.sort_values("i")
+    return pd.Series(m.qb_val.fillna(prior).values, index=ids.index)
+
+
+def referee_totals(g: pd.DataFrame, k: float = 30) -> pd.Series:
+    """Per game: the crew chief's average (total - closing total) in his EARLIER games, shrunk by k games."""
+    g = g.sort_values(["gameday", "gametime"])
+    s, n, out = {}, {}, {}
+    for r in g.itertuples():
+        ref = r.referee
+        out[r.Index] = (s.get(ref, 0.0) / (n.get(ref, 0) + k)) if isinstance(ref, str) else 0.0
+        if isinstance(ref, str) and pd.notna(r.total) and pd.notna(r.total_line):
+            s[ref] = s.get(ref, 0.0) + (r.total - r.total_line)
+            n[ref] = n.get(ref, 0) + 1
+    return pd.Series(out)
