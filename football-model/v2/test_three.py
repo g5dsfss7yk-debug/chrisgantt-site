@@ -9,7 +9,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import numpy as np, pandas as pd
 from v2 import nfl, extra_data
 
-BASE = [k for k in nfl.STATS if k != "rz"]   # the pre-Nov-23 inputs
+BASE = [k for k in nfl.STATS if k not in ("rz", "c_epa", "c_sr", "c_explosive")]   # the pre-Nov-23 inputs
+nfl.SPREAD_SKIP = set()
 nfl.QB_VAL_SPREAD = False                    # tests start from the pre-Nov-23 card
 
 

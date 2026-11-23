@@ -14,13 +14,13 @@
    `python football-model/v2/card.py` (new model, play-by-play ratings, walk-forward tested): give a
    spread, winner and total pick on EVERY game - no "no bet", no "coin toss". Each pick carries its
    tested record, ALWAYS both periods (2015-22 / 2023-26): game-day spread picks (model fit on and graded at
-   the game-day line; with starting-QB value + red-zone rate since Nov 23, v2/test_nfl.py): all games 52.4% / 52.0%, edge 1+ pts
-   54.9% of 1002 / 54.9% of 388, edge 2+ 57.8% of 306 / 55.9% of 111 (few games, not proven; break-even 52.4%)
+   the game-day line; with starting-QB value + red-zone rate + competitive plays only since Nov 23, v2/test_nfl.py): all games 52.6% / 54.4%,
+   edge 1+ pts 55.0% of 1046 / 53.1% of 420, edge 2+ 58.2% of 368 / 55.8% of 113 (few games, not proven; break-even 52.4%)
    (Chris does NOT bet early - Nov 15: injuries and lineup changes after an early bet leave him stuck
    with a bad pick. Never quote opening-line records or suggest betting early);
    totals (with pass rushers Out/Doubtful, ON since Nov 23) all games 53.5% / 51.0%, edge 1+ 56.0% / 51.4% (still picks Over more often: 61% of 2023-26 games);
-   teaser legs (2-team -120 needs 73.9%): v2 dog +1..+2.5 74.1% / 82.6%,
-   +3..+3.5 77.3% / 70.7%, favorite -3.5..-7.5 teased 69.7% / 73.6%. **Best tested bet (v2/dig.py): teaser leg on EVERY dog
+   teaser legs (2-team -120 needs 73.9%): v2 dog +1..+2.5 73.2% / 82.7%,
+   +3..+3.5 77.9% / 71.2%, favorite -3.5..-7.5 teased 69.4% / 76.4%. **Best tested bet (v2/dig.py): teaser leg on EVERY dog
    +1.5..+2.5, no model: 72.7% (1999-2014) / 77.0% / 77.3%; with total <= 44: 75.9% / 77.4% / 78.9%. Card prints BEST TEASER LEG.
    DK's teaser price is not checked by any tool - Chris reads it on the slip (needs 73.9% at -120, 75.2% at -130).**
    Card layout (Chris, Nov 15): keep a pick on every game; mark the tested teaser legs (">> TEASER LEG"); show every
@@ -28,6 +28,7 @@
    Tested Nov 23 and NOT used (v2/test_three.py, README "Three gaps tested"): opponent-adjusted ratings and special teams split by
    unit - not adopted. Pass rushers Out/Doubtful: added to TOTALS only (Chris, Nov 23); counts 0 until the week's injury report posts.
    Nov 23 (v2/test_four.py): starting QB's own value + red-zone TD rate ADDED to spreads; referee crew and pace/pass rate not adopted.
+   Nov 23 (Chris): spreads use COMPETITIVE plays only (win prob 10-90%, EPA capped +/-3; v2/test_methods.py). Totals unchanged.
    Props (Nov 23): targets/carries freed up by teammates Out/Doubtful ADDED (card shows [FREED UP ...]); TD-rate/median
    inputs tested, no gain (README "Props: freed-up targets"). Props chances are hit rates of similar past players, not averages.
    Flaws found Nov 15: README "V2 flaws".

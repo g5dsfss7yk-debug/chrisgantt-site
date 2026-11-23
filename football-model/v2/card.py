@@ -14,12 +14,12 @@ from run import NICK
 # Tested records, walk-forward, 2015-22 / 2023-26 (v2/test_nfl.py, v2/test_teaser.py, re-run Nov 23 with
 # weeks 10-11 added). The model is fit on the game-day line and the pick is graded at that line.
 # Break-even at -110 is 52.4%; a 2-team -120 teaser needs 73.9% per leg.
-SPREAD_REC = [(2.0, "57.8% of 306 (2015-22) / 55.9% of 111 (2023-26)"),          # with QB value + red-zone rate (Nov 23)
-              (1.0, "54.9% of 1002 (2015-22) / 54.9% of 388 (2023-26)"),
-              (0.0, "52.4% (2015-22) / 52.0% (2023-26), all games")]
+SPREAD_REC = [(2.0, "58.2% of 368 (2015-22) / 55.8% of 113 (2023-26)"),   # QB value + red-zone + competitive plays (Nov 23)
+              (1.0, "55.0% of 1046 (2015-22) / 53.1% of 420 (2023-26)"),
+              (0.0, "52.6% (2015-22) / 54.4% (2023-26), all games")]
 TOTAL_REC = [(1.0, "56.0% (2015-22) / 51.4% (2023-26)"), (0.0, "53.5% (2015-22) / 51.0% (2023-26), all games")]   # with pass rushers out (Nov 23)
-TEASE = {(1, 2.5): "74.1% (2015-22) / 82.6% (2023-26) per leg", (3, 3.5): "77.3% / 70.7% per leg",
-         (-7.5, -3.5): "69.7% / 73.6% per leg"}
+TEASE = {(1, 2.5): "73.2% (2015-22) / 82.7% (2023-26) per leg", (3, 3.5): "77.9% / 71.2% per leg",
+         (-7.5, -3.5): "69.4% / 76.4% per leg"}
 
 
 def _nm(n):

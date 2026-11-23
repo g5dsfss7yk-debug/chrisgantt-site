@@ -9,7 +9,8 @@ import numpy as np, pandas as pd
 from v2 import nfl, extra_data
 from v2.test_three import grade
 
-BASE = [k for k in nfl.STATS if k != "rz"]   # the pre-Nov-23 inputs
+BASE = [k for k in nfl.STATS if k not in ("rz", "c_epa", "c_sr", "c_explosive")]   # the pre-Nov-23 inputs
+nfl.SPREAD_SKIP = set()
 nfl.QB_VAL_SPREAD = False                    # tests start from the pre-Nov-23 card
 PACE = ["sec_per_play", "neutral_pass", "no_huddle"]
 

@@ -8,7 +8,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import numpy as np, pandas as pd
 from v2 import nfl
 from v2.test_three import grade
-nfl.QB_VAL_SPREAD = True        # test_three turns it off on import; the current card has it on
+nfl.QB_VAL_SPREAD = True        # test_three turns these off on import; the current card has them on
+nfl.SPREAD_SKIP = {"epa", "sr", "explosive"}
 
 if __name__ == "__main__":
     for name, mode, kinds in (("CURRENT CARD", "", ()), ("all skill players, one number", "all", ("spread", "total")),

@@ -458,7 +458,9 @@ Game model, walk-forward, game-day line, 2015-22 / 2023-26 ("confident" = edge 1
 | 5 200 most similar past games | 50.3% / 47.6% | 53.5% / 49.2% | 49.1% / 47.2% | 51.3% / 46.7% |
 
 Only 2 beat the current spread pick on all games in both periods (+0.2 / +2.4), but its confident
-picks fell in 2023-26 (53.1% vs 54.9%). Not switched on (`COMPETITIVE` in v2/nfl.py) - Chris to decide.
+picks fell in 2023-26 (53.1% vs 54.9%). Chris chose it (Nov 23): ON for spreads (c_epa/c_sr/c_explosive replace the
+all-play versions; `SPREAD_SKIP` in v2/nfl.py). Totals keep the all-play versions. Model teaser legs after:
+dog +1..+2.5 73.2% / 82.7%, +3..+3.5 77.9% / 71.2%, favorite -3.5..-7.5 69.4% / 76.4%.
 
 Props (fit 2015-22, scored 2023-26): the model had the best Brier score in all 7 markets. The player's own
 hit rate ("60+ in 9 of his last 16") was worse everywhere and badly off at the top: passing yards said

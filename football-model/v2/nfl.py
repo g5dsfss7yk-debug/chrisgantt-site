@@ -20,8 +20,9 @@ from sklearn.preprocessing import StandardScaler
 
 from nflmodel import data, teams
 
-STATS = ["epa", "sr", "explosive", "giveaways", "st_epa", "plays", "press", "rz"]   # press: (sacks+QB hits)/dropback; rz: red-zone TD rate
-TOTAL_SKIP = {"rz"}    # red-zone rate is used for spreads only (it lowered totals, v2/test_four.py)
+STATS = ["epa", "sr", "explosive", "giveaways", "st_epa", "plays", "press", "rz", "c_epa", "c_sr", "c_explosive"]   # press: (sacks+QB hits)/dropback; rz: red-zone TD rate
+TOTAL_SKIP = {"rz", "c_epa", "c_sr", "c_explosive"}   # spreads-only inputs (v2/test_four.py, v2/test_methods.py)
+SPREAD_SKIP = {"epa", "sr", "explosive"}   # spreads use the competitive-play versions (c_*) instead (Chris, Nov 23)
 HALF_LIFE = 4          # games (picked on 2015-22 only, see v2/grid.py)
 CARRY = 0.65           # share of last season kept at a new season
 FIRST_TEST = 2015
@@ -73,13 +74,15 @@ def team_games() -> pd.DataFrame:
     p["team"] = p["team"].map(teams.franchise)
     p["press"] = (p["sacks"] + p["qb_hits"]) / p["dropbacks"].clip(lower=1)   # o_press = line allows, d_press = defense makes
     p["rz"] = p["rz_tds"] / p["rz_trips"].where(p["rz_trips"] > 0)                 # NaN with no trips: skipped
-    if COMPETITIVE:
-        from v2 import extra_data
-        c = extra_data.competitive(range(2008, data.current_season() + 1))
-        c["team"] = c["team"].map(teams.franchise)
-        p = p.merge(c.groupby(["game_id", "team"], as_index=False).mean(), on=["game_id", "team"], how="left")
-        for k in ("epa", "sr", "explosive"):
-            p[k] = p[f"c_{k}"].fillna(p[k])
+    # competitive plays only (win prob 10-90%, EPA capped +/-3): c_epa, c_sr, c_explosive - used by spreads
+    from v2 import extra_data
+    c = extra_data.competitive(range(2008, data.current_season() + 1))
+    c["team"] = c["team"].map(teams.franchise)
+    p = p.merge(c.groupby(["game_id", "team"], as_index=False).mean(), on=["game_id", "team"], how="left")
+    for k in ("epa", "sr", "explosive"):
+        p[f"c_{k}"] = p[f"c_{k}"].fillna(p[k])
+        if COMPETITIVE:          # test switch: replace the all-play versions everywhere
+            p[k] = p[f"c_{k}"]
     if ST_SPLIT:
         from v2 import extra_data
         x = extra_data.special_teams(range(2008, data.current_season() + 1))
@@ -200,7 +203,7 @@ def build() -> pd.DataFrame:
 def X(d: pd.DataFrame, line: pd.Series, kind: str) -> pd.DataFrame:
     f = {}
     for k in STATS:
-        if kind == "total" and k in TOTAL_SKIP:
+        if (kind == "total" and k in TOTAL_SKIP) or (kind == "spread" and k in SPREAD_SKIP):
             continue
         if kind == "spread":
             f[f"off_{k}"] = d[f"home_o_{k}"] - d[f"away_o_{k}"]
