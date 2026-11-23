@@ -8,7 +8,7 @@
 2. **No gut overrides.** Never recommend against a tool's output because it "looks off".
    Only skip a pick for a failed check (inactive player, QB change, NOT VERIFIED item) and name it.
 3. **If unsure what Chris means, ask** - do not pick an interpretation and run with it.
-4. Plain, short answers. Chris bets $3 per pick on DraftKings. Player props: receptions OK (Chris, Nov 15), no rush
+4. Plain, short answers. Chris bets $2 per pick on DraftKings (cut from $3, Nov 23). Player props: receptions OK (Chris, Nov 15), no rush
    attempts, no unders (DK prop ladders are overs). Game-total unders are fine (Chris, Nov 11). Read football-model/HANDOFF.md before betting work.
 5. **V2 model, a pick on every game (Chris, Nov 15).** The old NFL model is scratched. Use
    `python football-model/v2/card.py` (new model, play-by-play ratings, walk-forward tested): give a
