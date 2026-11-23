@@ -425,3 +425,22 @@ Per team-game, 2012-22 / 2023-26: top-2 WRs, top RB, top TE (by yards, last 8 ga
 - Both top-2 WRs out: only 8 / 12 games - too few to say anything.
 - Top RB out: covered 50.9% / 57.6%. Top TE out: 50.8% / 48.9%. Lines moved against the team in most groups.
 - The v2 props model has NO vacated-targets input (only the ROLE CHECK flag). Untested gap.
+
+## Props: freed-up targets/carries and "one big game" (Nov 23, `PYTHONPATH=. python v2/test_props_new.py`)
+Fit 2015-22, scored on 2023-26. "Real minus model" = actual hit rate minus the model's chance (0 = right).
+
+| Group (2023-26) | Market | Before | With freed-up targets/carries |
+|---|---|---|---|
+| A teammate at his position Out/Doubtful (4+ targets or carries freed) | receiving yards (11,154 rungs) | +2.7% | +0.5% |
+| | receptions | +3.0% | +0.1% |
+| | rushing yards (9,966) | +1.7% | +0.5% |
+| | anytime TD (1,859) | +3.2% | +1.8% |
+
+- The model used to UNDER-rate players who inherit a teammate's work; that is now mostly fixed. Brier
+  score improved in every market but passing yards (slightly worse there, so passing yards skips it).
+- Card: `[FREED UP: N targets / N carries ...]` on such legs; ROLE CHECK is unchanged.
+- Chris's worry (Nov 23): "4 TDs in one game then 0, 0, 0 is not 1 TD a game". The chance is not an
+  average: it is how often past players with similar inputs actually reached the number. Checked on
+  players with a 2+ TD game in their last 8: yards markets real minus model -0.3% to +0.4% (no skew);
+  anytime TD +2.8% (the model is slightly LOW on them, not high). Adding last-8 medians and the share of
+  games with a TD (`USE_ROBUST`) did not improve anything, so it is off.

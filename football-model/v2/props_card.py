@@ -53,6 +53,17 @@ inj = data.load_injuries([season])
 inj = inj[inj.week == wk]
 OUTK = set(inj[inj.report_status.isin(["Out", "Doubtful"]) | inj.get("gameday_inactive", False).fillna(False).astype(bool)]["full_name"].map(norm))
 cur = s[s.season == season]
+# freed-up targets/carries (Nov 23): teammates Out/Doubtful on the report or inactive today
+_ids = inj[inj.report_status.isin(["Out", "Doubtful"]) | inj.get("gameday_inactive", False).fillna(False).astype(bool)]
+_name_id = cur.drop_duplicates("player_id").assign(k=lambda x: x.player_display_name.map(norm)).set_index(["k", "team"]).player_id
+_ids = _ids.assign(team=_ids.team.map(teams.franchise), k=_ids.full_name.map(norm))
+_ids["player_id"] = _ids["gsis_id"].where(_ids["gsis_id"].notna(),
+                                          [_name_id.get((k, t)) for k, t in zip(_ids.k, _ids.team)])
+_games = pd.concat([pd.DataFrame({"game_id": g.game_id, "team": g.home_team.map(teams.franchise), "season": g.season,
+                                  "week": g.week, "gameday": g.gameday}),
+                    pd.DataFrame({"game_id": g.game_id, "team": g.away_team.map(teams.franchise), "season": g.season,
+                                  "week": g.week, "gameday": g.gameday})])
+VAC = props.vacated_next(s[s.season >= 2015], _ids.dropna(subset=["player_id"])[["team", "player_id"]].drop_duplicates(), _games)
 GRP = {"RB": "RB", "WR": "WR/TE", "TE": "WR/TE", "QB": "QB"}
 
 
@@ -88,7 +99,7 @@ def tested(market, p):
 models = {}
 hist = props.history(s[s.season >= 2015].copy())
 import pickle
-CACHE = Path(__file__).parent / f"props_models_{pd.Timestamp.now('UTC'):%Y%m%d}.pkl"   # refit once a day
+CACHE = Path(__file__).parent / f"props_models_vac_{pd.Timestamp.now('UTC'):%Y%m%d}.pkl"   # refit once a day
 if CACHE.exists():
     models = pickle.load(open(CACHE, "rb"))
 else:
@@ -147,11 +158,14 @@ for r in g.sort_values(["gameday", "gametime"]).itertuples(index=False):
             pl["home"] = int(t_home)
             opp = teams.franchise(r.away_team) if t_home else teams.franchise(r.home_team)
             pl = props.with_opponent(pl, s, opp)   # opposing defense: yards/TDs allowed, QB pressure
+            pl = props._vac_pos(pl.merge(VAC.drop(columns="game_id"), on="team", how="left"))
+            freed = (f"  [FREED UP: {pl.vac_t_pos.iloc[0]:.0f} targets / {pl.vac_c_pos.iloc[0]:.0f} carries at his position, in the model]"
+                     if pl.vac_t_pos.iloc[0] >= 4 or pl.vac_c_pos.iloc[0] >= 4 else "")
             rung = 1 if mk == "anytime_td" else int(np.ceil(o.get("point", 0.5)))
             pred = models[mk].predict(pl)[0]
             p = models[mk].p_reach(pred, rung)
             lab = f"{o['description']} {'anytime TD' if mk == 'anytime_td' else f'{rung}+ {mk}'}"
-            out.append((mk, lab + (f"  [ROLE CHECK: {', '.join(back)} back]" if back else ""), p, o["price"]))
+            out.append((mk, lab + freed + (f"  [ROLE CHECK: {', '.join(back)} back]" if back else ""), p, o["price"]))
     print(f"\n=== {r.away_team} @ {r.home_team}  (DK {r.home_team} {-dk_line:+g}, total {tot:g}) ===")
     df = pd.DataFrame(out, columns=["market", "bet", "v2", "price"])
     df["model"] = df.v2
@@ -166,7 +180,8 @@ for r in g.sort_values(["gameday", "gametime"]).itertuples(index=False):
     allrows.append(df)
     show = df[(df.edge >= a.min_edge) & (df.v2 >= 0.35)].sort_values("edge", ascending=False).head(12)
     for x in show.itertuples():
-        print(f"  {x.bet:42.42s} {x.price:+5d}  tested {x.v2:.0%}  DK {x.dk:.0%}  edge {x.edge:+.0%}" + ("  ROLE CHECK: " + x.bet.split("[ROLE CHECK: ")[1].rstrip("]") if "ROLE CHECK" in x.bet else ""))
+        print(f"  {x.bet.split('  [')[0]:42.42s} {x.price:+5d}  tested {x.v2:.0%}  DK {x.dk:.0%}  edge {x.edge:+.0%}" + ("  ROLE CHECK: " + x.bet.split("[ROLE CHECK: ")[1].rstrip("]") if "ROLE CHECK" in x.bet else "")
+              + ("  FREED UP: " + x.bet.split("[FREED UP: ")[1].split("]")[0] if "FREED UP" in x.bet else ""))
 if allrows:
     OUT.mkdir(parents=True, exist_ok=True)
     stamp = pd.Timestamp.now("UTC").strftime("%Y%m%d_%H%M")

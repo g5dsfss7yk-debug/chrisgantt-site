@@ -28,6 +28,8 @@
    Tested Nov 23 and NOT used (v2/test_three.py, README "Three gaps tested"): opponent-adjusted ratings and special teams split by
    unit - not adopted. Pass rushers Out/Doubtful: added to TOTALS only (Chris, Nov 23); counts 0 until the week's injury report posts.
    Nov 23 (v2/test_four.py): starting QB's own value + red-zone TD rate ADDED to spreads; referee crew and pace/pass rate not adopted.
+   Props (Nov 23): targets/carries freed up by teammates Out/Doubtful ADDED (card shows [FREED UP ...]); TD-rate/median
+   inputs tested, no gain (README "Props: freed-up targets"). Props chances are hit rates of similar past players, not averages.
    Flaws found Nov 15: README "V2 flaws".
    Parlays/teasers are built from these legs. Props + alt spreads/totals: `python football-model/v2/props_card.py --before HH:MM`
    (v2 props model; shows the TESTED 2023-26 hit rate for the model's range vs DK's implied chance;

@@ -71,7 +71,9 @@ Chris's placed record before today (`recs.py`): 3-12, net -$30.
 ## 4b. Added Nov 23 (v2/test_three.py, v2/test_four.py; README "Three gaps tested", "Four more inputs tested")
 - Spreads now use the starting QB's own value + red-zone TD rate: edge 1+ 54.9% of 1002 / 54.9% of 388.
 - Totals now use pass rushers listed Out/Doubtful: all games 53.5% / 51.0%.
-- Tested and not used: opponent adjustment, special teams by unit, referee crew, pace/pass rate.
+- Tested and not used: opponent adjustment, special teams by unit, referee crew, pace/pass rate, backup RB/WR/TE share.
+- Props now use targets/carries freed up by teammates Out/Doubtful (fixed a +2-3% under-rating of those players).
+- Fresh container: v2/test_alt.py must run once (makes v2/resid_*.npy) before props_card.py works.
 
 ## 5. What the previous agent fixed today (so you do not redo it)
 - Wind was missing in the schedule data (every game since 2026 week 5) and read as 0 mph -> totals
