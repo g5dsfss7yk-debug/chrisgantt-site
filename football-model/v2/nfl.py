@@ -24,6 +24,10 @@ STATS = ["epa", "sr", "explosive", "giveaways", "st_epa", "plays", "press"]   # 
 HALF_LIFE = 4          # games (picked on 2015-22 only, see v2/grid.py)
 CARRY = 0.65           # share of last season kept at a new season
 FIRST_TEST = 2015
+# Options tested Nov 23 (v2/test_three.py); off unless the test earned them
+OPP_ADJ = 0.0          # 0..1: share of the opponent's strength taken out of each game's stats
+ST_SPLIT = False       # special teams split into FG, punting, punt return, kick return, kick coverage
+RUSH_OUT = False       # share of a defense's recent sacks + QB hits listed Out/Doubtful that week
 SCALE = True           # standardize features before the ridge (without it the ridge zeroes the rate stats)
 ALPHA = {"spread": 10.0, "total": 10.0}   # picked on 2015-22 only (v2/improve.py)
 OUTDOOR_WIND = 8.3     # mean outdoor wind 2009-26 (mph): used when a game's wind is still unknown
@@ -55,6 +59,13 @@ def team_games() -> pd.DataFrame:
     p = data.load_team_pbp(range(2008, data.current_season() + 1))
     p["team"] = p["team"].map(teams.franchise)
     p["press"] = (p["sacks"] + p["qb_hits"]) / p["dropbacks"].clip(lower=1)   # o_press = line allows, d_press = defense makes
+    if ST_SPLIT:
+        from v2 import extra_data
+        x = extra_data.special_teams(range(2008, data.current_season() + 1))
+        x["team"] = x["team"].map(teams.franchise)
+        x = x.groupby(["game_id", "team"], as_index=False).sum()
+        p = p.merge(x, on=["game_id", "team"], how="left")
+        p[extra_data.ST_UNITS] = p[extra_data.ST_UNITS].fillna(0)
     g["home_fr"], g["away_fr"] = g["home_team"].map(teams.franchise), g["away_team"].map(teams.franchise)
     return g, p
 
@@ -79,6 +90,7 @@ def ratings(g: pd.DataFrame, p: pd.DataFrame) -> pd.DataFrame:
         rows.append(rec)
         if pd.isna(r.result):
             continue
+        snap = {t: dict(st.get(t, {})) for t in (r.home_fr, r.away_fr)}   # ratings before this game
         for t, o in ((r.home_fr, r.away_fr), (r.away_fr, r.home_fr)):
             if (r.game_id, t) not in p.index or (r.game_id, o) not in p.index:
                 continue
@@ -87,6 +99,12 @@ def ratings(g: pd.DataFrame, p: pd.DataFrame) -> pd.DataFrame:
             pts_for = r.home_score if t == r.home_fr else r.away_score
             pts_ag = r.away_score if t == r.home_fr else r.home_score
             obs |= {"pf": pts_for, "pa": pts_ag}
+            if OPP_ADJ and snap[o].get("n", 0) >= 3:
+                # credit for a stat is relative to what this opponent usually allows / produces
+                mirror = {f"o_{k}": f"d_{k}" for k in STATS} | {f"d_{k}": f"o_{k}" for k in STATS} | {"pf": "pa", "pa": "pf"}
+                for k, m in mirror.items():
+                    if m in snap[o] and m in mean and not pd.isna(obs[k]):
+                        obs[k] = obs[k] - OPP_ADJ * (snap[o][m] - mean[m])
             s = st.setdefault(t, {})
             season_of.setdefault(t, r.season)
             for k, v in obs.items():
@@ -101,6 +119,12 @@ def build() -> pd.DataFrame:
     g, p = team_games()
     rt = ratings(g, p)
     d = fill_wind(g.merge(rt, on="game_id"))
+    if RUSH_OUT:
+        ro = pd.read_csv(data.RAW / "rush_out.csv")
+        for side in ("home", "away"):
+            d = d.merge(ro.rename(columns={"team": f"{side}_fr", "rush_out": f"{side}_rush_out"}),
+                        on=["season", "week", f"{side}_fr"], how="left")
+            d[f"{side}_rush_out"] = d[f"{side}_rush_out"].fillna(0)
     n = data.load_nfelo()[["season", "week", "home_fr", "home_line_open", "total_line_open"]]
     d = d.merge(n, on=["season", "week", "home_fr"], how="left")
     d["spread_open"] = -d["home_line_open"]           # + = home favored, like spread_line
@@ -134,11 +158,15 @@ def X(d: pd.DataFrame, line: pd.Series, kind: str) -> pd.DataFrame:
         f["rest"] = (d["home_rest"] - d["away_rest"]).clip(-7, 7)
         f["qb"] = d["home_qb_change"] - d["away_qb_change"]
         f["neutral"] = (d["location"] == "Neutral").astype(int)
+        if RUSH_OUT:
+            f["rush_out"] = d["home_rush_out"] - d["away_rush_out"]
     else:
         f["pts"] = d["home_pf"] + d["home_pa"] + d["away_pf"] + d["away_pa"]
         f["wind"] = d["wind"].fillna(OUTDOOR_WIND).where(~d["roof"].isin(["dome", "closed"]), 0)
         f["dome"] = d["roof"].isin(["dome", "closed"]).astype(int)
         f["qb"] = d["home_qb_change"] + d["away_qb_change"]
+        if RUSH_OUT:
+            f["rush_out"] = d["home_rush_out"] + d["away_rush_out"]
     f["line"] = line
     x = pd.DataFrame(f).fillna(0)
     early = (d[["home_n", "away_n"]].fillna(0).min(axis=1) < 3).astype(float)

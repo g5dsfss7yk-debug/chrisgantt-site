@@ -353,3 +353,27 @@ Five ideas fixed before looking, graded at the closing line, 1999-2014 / 2015-22
 3. Moneylines at closing prices: no price range made money in both 2015-22 and 2023-26.
 4. Fading lines that stray from the market's own team ratings: 51-55% / 49-52% / 42-49%. No.
 5. nfelo's line vs the close: 53-57% / 56-58% / 47-51%. Worked for years, not since 2023. No.
+
+## Three gaps tested (Nov 23, `PYTHONPATH=. python v2/test_three.py`)
+Chris asked whether the model accounts for pass rush, pressure and special teams. It already used team
+pressure ((sacks + QB hits) per dropback, line allowed and defense made) and one special-teams number
+(EPA on all kicking plays). Removing pressure cut spread all-games from 52.4% / 50.7% to 51.5% / 50.1%;
+removing special teams cut it to 50.8% / 50.5%. Then three missing pieces were tested
+(walk-forward, graded at the game-day line, 2015-22 / 2023-26; switches in v2/nfl.py, all OFF):
+
+| Version | Spread all | Spread edge 1+ | Total all | Total edge 1+ |
+|---|---|---|---|---|
+| Baseline (card) | 52.4% / 50.8% | 52.8% / 54.1% | 53.2% / 50.5% | 55.8% / 50.6% |
+| A. Opponent-adjusted, half | 52.1% / 50.2% | 54.4% / 52.8% | 53.5% / 50.4% | 55.1% / 50.2% |
+| A. Opponent-adjusted, full | 52.9% / 50.5% | 54.1% / 50.4% | 54.2% / 50.2% | 55.1% / 50.0% |
+| B. Pass rushers Out/Doubtful | 52.0% / 50.8% | 53.4% / 53.4% | 53.5% / 51.0% | 56.0% / 51.4% |
+| C. ST split, replaces ST number | 51.9% / 49.6% | 54.4% / 53.6% | 54.2% / 49.6% | 54.9% / 48.1% |
+| C. ST split, added | 52.2% / 51.6% | 54.2% / 53.4% | 54.0% / 48.7% | 54.6% / 49.5% |
+| A + B + C together | 54.0% / 49.1% | 54.4% / 52.4% | 53.1% / 49.2% | 55.6% / 47.5% |
+
+- A (opponent adjustment) and C (special teams by unit: FG, punting, punt return, kick return, kick
+  coverage) help 2015-22 and hurt 2023-26. Together they reach 54.0% in 2015-22 and fall to 49.1% in
+  2023-26: fitting the past, not predicting.
+- B (share of a defense's last-8-game sacks + QB hits made by players listed Out/Doubtful) is the only
+  one that raised totals in both periods, by 0.3-0.8 points, still below break-even in 2023-26. Spreads mixed.
+- None adopted. Data: v2/extra_data.py (nflverse player stats + injury reports; play-by-play by unit).

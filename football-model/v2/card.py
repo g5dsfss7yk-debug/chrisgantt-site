@@ -11,13 +11,13 @@ from v2 import nfl
 from nflmodel import odds, data
 from run import NICK
 
-# Tested records, walk-forward, 2015-22 / 2023-26 (v2/test_nfl.py, v2/test_teaser.py, re-run Nov 15 after
-# the wind / scaling fixes). The model is fit on the game-day line and the pick is graded at that line.
+# Tested records, walk-forward, 2015-22 / 2023-26 (v2/test_nfl.py, v2/test_teaser.py, re-run Nov 23 with
+# weeks 10-11 added). The model is fit on the game-day line and the pick is graded at that line.
 # Break-even at -110 is 52.4%; a 2-team -120 teaser needs 73.9% per leg.
-SPREAD_REC = [(2.0, "57.0% of 214 (2015-22) / 58.1% of 62 (2023-26) - few games, not proven"),
-              (1.0, "52.8% of 849 (2015-22) / 55.0% of 311 (2023-26)"),
-              (0.0, "52.4% (2015-22) / 50.7% (2023-26), all games")]
-TOTAL_REC = [(1.0, "55.8% (2015-22) / 50.8% (2023-26)"), (0.0, "53.2% (2015-22) / 51.7% (2023-26), all games")]
+SPREAD_REC = [(2.0, "57.0% of 214 (2015-22) / 56.5% of 62 (2023-26) - few games, not proven"),
+              (1.0, "52.8% of 849 (2015-22) / 54.1% of 320 (2023-26)"),
+              (0.0, "52.4% (2015-22) / 50.8% (2023-26), all games")]
+TOTAL_REC = [(1.0, "55.8% (2015-22) / 50.6% (2023-26)"), (0.0, "53.2% (2015-22) / 50.5% (2023-26), all games")]
 TEASE = {(1, 2.5): "69.7% (2015-22) / 77.9% (2023-26) per leg", (3, 3.5): "76.9% / 70.4% per leg",
          (-7.5, -3.5): "70.0% / 74.6% per leg"}
 
