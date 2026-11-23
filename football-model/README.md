@@ -376,4 +376,4 @@ removing special teams cut it to 50.8% / 50.5%. Then three missing pieces were t
   2023-26: fitting the past, not predicting.
 - B (share of a defense's last-8-game sacks + QB hits made by players listed Out/Doubtful) is the only
   one that raised totals in both periods, by 0.3-0.8 points, still below break-even in 2023-26. Spreads mixed.
-- None adopted. Data: v2/extra_data.py (nflverse player stats + injury reports; play-by-play by unit).
+- B added to TOTALS only (Chris, Nov 23; `RUSH_OUT_TOTAL` in v2/nfl.py). A and C not adopted. Data: v2/extra_data.py (nflverse player stats + injury reports; play-by-play by unit).

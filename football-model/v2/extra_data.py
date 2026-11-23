@@ -81,3 +81,16 @@ def pass_rush_out(seasons, window: int = 8) -> pd.DataFrame:
         share = recent[recent.player_id.isin(o.gsis_id)].pr.sum() / tot if tot else 0.0
         res.append((season, week, team, share))
     return pd.DataFrame(res, columns=["season", "week", "team", "rush_out"])
+
+
+def rush_out_all() -> pd.DataFrame:
+    """pass_rush_out for 2009 to now. Past seasons are cached in data/raw/rush_out.csv; the current
+    season is recomputed each run (injury reports change during the week)."""
+    cur = data.current_season()
+    path = data.RAW / "rush_out.csv"
+    old = pd.read_csv(path) if path.exists() else pd.DataFrame(columns=["season"])
+    if not set(range(2009, cur)) <= set(old.season.unique()):
+        old = pass_rush_out(range(2009, cur))
+        old.to_csv(path, index=False)
+    new = pass_rush_out([cur - 1, cur])
+    return pd.concat([old[old.season < cur], new[new.season == cur]], ignore_index=True)

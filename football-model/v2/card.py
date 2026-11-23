@@ -17,7 +17,7 @@ from run import NICK
 SPREAD_REC = [(2.0, "57.0% of 214 (2015-22) / 56.5% of 62 (2023-26) - few games, not proven"),
               (1.0, "52.8% of 849 (2015-22) / 54.1% of 320 (2023-26)"),
               (0.0, "52.4% (2015-22) / 50.8% (2023-26), all games")]
-TOTAL_REC = [(1.0, "55.8% (2015-22) / 50.6% (2023-26)"), (0.0, "53.2% (2015-22) / 50.5% (2023-26), all games")]
+TOTAL_REC = [(1.0, "56.0% (2015-22) / 51.4% (2023-26)"), (0.0, "53.5% (2015-22) / 51.0% (2023-26), all games")]   # with pass rushers out (Nov 23)
 TEASE = {(1, 2.5): "69.7% (2015-22) / 77.9% (2023-26) per leg", (3, 3.5): "76.9% / 70.4% per leg",
          (-7.5, -3.5): "70.0% / 74.6% per leg"}
 
@@ -64,6 +64,10 @@ def changes(r, dk_line, tot, fc):
                 c.append(f"{team} out per ESPN: " + ", ".join(others) + " (whether each is a starter is not checked)")
     if out is None:
         c.append("ESPN injury list not reachable - QBs and injuries NOT VERIFIED")
+    for side, team in (("home", r.home_team), ("away", r.away_team)):
+        v = getattr(r, f"{side}_rush_out", 0) or 0
+        if v >= 0.15:
+            c.append(f"{team} pass rush: players listed Out/Doubtful made {v:.0%} of its sacks + QB hits the last 8 games (in the total)")
     if pd.notna(r.spread_open) and abs(dk_line - r.spread_open) >= 2:
         to = r.home_team if dk_line > r.spread_open else r.away_team
         c.append(f"line moved {abs(dk_line - r.spread_open):g} pts toward {to} since the opener ({-r.spread_open:+g} -> {-dk_line:+g} for {r.home_team})")
@@ -93,6 +97,9 @@ if a.after:
     g = g[g.gametime.astype(str) > a.after]
 odds.TTL = 10**9 if a.cached else 0
 ev = odds._get("/sports/americanfootball_nfl/odds", bookmakers="draftkings", markets="spreads,totals,h2h", oddsFormat="american")
+if not (g.get("home_rush_listed", pd.Series(False)).any() or g.get("away_rush_listed", pd.Series(False)).any()):
+    print(f"NOTE: no week {wk} injury report with an Out/Doubtful pass rusher found yet (reports post Wed-Fri), "
+          "so 'pass rushers out' counts 0 in every total. Re-run the card after Friday's report.")
 try:
     fc = {f.game_id: f._asdict() for f in data.load_forecasts().itertuples(index=False)}
 except Exception:

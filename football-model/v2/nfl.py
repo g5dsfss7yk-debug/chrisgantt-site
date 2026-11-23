@@ -27,7 +27,8 @@ FIRST_TEST = 2015
 # Options tested Nov 23 (v2/test_three.py); off unless the test earned them
 OPP_ADJ = 0.0          # 0..1: share of the opponent's strength taken out of each game's stats
 ST_SPLIT = False       # special teams split into FG, punting, punt return, kick return, kick coverage
-RUSH_OUT = False       # share of a defense's recent sacks + QB hits listed Out/Doubtful that week
+RUSH_OUT = False       # share of a defense's recent sacks + QB hits listed Out/Doubtful that week (spread + total)
+RUSH_OUT_TOTAL = True  # same, totals only: ON since Nov 23 (Chris) - totals 53.5% / 51.0% vs 53.2% / 50.5% without
 SCALE = True           # standardize features before the ridge (without it the ridge zeroes the rate stats)
 ALPHA = {"spread": 10.0, "total": 10.0}   # picked on 2015-22 only (v2/improve.py)
 OUTDOOR_WIND = 8.3     # mean outdoor wind 2009-26 (mph): used when a game's wind is still unknown
@@ -119,11 +120,13 @@ def build() -> pd.DataFrame:
     g, p = team_games()
     rt = ratings(g, p)
     d = fill_wind(g.merge(rt, on="game_id"))
-    if RUSH_OUT:
-        ro = pd.read_csv(data.RAW / "rush_out.csv")
+    if RUSH_OUT or RUSH_OUT_TOTAL:
+        from v2 import extra_data
+        ro = extra_data.rush_out_all()
         for side in ("home", "away"):
             d = d.merge(ro.rename(columns={"team": f"{side}_fr", "rush_out": f"{side}_rush_out"}),
                         on=["season", "week", f"{side}_fr"], how="left")
+            d[f"{side}_rush_listed"] = d[f"{side}_rush_out"].notna()   # False: no Out/Doubtful report found
             d[f"{side}_rush_out"] = d[f"{side}_rush_out"].fillna(0)
     n = data.load_nfelo()[["season", "week", "home_fr", "home_line_open", "total_line_open"]]
     d = d.merge(n, on=["season", "week", "home_fr"], how="left")
@@ -165,7 +168,7 @@ def X(d: pd.DataFrame, line: pd.Series, kind: str) -> pd.DataFrame:
         f["wind"] = d["wind"].fillna(OUTDOOR_WIND).where(~d["roof"].isin(["dome", "closed"]), 0)
         f["dome"] = d["roof"].isin(["dome", "closed"]).astype(int)
         f["qb"] = d["home_qb_change"] + d["away_qb_change"]
-        if RUSH_OUT:
+        if RUSH_OUT or RUSH_OUT_TOTAL:
             f["rush_out"] = d["home_rush_out"] + d["away_rush_out"]
     f["line"] = line
     x = pd.DataFrame(f).fillna(0)
