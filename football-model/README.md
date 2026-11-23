@@ -416,3 +416,12 @@ Walk-forward, game-day line, 2015-22 / 2023-26, from the current card (QB value 
 
 Spreads: better 2015-22, worse 2023-26. Totals: +0.2-0.3 on all games, edge 1+ mixed. Not adopted
 (`SKILL_OUT` in v2/nfl.py, off). The card still shows skill players out per ESPN as ** CHANGE lines.
+
+## Depth check: top WRs/RB/TE out (Nov 23, `PYTHONPATH=. python v2/test_depth.py`)
+Per team-game, 2012-22 / 2023-26: top-2 WRs, top RB, top TE (by yards, last 8 games) listed Out/Doubtful.
+- One top-2 WR out (442 / 178 games): neutral pass rate -0.8 / -0.2 points vs the team's own average (no real
+  shift to the run); line moved 0.44 / 0.31 pts against the team from open to close; team covered **45.1% / 46.9%**.
+  Betting against it would have won 54.9% / 53.1% - found after looking at 6 groups, so not proven.
+- Both top-2 WRs out: only 8 / 12 games - too few to say anything.
+- Top RB out: covered 50.9% / 57.6%. Top TE out: 50.8% / 48.9%. Lines moved against the team in most groups.
+- The v2 props model has NO vacated-targets input (only the ROLE CHECK flag). Untested gap.
