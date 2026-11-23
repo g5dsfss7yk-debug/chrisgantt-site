@@ -35,6 +35,8 @@ QB_VAL_SPREAD = True   # same, spreads only: ON since Nov 23 (with rz): spread e
 REF_TOT = False        # crew chief's past (total - line), totals only - NOTE: games.csv posts the referee after the game
 PACE = False           # seconds per play, neutral-situation pass rate, no-huddle rate
 RZ = False             # red-zone touchdown rate (TDs per trip inside the 20)
+SKILL_OUT = ""         # "": off; "all": one share of RB+WR+TE yards Out/Doubtful; "split": RB, WR, TE separately
+SKILL_KINDS = ("spread", "total")
 RUSH_OUT_TOTAL = True  # same, totals only: ON since Nov 23 (Chris) - totals 53.5% / 51.0% vs 53.2% / 50.5% without
 SCALE = True           # standardize features before the ridge (without it the ridge zeroes the rate stats)
 ALPHA = {"spread": 10.0, "total": 10.0}   # picked on 2015-22 only (v2/improve.py)
@@ -138,6 +140,14 @@ def build() -> pd.DataFrame:
     if REF_TOT:
         from v2 import extra_data
         d["ref_tot"] = extra_data.referee_totals(d)
+    if SKILL_OUT:
+        from v2 import extra_data
+        so = extra_data.skill_out_all()
+        cols = ["rb_out", "wr_out", "te_out", "skill_out"]
+        for side in ("home", "away"):
+            d = d.merge(so.rename(columns={"team": f"{side}_fr"} | {c: f"{side}_{c}" for c in cols}),
+                        on=["season", "week", f"{side}_fr"], how="left")
+            d[[f"{side}_{c}" for c in cols]] = d[[f"{side}_{c}" for c in cols]].fillna(0)
     if RUSH_OUT or RUSH_OUT_TOTAL:
         from v2 import extra_data
         ro = extra_data.rush_out_all()
@@ -196,6 +206,9 @@ def X(d: pd.DataFrame, line: pd.Series, kind: str) -> pd.DataFrame:
             f["qb_val"] = d["home_qb_val"] + d["away_qb_val"]
         if REF_TOT:
             f["ref_tot"] = d["ref_tot"]
+    if SKILL_OUT and kind in SKILL_KINDS:
+        for c in (["skill_out"] if SKILL_OUT == "all" else ["rb_out", "wr_out", "te_out"]):
+            f[c] = d[f"home_{c}"] - d[f"away_{c}"] if kind == "spread" else d[f"home_{c}"] + d[f"away_{c}"]
     f["line"] = line
     x = pd.DataFrame(f).fillna(0)
     early = (d[["home_n", "away_n"]].fillna(0).min(axis=1) < 3).astype(float)

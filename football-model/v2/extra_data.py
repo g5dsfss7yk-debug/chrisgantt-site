@@ -150,3 +150,53 @@ def referee_totals(g: pd.DataFrame, k: float = 30) -> pd.Series:
             s[ref] = s.get(ref, 0.0) + (r.total - r.total_line)
             n[ref] = n.get(ref, 0) + 1
     return pd.Series(out)
+
+
+SKILL = ("RB", "WR", "TE")
+
+
+def skill_out(seasons, window: int = 8) -> pd.DataFrame:
+    """Per (season, week, team): for RB, WR and TE, the share of the team's scrimmage yards (rushing +
+    receiving) over its previous `window` games made by players the injury report lists Out or
+    Doubtful that week. The backups take that work, so a high share means backups are playing."""
+    st, inj = [], []
+    for s in seasons:
+        a = _release("stats_player", f"stats_player_week_{s}.csv", s)
+        b = _release("injuries", f"injuries_{s}.csv", s)
+        if a is not None:
+            st.append(a[["player_id", "season", "week", "team", "position_group", "rushing_yards", "receiving_yards"]])
+        if b is not None:
+            inj.append(b[["season", "week", "team", "gsis_id", "report_status"]])
+    st, inj = pd.concat(st), pd.concat(inj)
+    st["team"], inj["team"] = st.team.map(teams.franchise), inj.team.map(teams.franchise)
+    st = st[st.position_group.isin(SKILL)].copy()
+    st["yds"] = st.rushing_yards.fillna(0).clip(lower=0) + st.receiving_yards.fillna(0).clip(lower=0)
+    games = st[["season", "week", "team"]].drop_duplicates().sort_values(["team", "season", "week"])
+    games["k"] = games.groupby("team").cumcount()
+    st = st.merge(games, on=["season", "week", "team"])
+    out = inj[inj.report_status.isin(["Out", "Doubtful"])]
+    res = []
+    for (season, week, team), o in out.groupby(["season", "week", "team"]):
+        g = games[(games.team == team) & ((games.season < season) | ((games.season == season) & (games.week < week)))]
+        if len(g) < 4:
+            continue
+        recent = st[(st.team == team) & st.k.isin(g.k.iloc[-window:])]
+        tot = recent.yds.sum()
+        row = {"season": season, "week": week, "team": team}
+        for pg in SKILL:
+            r = recent[recent.position_group == pg]
+            row[f"{pg.lower()}_out"] = r[r.player_id.isin(o.gsis_id)].yds.sum() / tot if tot else 0.0
+        row["skill_out"] = sum(row[f"{pg.lower()}_out"] for pg in SKILL)
+        res.append(row)
+    return pd.DataFrame(res)
+
+
+def skill_out_all() -> pd.DataFrame:
+    cur = data.current_season()
+    path = data.RAW / "skill_out.csv"
+    old = pd.read_csv(path) if path.exists() else pd.DataFrame(columns=["season"])
+    if not set(range(2009, cur)) <= set(old.season.unique()):
+        old = skill_out(range(2009, cur))
+        old.to_csv(path, index=False)
+    new = skill_out([cur - 1, cur])
+    return pd.concat([old[old.season < cur], new[new.season == cur]], ignore_index=True)

@@ -402,3 +402,17 @@ Same test (walk-forward, game-day line, 2015-22 / 2023-26), starting from the ca
   favorite -3.5..-7.5 69.7% / 73.6% (v2/test_teaser.py).
 - Caveat: the QB value uses the schedule's listed starter. When the schedule is stale (Nov 15: Minshew,
   Huntley), the value is wrong too - the card's ** CHANGE QB lines matter more now.
+
+## Backup RBs, WRs, TEs (Nov 23, `PYTHONPATH=. python v2/test_skill.py`)
+Input: share of a team's last-8-game rushing + receiving yards (RB/WR/TE) made by players listed Out or
+Doubtful that week, i.e. how much of the offense backups must replace. 20%+ in 495 of 4,902 games.
+Walk-forward, game-day line, 2015-22 / 2023-26, from the current card (QB value + red-zone in spreads):
+
+| Version | Spread all | Spread edge 1+ | Total all | Total edge 1+ |
+|---|---|---|---|---|
+| Current card | 52.4% / 52.0% | 54.9% / 54.9% | 53.5% / 51.0% | 56.0% / 51.4% |
+| One number (RB+WR+TE) | 52.9% / 51.4% | 55.1% / 54.6% | 53.7% / 51.3% | 56.1% / 51.2% |
+| RB, WR, TE separately | 53.5% / 51.2% | 54.8% / 54.3% | 53.4% / 51.4% | 55.5% / 50.8% |
+
+Spreads: better 2015-22, worse 2023-26. Totals: +0.2-0.3 on all games, edge 1+ mixed. Not adopted
+(`SKILL_OUT` in v2/nfl.py, off). The card still shows skill players out per ESPN as ** CHANGE lines.
