@@ -465,3 +465,11 @@ dog +1..+2.5 73.2% / 82.7%, +3..+3.5 77.9% / 71.2%, favorite -3.5..-7.5 69.4% / 
 Props (fit 2015-22, scored 2023-26): the model had the best Brier score in all 7 markets. The player's own
 hit rate ("60+ in 9 of his last 16") was worse everywhere and badly off at the top: passing yards said
 73% and hit 68%; rushing yards said 71% and hit 79%. Half model / half own rate was in between.
+
+## Receptions flaw fixed (Nov 23, `PYTHONPATH=. python v2/test_receptions.py`)
+Receptions chances came from 25 wide groups of projections; the top group mixed 5- and 9-catch
+projections, so high-volume receivers (recent average 7.5+ catches) were under-rated: every rung said
+65.9%, hit 72.3%; 8+ said 28.6%, hit 37.6% (133 games, 2023-26). Now the chance comes from the 500
+past players with the closest projections (`NEAR` in v2/props.py): 70.2% vs 72.3%, 8+ 33.6% vs 37.6%;
+Brier 0.0825 -> 0.0824, calibration elsewhere unchanged. Tried and rejected: projection + misses (like
+yards) - Brier 0.0844, chances 7-9 points too low in the middle. Same fix for passing TDs: no change, not used.

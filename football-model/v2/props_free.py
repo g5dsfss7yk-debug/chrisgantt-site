@@ -36,6 +36,7 @@ ap.add_argument("--team", action="append", required=True)
 ap.add_argument("--line", help="TEAM=-6 (DK spread for one team)")
 ap.add_argument("--total", type=float)
 ap.add_argument("--min", type=float, default=0.60, help="show rungs with a tested chance at least this")
+ap.add_argument("--all", action="store_true", help="every rung, not only the highest per market")
 ap.add_argument("--max", type=float, default=1.0, help="... and at most this (lower = bigger payouts)")
 a = ap.parse_args()
 
@@ -108,6 +109,8 @@ df = df.sort_values(["player", "tested"]).groupby(["player", "bet"]).tail(1)
 df["market"] = df.bet.str.replace(r"^\d+\+ ", "", regex=True)
 df["n"] = df.bet.str.extract(r"^(\d+)").astype(float).fillna(1)
 best = df.sort_values("n").groupby(["player", "market"]).tail(1).sort_values("tested", ascending=False)
+if "--all" in sys.argv:
+    best = df.sort_values(["player", "market", "n"])
 print(f"\nHighest number each player reaches with a tested chance of {a.min:.0%}-{a.max:.0%} (2023-26 hit rate of that model range).")
 print("Bet only if DK's price PAYS MORE than 'break-even' (e.g. -150 pays more than -180).\n")
 for x in best.itertuples():

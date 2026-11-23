@@ -39,6 +39,11 @@ STATS = {  # market -> (positions, how to compute)
 HL = 4
 COUNTS = {"receptions", "passing_tds", "anytime_td"}
 BINS = 25
+# Nov 23: receptions chance from the model's own number plus how far off similar players were
+# (like yards), not from the raw outcomes of a wide group - the old way put high-volume receivers
+# in one big top group and under-rated them (7+ catches: said 41%, hit 50%). v2/test_receptions.py
+RESID_COUNTS = set()          # tried for receptions Nov 23: worse (v2/test_receptions.py)
+NEAR = {"receptions": 500}    # market -> K: chance from the K past players with the CLOSEST projections (ON Nov 23)
 
 
 def load() -> pd.DataFrame:
@@ -323,8 +328,11 @@ class StatModel:
                                                     min_samples_leaf=100, random_state=0).fit(x[F], x["y"] >= 1)
         self.edges = np.unique(np.quantile(pred, np.linspace(0, 1, BINS + 1)))
         idx = np.clip(np.searchsorted(self.edges, pred, side="right") - 1, 0, len(self.edges) - 2)
-        res = x["y"].values if self.market in COUNTS else x["y"].values - pred
+        res = x["y"].values if (self.market in COUNTS and self.market not in RESID_COUNTS) else x["y"].values - pred
         self.vals = [np.sort(res[idx == i]) for i in range(len(self.edges) - 1)]
+        if self.market in NEAR:
+            o = np.argsort(pred)
+            self.near_pred, self.near_y = pred[o], x["y"].values[o]
         return self
 
     def predict(self, x):
@@ -337,7 +345,12 @@ class StatModel:
         v = self.vals[i]   # past misses (actual - predicted) of players with similar predictions
         if self.market == "anytime_td":
             return float(pred)
-        if self.market in COUNTS:   # whole numbers: actual outcomes of similar players
+        if self.market in NEAR and hasattr(self, "near_pred"):   # the K closest projections, not a wide group
+            k = NEAR[self.market]
+            j = int(np.searchsorted(self.near_pred, pred))
+            lo = max(0, min(j - k // 2, len(self.near_pred) - k))
+            return float((self.near_y[lo:lo + k] >= rung).mean())
+        if self.market in COUNTS and self.market not in RESID_COUNTS:   # whole numbers: actual outcomes of similar players
             return float((v >= rung).mean())
         return float((pred + v >= rung - 1e-9).mean())
 
