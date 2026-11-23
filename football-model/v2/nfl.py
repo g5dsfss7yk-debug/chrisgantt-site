@@ -37,6 +37,9 @@ PACE = False           # seconds per play, neutral-situation pass rate, no-huddl
 RZ = False             # red-zone touchdown rate (TDs per trip inside the 20)
 SKILL_OUT = ""         # "": off; "all": one share of RB+WR+TE yards Out/Doubtful; "split": RB, WR, TE separately
 SKILL_KINDS = ("spread", "total")
+RATING = "ewm"         # "ewm": weighted average of recent games; "median": median of the last 8 games (Nov 23 test)
+COMPETITIVE = False    # EPA / success / explosive from win-prob 10-90% plays only, EPA capped at +/-3 (Nov 23 test)
+CLIP = None            # cap the fit target (margin or total minus the line) at +/- this many points (Nov 23 test)
 RUSH_OUT_TOTAL = True  # same, totals only: ON since Nov 23 (Chris) - totals 53.5% / 51.0% vs 53.2% / 50.5% without
 SCALE = True           # standardize features before the ridge (without it the ridge zeroes the rate stats)
 ALPHA = {"spread": 10.0, "total": 10.0}   # picked on 2015-22 only (v2/improve.py)
@@ -70,6 +73,13 @@ def team_games() -> pd.DataFrame:
     p["team"] = p["team"].map(teams.franchise)
     p["press"] = (p["sacks"] + p["qb_hits"]) / p["dropbacks"].clip(lower=1)   # o_press = line allows, d_press = defense makes
     p["rz"] = p["rz_tds"] / p["rz_trips"].where(p["rz_trips"] > 0)                 # NaN with no trips: skipped
+    if COMPETITIVE:
+        from v2 import extra_data
+        c = extra_data.competitive(range(2008, data.current_season() + 1))
+        c["team"] = c["team"].map(teams.franchise)
+        p = p.merge(c.groupby(["game_id", "team"], as_index=False).mean(), on=["game_id", "team"], how="left")
+        for k in ("epa", "sr", "explosive"):
+            p[k] = p[f"c_{k}"].fillna(p[k])
     if ST_SPLIT:
         from v2 import extra_data
         x = extra_data.special_teams(range(2008, data.current_season() + 1))
@@ -85,13 +95,15 @@ def ratings(g: pd.DataFrame, p: pd.DataFrame) -> pd.DataFrame:
     """Pre-game ratings for both teams of every game (only earlier games are used)."""
     p = p.set_index(["game_id", "team"])
     a = 1 - 0.5 ** (1 / HALF_LIFE)
-    st, season_of, mean = {}, {}, {}
+    st, season_of, mean, hist = {}, {}, {}, {}
     rows = []
     g = g.sort_values(["gameday", "gametime", "game_id"])
     for r in g.itertuples(index=False):
         rec = {"game_id": r.game_id}
         for side, t in (("home", r.home_fr), ("away", r.away_fr)):
-            if t in st and season_of[t] != r.season:  # new season: pull toward average
+            if t in st and season_of[t] != r.season and RATING == "median":
+                season_of[t] = r.season                 # median of the last 8 games runs across seasons
+            elif t in st and season_of[t] != r.season:  # new season: pull toward average
                 st[t] = {k: CARRY * v + (1 - CARRY) * mean.get(k, v) for k, v in st[t].items()}
                 season_of[t] = r.season
             s = st.get(t, {})
@@ -118,6 +130,17 @@ def ratings(g: pd.DataFrame, p: pd.DataFrame) -> pd.DataFrame:
                         obs[k] = obs[k] - OPP_ADJ * (snap[o][m] - mean[m])
             s = st.setdefault(t, {})
             season_of.setdefault(t, r.season)
+            if RATING == "median":
+                h = hist.setdefault(t, {})
+                for k, v in obs.items():
+                    if pd.isna(v):
+                        continue
+                    h.setdefault(k, []).append(float(v))
+                    h[k] = h[k][-8:]
+                    s[k] = float(np.median(h[k]))
+                    mean[k] = float(v) if k not in mean else 0.995 * mean[k] + 0.005 * float(v)
+                s["n"] = s.get("n", 0) + 1
+                continue
             for k, v in obs.items():
                 if pd.isna(v) and k.endswith(SKIP_NAN):
                     continue                          # e.g. no red-zone trip: no information, keep the rating
@@ -221,6 +244,8 @@ def X(d: pd.DataFrame, line: pd.Series, kind: str) -> pd.DataFrame:
 
 def fit(train: pd.DataFrame, kind: str, line_col: str):
     y = train["result"] if kind == "spread" else train["total"]
+    if CLIP is not None:   # a 35-point blowout counts no more than a CLIP-point miss vs the line
+        y = train[line_col] + (y - train[line_col]).clip(-CLIP, CLIP)
     ridge = Ridge(alpha=ALPHA[kind])
     m = make_pipeline(StandardScaler(), ridge) if SCALE else ridge
     return m.fit(X(train, train[line_col], kind), y)

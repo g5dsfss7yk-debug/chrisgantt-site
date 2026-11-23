@@ -200,3 +200,31 @@ def skill_out_all() -> pd.DataFrame:
         old.to_csv(path, index=False)
     new = skill_out([cur - 1, cur])
     return pd.concat([old[old.season < cur], new[new.season == cur]], ignore_index=True)
+
+
+COMP_COLS = ["game_id", "posteam", "play_type", "epa", "success", "wp", "yards_gained", "pass", "rush"]
+
+
+def _comp_season(s: int) -> pd.DataFrame | None:
+    """Per (game_id, team) offense on COMPETITIVE plays only: win probability 10-90% (no garbage
+    time), each play's EPA capped at +/-3 so one return or long bomb cannot dominate the game."""
+    path = data.RAW / "pbp_comp" / f"{s}.csv"
+    if path.exists() and s < data.current_season():
+        return pd.read_csv(path)
+    tmp = data._fetch(f"{data.RELEASE}/pbp/play_by_play_{s}.csv.gz", data.RAW / f"pbp_comp_tmp{s}.csv.gz", refresh=True)
+    if tmp is None:
+        return None
+    d = pd.read_csv(tmp, usecols=lambda c: c in COMP_COLS, low_memory=False)
+    tmp.unlink()
+    d = d[d.posteam.notna() & d.play_type.isin(["pass", "run"]) & d.epa.notna() & d.wp.between(0.10, 0.90)]
+    d["epa"] = d.epa.clip(-3, 3)
+    d["explosive"] = ((d["pass"] == 1) & (d.yards_gained >= 20)) | ((d["rush"] == 1) & (d.yards_gained >= 10))
+    out = d.groupby(["game_id", "posteam"]).agg(c_epa=("epa", "mean"), c_sr=("success", "mean"),
+                                               c_explosive=("explosive", "mean")).reset_index().rename(columns={"posteam": "team"})
+    path.parent.mkdir(parents=True, exist_ok=True)
+    out.to_csv(path, index=False)
+    return out
+
+
+def competitive(seasons) -> pd.DataFrame:
+    return pd.concat([f for s in seasons if (f := _comp_season(s)) is not None], ignore_index=True)

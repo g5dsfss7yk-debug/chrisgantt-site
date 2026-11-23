@@ -444,3 +444,22 @@ Fit 2015-22, scored on 2023-26. "Real minus model" = actual hit rate minus the m
   players with a 2+ TD game in their last 8: yards markets real minus model -0.3% to +0.4% (no skew);
   anytime TD +2.8% (the model is slightly LOW on them, not high). Adding last-8 medians and the share of
   games with a TD (`USE_ROBUST`) did not improve anything, so it is off.
+
+## Other ways to pick, not averages (Nov 23, `v2/test_methods.py`, `v2/test_methods_props.py`)
+Game model, walk-forward, game-day line, 2015-22 / 2023-26 ("confident" = edge 1+ pts, or chance 53%+):
+
+| Method | Spread all | Spread confident | Total all | Total confident |
+|---|---|---|---|---|
+| 0 Current (weighted averages, ridge on margin) | 52.4% / 52.0% | 54.9% / 54.9% | 53.5% / 51.0% | 56.0% / 51.4% |
+| 1 Median of last 8 games | 51.5% / 52.9% | 52.5% / 52.8% | 52.8% / 49.8% | 54.2% / 52.0% |
+| 2 Competitive plays only (win prob 10-90%), EPA capped +/-3 | 52.6% / 54.4% | 55.0% / 53.1% | 53.6% / 50.7% | 55.3% / 51.3% |
+| 3 Blowouts capped at 14 pts in the fit | 52.2% / 51.5% | 55.7% of 578 / 55.8% of 217 | 52.9% / 51.1% | 54.9% / 49.5% |
+| 4 Chance to cover (logistic, no margins) | 51.3% / 51.4% | 52.1% / 51.8% | 53.0% / 50.3% | 54.5% / 48.5% |
+| 5 200 most similar past games | 50.3% / 47.6% | 53.5% / 49.2% | 49.1% / 47.2% | 51.3% / 46.7% |
+
+Only 2 beat the current spread pick on all games in both periods (+0.2 / +2.4), but its confident
+picks fell in 2023-26 (53.1% vs 54.9%). Not switched on (`COMPETITIVE` in v2/nfl.py) - Chris to decide.
+
+Props (fit 2015-22, scored 2023-26): the model had the best Brier score in all 7 markets. The player's own
+hit rate ("60+ in 9 of his last 16") was worse everywhere and badly off at the top: passing yards said
+73% and hit 68%; rushing yards said 71% and hit 79%. Half model / half own rate was in between.
