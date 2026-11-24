@@ -514,3 +514,10 @@ Game model, each added alone to the card, 2015-22 / 2023-26:
 Props (fit 2015-22, Brier on 2023-26, change vs current): red-zone/goal-line touches and shares ~0 except passing
 TDs +0.0017 (worse); depth of target + CPOE ~0, passing TDs +0.0009 (worse); separation ~0; **turf: passing
 yards -0.0004, others ~0 (ADOPTED)**. The props model already gets most of this from targets, carries and TD history.
+
+## Self-correcting versions (Nov 23, `PYTHONPATH=. python v2/test_dynamic.py`)
+The card already refits on every finished game each run and team ratings update after every game.
+Tested on top (2015-22 / 2023-26): recent seasons weighted more (half-life 4: spread all 53.2% / 52.7%;
+half-life 2: 53.8% / 51.5%) and correcting each pick by the model's own recent average miss (last 100
+games: spread 52.4% / 50.4%, totals 50.2% / 49.2%; last 250: spread 53.3% / 49.7%). All worse in 2023-26
+than the card (spread 52.6% / 54.4%, totals 53.7% / 51.2%): chasing its own recent misses chases noise.
