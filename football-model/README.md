@@ -490,3 +490,11 @@ seasons the fit learns from.
 
 No carry setting is better in both periods; fewer seasons to learn from is worse. Kept as is. Last season's
 share fades with the 4-game half-life: half after 4 games, a quarter after 8.
+
+## Props: weather (Nov 23, `v2/test_props_weather.py`, `v2/test_wx_fix.py`)
+Kickoff weather (wind, rain, snow, temperature, dome; forecast for upcoming games) added to every props
+market (`USE_WX` in v2/props.py). 2023-26: Brier same or better in all 7 markets. In rain/snow or 15+ mph
+wind the model was still too high, so a correction measured on 2020-22 (model fit 2015-19) is subtracted
+(`BAD_WX_FIX`); checked on 2023-26 bad-weather games: passing yards real minus model -8.3% -> -0.6%,
+passing TDs -5.3% -> -2.9%, receiving yards -1.8% -> -0.2%, receptions -1.5% -> +0.3%.
+Gusts are NOT used: the history almost never records them, so they cannot be tested.
