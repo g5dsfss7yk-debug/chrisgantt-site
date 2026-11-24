@@ -63,6 +63,7 @@ _games = pd.concat([pd.DataFrame({"game_id": g.game_id, "team": g.home_team.map(
                                   "week": g.week, "gameday": g.gameday}),
                     pd.DataFrame({"game_id": g.game_id, "team": g.away_team.map(teams.franchise), "season": g.season,
                                   "week": g.week, "gameday": g.gameday})])
+WXG = props.game_weather().set_index("game_id") if props.USE_WX else None
 VAC = props.vacated_next(s[s.season >= 2015], _ids.dropna(subset=["player_id"])[["team", "player_id"]].drop_duplicates(), _games)
 GRP = {"RB": "RB", "WR": "WR/TE", "TE": "WR/TE", "QB": "QB"}
 
@@ -99,7 +100,7 @@ def tested(market, p):
 models = {}
 hist = props.history(s[s.season >= 2015].copy())
 import pickle
-CACHE = Path(__file__).parent / f"props_models_vac_{pd.Timestamp.now('UTC'):%Y%m%d}.pkl"   # refit once a day
+CACHE = Path(__file__).parent / f"props_models_vacwx_{pd.Timestamp.now('UTC'):%Y%m%d}.pkl"   # refit once a day
 if CACHE.exists():
     models = pickle.load(open(CACHE, "rb"))
 else:
@@ -159,11 +160,14 @@ for r in g.sort_values(["gameday", "gametime"]).itertuples(index=False):
             opp = teams.franchise(r.away_team) if t_home else teams.franchise(r.home_team)
             pl = props.with_opponent(pl, s, opp)   # opposing defense: yards/TDs allowed, QB pressure
             pl = props._vac_pos(pl.merge(VAC.drop(columns="game_id"), on="team", how="left"))
+            wxr = WXG.loc[r.game_id] if WXG is not None and r.game_id in WXG.index else {}
+            for cc in (props.WX if WXG is not None else []):
+                pl[cc] = wxr[cc] if len(wxr) else np.nan
             freed = (f"  [FREED UP: {pl.vac_t_pos.iloc[0]:.0f} targets / {pl.vac_c_pos.iloc[0]:.0f} carries at his position, in the model]"
                      if pl.vac_t_pos.iloc[0] >= 4 or pl.vac_c_pos.iloc[0] >= 4 else "")
             rung = 1 if mk == "anytime_td" else int(np.ceil(o.get("point", 0.5)))
             pred = models[mk].predict(pl)[0]
-            p = models[mk].p_reach(pred, rung)
+            p = props.wx_adjust(mk, models[mk].p_reach(pred, rung), wxr)
             lab = f"{o['description']} {'anytime TD' if mk == 'anytime_td' else f'{rung}+ {mk}'}"
             out.append((mk, lab + freed + (f"  [ROLE CHECK: {', '.join(back)} back]" if back else ""), p, o["price"]))
     print(f"\n=== {r.away_team} @ {r.home_team}  (DK {r.home_team} {-dk_line:+g}, total {tot:g}) ===")

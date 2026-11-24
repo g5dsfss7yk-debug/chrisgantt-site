@@ -473,3 +473,20 @@ projections, so high-volume receivers (recent average 7.5+ catches) were under-r
 past players with the closest projections (`NEAR` in v2/props.py): 70.2% vs 72.3%, 8+ 33.6% vs 37.6%;
 Brier 0.0825 -> 0.0824, calibration elsewhere unchanged. Tried and rejected: projection + misses (like
 yards) - Brier 0.0844, chances 7-9 points too low in the middle. Same fix for passing TDs: no change, not used.
+
+## Old seasons and free agency (Nov 23, `PYTHONPATH=. python v2/test_recency.py`)
+2015-22 / 2023-26. A: share of last season's team ratings carried into a new season. B: how many past
+seasons the fit learns from.
+
+| Version | Spread all | Spread edge 1+ | Total all | Total edge 1+ |
+|---|---|---|---|---|
+| Carry 0% (each season starts at league average) | 52.8% / 53.0% | 54.8% / 54.8% | 53.7% / 51.5% | 55.5% / 50.3% |
+| Carry 35% | 53.1% / 53.4% | 54.4% / 54.6% | 53.4% / 50.6% | 55.9% / 51.0% |
+| Carry 50% | 52.8% / 53.8% | 54.6% / 55.0% | 53.5% / 50.8% | 55.6% / 51.1% |
+| **Carry 65% (current)** | 52.6% / 54.4% | 55.0% / 53.1% | 53.5% / 51.0% | 56.0% / 51.4% |
+| Learn from last 3 seasons only | 52.4% / 51.4% | 53.1% / 53.0% | 51.4% / 50.1% | 52.3% / 49.2% |
+| Learn from last 5 seasons only | 53.1% / 52.4% | 54.8% / 52.8% | 53.3% / 49.8% | 54.0% / 50.1% |
+| Learn from last 8 seasons only | 53.0% / 52.0% | 54.3% / 53.9% | 54.1% / 51.1% | 56.2% / 51.4% |
+
+No carry setting is better in both periods; fewer seasons to learn from is worse. Kept as is. Last season's
+share fades with the 4-game half-life: half after 4 games, a quarter after 8.

@@ -59,6 +59,8 @@ def load() -> pd.DataFrame:
     ])[["game_id", "team", "opp", "spread_for", "pts", "home", "gameday"]]
     s = _with_snaps(s)
     s = s.merge(side, on=["game_id", "team"], how="left", suffixes=("", "_g"))
+    if USE_WX:
+        s = s.merge(game_weather(), on="game_id", how="left")
     for c in ("opp", "spread_for", "pts", "home", "gameday"):
         s[c] = s[c].fillna(s.pop(f"{c}_g")) if f"{c}_g" in s else s[c]
     for c in RAW + ["snap_pct"]:
@@ -284,6 +286,35 @@ VAC_SKIP = {"passing_yards"}   # it made passing yards slightly worse; used for 
 USE_ROBUST = False  # Nov 23: share of last 8 games with a TD, and medians - one big game cannot skew them
 ROBUST = ["receiving_yards", "rushing_yards", "passing_yards", "receptions", "targets", "carries"]
 VAC = ["vac_t_all", "vac_c_all", "vac_t_pos", "vac_c_pos"]
+USE_WX = True       # Nov 23: kickoff weather (v2/test_props_weather.py) - ON
+# in rain/snow (chance 35%+) or wind 15+ mph the model is still too high: subtract what it missed by
+# in 2020-22 (model fit 2015-19); checked on 2023-26 (v2/test_wx_fix.py): passing yards -8.3% -> -0.6%
+BAD_WX_FIX = {"passing_yards": -0.082, "passing_tds": -0.024, "receiving_yards": -0.024, "receptions": -0.024,
+              "rush_rec_yards": -0.018, "anytime_td": -0.008}
+
+
+def bad_weather(row) -> bool:
+    return bool((row.get("wx_rain", 0) or 0) >= 0.5 or (row.get("wx_snow", 0) or 0) >= 0.5 or (row.get("wx_wind", 0) or 0) >= 15)
+
+
+def wx_adjust(market: str, p: float, row) -> float:
+    return float(np.clip(p + BAD_WX_FIX.get(market, 0.0), 0.001, 0.999)) if USE_WX and bad_weather(row) else p
+WX = ["wx_wind", "wx_rain", "wx_snow", "wx_temp", "wx_dome"]
+
+
+def game_weather() -> pd.DataFrame:
+    """Per game_id: wind (mph), rain and snow (0 / 0.5 chance / 1), temperature, dome. Played games
+    from the play-by-play weather text and the schedule; upcoming games from the kickoff forecast.
+    (Gusts are left out: the history almost never records them, so they cannot be tested.)"""
+    from nflmodel import features, pipeline
+    g = data.load_games()
+    try:
+        fc = pipeline.forecasts()
+    except Exception:
+        fc = {}
+    w = features.weather(g, data.load_game_weather(range(2013, data.current_season() + 1)), fc)
+    return w[["game_id", "wind", "rain", "snow", "temp", "dome"]].rename(
+        columns={c: f"wx_{c}" for c in ("wind", "rain", "snow", "temp", "dome")})
 
 
 def feats(market: str | None = None) -> list[str]:
@@ -295,6 +326,8 @@ def feats(market: str | None = None) -> list[str]:
         f += [f"med8_{c}" for c in ROBUST] + ["td_rate8", "td_rate16"]
     if USE_VAC and market not in VAC_SKIP:
         f += VAC
+    if USE_WX:
+        f += WX
     return f
 
 

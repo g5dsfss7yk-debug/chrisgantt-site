@@ -67,6 +67,7 @@ ids["player_id"] = ids.gsis_id.where(ids.gsis_id.notna(), [name_id.get((props._k
 games = pd.DataFrame({"game_id": game.game_id, "team": [home, away], "season": season, "week": game.week, "gameday": game.gameday})
 vac = props.vacated_next(s[s.season >= 2015], ids.dropna(subset=["player_id"])[["team", "player_id"]].drop_duplicates(), games)
 
+wx = props.game_weather().set_index("game_id").loc[game.game_id] if props.USE_WX else None
 hist = props.history(s[s.season >= 2015].copy())
 models = {mk: props.StatModel(mk).fit(props.StatModel(mk).rows(hist)) for mk in RUNGS}
 
@@ -85,6 +86,9 @@ for t in (home, away):
     pl["spread_for"], pl["pts"], pl["home"] = sp, tot / 2 + sp / 2, int(t == home)
     pl = props.with_opponent(pl, s, opp)
     pl = props._vac_pos(pl.merge(vac.drop(columns="game_id"), on="team", how="left"))
+    if wx is not None:
+        for c in props.WX:
+            pl[c] = wx[c]
     for mk, rungs in RUNGS.items():
         q = pl[pl.position.isin(props.STATS[mk][0])]
         if q.empty:
@@ -93,6 +97,7 @@ for t in (home, away):
         for (_, r), pr in zip(q.iterrows(), pred):
             for rung in rungs:
                 p = models[mk].p_reach(pr, rung) + FIX.get(mk, 0)
+                p = props.wx_adjust(mk, p, wx if wx is not None else {})
                 tp = tested(mk, p)
                 if tp is None or tp < a.min or tp > a.max:
                     continue
@@ -102,6 +107,9 @@ for t in (home, away):
 
 print(f"{away} @ {home}  {game.gameday:%a %b %d} {game.gametime} ET   line {home} {-spread_home:+g}, total {tot:g}")
 print("Out/Doubtful/inactive removed:", ", ".join(sorted(outrows[outrows.team.map(teams.franchise).isin([home, away])].full_name)) or "none")
+if wx is not None:
+    print(f"Weather: wind {wx.wx_wind:.0f} mph, rain {wx.wx_rain:g}, snow {wx.wx_snow:g}, {wx.wx_temp:.0f} F, dome {int(wx.wx_dome)}"
+          + ("  -> BAD WEATHER: passing/receiving chances lowered (v2/test_wx_fix.py)" if props.bad_weather(wx) else ""))
 print("ESPN game-day inactives posted:", "yes" if inactives_posted else "NO - re-run about 90 min before kickoff")
 df = pd.DataFrame(rows, columns=["team", "player", "pos", "bet", "tested", "break_even", "note"])
 df = df.sort_values(["player", "tested"]).groupby(["player", "bet"]).tail(1)
