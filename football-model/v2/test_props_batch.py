@@ -16,8 +16,11 @@ s = props.load().query("season >= 2015")
 h = props.history(s)
 TESTS = [("CURRENT", []), ("red-zone / goal-line", ["USE_RZ"]), ("depth of target + CPOE", ["USE_ADOT"]),
          ("separation", ["USE_SEP"]), ("turf", ["USE_TURF"])]
+ONLY = sys.argv[1:]
 res = {}
 for name, on in TESTS:
+    if ONLY and name != "CURRENT" and not any(o in name for o in ONLY):
+        continue
     for f in ("USE_RZ", "USE_ADOT", "USE_SEP", "USE_TURF"):
         setattr(props, f, f in on)
     line = []

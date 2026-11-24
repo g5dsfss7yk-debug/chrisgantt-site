@@ -89,6 +89,7 @@ for t in (home, away):
     if wx is not None:
         for c in props.WX:
             pl[c] = wx[c]
+    pl["turf"] = props.turf_of(game.game_id)
     for mk, rungs in RUNGS.items():
         q = pl[pl.position.isin(props.STATS[mk][0])]
         if q.empty:

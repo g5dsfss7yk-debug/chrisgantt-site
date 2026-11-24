@@ -498,3 +498,19 @@ wind the model was still too high, so a correction measured on 2020-22 (model fi
 (`BAD_WX_FIX`); checked on 2023-26 bad-weather games: passing yards real minus model -8.3% -> -0.6%,
 passing TDs -5.3% -> -2.9%, receiving yards -1.8% -> -0.2%, receptions -1.5% -> +0.3%.
 Gusts are NOT used: the history almost never records them, so they cannot be tested.
+
+## Batch of every untested variable (Nov 23, `v2/test_game_batch.py`, `v2/test_props_batch.py`)
+Game model, each added alone to the card, 2015-22 / 2023-26:
+
+| Variable | Spread all | Spread edge 1+ | Total all | Total edge 1+ |
+|---|---|---|---|---|
+| Card before | 52.6% / 54.4% | 55.0% / 53.1% | 53.5% / 51.0% | 56.0% / 51.4% |
+| Turnover + close-game luck | 51.9% / 53.4% | 54.5% / 54.2% | 53.3% / 49.9% | 55.1% / 50.1% |
+| Time zones, West team early, division, byes | 52.3% / 52.9% | 55.9% / 52.4% | 52.7% / 48.8% | 54.0% / 50.8% |
+| Coach tenure, new coach, returning starters | 53.2% / 53.3% | 55.3% / 53.1% | same | same |
+| Offensive linemen Out/Doubtful | 52.4% / 54.1% | 55.3% / 53.1% | 53.7% / 50.9% | 56.0% / 51.7% |
+| **Totals: rain, snow, cold, turf (ADOPTED)** | same | same | **53.7% / 51.2%** | **56.0% of 1237 / 53.0% of 542** |
+
+Props (fit 2015-22, Brier on 2023-26, change vs current): red-zone/goal-line touches and shares ~0 except passing
+TDs +0.0017 (worse); depth of target + CPOE ~0, passing TDs +0.0009 (worse); separation ~0; **turf: passing
+yards -0.0004, others ~0 (ADOPTED)**. The props model already gets most of this from targets, carries and TD history.

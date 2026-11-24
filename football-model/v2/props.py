@@ -309,7 +309,7 @@ WX = ["wx_wind", "wx_rain", "wx_snow", "wx_temp", "wx_dome"]
 USE_RZ = False      # red-zone (inside 20) and goal-line (inside 5) touches and his share of the team's
 USE_ADOT = False    # depth of target (air yards per target) and QB completion % over expected
 USE_SEP = False     # receiver separation (Next Gen Stats, 2016+, qualifying receivers only)
-USE_TURF = False    # artificial turf
+USE_TURF = True     # artificial turf - ON Nov 23 (passing yards Brier -0.0004, others unchanged)
 X2 = {"USE_RZ": ["rz", "gl", "rz_share", "gl_share"], "USE_ADOT": ["adot", "cpoe"], "USE_SEP": ["sep"]}
 
 
@@ -368,6 +368,13 @@ def feats(market: str | None = None) -> list[str]:
     return f
 
 
+def _fill_x2(x):
+    """Separation exists only for qualifying receivers since 2016: missing -> -1 (the model can tell)."""
+    if USE_SEP and "ew_sep" in x:
+        x = x.assign(ew_sep=x["ew_sep"].fillna(-1))
+    return x
+
+
 def _pos(x):
     return x.assign(**{f"is_{p.lower()}": (x["position"] == p).astype(int) for p in ("QB", "RB", "WR", "TE")})
 
@@ -378,7 +385,7 @@ class StatModel:
         self.pos, self.f = STATS[market]
 
     def rows(self, s):
-        x = s[s["position"].isin(self.pos) & (s["n_games"] >= 2)].copy()
+        x = _fill_x2(s[s["position"].isin(self.pos) & (s["n_games"] >= 2)].copy())
         x["y"] = self.f(x)
         return _pos(x)
 
@@ -430,3 +437,8 @@ def vacated_next(s: pd.DataFrame, out_ids: pd.DataFrame, games: pd.DataFrame) ->
     games: (game_id, team, season, week, gameday)."""
     out = out_ids.merge(games[["team", "season", "week"]], on="team")
     return vacated(s, out=out, games=games)
+
+
+def turf_of(game_id) -> int:
+    g = data.load_games().set_index("game_id")
+    return int(not str(g.surface.get(game_id, "grass") or "grass").lower().__contains__("grass")) if game_id in g.index else 0

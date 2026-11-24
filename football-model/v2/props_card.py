@@ -100,7 +100,7 @@ def tested(market, p):
 models = {}
 hist = props.history(s[s.season >= 2015].copy())
 import pickle
-CACHE = Path(__file__).parent / f"props_models_vacwx_{pd.Timestamp.now('UTC'):%Y%m%d}.pkl"   # refit once a day
+CACHE = Path(__file__).parent / f"props_models_vacwxturf_{pd.Timestamp.now('UTC'):%Y%m%d}.pkl"   # refit once a day
 if CACHE.exists():
     models = pickle.load(open(CACHE, "rb"))
 else:
@@ -163,6 +163,7 @@ for r in g.sort_values(["gameday", "gametime"]).itertuples(index=False):
             wxr = WXG.loc[r.game_id] if WXG is not None and r.game_id in WXG.index else {}
             for cc in (props.WX if WXG is not None else []):
                 pl[cc] = wxr[cc] if len(wxr) else np.nan
+            pl["turf"] = props.turf_of(r.game_id)
             freed = (f"  [FREED UP: {pl.vac_t_pos.iloc[0]:.0f} targets / {pl.vac_c_pos.iloc[0]:.0f} carries at his position, in the model]"
                      if pl.vac_t_pos.iloc[0] >= 4 or pl.vac_c_pos.iloc[0] >= 4 else "")
             rung = 1 if mk == "anytime_td" else int(np.ceil(o.get("point", 0.5)))

@@ -18,7 +18,7 @@
    edge 1+ pts 55.0% of 1046 / 53.1% of 420, edge 2+ 58.2% of 368 / 55.8% of 113 (few games, not proven; break-even 52.4%)
    (Chris does NOT bet early - Nov 15: injuries and lineup changes after an early bet leave him stuck
    with a bad pick. Never quote opening-line records or suggest betting early);
-   totals (with pass rushers Out/Doubtful, ON since Nov 23) all games 53.5% / 51.0%, edge 1+ 56.0% / 51.4% (still picks Over more often: 61% of 2023-26 games);
+   totals (with pass rushers Out/Doubtful + rain/snow/cold/turf, Nov 23) all games 53.7% / 51.2%, edge 1+ 56.0% of 1237 / 53.0% of 542 (still picks Over more often: 61% of 2023-26 games);
    teaser legs (2-team -120 needs 73.9%): v2 dog +1..+2.5 73.2% / 82.7%,
    +3..+3.5 77.9% / 71.2%, favorite -3.5..-7.5 teased 69.4% / 76.4%. **Best tested bet (v2/dig.py): teaser leg on EVERY dog
    +1.5..+2.5, no model: 72.7% (1999-2014) / 77.0% / 77.3%; with total <= 44: 75.9% / 77.4% / 78.9%. Card prints BEST TEASER LEG.
@@ -31,7 +31,9 @@
    Nov 23 (Chris): spreads use COMPETITIVE plays only (win prob 10-90%, EPA capped +/-3; v2/test_methods.py). Totals unchanged.
    Props (Nov 23): targets/carries freed up by teammates Out/Doubtful ADDED (card shows [FREED UP ...]); TD-rate/median
    inputs tested, no gain (README "Props: freed-up targets"). Props chances are hit rates of similar past players, not averages.
-   Props weather (Nov 23): wind/rain/snow/temp in the model + bad-weather correction (rain/snow or wind 15+); gusts not testable.
+   Props weather (Nov 23): wind/rain/snow/temp in the model + bad-weather correction (rain/snow or wind 15+); gusts not testable. Turf ON in props (Nov 23).
+   Nov 23 batch (v2/test_game_batch.py, v2/test_props_batch.py): luck, travel/time zones/division/byes, coach/returning starters,
+   OL out (game); red-zone/goal-line share, depth of target/CPOE, separation (props) - tested, NOT used.
    Flaws found Nov 15: README "V2 flaws".
    Parlays/teasers are built from these legs. Props + alt spreads/totals: `python football-model/v2/props_card.py --before HH:MM`
    (v2 props model; shows the TESTED 2023-26 hit rate for the model's range vs DK's implied chance;
