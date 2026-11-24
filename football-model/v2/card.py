@@ -83,6 +83,7 @@ def changes(r, dk_line, tot, fc):
 
 
 ap = argparse.ArgumentParser(); ap.add_argument("--week", type=int); ap.add_argument("--before"); ap.add_argument("--after"); ap.add_argument("--cached", action="store_true")
+ap.add_argument("--free", action="store_true", help="schedule-file lines (nflverse consensus, NOT DraftKings) - no API credits")
 a = ap.parse_args()
 d = nfl.build()
 season = data.current_season()
@@ -96,7 +97,9 @@ if a.before:
 if a.after:
     g = g[g.gametime.astype(str) > a.after]
 odds.TTL = 10**9 if a.cached else 0
-ev = odds._get("/sports/americanfootball_nfl/odds", bookmakers="draftkings", markets="spreads,totals,h2h", oddsFormat="american")
+ev = [] if a.free else odds._get("/sports/americanfootball_nfl/odds", bookmakers="draftkings", markets="spreads,totals,h2h", oddsFormat="american")
+if a.free:
+    print("LINES: schedule file (consensus), NOT DraftKings - check DK's number before betting. No API credits used.")
 if not (g.get("home_rush_listed", pd.Series(False)).any() or g.get("away_rush_listed", pd.Series(False)).any()):
     print(f"NOTE: no week {wk} injury report with an Out/Doubtful pass rusher found yet (reports post Wed-Fri), "
           "so 'pass rushers out' counts 0 in every total. Re-run the card after Friday's report.")
@@ -109,13 +112,18 @@ for r in g.sort_values(["gameday", "gametime"]).itertuples(index=False):
     kick = pd.Timestamp(f"{pd.Timestamp(r.gameday):%Y-%m-%d} {r.gametime}")
     if kick <= data._now_et():                           # DK's line is now an in-game line: no pregame pick
         print(f"\n{r.away_team} @ {r.home_team}: already started - DK's line is a live line, no pregame pick"); continue
-    if not e or not e[0]["bookmakers"]:
-        print(f"{r.away_team} @ {r.home_team}: no DK line"); continue
-    mk = {m["key"]: m["outcomes"] for m in e[0]["bookmakers"][0]["markets"]}
-    sp = next(o for o in mk["spreads"] if NICK[r.home_team] in o["name"])
-    dk_line = -sp["point"]                                  # + = home favored
-    tot = mk["totals"][0]["point"]
-    ml = {("home" if NICK[r.home_team] in o["name"] else "away"): o["price"] for o in mk.get("h2h", [])}
+    if a.free:
+        if pd.isna(r.spread_line) or pd.isna(r.total_line):
+            print(f"\n{r.away_team} @ {r.home_team}: no line in the schedule file yet"); continue
+        dk_line, tot, ml = r.spread_line, r.total_line, {}
+    else:
+        if not e or not e[0]["bookmakers"]:
+            print(f"{r.away_team} @ {r.home_team}: no DK line"); continue
+        mk = {m["key"]: m["outcomes"] for m in e[0]["bookmakers"][0]["markets"]}
+        sp = next(o for o in mk["spreads"] if NICK[r.home_team] in o["name"])
+        dk_line = -sp["point"]                                  # + = home favored
+        tot = mk["totals"][0]["point"]
+        ml = {("home" if NICK[r.home_team] in o["name"] else "away"): o["price"] for o in mk.get("h2h", [])}
     row = pd.DataFrame([r._asdict()])
     pred = ms.predict(nfl.X(row, pd.Series([dk_line]), "spread"))[0]
     ptot = mt.predict(nfl.X(row, pd.Series([tot]), "total"))[0]
@@ -127,7 +135,7 @@ for r in g.sort_values(["gameday", "gametime"]).itertuples(index=False):
     t_et = str(r.gametime); h, m = map(int, t_et.split(":"))
     print(f"\n{r.away_team} @ {r.home_team}  {h-1}:{m:02d} CT   QBs: {r.away_qb_name} / {r.home_qb_name}")
     print(f"  SPREAD  {team} {pts:+g}   model margin {pred:+.1f} (home), edge {abs(edge):.1f} pts   tested {rec}")
-    print(f"  WINNER  {r.home_team if pred > 0 else r.away_team} ML {ml.get('home' if pred > 0 else 'away')}")
+    print(f"  WINNER  {r.home_team if pred > 0 else r.away_team} ML {ml.get('home' if pred > 0 else 'away', '(price: check DK)')}")
     print(f"  TOTAL   {'Over' if ptot > tot else 'Under'} {tot:g}   model {ptot:.1f}   edge {abs(ptot - tot):.1f}   tested {next(t for lo, t in TOTAL_REC if abs(ptot - tot) >= lo)}")
     for c in changes(r, dk_line, tot, fc):
         print(f"  ** CHANGE  {c}")
