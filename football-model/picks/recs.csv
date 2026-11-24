@@ -185,3 +185,11 @@ id,date,league,kind,tier,stake,odds,legs,note,result,leg_results,placed,placed_s
 184,2026-11-23,nfl,single,fun,3.0,-120,spread:CIN:-6,"V2 card spread, edge 0.6 (all games 52.6% / 54.4%)",loss,loss,,,,0.544,pregame,0.545
 185,2026-11-23,nfl,single,fun,3.0,-106,total:CIN:under:54.5,"V2 card total, edge 1.9 (edge 1+ 56.0% / 51.4%)",win,win,,,,0.514,pregame,0.515
 186,2026-11-23,nfl,single,fun,3.0,-291,ml:CIN,V2 card winner (model margin CIN by 6.6),loss,loss,,,,-,pregame,0.744
+187,2026-11-23,nfl,single,fun,2.0,,prop:Joe Burrow:passing_tds:1,v2 props_free pick (no DK price); logged after the game for the record,win,win,,,,0.90,pregame,-
+188,2026-11-23,nfl,single,fun,2.0,,prop:Jayden Daniels:passing_tds:1,v2 props_free pick (no DK price); logged after the game for the record,loss,loss,,,,0.79,pregame,-
+189,2026-11-23,nfl,single,fun,2.0,,prop:Stefon Diggs:receiving_yards:25,v2 props_free pick (no DK price); logged after the game for the record,win,win,,,,0.74,pregame,-
+190,2026-11-23,nfl,single,fun,2.0,,prop:Stefon Diggs:receptions:5,v2 props_free pick (no DK price); logged after the game for the record,loss,loss,,,,0.48,pregame,-
+191,2026-11-23,nfl,single,fun,2.0,,prop:Austin Ekeler:rushing_yards:25,v2 props_free pick (no DK price); logged after the game for the record,win,win,,,,0.48,pregame,-
+192,2026-11-23,nfl,single,fun,2.0,,prop:Ja'Marr Chase:receiving_yards:75,v2 props_free pick (no DK price); logged after the game for the record,loss,loss,,,,0.47,pregame,-
+193,2026-11-23,nfl,single,fun,2.0,,prop:Treylon Burks:receiving_yards:25,v2 props_free pick (no DK price); logged after the game for the record,win,win,,,,0.47,pregame,-
+194,2026-11-23,nfl,single,fun,2.0,,prop:Joe Burrow:passing_yards:300,v2 props_free pick (no DK price); logged after the game for the record,win,win,,,,0.47,pregame,-
