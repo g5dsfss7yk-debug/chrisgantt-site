@@ -345,3 +345,29 @@ def ol_out(seasons) -> pd.DataFrame:
         reg = set(sn.merge(prev, on=["season", "week", "team"]).k)
         res.append((season, week, team, len(reg & set(o.k))))
     return pd.DataFrame(res, columns=["season", "week", "team", "ol_out"])
+
+
+def _split_season(s: int) -> pd.DataFrame | None:
+    """Per (game_id, team) offense on competitive plays (win prob 10-90%, EPA capped +/-3), split
+    into RUN plays and PASS plays: EPA per play and success rate for each."""
+    path = data.RAW / "pbp_split" / f"{s}.csv"
+    if path.exists() and s < data.current_season():
+        return pd.read_csv(path)
+    tmp = data._fetch(f"{data.RELEASE}/pbp/play_by_play_{s}.csv.gz", data.RAW / f"pbp_split_tmp{s}.csv.gz", refresh=True)
+    if tmp is None:
+        return None
+    d = pd.read_csv(tmp, usecols=lambda c: c in ["game_id", "posteam", "play_type", "epa", "success", "wp", "qb_dropback"], low_memory=False)
+    tmp.unlink()
+    d = d[d.posteam.notna() & d.play_type.isin(["pass", "run"]) & d.epa.notna() & d.wp.between(0.10, 0.90)].copy()
+    d["epa"] = d.epa.clip(-3, 3)
+    d["kind"] = np.where(d.qb_dropback == 1, "pass", "rush")        # scrambles count as pass plays
+    out = d.pivot_table(index=["game_id", "posteam"], columns="kind", values=["epa", "success"], aggfunc="mean")
+    out.columns = [f"{k}_{'epa' if v == 'epa' else 'sr'}" for v, k in out.columns]
+    out = out.reset_index().rename(columns={"posteam": "team"})
+    path.parent.mkdir(parents=True, exist_ok=True)
+    out.to_csv(path, index=False)
+    return out
+
+
+def run_pass_split(seasons) -> pd.DataFrame:
+    return pd.concat([f for s in seasons if (f := _split_season(s)) is not None], ignore_index=True)

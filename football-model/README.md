@@ -521,3 +521,11 @@ Tested on top (2015-22 / 2023-26): recent seasons weighted more (half-life 4: sp
 half-life 2: 53.8% / 51.5%) and correcting each pick by the model's own recent average miss (last 100
 games: spread 52.4% / 50.4%, totals 50.2% / 49.2%; last 250: spread 53.3% / 49.7%). All worse in 2023-26
 than the card (spread 52.6% / 54.4%, totals 53.7% / 51.2%): chasing its own recent misses chases noise.
+
+## Run vs run defense, pass vs pass defense (Nov 23, `PYTHONPATH=. python v2/test_matchups.py`)
+Rule set before running: adopt only if spreads improve in both periods. 2015-22 / 2023-26:
+- Current card: spread all 52.6% / 54.4%, edge 1+ 55.0% / 53.1%; totals all 53.7% / 51.2%.
+- A. unit split (run EPA/success vs run defense, pass vs pass defense): spread 52.9% / 51.4%, edge 1+ 54.9% / 54.1%;
+  totals 53.2% / 50.9%.
+- B. A + "strength meets weakness" terms: spread 52.1% / 51.7%, edge 1+ 53.9% / 53.6%.
+Neither passes (all-games spread drops 3 points in 2023-26). Not adopted (`SPLIT`, `MISMATCH` in v2/nfl.py).

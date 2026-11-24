@@ -26,7 +26,7 @@ SPREAD_SKIP = {"epa", "sr", "explosive"}   # spreads use the competitive-play ve
 HALF_LIFE = 4          # games (picked on 2015-22 only, see v2/grid.py)
 CARRY = 0.65           # share of last season kept at a new season
 FIRST_TEST = 2015
-SKIP_NAN = ("_rz", "_sec_per_play", "_neutral_pass", "_no_huddle")
+SKIP_NAN = ("_rz", "_sec_per_play", "_neutral_pass", "_no_huddle", "_pass_epa", "_pass_sr", "_rush_epa", "_rush_sr")
 # Options tested Nov 23 (v2/test_three.py); off unless the test earned them
 OPP_ADJ = 0.0          # 0..1: share of the opponent's strength taken out of each game's stats
 ST_SPLIT = False       # special teams split into FG, punting, punt return, kick return, kick coverage
@@ -46,6 +46,10 @@ LUCK = False           # fumble-recovery luck (lost minus half of fumbles) and c
 TRAVEL = False         # time zones moved, West team in an early Eastern game, division game, byes
 COACH = False          # coach's games with the team, first-season coach, share of last season's snaps back
 OL = False             # starting offensive linemen Out/Doubtful
+SPLIT = False          # Nov 23: run offense vs run defense and pass offense vs pass defense (v2/test_matchups.py)
+MISMATCH = False       # ... plus "strength meets weakness" terms (offense good x defense bad, per unit)
+SPLIT_STATS = ["pass_epa", "pass_sr", "rush_epa", "rush_sr"]
+MM_MEAN: dict = {}
 TOT_WX = True          # rain, snow, cold, turf in totals (wind is already in) - ON Nov 23: both periods better
 RUSH_OUT_TOTAL = True  # same, totals only: ON since Nov 23 (Chris) - totals 53.5% / 51.0% vs 53.2% / 50.5% without
 SCALE = True           # standardize features before the ridge (without it the ridge zeroes the rate stats)
@@ -80,6 +84,11 @@ def team_games() -> pd.DataFrame:
     p["team"] = p["team"].map(teams.franchise)
     p["press"] = (p["sacks"] + p["qb_hits"]) / p["dropbacks"].clip(lower=1)   # o_press = line allows, d_press = defense makes
     p["rz"] = p["rz_tds"] / p["rz_trips"].where(p["rz_trips"] > 0)                 # NaN with no trips: skipped
+    if SPLIT:
+        from v2 import extra_data
+        sp = extra_data.run_pass_split(range(2008, data.current_season() + 1))
+        sp["team"] = sp["team"].map(teams.franchise)
+        p = p.merge(sp.groupby(["game_id", "team"], as_index=False).mean(), on=["game_id", "team"], how="left")
     if LUCK:
         from v2 import extra_data
         f, _ = extra_data.pbp_extra(range(2008, data.current_season() + 1))
@@ -171,6 +180,11 @@ def build() -> pd.DataFrame:
     g, p = team_games()
     rt = ratings(g, p)
     d = fill_wind(g.merge(rt, on="game_id"))
+    if SPLIT:
+        pre = d[d.season < 2015]
+        for k in SPLIT_STATS:
+            MM_MEAN[f"o_{k}"] = pd.concat([pre[f"home_o_{k}"], pre[f"away_o_{k}"]]).mean()
+            MM_MEAN[f"d_{k}"] = pd.concat([pre[f"home_d_{k}"], pre[f"away_d_{k}"]]).mean()
     if QB_VAL or QB_VAL_SPREAD:
         from v2 import extra_data
         v = extra_data.qb_values()
@@ -270,6 +284,12 @@ def X(d: pd.DataFrame, line: pd.Series, kind: str) -> pd.DataFrame:
         if REF_TOT:
             f["ref_tot"] = d["ref_tot"]
     early = ((d["week"] <= 8) * (1 - (d["week"] - 1) / 8)).clip(lower=0) if "week" in d else 0
+    if MISMATCH and kind == "spread":
+        for k in SPLIT_STATS:   # home offense good AND away defense bad (both above average), and the reverse
+            mo, md = MM_MEAN[f"o_{k}"], MM_MEAN[f"d_{k}"]        # league average, seasons before 2015
+            ho, ad = d[f"home_o_{k}"] - mo, d[f"away_d_{k}"] - md
+            ao, hd = d[f"away_o_{k}"] - mo, d[f"home_d_{k}"] - md
+            f[f"mm_{k}"] = (ho.clip(lower=0) * ad.clip(lower=0)) - (ao.clip(lower=0) * hd.clip(lower=0))
     if TRAVEL:
         if kind == "spread":
             f["tz"], f["west_early"] = d["tz_diff"], d["west_early"]
