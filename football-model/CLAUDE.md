@@ -18,7 +18,8 @@
    edge 1+ pts 55.0% of 1046 / 53.1% of 420, edge 2+ 58.2% of 368 / 55.8% of 113 (few games, not proven; break-even 52.4%)
    (Chris does NOT bet early - Nov 15: injuries and lineup changes after an early bet leave him stuck
    with a bad pick. Never quote opening-line records or suggest betting early);
-   totals (with pass rushers Out/Doubtful + rain/snow/cold/turf, Nov 23) all games 53.7% / 51.2%, edge 1+ 56.0% of 1237 / 53.0% of 542 (still picks Over more often: 61% of 2023-26 games);
+   totals (pass rushers out + rain/snow/cold/turf + scoring-level shift: 50% of the last 2 seasons' miss, Nov 24) all games
+   54.0% / 52.1%, edge 1+ 54.8% / 53.4%; 2026 all games 47.9% -> 50.9%, Unders still 47% of picks (v2/test_total_level.py);
    teaser legs (2-team -120 needs 73.9%): v2 dog +1..+2.5 73.2% / 82.7%,
    +3..+3.5 77.9% / 71.2%, favorite -3.5..-7.5 teased 69.4% / 76.4%. **Best tested bet (v2/dig.py): teaser leg on EVERY dog
    +1.5..+2.5, no model: 72.7% (1999-2014) / 77.0% / 77.3%; with total <= 44: 75.9% / 77.4% / 78.9%. Card prints BEST TEASER LEG.

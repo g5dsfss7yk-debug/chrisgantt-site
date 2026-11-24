@@ -344,3 +344,20 @@ def walk_forward(d: pd.DataFrame, kind: str, line_col: str) -> pd.DataFrame:
         te["pred"] = m.predict(X(te, te[line_col], kind))
         out.append(te)
     return pd.concat(out)
+
+
+TOTAL_LEVEL = (0.5, 2)   # Nov 24 (Chris: unders killing us, don't over-correct): totals shifted by 50% of the
+                         # model's average out-of-sample miss over the last 2 full seasons (v2/test_total_level.py)
+_SHIFT: dict = {}
+
+
+def total_shift(d: pd.DataFrame, season: int) -> float:
+    """Points added to every total prediction this season (0 if TOTAL_LEVEL is None)."""
+    if TOTAL_LEVEL is None:
+        return 0.0
+    if season not in _SHIFT:
+        share, years = TOTAL_LEVEL
+        p = walk_forward(d, "total", "total_line")
+        p = p[p.result.notna() & p.season.between(season - years, season - 1)]
+        _SHIFT[season] = share * float((p.total - p.pred).mean()) if len(p) else 0.0
+    return _SHIFT[season]

@@ -17,7 +17,7 @@ from run import NICK
 SPREAD_REC = [(2.0, "58.2% of 368 (2015-22) / 55.8% of 113 (2023-26)"),   # QB value + red-zone + competitive plays (Nov 23)
               (1.0, "55.0% of 1046 (2015-22) / 53.1% of 420 (2023-26)"),
               (0.0, "52.6% (2015-22) / 54.4% (2023-26), all games")]
-TOTAL_REC = [(1.0, "56.0% of 1237 (2015-22) / 53.0% of 542 (2023-26)"), (0.0, "53.7% (2015-22) / 51.2% (2023-26), all games")]   # + rain/snow/cold/turf (Nov 23)
+TOTAL_REC = [(1.0, "54.8% (2015-22) / 53.4% (2023-26)"), (0.0, "54.0% (2015-22) / 52.1% (2023-26), all games")]   # + scoring-level shift (Nov 24)
 TEASE = {(1, 2.5): "73.2% (2015-22) / 82.7% (2023-26) per leg", (3, 3.5): "77.9% / 71.2% per leg",
          (-7.5, -3.5): "69.4% / 76.4% per leg"}
 
@@ -126,7 +126,7 @@ for r in g.sort_values(["gameday", "gametime"]).itertuples(index=False):
         ml = {("home" if NICK[r.home_team] in o["name"] else "away"): o["price"] for o in mk.get("h2h", [])}
     row = pd.DataFrame([r._asdict()])
     pred = ms.predict(nfl.X(row, pd.Series([dk_line]), "spread"))[0]
-    ptot = mt.predict(nfl.X(row, pd.Series([tot]), "total"))[0]
+    ptot = mt.predict(nfl.X(row, pd.Series([tot]), "total"))[0] + nfl.total_shift(d, season)
     edge = pred - dk_line
     home = edge > 0
     team = r.home_team if home else r.away_team

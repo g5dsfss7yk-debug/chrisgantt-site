@@ -529,3 +529,10 @@ Rule set before running: adopt only if spreads improve in both periods. 2015-22 
   totals 53.2% / 50.9%.
 - B. A + "strength meets weakness" terms: spread 52.1% / 51.7%, edge 1+ 53.9% / 53.6%.
 Neither passes (all-games spread drops 3 points in 2023-26). Not adopted (`SPLIT`, `MISMATCH` in v2/nfl.py).
+
+## Totals scoring level (Nov 24, `PYTHONPATH=. python v2/test_total_level.py`)
+2026 Unders were losing (45.7%) while 53% of games went Over. The model's out-of-sample miss was positive
+(games scored more than it said) in 10 of 12 seasons: 2024 +0.9, 2025 +0.7, 2026 +1.6. Fix: shift every
+total by 50% of the average miss over the last 2 full seasons (2026: +0.4 pts). All games 53.7% / 51.2% ->
+54.0% / 52.1%; 2026 47.9% -> 50.9%; edge 1+ 56.0% / 53.0% -> 54.8% / 53.4%. 100% of the miss over-corrects
+(2026 edge 1+ 46.8%, 62% Overs). Unders are still 47% of 2026 picks.
