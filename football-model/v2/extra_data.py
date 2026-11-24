@@ -228,3 +228,120 @@ def _comp_season(s: int) -> pd.DataFrame | None:
 
 def competitive(seasons) -> pd.DataFrame:
     return pd.concat([f for s in seasons if (f := _comp_season(s)) is not None], ignore_index=True)
+
+
+PX_COLS = ["game_id", "posteam", "defteam", "play_type", "fumble", "fumble_lost", "rusher_player_id",
+           "receiver_player_id", "yardline_100", "two_point_attempt", "fumble_recovery_1_team"]
+
+
+def _px_season(s: int):
+    """One pass over a season's play-by-play: (team fumbles and how many were lost, per game) and
+    (each player's red-zone and goal-line touches, per game)."""
+    tp, pp = data.RAW / "pbp_fum" / f"{s}.csv", data.RAW / "pbp_rz" / f"{s}.csv"
+    if tp.exists() and pp.exists() and s < data.current_season():
+        return pd.read_csv(tp), pd.read_csv(pp)
+    tmp = data._fetch(f"{data.RELEASE}/pbp/play_by_play_{s}.csv.gz", data.RAW / f"pbp_px_tmp{s}.csv.gz", refresh=True)
+    if tmp is None:
+        return None, None
+    d = pd.read_csv(tmp, usecols=lambda c: c in PX_COLS, low_memory=False)
+    tmp.unlink()
+    d = d[d.posteam.notna()]
+    f = d[d.fumble == 1].groupby(["game_id", "posteam"]).agg(fumbles=("fumble", "sum"), fum_lost=("fumble_lost", "sum"))
+    f = f.reset_index().rename(columns={"posteam": "team"})
+    sc = d[d.play_type.isin(["run", "pass"]) & (d.two_point_attempt != 1)]
+    rows = []
+    for col in ("rusher_player_id", "receiver_player_id"):
+        x = sc[sc[col].notna()]
+        rows.append(pd.DataFrame({"game_id": x.game_id, "team": x.posteam, "player_id": x[col],
+                                  "rz": (x.yardline_100 <= 20).astype(int), "gl": (x.yardline_100 <= 5).astype(int)}))
+    r = pd.concat(rows).groupby(["game_id", "team", "player_id"], as_index=False)[["rz", "gl"]].sum()
+    tot = r.groupby(["game_id", "team"])[["rz", "gl"]].transform("sum")
+    r["rz_share"], r["gl_share"] = r.rz / tot.rz.where(tot.rz > 0), r.gl / tot.gl.where(tot.gl > 0)
+    for p, x in ((tp, f), (pp, r)):
+        p.parent.mkdir(parents=True, exist_ok=True); x.to_csv(p, index=False)
+    return f, r
+
+
+def pbp_extra(seasons):
+    a, b = zip(*[_px_season(s) for s in seasons])
+    return pd.concat([x for x in a if x is not None]), pd.concat([x for x in b if x is not None])
+
+
+# home time zone (hours behind Eastern) by the code the schedule used that season
+TZ = {**{t: 0 for t in "BUF MIA NE NYJ BAL CIN CLE PIT JAX IND NYG PHI WAS DET ATL CAR TB".split()},
+      **{t: 1 for t in "CHI GB MIN TEN HOU DAL NO KC STL".split()},
+      **{t: 2 for t in "DEN ARI".split()}, **{t: 3 for t in "LV OAK LAC SD LA SF SEA".split()}}
+
+
+def game_extras(d: pd.DataFrame) -> pd.DataFrame:
+    """Per game (index of d): close-game luck, time zones, division, byes, coach tenure."""
+    d = d.sort_values(["gameday", "gametime"])
+    out = pd.DataFrame(index=d.index)
+    # close-game luck: season-to-date wins minus half of games decided by 8 or fewer
+    rec, cl_h, cl_a = {}, [], []
+    tenure, ten_h, ten_a, newc_h, newc_a = {}, [], [], [], []
+    first = {}
+    for r in d.itertuples():
+        for side, t, lst in (("home", r.home_fr, cl_h), ("away", r.away_fr, cl_a)):
+            lst.append(rec.get((r.season, t), 0.0))
+        for side, t, coach, tl, nl in (("home", r.home_fr, r.home_coach, ten_h, newc_h), ("away", r.away_fr, r.away_coach, ten_a, newc_a)):
+            tl.append(np.log1p(tenure.get((t, coach), 0)))
+            first.setdefault((t, coach), r.season)
+            nl.append(int(first[(t, coach)] == r.season))
+        if pd.notna(r.result) and abs(r.result) <= 8:
+            w = 0.5 if r.result == 0 else float(r.result > 0)
+            rec[(r.season, r.home_fr)] = rec.get((r.season, r.home_fr), 0.0) + (w - 0.5)
+            rec[(r.season, r.away_fr)] = rec.get((r.season, r.away_fr), 0.0) + (0.5 - w)
+        if pd.notna(r.result):
+            for t, coach in ((r.home_fr, r.home_coach), (r.away_fr, r.away_coach)):
+                tenure[(t, coach)] = tenure.get((t, coach), 0) + 1
+    out["home_close_luck"], out["away_close_luck"] = cl_h, cl_a
+    out["home_tenure"], out["away_tenure"], out["home_new_coach"], out["away_new_coach"] = ten_h, ten_a, newc_h, newc_a
+    neutral = d.location.eq("Neutral")
+    tzh, tza = d.home_team.map(TZ).fillna(0), d.away_team.map(TZ).fillna(0)
+    out["tz_diff"] = (tza - tzh).abs().where(~neutral, 0)                    # hours the away team moved
+    out["west_early"] = ((tza - tzh >= 2) & (d.gametime.astype(str) <= "13:05") & ~neutral).astype(int)
+    out["div"] = d.div_game.fillna(0)
+    out["home_bye"], out["away_bye"] = (d.home_rest >= 13).astype(int), (d.away_rest >= 13).astype(int)
+    return out.loc[d.index]
+
+
+def returning_snaps() -> pd.DataFrame:
+    """Per (season, team): share of LAST season's offensive / defensive snaps by players on this
+    season's opening roster (same team) - how much of the team came back."""
+    sn = data.load_snaps(range(2013, data.current_season() + 1))
+    sn["team"] = sn.team.map(teams.franchise)
+    ro = data.load_rosters(range(2014, data.current_season() + 1))
+    ro["team"] = ro.team.map(teams.franchise)
+    tot = sn.groupby(["season", "team", "pfr_player_id"], as_index=False)[["offense_snaps", "defense_snaps"]].sum()
+    rows = []
+    for (season, team), r in ro.groupby(["season", "team"]):
+        last = tot[(tot.season == season - 1) & (tot.team == team)]
+        if last.empty:
+            continue
+        back = last[last.pfr_player_id.isin(r.pfr_id)]
+        rows.append((season, team, back.offense_snaps.sum() / max(last.offense_snaps.sum(), 1),
+                     back.defense_snaps.sum() / max(last.defense_snaps.sum(), 1)))
+    return pd.DataFrame(rows, columns=["season", "team", "ret_off", "ret_def"])
+
+
+def ol_out(seasons) -> pd.DataFrame:
+    """Per (season, week, team): offensive linemen who played half the snaps in one of the team's
+    last 2 games and are listed Out/Doubtful that week."""
+    import re
+    key = lambda n: re.sub(r"[^a-z]", "", re.sub(r"\s+(jr|sr|ii|iii|iv)\.?$", "", str(n).lower()))
+    sn = data.load_snaps(seasons)
+    sn = sn[sn.position.isin(["T", "G", "C", "OT", "OG", "OL"]) & (sn.offense_pct >= 0.5)].copy()
+    sn["team"], sn["k"] = sn.team.map(teams.franchise), sn.player.map(key)
+    inj = pd.concat([d for s in seasons if (d := _release("injuries", f"injuries_{s}.csv", s)) is not None])
+    inj = inj[inj.report_status.isin(["Out", "Doubtful"]) & inj.position.isin(["T", "G", "C", "OT", "OG", "OL"])].copy()
+    inj["team"], inj["k"] = inj.team.map(teams.franchise), inj.full_name.map(key)
+    tw = sn[["season", "week", "team"]].drop_duplicates().sort_values(["team", "season", "week"])
+    res = []
+    for (season, week, team), o in inj.groupby(["season", "week", "team"]):
+        prev = tw[(tw.team == team) & ((tw.season < season) | ((tw.season == season) & (tw.week < week)))].tail(2)
+        if prev.empty:
+            continue
+        reg = set(sn.merge(prev, on=["season", "week", "team"]).k)
+        res.append((season, week, team, len(reg & set(o.k))))
+    return pd.DataFrame(res, columns=["season", "week", "team", "ol_out"])

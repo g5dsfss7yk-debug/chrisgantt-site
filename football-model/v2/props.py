@@ -61,6 +61,7 @@ def load() -> pd.DataFrame:
     s = s.merge(side, on=["game_id", "team"], how="left", suffixes=("", "_g"))
     if USE_WX:
         s = s.merge(game_weather(), on="game_id", how="left")
+    s = _add_x2(s)
     for c in ("opp", "spread_for", "pts", "home", "gameday"):
         s[c] = s[c].fillna(s.pop(f"{c}_g")) if f"{c}_g" in s else s[c]
     for c in RAW + ["snap_pct"]:
@@ -164,6 +165,8 @@ def history(s: pd.DataFrame) -> pd.DataFrame:
     for c in STAR:   # long-run level ("star power"): career average with a 16-game half-life
         s[f"lr_{c}"] = g[c].transform(lambda x: x.shift().ewm(halflife=STAR_HL, min_periods=1).mean())
         s[f"max_{c}"] = g[c].transform(lambda x: x.shift().rolling(16, min_periods=1).quantile(0.8))
+    for c in _x2_cols():
+        s[f"ew_{c}"] = g[c].transform(lambda x: x.shift().ewm(halflife=HL, min_periods=1, ignore_na=True).mean())
     s["td_game"] = (s["tds"] >= 1).astype(float)
     for c in ROBUST:   # median of the last 8 games: one 150-yard game moves it little
         s[f"med8_{c}"] = g[c].transform(lambda x: x.shift().rolling(8, min_periods=1).median())
@@ -196,6 +199,8 @@ def next_game(s: pd.DataFrame) -> pd.DataFrame:
         out[f"max_{c}"] = g[c].apply(lambda x: x.tail(16).quantile(0.8))
     for c in ROBUST:
         out[f"med8_{c}"] = g[c].apply(lambda x: x.tail(8).median())
+    for c in _x2_cols():
+        out[f"ew_{c}"] = g[c].apply(lambda x: x.ewm(halflife=HL, ignore_na=True).mean().iloc[-1])
     for n in (8, 16):
         out[f"td_rate{n}"] = g["tds"].apply(lambda x: (x.tail(n) >= 1).mean())
     return out.reset_index()
@@ -300,6 +305,37 @@ def bad_weather(row) -> bool:
 def wx_adjust(market: str, p: float, row) -> float:
     return float(np.clip(p + BAD_WX_FIX.get(market, 0.0), 0.001, 0.999)) if USE_WX and bad_weather(row) else p
 WX = ["wx_wind", "wx_rain", "wx_snow", "wx_temp", "wx_dome"]
+# Nov 23 batch (v2/test_props_batch.py), each a switch:
+USE_RZ = False      # red-zone (inside 20) and goal-line (inside 5) touches and his share of the team's
+USE_ADOT = False    # depth of target (air yards per target) and QB completion % over expected
+USE_SEP = False     # receiver separation (Next Gen Stats, 2016+, qualifying receivers only)
+USE_TURF = False    # artificial turf
+X2 = {"USE_RZ": ["rz", "gl", "rz_share", "gl_share"], "USE_ADOT": ["adot", "cpoe"], "USE_SEP": ["sep"]}
+
+
+def _x2_cols():
+    return [c for flag, cols in X2.items() if globals()[flag] for c in cols]
+
+
+def _add_x2(s: pd.DataFrame) -> pd.DataFrame:
+    """Raw per-game columns for the Nov 23 batch (NaN where the source has nothing)."""
+    from v2 import extra_data
+    if USE_RZ:
+        _, rz = extra_data.pbp_extra(range(2013, data.current_season() + 1))
+        s = s.merge(rz.drop(columns="team").groupby(["game_id", "player_id"], as_index=False).sum(), on=["game_id", "player_id"], how="left")
+        s[["rz", "gl"]] = s[["rz", "gl"]].fillna(0)
+        s[["rz_share", "gl_share"]] = s[["rz_share", "gl_share"]].fillna(0)
+    if USE_ADOT:
+        s["adot"] = s["receiving_air_yards"] / s["targets"].where(s["targets"] > 0) if "receiving_air_yards" in s else np.nan
+        s["cpoe"] = s["passing_cpoe"] if "passing_cpoe" in s else np.nan
+    if USE_SEP:
+        n = pd.read_csv(data.RAW / "ngs" / "ngs_receiving.csv.gz")
+        n = n[n.week > 0][["season", "week", "player_gsis_id", "avg_separation"]].rename(columns={"player_gsis_id": "player_id", "avg_separation": "sep"})
+        s = s.merge(n, on=["season", "week", "player_id"], how="left")
+    if USE_TURF:
+        g = data.load_games()[["game_id", "surface", "roof"]]
+        s = s.merge(g.assign(turf=(~g.surface.fillna("grass").str.contains("grass")).astype(int))[["game_id", "turf"]], on="game_id", how="left")
+    return s
 
 
 def game_weather() -> pd.DataFrame:
@@ -328,6 +364,7 @@ def feats(market: str | None = None) -> list[str]:
         f += VAC
     if USE_WX:
         f += WX
+    f += [f"ew_{c}" for c in _x2_cols()] + (["turf"] if USE_TURF else [])
     return f
 
 

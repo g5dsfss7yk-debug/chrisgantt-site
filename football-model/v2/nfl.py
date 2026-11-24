@@ -41,6 +41,12 @@ SKILL_KINDS = ("spread", "total")
 RATING = "ewm"         # "ewm": weighted average of recent games; "median": median of the last 8 games (Nov 23 test)
 COMPETITIVE = False    # EPA / success / explosive from win-prob 10-90% plays only, EPA capped at +/-3 (Nov 23 test)
 CLIP = None            # cap the fit target (margin or total minus the line) at +/- this many points (Nov 23 test)
+# Nov 23 batch (v2/test_game_batch.py), each a switch:
+LUCK = False           # fumble-recovery luck (lost minus half of fumbles) and close-game luck
+TRAVEL = False         # time zones moved, West team in an early Eastern game, division game, byes
+COACH = False          # coach's games with the team, first-season coach, share of last season's snaps back
+OL = False             # starting offensive linemen Out/Doubtful
+TOT_WX = False         # rain, snow, temperature, turf in totals (wind is already in)
 RUSH_OUT_TOTAL = True  # same, totals only: ON since Nov 23 (Chris) - totals 53.5% / 51.0% vs 53.2% / 50.5% without
 SCALE = True           # standardize features before the ridge (without it the ridge zeroes the rate stats)
 ALPHA = {"spread": 10.0, "total": 10.0}   # picked on 2015-22 only (v2/improve.py)
@@ -74,6 +80,13 @@ def team_games() -> pd.DataFrame:
     p["team"] = p["team"].map(teams.franchise)
     p["press"] = (p["sacks"] + p["qb_hits"]) / p["dropbacks"].clip(lower=1)   # o_press = line allows, d_press = defense makes
     p["rz"] = p["rz_tds"] / p["rz_trips"].where(p["rz_trips"] > 0)                 # NaN with no trips: skipped
+    if LUCK:
+        from v2 import extra_data
+        f, _ = extra_data.pbp_extra(range(2008, data.current_season() + 1))
+        f["team"] = f.team.map(teams.franchise)
+        f = f.groupby(["game_id", "team"], as_index=False).sum()
+        p = p.merge(f, on=["game_id", "team"], how="left")
+        p["fumluck"] = (p["fum_lost"].fillna(0) - 0.5 * p["fumbles"].fillna(0))
     # competitive plays only (win prob 10-90%, EPA capped +/-3): c_epa, c_sr, c_explosive - used by spreads
     from v2 import extra_data
     c = extra_data.competitive(range(2008, data.current_season() + 1))
@@ -166,6 +179,30 @@ def build() -> pd.DataFrame:
     if REF_TOT:
         from v2 import extra_data
         d["ref_tot"] = extra_data.referee_totals(d)
+    if TRAVEL or COACH or LUCK:
+        from v2 import extra_data
+        d = d.join(extra_data.game_extras(d))
+    if COACH:
+        from v2 import extra_data
+        rs = extra_data.returning_snaps()
+        for side in ("home", "away"):
+            d = d.merge(rs.rename(columns={"team": f"{side}_fr", "ret_off": f"{side}_ret_off", "ret_def": f"{side}_ret_def"}),
+                        on=["season", f"{side}_fr"], how="left")
+    if OL:
+        from v2 import extra_data
+        ol = extra_data.ol_out(range(2013, data.current_season() + 1))
+        for side in ("home", "away"):
+            d = d.merge(ol.rename(columns={"team": f"{side}_fr", "ol_out": f"{side}_ol_out"}), on=["season", "week", f"{side}_fr"], how="left")
+            d[f"{side}_ol_out"] = d[f"{side}_ol_out"].fillna(0)
+    if TOT_WX:
+        from nflmodel import features, pipeline
+        try:
+            fc = pipeline.forecasts()
+        except Exception:
+            fc = {}
+        w = features.weather(d[["game_id", "roof", "stadium_id", "temp", "wind", "home_team", "gameday", "result", "surface"]].copy(),
+                             data.load_game_weather(range(2009, data.current_season() + 1)), fc)
+        d = d.join(w[["rain", "snow", "turf"]].rename(columns=lambda c: f"wx_{c}")).assign(wx_cold=w["cold"].values)
     if SKILL_OUT:
         from v2 import extra_data
         so = extra_data.skill_out_all()
@@ -232,6 +269,27 @@ def X(d: pd.DataFrame, line: pd.Series, kind: str) -> pd.DataFrame:
             f["qb_val"] = d["home_qb_val"] + d["away_qb_val"]
         if REF_TOT:
             f["ref_tot"] = d["ref_tot"]
+    early = ((d["week"] <= 8) * (1 - (d["week"] - 1) / 8)).clip(lower=0) if "week" in d else 0
+    if TRAVEL:
+        if kind == "spread":
+            f["tz"], f["west_early"] = d["tz_diff"], d["west_early"]
+            f["bye"] = d["home_bye"] - d["away_bye"]
+        f["div"] = d["div"]
+    if LUCK:
+        if kind == "spread":
+            f["close_luck"] = d["home_close_luck"] - d["away_close_luck"]
+        else:
+            f["close_luck"] = d["home_close_luck"] + d["away_close_luck"]
+    if COACH and kind == "spread":
+        f["tenure"] = d["home_tenure"] - d["away_tenure"]
+        f["new_coach"] = d["home_new_coach"] - d["away_new_coach"]
+        f["ret_off"] = (d["home_ret_off"].fillna(0.7) - d["away_ret_off"].fillna(0.7)) * early
+        f["ret_def"] = (d["home_ret_def"].fillna(0.7) - d["away_ret_def"].fillna(0.7)) * early
+    if OL:
+        f["ol_out"] = d["home_ol_out"] - d["away_ol_out"] if kind == "spread" else d["home_ol_out"] + d["away_ol_out"]
+    if TOT_WX and kind == "total":
+        for c in ("wx_rain", "wx_snow", "wx_turf", "wx_cold"):
+            f[c] = d[c]
     if SKILL_OUT and kind in SKILL_KINDS:
         for c in (["skill_out"] if SKILL_OUT == "all" else ["rb_out", "wr_out", "te_out"]):
             f[c] = d[f"home_{c}"] - d[f"away_{c}"] if kind == "spread" else d[f"home_{c}"] + d[f"away_{c}"]

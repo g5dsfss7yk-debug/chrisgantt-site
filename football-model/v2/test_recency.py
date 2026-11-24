@@ -26,12 +26,13 @@ def wf(d, kind, line, window):
     return f"all {f(o)} / {f(n)}, edge 1+ {f(o & b)} / {f(n & b)}"
 
 
-for carry in (0.0, 0.35, 0.5, 0.65):
-    nfl.CARRY = carry
+if __name__ == "__main__":
+    for carry in (0.0, 0.35, 0.5, 0.65):
+        nfl.CARRY = carry
+        d = nfl.build()
+        lab = f"A. carry {carry:.0%} of last season" + ("  (CURRENT)" if carry == 0.65 else "")
+        print(f"\n{lab}\n  spread {wf(d, 'spread', 'spread_line', None)}\n  total  {wf(d, 'total', 'total_line', None)}", flush=True)
+    nfl.CARRY = 0.65
     d = nfl.build()
-    lab = f"A. carry {carry:.0%} of last season" + ("  (CURRENT)" if carry == 0.65 else "")
-    print(f"\n{lab}\n  spread {wf(d, 'spread', 'spread_line', None)}\n  total  {wf(d, 'total', 'total_line', None)}", flush=True)
-nfl.CARRY = 0.65
-d = nfl.build()
-for win in (3, 5, 8):
-    print(f"\nB. learn from the last {win} seasons only\n  spread {wf(d, 'spread', 'spread_line', win)}\n  total  {wf(d, 'total', 'total_line', win)}", flush=True)
+    for win in (3, 5, 8):
+        print(f"\nB. learn from the last {win} seasons only\n  spread {wf(d, 'spread', 'spread_line', win)}\n  total  {wf(d, 'total', 'total_line', win)}", flush=True)
