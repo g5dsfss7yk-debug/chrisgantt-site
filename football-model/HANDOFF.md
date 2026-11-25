@@ -1,3 +1,5 @@
+**v3 (Nov 25 2026) replaces everything below: read `v3/HANDOFF.md`.**
+
 # HANDOFF - Nov 15 2026, ~1:15 CT (read CLAUDE.md first)
 
 **New agent: read `AGENT_HANDOFF.md` first - it is the full standalone handoff.**

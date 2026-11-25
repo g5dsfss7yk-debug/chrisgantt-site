@@ -1,0 +1,130 @@
+{
+ "frozen_on": "2026-11-25",
+ "code_commit": "7431054",
+ "nfl": {
+  "H": 16,
+  "G": 0
+ },
+ "cfb": {
+  "H": 12,
+  "G": 0
+ },
+ "records": {
+  "nfl": {
+   "spread edge 0+": {
+    "pass": false,
+    "early": "50.8% of 2374",
+    "late": "50.6% of 2544"
+   },
+   "spread edge 1+": {
+    "pass": false,
+    "early": "49.3% of 491",
+    "late": "48.3% of 418"
+   },
+   "spread edge 2+": {
+    "pass": false,
+    "early": "47.4% of 95",
+    "late": "42.4% of 33"
+   },
+   "total edge 0+": {
+    "pass": false,
+    "early": "52.2% of 2400",
+    "late": "50.5% of 2586"
+   },
+   "total edge 1+": {
+    "pass": false,
+    "early": "52.5% of 1171",
+    "late": "49.2% of 832"
+   },
+   "total edge 2+": {
+    "pass": false,
+    "early": "53.3% of 405",
+    "late": "47.1% of 102"
+   },
+   "moneyline EV 3%+": {
+    "pass": 0.0,
+    "early": "33.1% of 1183, ROI -3.5%",
+    "late": "32.7% of 953, ROI -1.6%"
+   },
+   "teaser leg dog +1.5..+2.5": {
+    "pass": true,
+    "early": "75.5% of 273",
+    "late": "77.1% of 442"
+   },
+   "teaser leg fav -7.5..-8.5": {
+    "pass": false,
+    "early": "75.7% of 140",
+    "late": "71.1% of 228"
+   },
+   "teaser leg dog +1.5..+2.5, total<=44*": {
+    "pass": true,
+    "early": "76.3% of 135",
+    "late": "78.7% of 197"
+   },
+   "home QB change -> Under*": {
+    "pass": false,
+    "early": "50.7% of 272",
+    "late": "60.2% of 294"
+   }
+  },
+  "cfb": {
+   "spread edge 0+": {
+    "pass": false,
+    "early": "50.8% of 7402",
+    "late": "50.5% of 3138"
+   },
+   "spread edge 2+": {
+    "pass": false,
+    "early": "46.7% of 210",
+    "late": "25.0% of 4"
+   },
+   "spread edge 4+": {
+    "pass": false,
+    "early": "0.0% of 2",
+    "late": "no bets"
+   },
+   "total edge 0+": {
+    "pass": false,
+    "early": "49.2% of 7071",
+    "late": "49.7% of 3050"
+   },
+   "total edge 2+": {
+    "pass": false,
+    "early": "41.7% of 12",
+    "late": "no bets"
+   },
+   "total edge 4+": {
+    "pass": false,
+    "early": "no bets",
+    "late": "no bets"
+   },
+   "DK gap 1+ vs other books": {
+    "pass": false,
+    "early": "no bets",
+    "late": "54.7% of 653"
+   }
+  }
+ },
+ "props": {
+  "passing_yards": {
+   "pass": false,
+   "worst_gap": 0.03785989414470592
+  },
+  "rushing_yards": {
+   "pass": true,
+   "worst_gap": 0.01042920447246154
+  },
+  "receiving_yards": {
+   "pass": true,
+   "worst_gap": 0.02291967461310923
+  },
+  "receptions": {
+   "pass": false,
+   "worst_gap": 0.031523178929665385
+  },
+  "anytime_td": {
+   "pass": false,
+   "worst_gap": 0.054219691433771255
+  }
+ }
+}

@@ -1,0 +1,8 @@
+CFB v3 backtest (settings H=12 G=0, chosen on EARLY)
+spread edge 0+               EARLY 50.8% of 7402 (need 52.4%, ROI -3.1%)      LATE(DK line) 50.5% of 3138 (need 52.4%, ROI -3.5%)      -> LEAN
+spread edge 2+               EARLY 46.7% of 210 (need 52.4%, ROI -10.9%)      LATE(DK line) 25.0% of 4 (need 52.4%, ROI -52.3%)        -> LEAN
+spread edge 4+               EARLY 0.0% of 2 (need 52.4%, ROI -100.0%)        LATE(DK line) no bets                                    -> LEAN
+total edge 0+                EARLY 49.2% of 7071 (need 52.4%, ROI -6.1%)      LATE(DK line) 49.7% of 3050 (need 52.4%, ROI -5.1%)      -> LEAN
+total edge 2+                EARLY 41.7% of 12 (need 52.4%, ROI -20.5%)       LATE(DK line) no bets                                    -> LEAN
+total edge 4+                EARLY no bets                                    LATE(DK line) no bets                                    -> LEAN
+DK gap 1+ vs other books     EARLY no bets                                    LATE(DK line) 54.7% of 653 (need 52.4%, ROI +4.4%)       -> LEAN

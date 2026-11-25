@@ -1,0 +1,267 @@
+CFB v3 card 20261128 - DK lines from ESPN. Model frozen 2026-11-25. No college bet type passed its test: all LEAN.
+
+Notre Dame @ Syracuse  Sat 11:00 AM CT
+  SPREAD  Syracuse +24.5 (-108)  model: Notre Dame by 24.1, edge 0.4  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Notre Dame (-2800) model chance 94%  LEAN (not tested)
+  TOTAL   Over 52.5 (-112)  model 53.0  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Boston College @ Miami  Sat 11:00 AM CT
+  SPREAD  Boston College +25.5 (-115)  model: Miami by 24.9, edge 0.6  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Miami (-2800) model chance 94%  LEAN (not tested)
+  TOTAL   Over 53.5 (-110)  model 54.1  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Louisville @ Kentucky  Sat 11:00 AM CT
+  SPREAD  Kentucky +3 (-115)  model: Louisville by 2.6, edge 0.4  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Louisville (-142) model chance 57%  LEAN (not tested)
+  TOTAL   Over 54.5 (-115)  model 55.1  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Michigan @ Ohio State  Sat 11:00 AM CT
+  SPREAD  Michigan +10.5 (-112)  model: Ohio State by 9.6, edge 0.9  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Ohio State (-425) model chance 73%  LEAN (not tested)
+  TOTAL   Over 37.5 (-115)  model 39.0  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+NC State @ North Carolina  Sat 11:00 AM CT
+  SPREAD  NC State +5.5 (-108)  model: North Carolina by 5.3, edge 0.2  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  North Carolina (-218) model chance 63%  LEAN (not tested)
+  TOTAL   Over 54.5 (-105)  model 55.1  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+UConn @ Wyoming  Sat 11:00 AM CT
+  SPREAD  UConn -3 (-115)  model: UConn by 3.1, edge 0.1  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  UConn (-155) model chance 58%  LEAN (not tested)
+  TOTAL   Over 45.5 (-105)  model 46.5  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Navy @ Charlotte  Sat 11:00 AM CT
+  SPREAD  Charlotte +16.5 (-105)  model: Navy by 16.3, edge 0.2  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Navy (-850) model chance 85%  LEAN (not tested)
+  TOTAL   Over 54.5 (-120)  model 55.1  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Central Michigan @ Ball State  Sat 11:00 AM CT
+  SPREAD  Central Michigan -4 (-108)  model: Central Michigan by 4.2, edge 0.2  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Central Michigan (-192) model chance 61%  LEAN (not tested)
+  TOTAL   Over 49.5 (-115)  model 50.3  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Louisiana Tech @ Georgia Southern  Sat 11:00 AM CT
+  SPREAD  Louisiana Tech +2.5 (-110)  model: Georgia Southern by 2.3, edge 0.2  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Georgia Southern (-135) model chance 56%  LEAN (not tested)
+  TOTAL   Over 54.5 (-105)  model 55.0  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Illinois @ Northwestern  Sat 11:30 AM CT
+  SPREAD  Illinois +3 (-112)  model: Northwestern by 2.4, edge 0.6  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Northwestern (-148) model chance 56%  LEAN (not tested)
+  TOTAL   Over 50.5 (-110)  model 51.3  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+LSU @ Arkansas  Sat 11:45 AM CT
+  SPREAD  Arkansas +14.5 (-115)  model: LSU by 14.5, edge 0.0  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  LSU (-625) model chance 82%  LEAN (not tested)
+  TOTAL   Over 49.5 (-112)  model 50.2  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Florida Atlantic @ East Carolina  Sat 12:00 PM CT
+  SPREAD  Florida Atlantic +1.5 (-112)  model: East Carolina by 0.5, edge 1.0  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  East Carolina (-118) model chance 51%  LEAN (not tested)
+  TOTAL   Over 57.5 (-112)  model 57.7  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Kennesaw State @ Western Kentucky  Sat 12:00 PM CT
+  SPREAD  Kennesaw State -3.5 (-108)  model: Kennesaw State by 4.2, edge 0.7  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Kennesaw State (-170) model chance 61%  LEAN (not tested)
+  TOTAL   Over 53.5 (-115)  model 54.0  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Marshall @ UL Monroe  Sat 12:00 PM CT
+  SPREAD  Marshall -5.5 (-105)  model: Marshall by 5.7, edge 0.2  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Marshall (-205) model chance 64%  LEAN (not tested)
+  TOTAL   Over 51.5 (-102)  model 52.2  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Southern Miss @ Old Dominion  Sat 12:00 PM CT
+  SPREAD  Southern Miss +5.5 (-105)  model: Old Dominion by 4.7, edge 0.8  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Old Dominion (-230) model chance 62%  LEAN (not tested)
+  TOTAL   Over 50.5 (-118)  model 51.2  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+UCF @ Colorado  Sat 01:00 PM CT
+  SPREAD  UCF +2.5 (-112)  model: Colorado by 2.2, edge 0.3  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Colorado (-125) model chance 56%  LEAN (not tested)
+  TOTAL   Over 50.5 (-110)  model 51.3  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Kansas State @ Iowa State  Sat 01:00 PM CT
+  SPREAD  Iowa State -3.5 (-110)  model: Iowa State by 3.5, edge 0.0  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Iowa State (-180) model chance 59%  LEAN (not tested)
+  TOTAL   Over 53.5 (-108)  model 54.1  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Army @ Rice  Sat 01:00 PM CT
+  SPREAD  Army -6 (-110)  model: Army by 6.1, edge 0.1  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Army (-205) model chance 65%  LEAN (not tested)
+  TOTAL   Over 48.5 (-105)  model 49.4  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Coastal Carolina @ James Madison  Sat 01:00 PM CT
+  SPREAD  Coastal Carolina +17.5 (-118)  model: James Madison by 16.8, edge 0.7  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  James Madison (-850) model chance 86%  LEAN (not tested)
+  TOTAL   Over 54.5 (-115)  model 55.0  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Louisiana @ Georgia State  Sat 01:00 PM CT
+  SPREAD  Louisiana -5.5 (-110)  model: Louisiana by 5.6, edge 0.1  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Louisiana (-205) model chance 64%  LEAN (not tested)
+  TOTAL   Over 55.5 (-115)  model 56.0  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Liberty @ Missouri State  Sat 01:00 PM CT
+  SPREAD  Liberty -17.5 (-105)  model: Liberty by 17.5, edge 0.0  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Liberty (-850) model chance 87%  LEAN (not tested)
+  TOTAL   Over 53.5 (-105)  model 54.1  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Sam Houston @ Florida International  Sat 01:00 PM CT
+  SPREAD  Sam Houston +11.5 (-110)  model: Florida International by 11.2, edge 0.3  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Florida International (-455) model chance 76%  LEAN (not tested)
+  TOTAL   Over 41.5 (-110)  model 42.7  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+New Mexico State @ Middle Tennessee  Sat 01:00 PM CT
+  SPREAD  New Mexico State +3 (-105)  model: Middle Tennessee by 2.5, edge 0.5  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Middle Tennessee (-155) model chance 56%  LEAN (not tested)
+  TOTAL   Over 51.5 (-108)  model 52.2  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+South Carolina @ Clemson  Sat 02:00 PM CT
+  SPREAD  South Carolina -6 (-110)  model: South Carolina by 6.5, edge 0.5  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  South Carolina (-230) model chance 66%  LEAN (not tested)
+  TOTAL   Over 41.5 (-112)  model 42.6  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Virginia @ Virginia Tech  Sat 02:00 PM CT
+  SPREAD  Virginia +3 (-110)  model: Virginia Tech by 2.9, edge 0.1  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Virginia Tech (-155) model chance 57%  LEAN (not tested)
+  TOTAL   Over 51.5 (-102)  model 52.1  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Troy @ Arkansas State  Sat 02:00 PM CT
+  SPREAD  Troy +3.5 (-108)  model: Arkansas State by 3.3, edge 0.2  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Arkansas State (-185) model chance 58%  LEAN (not tested)
+  TOTAL   Over 46.5 (-110)  model 47.4  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Georgia Tech @ Georgia  Sat 02:30 PM CT
+  SPREAD  Georgia -35.5 (-110)  model: Georgia by 35.8, edge 0.3  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Georgia (-8000) model chance 99%  LEAN (not tested)
+  TOTAL   Over 55.5 (-102)  model 56.0  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Duke @ Wake Forest  Sat 02:30 PM CT
+  SPREAD  Duke +14.5 (-112)  model: Wake Forest by 14.0, edge 0.5  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Wake Forest (-625) model chance 82%  LEAN (not tested)
+  TOTAL   Over 55.5 (-110)  model 56.0  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+USC @ UCLA  Sat 02:30 PM CT
+  SPREAD  USC -7 (-108)  model: USC by 7.8, edge 0.8  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  USC (-265) model chance 69%  LEAN (not tested)
+  TOTAL   Over 45.5 (-108)  model 46.5  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Cincinnati @ BYU  Sat 02:30 PM CT
+  SPREAD  Cincinnati +15.5 (-112)  model: BYU by 15.5, edge 0.0  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  BYU (-675) model chance 84%  LEAN (not tested)
+  TOTAL   Over 56.5 (-105)  model 56.9  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+SMU @ Stanford  Sat 02:30 PM CT
+  SPREAD  Stanford +7.5 (-112)  model: SMU by 7.2, edge 0.3  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  SMU (-310) model chance 68%  LEAN (not tested)
+  TOTAL   Over 60.5 (+nan)  model 60.7  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Penn State @ Maryland  Sat 02:30 PM CT
+  SPREAD  Penn State -7 (-112)  model: Penn State by 7.2, edge 0.2  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Penn State (-278) model chance 68%  LEAN (not tested)
+  TOTAL   Over 49.5 (-112)  model 50.3  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Tulane @ South Florida  Sat 02:30 PM CT
+  SPREAD  South Florida -6.5 (-108)  model: South Florida by 6.5, edge 0.0  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  South Florida (-238) model chance 66%  LEAN (not tested)
+  TOTAL   Over 43.5 (-105)  model 44.6  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+UTEP @ Northern Illinois  Sat 02:30 PM CT
+  SPREAD  UTEP +4.5 (-115)  model: Northern Illinois by 4.0, edge 0.5  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Northern Illinois (-192) model chance 60%  LEAN (not tested)
+  TOTAL   Over 50.5 (-108)  model 51.4  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Massachusetts @ Bowling Green  Sat 02:30 PM CT
+  SPREAD  Massachusetts +3 (-105)  model: Bowling Green by 2.7, edge 0.3  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Bowling Green (-155) model chance 57%  LEAN (not tested)
+  TOTAL   Over 43.5 (-108)  model 44.7  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Jacksonville State @ Delaware  Sat 02:30 PM CT
+  SPREAD  Jacksonville State +2.5 (-105)  model: Delaware by 2.4, edge 0.1  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Delaware (-142) model chance 56%  LEAN (not tested)
+  TOTAL   Over 58.5 (-105)  model 58.8  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+UAB @ North Texas  Sat 03:00 PM CT
+  SPREAD  UAB +3.5 (-118)  model: North Texas by 2.7, edge 0.8  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  North Texas (-170) model chance 57%  LEAN (not tested)
+  TOTAL   Over 46.5 (-105)  model 47.3  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Oklahoma @ Missouri  Sat 03:15 PM CT
+  SPREAD  Oklahoma +2.5 (-115)  model: Missouri by 2.4, edge 0.1  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Missouri (-122) model chance 56%  LEAN (not tested)
+  TOTAL   Over 41.5 (-102)  model 42.7  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Michigan State @ Rutgers  Sat 03:15 PM CT
+  SPREAD  Michigan State -3.5 (-105)  model: Michigan State by 3.8, edge 0.3  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Michigan State (-170) model chance 60%  LEAN (not tested)
+  TOTAL   Over 47.5 (-108)  model 48.4  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Boise State @ Colorado State  Sat 05:00 PM CT
+  SPREAD  Boise State -21 (-115)  model: Boise State by 21.1, edge 0.1  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Boise State (-1800) model chance 91%  LEAN (not tested)
+  TOTAL   Under 76.5 (-108)  model 75.8  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Kansas @ Oklahoma State  Sat 05:15 PM CT
+  SPREAD  Oklahoma State -6.5 (-115)  model: Oklahoma State by 6.9, edge 0.4  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Oklahoma State (-238) model chance 67%  LEAN (not tested)
+  TOTAL   Under 65.5 (-118)  model 65.4  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+San Diego State @ Washington State  Sat 05:30 PM CT
+  SPREAD  San Diego State +2.5 (+102)  model: Washington State by 2.4, edge 0.1  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Washington State (-142) model chance 56%  LEAN (not tested)
+  TOTAL   Over 46.5 (-118)  model 47.4  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Tennessee @ Vanderbilt  Sat 06:00 PM CT
+  SPREAD  Tennessee -13.5 (-115)  model: Tennessee by 13.7, edge 0.2  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Tennessee (-550) model chance 81%  LEAN (not tested)
+  TOTAL   Over 43.5 (-105)  model 44.6  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Purdue @ Indiana  Sat 06:00 PM CT
+  SPREAD  Purdue +22.5 (-108)  model: Indiana by 21.0, edge 1.5  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Indiana (-2100) model chance 91%  LEAN (not tested)
+  TOTAL   Over 52.5 (-108)  model 53.2  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Auburn @ Alabama  Sat 06:30 PM CT
+  SPREAD  Auburn +14.5 (-108)  model: Alabama by 14.3, edge 0.2  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Alabama (-700) model chance 82%  LEAN (not tested)
+  TOTAL   Over 49.5 (-108)  model 50.3  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Washington @ Oregon  Sat 06:30 PM CT
+  SPREAD  Washington +14 (-112)  model: Oregon by 13.9, edge 0.1  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Oregon (-600) model chance 81%  LEAN (not tested)
+  TOTAL   Over 50.5 (-112)  model 51.2  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Pittsburgh @ California  Sat 06:30 PM CT
+  SPREAD  Pittsburgh -9.5 (-110)  model: Pittsburgh by 9.5, edge 0.0  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Pittsburgh (-355) model chance 73%  LEAN (not tested)
+  TOTAL   Over 47.5 (-110)  model 48.3  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Arizona State @ Arizona  Sat 08:00 PM CT
+  SPREAD  Arizona State +8.5 (-110)  model: Arizona by 8.1, edge 0.4  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Arizona (-325) model chance 70%  LEAN (not tested)
+  TOTAL   Over 53.5 (-115)  model 54.0  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Nevada @ UNLV  Sat 08:00 PM CT
+  SPREAD  Nevada +5.5 (-110)  model: UNLV by 4.8, edge 0.7  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  UNLV (-225) model chance 62%  LEAN (not tested)
+  TOTAL   Over 44.5 (-105)  model 45.6  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Baylor @ Houston  Sat 08:30 PM CT
+  SPREAD  Houston -4.5 (-112)  model: Houston by 4.6, edge 0.1  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Houston (-198) model chance 62%  LEAN (not tested)
+  TOTAL   Over 55.5 (-112)  model 55.8  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Texas State @ Utah State  Sat 08:30 PM CT
+  SPREAD  Utah State +7 (-112)  model: Texas State by 7.0, edge 0.0  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Texas State (-270) model chance 67%  LEAN (not tested)
+  TOTAL   Over 52.5 (-108)  model 53.0  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Oregon State @ Fresno State  Sat 09:00 PM CT
+  SPREAD  Oregon State +3 (-105)  model: Fresno State by 2.7, edge 0.3  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Fresno State (-155) model chance 57%  LEAN (not tested)
+  TOTAL   Over 58.5 (-105)  model 58.8  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+
+Sacramento State @ Hawai'i  Sat 10:00 PM CT
+  SPREAD  Hawai'i -13.5 (-115)  model: Hawai'i by 13.8, edge 0.3  LEAN (tested 50.8% of 7402 / 50.5% of 3138)
+  WINNER  Hawai'i (-575) model chance 81%  LEAN (not tested)
+  TOTAL   Over 39.5 (-112)  model 40.8  LEAN (tested 49.2% of 7071 / 49.7% of 3050)
+

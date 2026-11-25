@@ -74,4 +74,12 @@ Changes after that: proven bugs only, logged in Amendments. Every card pick is w
 label; `v3/scoreboard.py` grades them and prints the live record by bet type next to the tested record.
 
 ## Amendments
-(none)
+1. (Nov 25, after the EARLY NFL grid, before any LATE result.) nflverse's listed spread/total juice is reduced-juice
+   (mostly -102..-108), not what Chris pays. Sides, totals and the QB-change rule are graded at -110 (DK standard,
+   brief rule 6: break-even 52.4%). Stricter than the original line; changes no setting. Moneylines stay at the
+   listed closing price - DK's historical moneylines are not available, and DK's are likely worse (not checked).
+2. (Nov 25, written into props.py before the props test ran.) Props calibration lines, which the protocol did not
+   spell out: yards at 0.6x / 1.0x / 1.4x the projection rounded to x.5; receptions at projection-1 / projection /
+   projection+1 rounded to x.5; anytime TD = 1+. Deciles with fewer than 50 checks are not judged.
+3. (Nov 25, AFTER the LATE check.) Known flaw, NOT fixed: totals compare the predicted mean with the line, so the
+   total leans are mostly Overs (skewed totals). Left frozen. Any fix is a new model with a new protocol.

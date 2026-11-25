@@ -1,0 +1,126 @@
+NFL v3 card - 2026-11-25 03:24 UTC - DK lines/prices from ESPN. Model frozen 2026-11-25.
+Spreads/totals/winners have NO tested edge (LEAN). Only the teaser leg passed its test.
+
+GB @ LA  Wed Nov 25 07:00 PM CT
+  QBs (schedule): Jordan Love / Matthew Stafford
+  SPREAD  LA -2.5 (-109, needs 52.2%)  model: LA by 2.6, edge 0.1  LEAN (tested 50.8% of 2374 / 50.6% of 2544)
+  WINNER  LA (-134) model chance 58%, value at DK price +1%  LEAN (under 3% value)
+  TOTAL   Over 43.5 (-121, needs 54.8%)  model 45.6  LEAN (tested 53.3% of 405 / 47.1% of 102)
+  >> TEASER LEG  GB +2.5 -> +8.5  TESTED PICK (tested 76.3% of 135 / 78.7% of 197). Needs 73.9%/leg at -120 for 2 teams; DK's teaser price is NOT checked by any tool - read it on the slip.
+  ** LA TE Terrance Ferguson: Injured Reserve
+  ** LA WR Davante Adams: Injured Reserve
+
+CHI @ DET  Thu Nov 26 12:00 PM CT
+  QBs (schedule): Caleb Williams / Jared Goff
+  SPREAD  CHI -1.5 (-111, needs 52.6%)  model: CHI by 1.5, edge 0.0  LEAN (tested 50.8% of 2374 / 50.6% of 2544)
+  WINNER  CHI (-127) model chance 55%, value at DK price -2%  LEAN (under 3% value)
+  TOTAL   Over 55.5 (-104, needs 51.0%)  model 56.0  LEAN (tested 52.2% of 2400 / 50.5% of 2586)
+  >> TEASER LEG  DET +1.5 -> +7.5  TESTED PICK (tested 75.5% of 273 / 77.1% of 442). Needs 73.9%/leg at -120 for 2 teams; DK's teaser price is NOT checked by any tool - read it on the slip.
+  ** CHI RB Zavier Scott: Injured Reserve
+
+PHI @ DAL  Thu Nov 26 03:30 PM CT
+  QBs (schedule): Joe Milton III / Dak Prescott
+  SPREAD  DAL -8.5 (-111, needs 52.6%)  model: DAL by 9.1, edge 0.6  LEAN (tested 50.8% of 2374 / 50.6% of 2544)
+  WINNER  DAL (-471) model chance 76%, value at DK price -8%  LEAN (under 3% value)
+  TOTAL   Under 47.5 (-105, needs 51.2%)  model 47.2  LEAN (tested 52.2% of 2400 / 50.5% of 2586)
+  ** DAL TE Jake Ferguson: Doubtful
+
+KC @ BUF  Thu Nov 26 07:20 PM CT
+  QBs (schedule): Patrick Mahomes / Josh Allen
+  SPREAD  KC +3 (-120, needs 54.5%)  model: BUF by 2.9, edge 0.1  LEAN (tested 50.8% of 2374 / 50.6% of 2544)
+  WINNER  BUF (-149) model chance 59%, value at DK price -2%  LEAN (under 3% value)
+  TOTAL   Over 47.5 (-102, needs 50.5%)  model 47.8  LEAN (tested 52.2% of 2400 / 50.5% of 2586)
+  ** weather (not in model): 36F, gusts 27 mph, precip 74%
+
+DEN @ PIT  Fri Nov 27 02:00 PM CT
+  QBs (schedule): Bo Nix / Aaron Rodgers
+  SPREAD  DEN -3 (-102, needs 50.5%)  model: DEN by 3.0, edge 0.0  LEAN (tested 50.8% of 2374 / 50.6% of 2544)
+  WINNER  DEN (-157) model chance 59%, value at DK price -3%  LEAN (under 3% value)
+  TOTAL   Over 37.5 (-115, needs 53.5%)  model 39.0  LEAN (tested 52.5% of 1171 / 49.2% of 832)
+  ** PIT WR Michael Pittman Jr.: Injured Reserve
+  ** DEN RB Tyler Badie: Injured Reserve
+  ** DEN RB J.K. Dobbins: Out
+  ** weather (not in model): 42F, gusts 22 mph, precip 45%
+
+NO @ CIN  Sun Nov 29 12:00 PM CT
+  QBs (schedule): Tyler Shough / Joe Burrow
+  SPREAD  CIN -10 (-107, needs 51.7%)  model: CIN by 10.3, edge 0.3  LEAN (tested 50.8% of 2374 / 50.6% of 2544)
+  WINNER  CIN (-600) model chance 79%, value at DK price -8%  LEAN (under 3% value)
+  TOTAL   Under 50.5 (-112, needs 52.8%)  model 50.3  LEAN (tested 52.2% of 2400 / 50.5% of 2586)
+  ** CIN WR Andrei Iosivas: Injured Reserve
+
+NYG @ IND  Sun Nov 29 12:00 PM CT
+  QBs (schedule): J.J. McCarthy / Anthony Richardson
+  SPREAD  IND +6.5 (-108, needs 51.9%)  model: NYG by 6.4, edge 0.1  LEAN (tested 50.8% of 2374 / 50.6% of 2544)
+  WINNER  NYG (-311) model chance 69%, value at DK price -9%  LEAN (under 3% value)
+  TOTAL   Under 41.5 (-109, needs 52.2%)  model 41.5  LEAN (tested 52.2% of 2400 / 50.5% of 2586)
+  ** NYG RB Tyrone Tracy Jr.: Injured Reserve
+  ** NYG WR Braxton Berrios: Injured Reserve
+
+NYJ @ MIA  Sun Nov 29 12:00 PM CT
+  QBs (schedule): Geno Smith / Kyle McCord
+  SPREAD  NYJ -3.5 (-117, needs 53.9%)  model: NYJ by 4.5, edge 1.0  LEAN (tested 49.3% of 491 / 48.3% of 418)
+  WINNER  NYJ (-195) model chance 64%, value at DK price -4%  LEAN (under 3% value)
+  TOTAL   Under 40.5 (-109, needs 52.2%)  model 40.3  LEAN (tested 52.2% of 2400 / 50.5% of 2586)
+
+ATL @ MIN  Sun Nov 29 12:00 PM CT
+  QBs (schedule): Michael Penix Jr. / Kirk Cousins
+  SPREAD  MIN -7 (+100, needs 50.0%)  model: MIN by 7.8, edge 0.8  LEAN (tested 50.8% of 2374 / 50.6% of 2544)
+  WINNER  MIN (-328) model chance 72%, value at DK price -6%  LEAN (under 3% value)
+  TOTAL   Over 41.5 (-113, needs 53.1%)  model 43.5  LEAN (tested 53.3% of 405 / 47.1% of 102)
+  ** MIN WR Jordan Addison: Doubtful
+  ** ATL RB Brian Robinson Jr.: Injured Reserve
+
+TEN @ JAX  Sun Nov 29 12:00 PM CT
+  QBs (schedule): Cam Ward / Trevor Lawrence
+  SPREAD  JAX -14.5 (-104, needs 51.0%)  model: JAX by 15.3, edge 0.8  LEAN (tested 50.8% of 2374 / 50.6% of 2544)
+  WINNER  JAX (-1280) model chance 88%, value at DK price -5%  LEAN (under 3% value)
+  TOTAL   Under 48.5 (-110, needs 52.4%)  model 48.0  LEAN (tested 52.2% of 2400 / 50.5% of 2586)
+
+BAL @ HOU  Sun Nov 29 12:00 PM CT
+  QBs (schedule): Jacoby Brissett / C.J. Stroud
+  SPREAD  HOU -7 (-105, needs 51.2%)  model: HOU by 7.5, edge 0.5  LEAN (tested 50.8% of 2374 / 50.6% of 2544)
+  WINNER  HOU (-328) model chance 72%, value at DK price -7%  LEAN (under 3% value)
+  TOTAL   Under 47.5 (-117, needs 53.9%)  model 47.0  LEAN (tested 52.2% of 2400 / 50.5% of 2586)
+  ** BAL QB Lamar Jackson: Injured Reserve
+
+NE @ LAC  Sun Nov 29 03:05 PM CT
+  QBs (schedule): Drake Maye / Justin Herbert
+  SPREAD  NE +1.5 (-122, needs 55.0%)  model: LAC by 1.2, edge 0.3  LEAN (tested 50.8% of 2374 / 50.6% of 2544)
+  WINNER  LAC (-113) model chance 54%, value at DK price +1%  LEAN (under 3% value)
+  TOTAL   Over 35.5 (-109, needs 52.2%)  model 38.6  LEAN (tested 53.3% of 405 / 47.1% of 102)
+  >> TEASER LEG  NE +1.5 -> +7.5  TESTED PICK (tested 76.3% of 135 / 78.7% of 197). Needs 73.9%/leg at -120 for 2 teams; DK's teaser price is NOT checked by any tool - read it on the slip.
+  ** NE WR A.J. Brown: Doubtful
+
+WAS @ ARI  Sun Nov 29 03:25 PM CT
+  QBs (schedule): Jayden Daniels / Gardner Minshew
+  SPREAD  WAS -7 (-109, needs 52.2%)  model: WAS by 7.2, edge 0.2  LEAN (tested 50.8% of 2374 / 50.6% of 2544)
+  WINNER  WAS (-348) model chance 71%, value at DK price -9%  LEAN (under 3% value)
+  TOTAL   Over 41.5 (-111, needs 52.6%)  model 42.9  LEAN (tested 52.5% of 1171 / 49.2% of 832)
+  ** ARI RB Jeremiyah Love: Injured Reserve
+  ** WAS WR Dyami Brown: Injured Reserve
+  ** WAS RB Jeremy McNichols: Injured Reserve
+
+SEA @ SF  Sun Nov 29 03:25 PM CT
+  QBs (schedule): Sam Darnold / Brock Purdy
+  SPREAD  SF -3.5 (-101, needs 50.2%)  model: SF by 3.9, edge 0.4  LEAN (tested 50.8% of 2374 / 50.6% of 2544)
+  WINNER  SF (-179) model chance 62%, value at DK price -4%  LEAN (under 3% value)
+  TOTAL   Over 45.5 (-107, needs 51.7%)  model 45.8  LEAN (tested 52.2% of 2400 / 50.5% of 2586)
+  ** SEA RB George Holani: Injured Reserve
+
+LV @ CLE  Sun Nov 29 07:20 PM CT
+  QBs (schedule): Fernando Mendoza / Deshaun Watson
+  SPREAD  CLE -4.5 (-105, needs 51.2%)  model: CLE by 5.9, edge 1.4  LEAN (tested 49.3% of 491 / 48.3% of 418)
+  WINNER  CLE (-219) model chance 67%, value at DK price -2%  LEAN (under 3% value)
+  TOTAL   Over 40.5 (-111, needs 52.6%)  model 41.0  LEAN (tested 52.2% of 2400 / 50.5% of 2586)
+  ** CLE RB Raheim Sanders: Injured Reserve
+  ** weather (not in model): 48F, gusts 16 mph, precip 72%
+
+CAR @ TB  Mon Nov 30 07:15 PM CT
+  QBs (schedule): Bryce Young / Baker Mayfield
+  SPREAD  TB -3 (-105, needs 51.2%)  model: TB by 3.3, edge 0.3  LEAN (tested 50.8% of 2374 / 50.6% of 2544)
+  WINNER  TB (-155) model chance 60%, value at DK price -2%  LEAN (under 3% value)
+  TOTAL   Over 43.5 (-110, needs 52.4%)  model 44.0  LEAN (tested 52.2% of 2400 / 50.5% of 2586)
+  ** CAR RB Jonathon Brooks: Injured Reserve
+
+TESTED TEASER LEGS this card: GB +8.5, DET +7.5, NE +7.5

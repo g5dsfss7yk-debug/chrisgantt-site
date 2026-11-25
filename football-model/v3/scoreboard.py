@@ -1,0 +1,74 @@
+"""Live scoreboard for the FROZEN v3 model: grades v3/picks/log.csv from ESPN final scores and prints the live
+record by league / bet type / label next to the tested record. $2 per pick at the logged DK price.
+  python v3/scoreboard.py"""
+import json, os, sys
+import numpy as np, pandas as pd
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import data, grade  # noqa
+
+LOG = os.path.join(HERE, 'picks', 'log.csv')
+FROZEN = json.load(open(os.path.join(HERE, 'frozen.json')))
+STAKE = 2.0
+
+
+def final_score(league, event):
+    s = data.espn_summary(league, event)
+    comp = s['header']['competitions'][0]
+    if not comp.get('status', {}).get('type', {}).get('completed'):
+        return None
+    sc = {c['homeAway']: float(c['score']) for c in comp['competitors']}
+    return sc['home'], sc['away']
+
+
+def grade_row(r, hs, as_):
+    if r.market == 'total':
+        t = hs + as_
+        if t == r.line: return 'push'
+        return 'win' if (t > r.line) == (r.side == 'over') else 'loss'
+    m = (hs - as_) if r.side == 'home' else (as_ - hs)
+    if r.market == 'winner':
+        return 'win' if m > 0 else 'push' if m == 0 else 'loss'
+    x = m + r.line
+    if r.market == 'teaser_leg':
+        return 'win' if x > 0 else 'loss'      # push counts as a loss (protocol)
+    return 'win' if x > 0 else 'push' if x == 0 else 'loss'
+
+
+def main():
+    if not os.path.exists(LOG):
+        print('No picks logged yet (run v3/card.py on game day).'); return
+    L = pd.read_csv(LOG, dtype={'event': str})
+    if 'result' not in L:
+        L['result'] = np.nan
+    now = pd.Timestamp.now(tz='UTC')
+    todo = L[L.result.isna() & (pd.to_datetime(L.kickoff, utc=True) < now - pd.Timedelta(hours=3))]
+    cache = {}
+    for i, r in todo.iterrows():
+        k = (r.league, r.event)
+        if k not in cache:
+            try:
+                cache[k] = final_score(*k)
+            except Exception:
+                cache[k] = None
+        if cache[k]:
+            L.loc[i, 'result'] = grade_row(r, *cache[k])
+    L.to_csv(LOG, index=False)
+    g = L[L.result.isin(['win', 'loss', 'push'])].copy()
+    print(f'v3 LIVE SCOREBOARD (frozen {FROZEN["frozen_on"]}, commit {FROZEN["code_commit"]}) - '
+          f'{len(g)} graded, {L.result.isna().sum()} pending')
+    if g.empty:
+        print('Nothing graded yet.'); return
+    d = grade.dec(g.price.where(g.market != 'teaser_leg'))
+    g['profit'] = np.where(g.result == 'win', STAKE * (d - 1), np.where(g.result == 'loss', -STAKE, 0.0))
+    g.loc[g.market == 'teaser_leg', 'profit'] = np.nan   # legs are priced as a teaser on the slip, not alone
+    for (lg, mk, lab), x in g.groupby(['league', 'market', 'label']):
+        w, l, p = (x.result == 'win').sum(), (x.result == 'loss').sum(), (x.result == 'push').sum()
+        pct = w / (w + l) if w + l else float('nan')
+        money = '' if mk == 'teaser_leg' else f'  ${x.profit.sum():+.2f} at $2'
+        print(f'  {lg.upper():3s} {mk:10s} {lab:11s} live {w}-{l}-{p} ({pct:.1%}){money}')
+    print('\nTested records (EARLY / LATE): see v3/RESULTS.md. Live record counts ONLY games the frozen model never saw.')
+
+
+if __name__ == '__main__':
+    main()

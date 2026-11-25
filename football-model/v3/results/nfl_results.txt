@@ -1,0 +1,12 @@
+NFL v3 backtest (settings H=16 G=0, chosen on EARLY). * = found by an earlier search
+spread edge 0+                         EARLY 50.8% of 2374 (need 52.4%, ROI -3.1%)      LATE 50.6% of 2544 (need 52.4%, ROI -3.5%)      2023-26 49.8% of 993 (need 52.4%, ROI -4.8%)  -> LEAN
+spread edge 1+                         EARLY 49.3% of 491 (need 52.4%, ROI -5.9%)       LATE 48.3% of 418 (need 52.4%, ROI -7.7%)       2023-26 58.6% of 87 (need 52.4%, ROI +11.9%)  -> LEAN
+spread edge 2+                         EARLY 47.4% of 95 (need 52.4%, ROI -9.6%)        LATE 42.4% of 33 (need 52.4%, ROI -19.0%)       2023-26 0.0% of 2 (need 52.4%, ROI -100.0%)  -> LEAN
+total edge 0+                          EARLY 52.2% of 2400 (need 52.4%, ROI -0.3%)      LATE 50.5% of 2586 (need 52.4%, ROI -3.7%)      2023-26 51.1% of 1011 (need 52.4%, ROI -2.4%)  -> LEAN
+total edge 1+                          EARLY 52.5% of 1171 (need 52.4%, ROI +0.3%)      LATE 49.2% of 832 (need 52.4%, ROI -6.2%)       2023-26 50.6% of 320 (need 52.4%, ROI -3.4%)  -> LEAN
+total edge 2+                          EARLY 53.3% of 405 (need 52.4%, ROI +1.8%)       LATE 47.1% of 102 (need 52.4%, ROI -10.2%)      2023-26 50.0% of 48 (need 52.4%, ROI -4.5%)  -> LEAN
+moneyline EV 3%+                       EARLY 33.1% of 1183 (need 33.2%, ROI -3.5%)      LATE 32.7% of 953 (need 32.6%, ROI -1.6%)       2023-26 28.8% of 361 (need 30.0%, ROI -6.3%)  -> LEAN
+teaser leg dog +1.5..+2.5              EARLY 75.5% of 273 (need 73.9%, ROI +nan%)       LATE 77.1% of 442 (need 73.9%, ROI +nan%)       2023-26 78.8% of 222 (need 73.9%, ROI +nan%)  -> TESTED PICK
+teaser leg fav -7.5..-8.5              EARLY 75.7% of 140 (need 73.9%, ROI +nan%)       LATE 71.1% of 228 (need 73.9%, ROI +nan%)       2023-26 64.2% of 81 (need 73.9%, ROI +nan%)  -> LEAN
+teaser leg dog +1.5..+2.5, total<=44*  EARLY 76.3% of 135 (need 73.9%, ROI +nan%)       LATE 78.7% of 197 (need 73.9%, ROI +nan%)       2023-26 79.3% of 111 (need 73.9%, ROI +nan%)  -> TESTED PICK
+home QB change -> Under*               EARLY 50.7% of 272 (need 52.4%, ROI -3.1%)       LATE 60.2% of 294 (need 52.4%, ROI +14.9%)      2023-26 57.4% of 115 (need 52.4%, ROI +9.6%)  -> LEAN
