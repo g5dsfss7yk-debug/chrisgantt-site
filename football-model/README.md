@@ -536,3 +536,11 @@ Neither passes (all-games spread drops 3 points in 2023-26). Not adopted (`SPLIT
 total by 50% of the average miss over the last 2 full seasons (2026: +0.4 pts). All games 53.7% / 51.2% ->
 54.0% / 52.1%; 2026 47.9% -> 50.9%; edge 1+ 56.0% / 53.0% -> 54.8% / 53.4%. 100% of the miss over-corrects
 (2026 edge 1+ 46.8%, 62% Overs). Unders are still 47% of 2026 picks.
+
+## College model rebuilt (Nov 24, `PYTHONPATH=. python v2/cfb2.py`, card `v2/cfb2_card.py`)
+Same design as NFL v2: garbage-time-free play-by-play ratings, opponent-adjusted, ridge with the line, walk-forward,
+graded at ESPN's game-day line. Rule set before testing: use only if picks beat 52.4% in both 2018-22 and
+2023-26, settings chosen on 2018-22 only (8 combinations; chosen: half-life 8 games, full opponent adjustment,
+ridge 10). One-time check: spread all games 50.1% / 52.0% (fails), edge 1+ 51.1% / 51.2% (fails), **edge 2+ 55.2%
+of 507 / 54.3% of 361 (passes)**, edge 3+ 57.8% of 147 / 55.9% of 111. Totals fail (edge 2+ 49.7% / 47.9%).
+So college spread picks only at edge 2+ (about 7 a week); no college totals from this model.
