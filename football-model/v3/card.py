@@ -54,7 +54,9 @@ def espn_odds(c):
     return {'home_spread': o.get('spread'), 'total': o.get('overUnder'),
             'home_spread_odds': am(g(ps, 'home', 'close', 'odds')), 'away_spread_odds': am(g(ps, 'away', 'close', 'odds')),
             'over_odds': am(g(tt, 'over', 'close', 'odds')), 'under_odds': am(g(tt, 'under', 'close', 'odds')),
-            'home_ml': am(g(ml, 'home', 'close', 'odds')), 'away_ml': am(g(ml, 'away', 'close', 'odds'))}
+            'home_ml': am(g(ml, 'home', 'close', 'odds')), 'away_ml': am(g(ml, 'away', 'close', 'odds')),
+            'home_spread_open': am(g(ps, 'home', 'open', 'line')),
+            'total_open': am(str(g(tt, 'over', 'open', 'line') or '').lstrip('ou'))}
 
 
 def log_picks(rows):
@@ -129,8 +131,11 @@ def nfl_card(week=None):
                     checks.append(f'{team} {pos} {n}: {s}')
         wx = summ.get('gameInfo', {}).get('weather')
         if wx and not c.get('venue', {}).get('indoor'):
-            if (wx.get('gust') or 0) >= 20 or (wx.get('precipitation') or 0) >= 60:
+            if (wx.get('gust') or 0) >= 15 or (wx.get('precipitation') or 0) >= 50:
                 checks.append(f"weather (not in model): {wx.get('temperature')}F, gusts {wx.get('gust')} mph, precip {wx.get('precipitation')}%")
+        for nm, now_, op in (('spread (home)', od['home_spread'], od.get('home_spread_open')), ('total', od['total'], od.get('total_open'))):
+            if now_ is not None and op is not None and not np.isnan(op) and abs(float(now_) - op) >= 2:
+                checks.append(f'CHANGE: {nm} moved {op:+g} -> {float(now_):+g} since the opener (DK via ESPN)')
         L = -float(od['home_spread'])                       # nflverse sign: + = home favored
         x = r.copy(); x['spread_line'] = L; x['total_line'] = float(od['total'])
         pm = float(nfl._pred(bs, x[nfl.SPREAD_X].values.astype(float)[None, :])[0])
@@ -351,6 +356,9 @@ def price_prop(player, stat, line, over=None, under=None):
         print(f"{player} ({team}) is {st} on ESPN's injury list - NO PRICE (failed check)."); return
     if st:
         print(f"** {player} is {st} on ESPN's injury list - NOT VERIFIED until inactives post (~90 min before kickoff).")
+    mates = [n for n, s_ in injuries(team).items() if s_ in BAD and n != player]
+    if mates and stat != 'passing_yards':
+        print(f"** TEAMMATES OUT ({', '.join(mates)}): their targets/carries are NOT moved to {player} - projection may be low. NOT VERIFIED.")
     opp, opp_f = opp_factor(stat, team, pos)
     proj = avg * opp_f
     p = pr.p_over(pos, proj, line)
@@ -368,6 +376,8 @@ def team_props(team):
     hurt = {n: s_ for n, s_ in injuries(team).items() if s_ in BAD}
     if hurt:
         print('Left out (ESPN injury list): ' + ', '.join(f'{n} ({s_})' for n, s_ in hurt.items()))
+        print('** TEAMMATES OUT: the model does not move their targets/carries to the players below - '
+              'NOT VERIFIED for pass catchers/backs on this team (old v2 test: such players were under-rated 2-3%).')
     for stat in ('passing_yards', 'rushing_yards', 'receiving_yards', 'receptions', 'anytime_td'):
         s, pr, d = _pricer(stat)
         last = s[s.team == team]

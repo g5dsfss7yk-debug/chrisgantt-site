@@ -93,3 +93,6 @@ label; `v3/scoreboard.py` grades them and prints the live record by bet type nex
 5. (Nov 25, bug fix.) Prop tools did not check ESPN injuries; Puka Nacua (IR, MCL, listed Nov 22) was priced and suggested
    as a parlay leg. `card.py prop` / `props` now drop players Out/Doubtful/IR/Suspended/PUP on ESPN and flag Questionable.
    No model change.
+6. (Nov 25, dropped requests restored - flags only, no model change.) Card: CHANGE line when DK's spread or total moved
+   2+ since the opener; weather flag at gusts 15+ / rain chance 50%+ (was 20+ / 60%+). Props: TEAMMATES OUT flag.
+   CLAUDE.md rule 6 lists every required pre-bet check.
