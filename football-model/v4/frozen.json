@@ -1,0 +1,4 @@
+{"frozen_on": "2026-11-25",
+ "nfl_price_gap": {"pass": true, "early": "53.9% of 256 (2007-16)", "late": "53.9% of 319 (2017-26)",
+   "note": "v4, LATE re-used; picks the dog 83% of the time; if the true rate were 52.4% this record happens 25% of the time; 2025-26 50%"},
+ "cfb_price_gap": {"pass": false, "early": "52.2% of 312 (2022, Bovada)", "late": "53.7% of 951 (2023-26, DK)"}}

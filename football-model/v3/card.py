@@ -18,6 +18,9 @@ import pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import data, nfl, cfb, grade, props  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, '..', 'v4'))
+import pricegap  # noqa: E402
+V4 = json.load(open(os.path.join(HERE, '..', 'v4', 'frozen.json')))
 
 FROZEN = json.load(open(os.path.join(HERE, 'frozen.json')))
 LOG = os.path.join(HERE, 'picks', 'log.csv')
@@ -162,6 +165,17 @@ def nfl_card(week=None):
                 teaser_legs.append(f'{dteam} {dline + 6:+g}')
                 rows.append(dict(league='nfl', event=e['id'], kickoff=e['date'], game=f'{a}@{h}', market='teaser_leg', side=dside,
                                  pick=dteam, line=dline + 6, price=np.nan, label=tl, model=np.nan))
+        imp, gp = pricegap.gap('nfl', od['home_ml'], od['away_ml'], L)
+        if gp is not None and abs(gp) >= 1:
+            gs, gteam, gline = ('home', h, -L) if gp > 0 else ('away', a, L)
+            gprice = od['home_spread_odds'] if gp > 0 else od['away_spread_odds']
+            v = V4['nfl_price_gap']
+            print(f"  >> PRICE GAP  {gteam} {line_txt(gline)} ({gprice:+.0f}): DK moneyline implies {h} by {imp:+.1f}, spread says {L:+.1f}. "
+                  f"TESTED PICK (v4: {v['early']} / {v['late']}; not proven above break-even - {v['note'].split('; ', 1)[1]})")
+            if be(gprice) > 0.539:
+                print(f"     !! at {gprice:+.0f} DK needs {be(gprice):.1%} - above the rule's 53.9% record: NOT a bet at this price")
+            rows.append(dict(league='nfl', event=e['id'], kickoff=e['date'], game=f'{a}@{h}', market='price_gap', side=gs,
+                             pick=gteam, line=gline, price=gprice, label='TESTED PICK', model=round(imp, 2)))
         for ch in checks:
             print(f'  ** {ch}')
         print()
@@ -169,6 +183,8 @@ def nfl_card(week=None):
         rows += [dict(base, market='spread', side='home' if side_home else 'away', pick=sp_team, line=sp_line, price=sp_price, label=lab, model=round(pm, 2)),
                  dict(base, market='winner', side='home' if ph >= 0.5 else 'away', pick=w_team, line=np.nan, price=w_price, label=mlab if ev >= 0.03 else 'LEAN', model=round(w_p, 3)),
                  dict(base, market='total', side=t_side.lower(), pick=t_side, line=x.total_line, price=t_price, label=tlab, model=round(pt, 2))]
+    gaps = [f"{r_['pick']} {line_txt(r_['line'])}" for r_ in rows if r_['market'] == 'price_gap']
+    print('TESTED PRICE GAP picks (v4):', ', '.join(gaps) if gaps else 'none')
     if teaser_legs:
         print('TESTED TEASER LEGS this card:', ', '.join(teaser_legs))
     else:
@@ -230,6 +246,14 @@ def cfb_card(date=None):
             tlab, ttxt = rec('cfb', tkey)
             print(f"  TOTAL   {ts} {r.total_used:g} ({tp:+.0f})  model {pt:.1f}  {ttxt}")
             rows.append(dict(base, market='total', side=ts.lower(), pick=ts, line=r.total_used, price=tp, label=tlab, model=round(pt, 2)))
+        imp, gp = pricegap.gap('cfb', od['home_ml'], od['away_ml'], r.line)
+        if gp is not None and abs(gp) >= 1:
+            gt, gl = (r.homeTeam, hs) if gp > 0 else (r.awayTeam, -hs)
+            v = V4['cfb_price_gap']
+            print(f"  PRICE GAP  {gt} {line_txt(gl)}: DK moneyline implies {r.homeTeam} by {imp:+.1f}, spread says {r.line:+.1f}. "
+                  f"LEAN (v4: {v['early']} / {v['late']}; failed EARLY by 0.2 pts)")
+            rows.append(dict(base, market='price_gap', side='home' if gp > 0 else 'away', pick=gt, line=gl,
+                             price=od['home_spread_odds'] if gp > 0 else od['away_spread_odds'], label='LEAN', model=round(imp, 2)))
         if not np.isnan(r.get('oth_spread', np.nan)) and abs(hs - r.oth_spread) >= 1:
             gt = r.homeTeam if hs > r.oth_spread else r.awayTeam
             _, gtxt = rec('cfb', 'DK gap 1+ vs other books')

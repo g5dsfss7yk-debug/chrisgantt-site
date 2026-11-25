@@ -1,0 +1,17 @@
+v4 ideas (PROTOCOL.md). LATE periods re-used from v3.
+NFL A total by chance, all games     EARLY 51.6% of 2400 (need 52.4%, ROI -1.5%)        LATE 50.5% of 2586 (need 52.4%, ROI -3.6%)        -> fail
+NFL A total by chance, P>=0.55       EARLY 51.8% of 550 (need 52.4%, ROI -1.1%)         LATE 48.3% of 143 (need 52.4%, ROI -7.9%)         -> fail
+NFL B ratings-only spread, all       EARLY 51.9% of 2374 (need 52.4%, ROI -1.0%)        LATE 50.1% of 2544 (need 52.4%, ROI -4.3%)        -> fail
+NFL B ratings-only spread, edge 3+   EARLY 52.3% of 862 (need 52.4%, ROI -0.1%)         LATE 51.1% of 947 (need 52.4%, ROI -2.4%)         -> fail
+NFL C moneyline vs spread gap 1+     EARLY 53.9% of 256 (need 52.4%, ROI +2.9%)         LATE 53.9% of 319 (need 52.4%, ROI +2.9%)         -> PASS
+NFL D v3 + ratings agree, edge 3+    EARLY 53.2% of 502 (need 52.4%, ROI +1.5%)         LATE 51.3% of 626 (need 52.4%, ROI -2.1%)         -> fail
+  NFL LATE squared error: line 162.4, v3 model 162.8, ratings-only 175.2 (lower = more predictive)
+  NFL idea A picks Over in 36% of LATE games (v3 picked Over in ~70-79%)
+CFB A total by chance, all games     EARLY 50.6% of 7071 (need 52.4%, ROI -3.3%)        LATE 51.1% of 3050 (need 52.4%, ROI -2.4%)        -> fail
+CFB A total by chance, P>=0.55       EARLY no bets                                      LATE no bets                                      -> fail
+CFB B ratings-only spread, all       EARLY 49.0% of 7402 (need 52.4%, ROI -6.4%)        LATE 49.8% of 3138 (need 52.4%, ROI -4.8%)        -> fail
+CFB B ratings-only spread, edge 6+   EARLY 47.9% of 3203 (need 52.4%, ROI -8.6%)        LATE 47.8% of 1261 (need 52.4%, ROI -8.7%)        -> fail
+CFB D v3 + ratings agree, edge 6+    EARLY 48.7% of 1193 (need 52.4%, ROI -7.0%)        LATE 49.3% of 284 (need 52.4%, ROI -5.9%)         -> fail
+CFB C moneyline vs spread gap 1+     EARLY 52.2% of 312 (need 52.4%, ROI -0.3%)         LATE 53.7% of 951 (need 52.4%, ROI +2.6%)         -> fail  (EARLY = 2022 only, Bovada; LATE = DraftKings)
+  CFB LATE squared error: DK line 229.0, v3 model 229.5, ratings-only 307.8
+  CFB idea A picks Over in 29% of LATE games (v3: ~95%)
