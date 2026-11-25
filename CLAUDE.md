@@ -43,4 +43,5 @@
    side pick: the college spread model FAILED its test (48.2% vs close, 6,451 games, 2019-26). On Nov 24 one was given
    anyway and Chris lost on it. REBUILT Nov 24 (v2/cfb2.py, rule set before testing): college spread picks ONLY from
    `PYTHONPATH=. python v2/cfb2_card.py --date YYYY-MM-DD` and ONLY at edge 2+ pts (55.2% of 507 / 54.3% of 361, 2018-22 /
-   2023-26); all-games 50.1% / 52.0% and totals FAIL - below 2 pts say "no tested pick". Lines: DK via CollegeFootballData. Log every pick with `recs.py add ... --prob --dk`.
+   2023-26). Chris (Nov 24): EVERY college game gets a lean - the card prints SPREAD LEAN / WINNER LEAN / TOTAL LEAN, clearly
+   marked as untested (spread 50.1% / 52.0%, totals 50.8% / 50.9%); TESTED PICK only at spread edge 2+. Lines: DK via CollegeFootballData. Log every pick with `recs.py add ... --prob --dk`.

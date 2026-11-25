@@ -1,6 +1,7 @@
-"""College spread card from the rebuilt model (v2/cfb2.py). Only games where the model's margin is 2+
-points from the line get a pick (tested 55.2% of 507 / 54.3% of 361, 2018-22 / 2023-26). Everything
-else: "no tested pick". Lines: DraftKings via CollegeFootballData (no odds-API credits), or --line.
+"""College card from the rebuilt model (v2/cfb2.py). EVERY game gets a spread and a total lean (Chris,
+Nov 24: "the model needs to lean one way or the other"). Spread at edge 2+ pts = TESTED PICK (55.2% of 507
+/ 54.3% of 361, 2018-22 / 2023-26); under 2 pts = LEAN (all games 50.1% / 52.0%, about a coin flip).
+Total = LEAN (all games 50.8% / 50.9%; no tested college total from this model). Lines: DraftKings via CollegeFootballData (no odds-API credits), or --line.
     PYTHONPATH=. python v2/cfb2_card.py --date 2026-11-28 [--line "Iowa=-7.5"]"""
 import argparse, json, sys, urllib.request
 from pathlib import Path
@@ -9,10 +10,12 @@ import numpy as np, pandas as pd
 from v2 import cfb2
 
 ap = argparse.ArgumentParser(); ap.add_argument("--date"); ap.add_argument("--line", action="append", default=[])
+ap.add_argument("--total", action="append", default=[], help='"Team=46.5" (either team in the game)')
 a = ap.parse_args()
 d = cfb2.build()
 done = d[d.result.notna() & d.espn_spread.notna() & (d.season >= 2015)]
 m = cfb2.fit(done, "spread")
+mt = cfb2.fit(done[done.espn_total.notna()], "total")
 day = pd.Timestamp(a.date) if a.date else d[d.result.isna()].gameday.min()
 g = d[(d.gameday == day) & d.result.isna()].copy()
 if g.empty:
@@ -26,13 +29,16 @@ for wk in g.week.unique():
             for x in json.load(r):
                 for l in x["lines"]:
                     if l["provider"] == "DraftKings" and l.get("spread") is not None:
-                        dk[x["id"]] = (-float(l["spread"]), l.get("overUnder"))     # CFBD spread is home's number (-7 = home favored)
+                        dk[x["id"]] = (-float(l["spread"]), l.get("overUnder"), l.get("homeMoneyline"), l.get("awayMoneyline"))
     except Exception as e:
         print(f"warning: no CFBD lines ({e})")
-over = {}
+over, tover = {}, {}
 for s in a.line:
     t, v = s.rsplit("=", 1); over[t.strip()] = float(v)
-print(f"College spread card {day:%a %m/%d/%Y} (rebuilt model; picks only at edge 2+ pts: tested 55.2% / 54.3%, 2018-22 / 2023-26)")
+for s in a.total:
+    t, v = s.rsplit("=", 1); tover[t.strip()] = float(v)
+print(f"College card {day:%a %m/%d/%Y} (rebuilt model). TESTED PICK = spread edge 2+ pts (55.2% / 54.3%, 2018-22 / 2023-26).")
+print("LEAN = the model's side with no tested edge (spread 50.1% / 52.0%, total 50.8% / 50.9%) - $2 fun only.")
 for r in g.sort_values("start").itertuples():
     if r.home_team in over:
         line = -over[r.home_team]
@@ -50,6 +56,15 @@ for r in g.sort_values("start").itertuples():
     thin = min(r.home_n if pd.notna(r.home_n) else 0, r.away_n if pd.notna(r.away_n) else 0) < 3
     print(f"\n{r.kickoff_et:%I:%M%p} ET  {r.away_team} @ {r.home_team}   DK: {r.home_team} {-line:+g}   model: {r.home_team} {-pred:+.1f}")
     if abs(edge) >= cfb2.EDGE_MIN and not thin:
-        print(f"  >> PICK  {side} {pts:+g}   edge {abs(edge):.1f} pts   tested edge 2+: 55.2% of 507 / 54.3% of 361")
+        print(f"  >> TESTED PICK  {side} {pts:+g}   edge {abs(edge):.1f} pts   (edge 2+: 55.2% of 507 / 54.3% of 361)")
     else:
-        print(f"  no tested pick (edge {abs(edge):.1f} pts{', a team has under 3 games of data' if thin else ''}; under 2 pts tested 50-51%)")
+        print(f"  SPREAD LEAN  {side} {pts:+g}   edge {abs(edge):.1f} pts{' (a team has under 3 games of data)' if thin else ''}   (50.1% / 52.0%)")
+    winner = r.home_team if pred > 0 else r.away_team
+    print(f"  WINNER LEAN  {winner}")
+    tot = tover.get(r.home_team, tover.get(r.away_team, dk.get(r.game_id, (None, None))[1]))
+    if tot is not None:
+        tot = float(tot)
+        pt = mt.predict(cfb2.X(row.assign(espn_total=tot), pd.Series([tot]), "total"))[0]
+        print(f"  TOTAL LEAN  {'Over' if pt > tot else 'Under'} {tot:g}   model {pt:.1f}   (50.8% / 50.9%)")
+    else:
+        print("  TOTAL LEAN  no DraftKings total found - give it with --total")
