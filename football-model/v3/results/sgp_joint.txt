@@ -1,0 +1,5 @@
+Same-game ~50% yardage props, 2023-26 (v3/test_sgp_joint.py): 9,304 legs, single hit 50.0% (model 50.2%)
+2 legs, same team : 18,417 combos, all hit 23.4% (25.2% if independent)
+2 legs, both teams: 21,247 combos, all hit 24.9% (25.2% if independent)
+3 legs, same team : 20,666 combos, all hit 10.0% (12.6% if independent)
+3 legs, both teams: 83,854 combos, all hit 11.6% (12.6% if independent)
