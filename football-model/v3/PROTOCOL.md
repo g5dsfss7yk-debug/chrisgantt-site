@@ -83,3 +83,10 @@ label; `v3/scoreboard.py` grades them and prints the live record by bet type nex
    projection+1 rounded to x.5; anytime TD = 1+. Deciles with fewer than 50 checks are not judged.
 3. (Nov 25, AFTER the LATE check.) Known flaw, NOT fixed: totals compare the predicted mean with the line, so the
    total leans are mostly Overs (skewed totals). Left frozen. Any fix is a new model with a new protocol.
+4. (Nov 25, Chris: "I don't like averaging".) Props method test, rule written BEFORE running `v3/test_props_median.py`:
+   methods (a) current weighted average x opponent, (b) median of the player's last 8 qualifying games x opponent,
+   (c) player's own hit rate over the line in his last 8 games (no model). (a) and (b) priced by the same Pricer.
+   Same line set for all (0.6x/1.0x/1.4x of (a)'s projection; receptions -1/0/+1). Score = Brier (lower is better).
+   EARLY: Pricer trained 2013-18, scored 2019-22. LATE: trained 2013-22, scored 2023-26 (re-used - already looked at once).
+   A method replaces (a) only if its Brier is lower than (a)'s in BOTH periods for that stat. Player-own hit rate was
+   reported as no help in an earlier build (brief) - re-tested only because Chris asked.
