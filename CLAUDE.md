@@ -39,4 +39,6 @@
    Parlays/teasers are built from these legs. Props + alt spreads/totals: `python football-model/v2/props_card.py --before HH:MM`
    (v2 props model; shows the TESTED 2023-26 hit rate for the model's range vs DK's implied chance;
    whether it beats DK's prices is not tested yet - say so). Skip legs marked ROLE CHECK unless
-   checked. Odds API: 500 credits/month, a full props run costs about 11 per game - use --cached. College: `cfb.py card` SITUATIONAL total. Log every pick with `recs.py add ... --prob --dk`.
+   checked. Odds API: 500 credits/month, a full props run costs about 11 per game - use --cached. College: `cfb.py card` SITUATIONAL total ONLY. NEVER give a college spread or
+   side pick: the college spread model FAILED its test (48.2% vs close, 6,451 games, 2019-26). On Nov 24 one was given
+   anyway and Chris lost on it - say "no tested college spread pick" until a rebuilt model passes a test. Log every pick with `recs.py add ... --prob --dk`.
