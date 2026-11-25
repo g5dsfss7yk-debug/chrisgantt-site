@@ -1,0 +1,6 @@
+Brier score, lower = better (PROTOCOL amendment 4)
+passing_yards    EARLY(2019-22) n=  6411 avg 0.1454 median 0.1484 hit-rate 0.1598 | LATE(2023-26) n=  6006 avg 0.1501 median 0.1527 hit-rate 0.1638 | median wins both: False, hit-rate wins both: False
+rushing_yards    EARLY(2019-22) n= 20379 avg 0.2219 median 0.2286 hit-rate 0.2391 | LATE(2023-26) n= 19293 avg 0.2183 median 0.2216 hit-rate 0.2339 | median wins both: False, hit-rate wins both: False
+receiving_yards  EARLY(2019-22) n= 48378 avg 0.2225 median 0.2281 hit-rate 0.2399 | LATE(2023-26) n= 44292 avg 0.2229 median 0.2280 hit-rate 0.2396 | median wins both: False, hit-rate wins both: False
+receptions       EARLY(2019-22) n= 47731 avg 0.2087 median 0.2126 hit-rate 0.2222 | LATE(2023-26) n= 43718 avg 0.2050 median 0.2081 hit-rate 0.2175 | median wins both: False, hit-rate wins both: False
+anytime_td       EARLY(2019-22) n=  2692 avg 0.2344 median 0.2358 hit-rate 0.2773 | LATE(2023-26) n=  2438 avg 0.2389 median 0.2385 hit-rate 0.2738 | median wins both: False, hit-rate wins both: False

@@ -1,0 +1,92 @@
+{
+ "passing_yards": {
+  "early": {
+   "n": 6411,
+   "average": 0.14540516829715217,
+   "median": 0.1484034240941436,
+   "own_hit_rate": 0.15975407759162524
+  },
+  "late": {
+   "n": 6006,
+   "average": 0.150108499667413,
+   "median": 0.15274883685728605,
+   "own_hit_rate": 0.16376211586033013
+  },
+  "replaces_average": {
+   "median": false,
+   "own_hit_rate": false
+  }
+ },
+ "rushing_yards": {
+  "early": {
+   "n": 20379,
+   "average": 0.22190661122596417,
+   "median": 0.22858186897594565,
+   "own_hit_rate": 0.23912423693736126
+  },
+  "late": {
+   "n": 19293,
+   "average": 0.21825208296657603,
+   "median": 0.22155312399948407,
+   "own_hit_rate": 0.23391979938971907
+  },
+  "replaces_average": {
+   "median": false,
+   "own_hit_rate": false
+  }
+ },
+ "receiving_yards": {
+  "early": {
+   "n": 48378,
+   "average": 0.22253324376841677,
+   "median": 0.22805601480643797,
+   "own_hit_rate": 0.23985029387338877
+  },
+  "late": {
+   "n": 44292,
+   "average": 0.22290001129298337,
+   "median": 0.22802266336945753,
+   "own_hit_rate": 0.23958519309240897
+  },
+  "replaces_average": {
+   "median": false,
+   "own_hit_rate": false
+  }
+ },
+ "receptions": {
+  "early": {
+   "n": 47731,
+   "average": 0.20865338056427138,
+   "median": 0.21258169842443608,
+   "own_hit_rate": 0.22223144541943796
+  },
+  "late": {
+   "n": 43718,
+   "average": 0.20495109017841384,
+   "median": 0.20809802449579448,
+   "own_hit_rate": 0.21751134435200498
+  },
+  "replaces_average": {
+   "median": false,
+   "own_hit_rate": false
+  }
+ },
+ "anytime_td": {
+  "early": {
+   "n": 2692,
+   "average": 0.2343708694543371,
+   "median": 0.23580610231476376,
+   "own_hit_rate": 0.277267206226225
+  },
+  "late": {
+   "n": 2438,
+   "average": 0.238910642903917,
+   "median": 0.23848675185502494,
+   "own_hit_rate": 0.2738045030358329
+  },
+  "replaces_average": {
+   "median": false,
+   "own_hit_rate": false
+  }
+ }
+}
