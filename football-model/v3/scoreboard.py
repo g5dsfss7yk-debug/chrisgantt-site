@@ -37,6 +37,30 @@ def odds_final(r):
     return None
 
 
+PROP_STAT = {'player_pass_yds': [('passing', 'YDS')], 'player_rush_yds': [('rushing', 'YDS')],
+             'player_reception_yds': [('receiving', 'YDS')], 'player_receptions': [('receiving', 'REC')],
+             'player_anytime_td': [('rushing', 'TD'), ('receiving', 'TD')]}
+
+
+def prop_result(league, espn_id, player, market):
+    """Player's stat from the ESPN box score; None if the game is not final; 'void' if he has no line in the box."""
+    s = data.espn_summary('nfl' if league == 'nfl' else 'cfb', espn_id)
+    if not s['header']['competitions'][0].get('status', {}).get('type', {}).get('completed'):
+        return None
+    total, found = 0.0, False
+    for tm in s.get('boxscore', {}).get('players', []):
+        for grp in tm.get('statistics', []):
+            for cat, lab in PROP_STAT[market]:
+                if grp.get('name') != cat or lab not in grp.get('labels', []):
+                    continue
+                k = grp['labels'].index(lab)
+                for a in grp.get('athletes', []):
+                    if a['athlete']['displayName'] == player:
+                        found = True
+                        total += float(str(a['stats'][k]).replace(',', '') or 0)
+    return total if found else 'void'
+
+
 def grade_row(r, hs, as_):
     if r.market == 'total':
         t = hs + as_
@@ -61,6 +85,18 @@ def main():
     todo = L[L.result.isna() & (pd.to_datetime(L.kickoff, utc=True) < now - pd.Timedelta(hours=3))]
     cache = {}
     for i, r in todo.iterrows():
+        if str(r.market).startswith('prop_'):
+            try:
+                player, side, pt = str(r.pick).rsplit(' ', 2)
+                v = prop_result(r.league, str(r.event).split(':', 1)[1], player, r.market[5:])
+            except Exception:
+                v = None
+            if v == 'void':
+                L.loc[i, 'result'] = 'void'
+            elif v is not None:
+                won = v > float(pt) if side == 'Over' else v < float(pt)
+                L.loc[i, 'result'] = 'win' if won else 'loss'
+            continue
         if str(r.event).startswith('odds:'):
             try:
                 x = odds_final(r)

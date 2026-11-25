@@ -19,3 +19,12 @@ sharp book that posts props - not affordable on 2 credits.
 Nov 25 second pull (NFL moneylines + totals, 2 credits, 0 left this month): 66 DK prices compared. With proportional vig
 removal two longshot moneylines showed +2% (PHI +364, TEN +780); with the power method they were -5.1% and -18.3%.
 Rule amended before any grading: VALUE must hold under BOTH methods. Result: 0 VALUE on spreads, moneylines, totals.
+
+## Props + automatic game-day runs (Nov 25)
+- `python football-model/v5/pricecheck.py nfl --props --hours 6 --max-credits 80` - DK player props (pass/rush/rec yards,
+  receptions, anytime TD) vs Pinnacle, or the no-vig median of 3+ other books when Pinnacle has no price. 5 credits per game.
+  Players Out/Doubtful/IR on ESPN are dropped; Questionable shown as NOT VERIFIED and never logged.
+- `python football-model/v5/pricecheck.py nfl --credits` - credits left (free).
+- `python football-model/v5/gameday.py` - refresh data, paid pulls only if credits allow, free v3 card, scoreboard.
+  Scheduled runs call it (Sun 11:04 CT, Thu/Mon 6:04 PM CT). Budget: ~84 credits/week of the 500/month.
+- Prop VALUE picks are graded from ESPN box scores (player not in the box score = void).
