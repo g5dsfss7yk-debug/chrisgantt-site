@@ -1,0 +1,5 @@
+season,gameday,game_id,kind,kickoff,home_team,away_team,line,pick,p,tier,bet
+2026,2026-11-24,401866471,total,2026-11-24 19:00,Western Michigan,Miami (OH),44.5,Over 44.5,0.515,,False
+2026,2026-11-24,401866471,spread,2026-11-24 19:00,Western Michigan,Miami (OH),4.5,Western Michigan -4.5,0.504,,False
+2026,2026-11-24,401866470,total,2026-11-24 19:00,Eastern Michigan,Kent State,46.5,Over 46.5,0.509,,False
+2026,2026-11-24,401866470,spread,2026-11-24 19:00,Eastern Michigan,Kent State,7.0,Eastern Michigan -7.0,0.502,,False
