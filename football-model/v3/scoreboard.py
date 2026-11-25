@@ -21,6 +21,22 @@ def final_score(league, event):
     return sc['home'], sc['away']
 
 
+def odds_final(r):
+    """Value picks (event 'odds:<id>'): find the ESPN game by date + team names. Returns (home, away, scores) or None."""
+    lg = 'nfl' if r.league == 'nfl' else 'college-football'
+    day = pd.Timestamp(r.kickoff).tz_convert('America/New_York').strftime('%Y%m%d')
+    sb = data._get_json(f'{data.ESPN}/{lg}/scoreboard?dates={day}&limit=400' + ('&groups=80' if r.league == 'cfb' else ''))
+    away, home = r.game.split(' @ ')
+    for e in sb.get('events', []):
+        c = e['competitions'][0]
+        t = {x['homeAway']: x for x in c['competitors']}
+        if t['home']['team']['displayName'] == home and t['away']['team']['displayName'] == away:
+            if not e['status']['type'].get('completed'):
+                return None
+            return home, away, (float(t['home']['score']), float(t['away']['score']))
+    return None
+
+
 def grade_row(r, hs, as_):
     if r.market == 'total':
         t = hs + as_
@@ -45,6 +61,17 @@ def main():
     todo = L[L.result.isna() & (pd.to_datetime(L.kickoff, utc=True) < now - pd.Timedelta(hours=3))]
     cache = {}
     for i, r in todo.iterrows():
+        if str(r.event).startswith('odds:'):
+            try:
+                x = odds_final(r)
+            except Exception:
+                x = None
+            if x:
+                home, away, (hs_, as_) = x
+                mk = {'value_spreads': 'spread', 'value_totals': 'total', 'value_h2h': 'winner'}[r.market]
+                sd = r.side.lower() if mk == 'total' else ('home' if r.side == home else 'away')
+                L.loc[i, 'result'] = grade_row(pd.Series({**r.to_dict(), 'market': mk, 'side': sd}), hs_, as_)
+            continue
         k = (r.league, r.event)
         if k not in cache:
             try:

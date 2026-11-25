@@ -20,7 +20,9 @@ Betting work: football-model/v3/README.md. Starting a NEW model? Read football-m
    (75.5% 2006-16 / 77.1% 2017-26; needs 73.9% per leg for a 2-team -120 teaser; margin over break-even not proven, p=0.06;
    DK's teaser price is not checked by a tool - Chris reads it on the slip). Second tested pick (v4, Nov 25, football-model/v4/RESULTS.md):
    NFL `>> PRICE GAP` - DK moneyline implies a margin 1+ pt off the spread: 53.9% / 53.9%, not proven above break-even,
-   not a bet when DK's juice needs more than 53.9% (card prints NOT a bet). Everything else is LEAN: NFL spreads 50.8% / 50.6%,
+   not a bet when DK's juice needs more than 53.9% (card prints NOT a bet). Price checker (v5, Nov 25, Chris OK'd the Odds API key):
+   `python football-model/v5/pricecheck.py nfl --markets spreads,totals,h2h` - DK vs Pinnacle no-vig, VALUE at EV >= +2%; costs 1 credit
+   per market (check credits; --cached is free); not backtested on DK - judged on the scoreboard. Everything else is LEAN: NFL spreads 50.8% / 50.6%,
    NFL totals 52.2% / 50.5%, college spreads 50.8% / 50.5%, college totals 49.2% / 49.7%. Known flaw: total leans are mostly
    Overs (model compares the mean to the line) - say so when giving a total. Props: `v3/card.py prop "Name" stat line --over P
    --under P` prices Over AND Under; rushing/receiving yards calibrated, passing yards/receptions/TDs not; beating DK prices NOT
