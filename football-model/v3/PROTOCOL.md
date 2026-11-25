@@ -90,3 +90,6 @@ label; `v3/scoreboard.py` grades them and prints the live record by bet type nex
    EARLY: Pricer trained 2013-18, scored 2019-22. LATE: trained 2013-22, scored 2023-26 (re-used - already looked at once).
    A method replaces (a) only if its Brier is lower than (a)'s in BOTH periods for that stat. Player-own hit rate was
    reported as no help in an earlier build (brief) - re-tested only because Chris asked.
+5. (Nov 25, bug fix.) Prop tools did not check ESPN injuries; Puka Nacua (IR, MCL, listed Nov 22) was priced and suggested
+   as a parlay leg. `card.py prop` / `props` now drop players Out/Doubtful/IR/Suspended/PUP on ESPN and flag Questionable.
+   No model change.

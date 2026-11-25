@@ -316,11 +316,41 @@ def opp_factor(stat, team, pos):
     return opp, float(allowed[opp] / allowed.mean())
 
 
+NFLV2ESPN = {'WAS': 'WSH', 'LA': 'LAR'}
+_INJ = {}
+
+
+def injuries(team):
+    """ESPN injury list for the team's next game: {player name: status}. Empty dict if ESPN has none."""
+    if team in _INJ:
+        return _INJ[team]
+    g = data.nfl_games()
+    up = g[g.result.isna() & ((g.home_team == team) | (g.away_team == team))].sort_values('gameday')
+    out = {}
+    if not up.empty:
+        day = pd.Timestamp(up.iloc[0].gameday).strftime('%Y%m%d')
+        sb = data._get_json(f'{data.ESPN}/nfl/scoreboard?dates={day}&limit=50')
+        ab = NFLV2ESPN.get(team, team)
+        for e in sb.get('events', []):
+            if ab in [t['team']['abbreviation'] for t in e['competitions'][0]['competitors']]:
+                s = data.espn_summary('nfl', e['id'])
+                for t in s.get('injuries', []):
+                    if t['team']['abbreviation'] == ab:
+                        out = {i['athlete']['displayName']: i.get('status') for i in t['injuries']}
+    _INJ[team] = out
+    return out
+
+
 def price_prop(player, stat, line, over=None, under=None):
     x = next_projection(stat, player)
     if x is None:
         print(f'{player} {stat}: fewer than 3 qualifying games in nflverse weekly stats - I don\'t know.'); return
     pid, pos, team, avg, pr = x
+    st = injuries(team).get(player)
+    if st in BAD:
+        print(f"{player} ({team}) is {st} on ESPN's injury list - NO PRICE (failed check)."); return
+    if st:
+        print(f"** {player} is {st} on ESPN's injury list - NOT VERIFIED until inactives post (~90 min before kickoff).")
     opp, opp_f = opp_factor(stat, team, pos)
     proj = avg * opp_f
     p = pr.p_over(pos, proj, line)
@@ -335,6 +365,9 @@ def price_prop(player, stat, line, over=None, under=None):
 
 
 def team_props(team):
+    hurt = {n: s_ for n, s_ in injuries(team).items() if s_ in BAD}
+    if hurt:
+        print('Left out (ESPN injury list): ' + ', '.join(f'{n} ({s_})' for n, s_ in hurt.items()))
     for stat in ('passing_yards', 'rushing_yards', 'receiving_yards', 'receptions', 'anytime_td'):
         s, pr, d = _pricer(stat)
         last = s[s.team == team]
@@ -350,6 +383,8 @@ def team_props(team):
             pid, pos, tm_, avg, _ = x
             if tm_ != team:
                 continue
+            if injuries(team).get(pl) in BAD:
+                continue
             avg = avg * opp_factor(stat, team, pos)[1]
             if stat == 'anytime_td':
                 p = pr.p_over(pos, avg)
@@ -361,7 +396,8 @@ def team_props(team):
                 p = pr.p_over(pos, avg, L)
                 print(f"{pl:24s} {stat:15s} proj {avg:6.1f}  {L:g}: Over {p:.0%} ({props.fair_american(p)}) / Under {1 - p:.0%} ({props.fair_american(1 - p)})")
     print('\nProjection = weighted average x next opponent factor (same formula as the backtest).'
-          '\nLEAN: props have no test against DK prices. ESPN injuries are NOT checked in this list - check the player is active.')
+          '\nLEAN: props have no test against DK prices. Players Out/Doubtful/IR on ESPN are left out. The model does NOT move'
+          '\nteammates\' targets/carries up when a starter is out - those players may be under-projected.')
 
 
 if __name__ == '__main__':
