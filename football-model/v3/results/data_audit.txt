@@ -1,0 +1,118 @@
+=== NFL schedule (nflverse games.csv): share MISSING by season (completed games only)
+        spread_line  total_line  home_spread_odds  over_odds  home_moneyline  temp  wind  roof  surface  home_qb_name  referee  games
+season                                                                                                                               
+2002            0.0         0.0              1.00       1.00            1.00  0.21  0.21   0.0     0.00           0.0      0.0    267
+2003            0.0         0.0              1.00       1.00            1.00  0.22  0.22   0.0     0.00           0.0      0.0    267
+2004            0.0         0.0              1.00       1.00            1.00  0.22  0.22   0.0     0.00           0.0      0.0    267
+2005            0.0         0.0              1.00       1.00            1.00  0.20  0.20   0.0     0.00           0.0      0.0    267
+2006            0.0         0.0              0.18       0.19            0.18  0.25  0.25   0.0     0.00           0.0      0.0    267
+2007            0.0         0.0              0.00       0.00            0.00  0.25  0.25   0.0     0.00           0.0      0.0    267
+2008            0.0         0.0              0.27       0.27            0.27  0.25  0.25   0.0     0.00           0.0      0.0    267
+2009            0.0         0.0              0.05       0.05            0.05  0.30  0.30   0.0     0.00           0.0      0.0    267
+2010            0.0         0.0              0.00       0.00            0.00  0.28  0.28   0.0     0.00           0.0      0.0    267
+2011            0.0         0.0              0.00       0.00            0.00  0.28  0.28   0.0     0.00           0.0      0.0    267
+2012            0.0         0.0              0.00       0.00            0.00  0.28  0.28   0.0     0.00           0.0      0.0    267
+2013            0.0         0.0              0.00       0.00            0.00  0.27  0.27   0.0     0.00           0.0      0.0    267
+2014            0.0         0.0              0.00       0.00            0.00  0.25  0.25   0.0     0.00           0.0      0.0    267
+2015            0.0         0.0              0.00       0.00            0.00  0.25  0.25   0.0     0.00           0.0      0.0    267
+2016            0.0         0.0              0.00       0.00            0.00  0.26  0.26   0.0     0.00           0.0      0.0    267
+2017            0.0         0.0              0.00       0.00            0.00  0.25  0.25   0.0     0.00           0.0      0.0    267
+2018            0.0         0.0              0.00       0.00            0.00  0.26  0.26   0.0     0.00           0.0      0.0    267
+2019            0.0         0.0              0.00       0.00            0.00  0.27  0.27   0.0     0.00           0.0      0.0    267
+2020            0.0         0.0              0.00       0.00            0.00  0.35  0.35   0.0     0.00           0.0      0.0    269
+2021            0.0         0.0              0.00       0.00            0.00  0.33  0.33   0.0     0.00           0.0      0.0    285
+2022            0.0         0.0              0.00       0.00            0.00  0.62  0.62   0.0     0.02           0.0      0.0    284
+2023            0.0         0.0              0.00       0.00            0.00  0.45  0.45   0.0     0.12           0.0      0.0    285
+2024            0.0         0.0              0.00       0.00            0.00  0.36  0.36   0.0     0.01           0.0      0.0    285
+2025            0.0         0.0              0.00       0.00            0.00  0.33  0.33   0.0     0.00           0.0      0.0    285
+2026            0.0         0.0              0.00       0.00            0.00  0.72  0.72   0.0     0.60           0.0      0.6    163
+
+Wind missing in OUTDOOR games by 2026 week:
+{1: 0.0, 2: 0.0, 3: 0.07, 4: 0.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 1.0, 11: 1.0}
+
+Sign check: spread_line>0 <=> home ML favorite in 100.0% of 4291 games (|line|>=3)
+Result check: result == home_score - away_score in 100.0%
+Total check: total == home+away in 100.0%
+
+Listed QB (games.csv) == QB with most dropbacks (pbp), by season:
+{2016: 0.976, 2017: 0.971, 2018: 0.985, 2019: 0.975, 2020: 0.98, 2021: 0.975, 2022: 0.968, 2023: 0.968, 2024: 0.911, 2025: 0.961, 2026: 0.945}
+
+PBP coverage: games in pbp / completed games, and EPA missing on pass+run plays:
+        coverage  epa_missing
+season                       
+2016         1.0       0.0000
+2017         1.0       0.0000
+2018         1.0       0.0000
+2019         1.0       0.0001
+2020         1.0       0.0000
+2021         1.0       0.0000
+2022         1.0       0.0000
+2023         1.0       0.0000
+2024         1.0       0.0000
+2025         1.0       0.0000
+2026         1.0       0.0000
+
+=== CFB (CollegeFootballData lines). spread = HOME number (-7 = home favored)
+ season                      provider  games  spread_missing  total_missing  ml_sign_ok
+   2014                     consensus    810           0.000          1.000         NaN
+   2014                    numberfire    741           0.007          0.000         NaN
+   2014                  teamrankings    752           0.005          0.000         NaN
+   2015                     consensus    795           0.000          1.000         NaN
+   2015                    numberfire    765           0.013          0.000         NaN
+   2015                  teamrankings    760           0.011          0.000         NaN
+   2016                     consensus    842           0.000          1.000         NaN
+   2016                    numberfire    749           0.000          0.000         NaN
+   2016                  teamrankings    756           0.003          0.000         NaN
+   2017                     consensus    863           0.005          0.104         NaN
+   2017                    numberfire    765           0.000          0.000         NaN
+   2017                  teamrankings    772           0.008          0.000         NaN
+   2018                       Caesars    708           0.004          0.021         NaN
+   2018                     consensus    802           0.002          0.024         NaN
+   2018                    numberfire    764           0.008          0.000         NaN
+   2018                  teamrankings    760           0.009          0.000         NaN
+   2019                        Bovada    318           0.000          0.000         NaN
+   2019                       Caesars    762           0.004          0.000         NaN
+   2019                     consensus    881           0.001          0.000         NaN
+   2019                    numberfire    771           0.000          0.000         NaN
+   2019                  teamrankings    774           0.000          0.000         NaN
+   2020                        Bovada    515           0.002          0.083         NaN
+   2020                       Caesars    439           0.000          0.002         NaN
+   2020        Caesars (Pennsylvania)      2           0.000          0.000         NaN
+   2020                    SugarHouse     94           0.000          0.000         NaN
+   2020     William Hill (New Jersey)     80           0.000          0.000         NaN
+   2020                     consensus    567           0.000          0.000         NaN
+   2020                    numberfire    534           0.000          0.000         NaN
+   2020                  teamrankings    521           0.000          0.000         NaN
+   2021                        Bovada    879           0.001          0.000       0.972
+   2021        Caesars (Pennsylvania)     15           0.000          0.000         NaN
+   2021 Caesars Sportsbook (Colorado)      1           0.000          0.000         NaN
+   2021     William Hill (New Jersey)    862           0.000          0.000         NaN
+   2021                     consensus    870           0.000          0.000         NaN
+   2021                    numberfire    145           0.000          0.000         NaN
+   2021                  teamrankings    769           0.000          0.000         NaN
+   2022                        Bovada    859           0.000          0.001       0.965
+   2022 Caesars Sportsbook (Colorado)     33           0.000          0.000         NaN
+   2022     William Hill (New Jersey)   1408           0.000          0.001         NaN
+   2022                     consensus   1244           0.000          0.000         NaN
+   2022                  teamrankings    766           0.000          0.000         NaN
+   2023                        Bovada    854           0.000          0.001       0.987
+   2023 Caesars Sportsbook (Colorado)     76           0.000          0.000         NaN
+   2023                    DraftKings    757           0.004          0.147       0.995
+   2023                      ESPN Bet    469           0.000          0.000         NaN
+   2023     William Hill (New Jersey)    835           0.000          0.001         NaN
+   2023                     consensus     29           0.000          0.000         NaN
+   2023                  teamrankings     52           0.000          0.000         NaN
+   2024                        Bovada    804           0.000          0.000       0.986
+   2024                    DraftKings    817           0.007          0.009       1.000
+   2024                      ESPN Bet   1551           0.002          0.003       0.997
+   2025                        Bovada    934           0.000          0.000       0.991
+   2025                    DraftKings    813           0.000          0.002       1.000
+   2025                      ESPN Bet   1542           0.006          0.004       1.000
+   2026                        Bovada    813           0.000          0.000       0.992
+   2026                    DraftKings   1471           0.000          0.000       0.999
+2023: DK spread minus median other book: n=753, |diff|>=1 in 39.0%, |diff|>=5 (likely sign/stale error) 15 games
+2024: DK spread minus median other book: n=811, |diff|>=1 in 16.5%, |diff|>=5 (likely sign/stale error) 6 games
+2025: DK spread minus median other book: n=806, |diff|>=1 in 11.7%, |diff|>=5 (likely sign/stale error) 4 games
+2026: DK spread minus median other book: n=882, |diff|>=1 in 15.9%, |diff|>=5 (likely sign/stale error) 0 games
+
+Advanced stats 2025: rows 3316 missing ppa 0.0
