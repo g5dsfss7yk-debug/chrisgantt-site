@@ -1,5 +1,7 @@
 # Rules from Chris (apply to every session, every answer)
 
+Starting a NEW model? Read football-model/NEW_MODEL_BRIEF.md first.
+
 1. **No guessing, no assuming.** Every number (chance, price, payout, yards, record) must come
    from a tool's output (football-model/run.py, recs.py, audit/*) or a tested result, and say
    which. If no tool or test gives it, say "I don't know" - do not estimate, eyeball, or do
@@ -9,7 +11,7 @@
    Only skip a pick for a failed check (inactive player, QB change, NOT VERIFIED item) and name it.
 3. **If unsure what Chris means, ask** - do not pick an interpretation and run with it.
 4. Plain, short answers. Chris bets $2 per pick on DraftKings (cut from $3, Nov 23). Player props: receptions OK (Chris, Nov 15), no rush
-   attempts, no unders (DK prop ladders are overs). Game-total unders are fine (Chris, Nov 11). Read football-model/HANDOFF.md before betting work.
+   attempts. Prop UNDERS are allowed (Chris, Nov 24: unders happen, just price them correctly). Game-total unders are fine (Chris, Nov 11). Read football-model/HANDOFF.md before betting work.
 5. **V2 model, a pick on every game (Chris, Nov 15).** The old NFL model is scratched. Use
    `python football-model/v2/card.py` (new model, play-by-play ratings, walk-forward tested): give a
    spread, winner and total pick on EVERY game - no "no bet", no "coin toss". Each pick carries its
