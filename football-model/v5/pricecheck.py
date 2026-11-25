@@ -11,7 +11,7 @@ markets (bookmakers list kept to <= 10 = one region). Free plan: 500 credits/mon
 Sharp reference: Pinnacle if it lists the same line; otherwise the median no-vig chance of the other sharp books
 listed (Circa, BetOnline, LowVig). Lines must MATCH exactly (DK -3 is only compared with sharp -3) - no guessing
 across different numbers. Fair chance = two-way prices with the vig removed proportionally.
-VALUE = DK pays at least 2% more than fair (EV >= +2%). This rule is set here, before any v5 result.
+VALUE = DK pays at least 2% more than fair (EV >= +2%) under BOTH proportional and power vig removal. This rule is set here, before any v5 result.
 NOT backtested on DK (no affordable odds history). Every VALUE pick is logged and judged on the scoreboard.
 """
 import argparse, json, os, sys, time, urllib.parse, urllib.request
@@ -62,8 +62,18 @@ def dec(a):
 
 
 def novig(p1, p2):
+    """Fair chance of side 1. Returns the LOWER of two standard vig-removal methods (proportional and power):
+    the proportional method overrates longshots (books load more margin on them), so a VALUE flag has to hold under
+    both. (Amended Nov 25 before any v5 pick was graded: PHI +364 / TEN +780 were +2.4% / +2.2% proportional,
+    -5.1% / -18.3% power.)"""
     i1, i2 = 1 / dec(p1), 1 / dec(p2)
-    return i1 / (i1 + i2)
+    prop = i1 / (i1 + i2)
+    lo, hi = 0.2, 5.0
+    for _ in range(60):                      # power method: i1^k + i2^k = 1
+        k = (lo + hi) / 2
+        if i1 ** k + i2 ** k > 1: lo = k
+        else: hi = k
+    return min(prop, i1 ** k)
 
 
 def rows_for(events, market):
@@ -124,7 +134,7 @@ def main():
     o = ap.parse_args()
     d = pull(o.league, o.markets, o.cached)
     log = []
-    print(f"\n{o.league.upper()} DraftKings vs sharp no-vig price (pulled {d['pulled_at']} UTC). VALUE = EV >= +{EV_MIN:.0%}.")
+    print(f"\n{o.league.upper()} DraftKings vs sharp no-vig price (pulled {d['pulled_at']} UTC). VALUE = EV >= +{EV_MIN:.0%} under both vig-removal methods.")
     print('Method is the documented +EV-vs-sharp approach; NOT backtested on DK here - judged live on the scoreboard.\n')
     for mk in o.markets.split(','):
         c = check(d, mk)

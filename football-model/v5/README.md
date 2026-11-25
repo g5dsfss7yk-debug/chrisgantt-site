@@ -15,3 +15,7 @@ GB +2.5 -110 (v4 price-gap pick) was -3.2% vs Pinnacle.
 Where value usually is (per the sources above, not checked here): moneylines, totals, alt lines and props at soft books,
 and lines that have not moved yet after news. Props need the per-event endpoint (~1 credit per market per game) and a
 sharp book that posts props - not affordable on 2 credits.
+
+Nov 25 second pull (NFL moneylines + totals, 2 credits, 0 left this month): 66 DK prices compared. With proportional vig
+removal two longshot moneylines showed +2% (PHI +364, TEN +780); with the power method they were -5.1% and -18.3%.
+Rule amended before any grading: VALUE must hold under BOTH methods. Result: 0 VALUE on spreads, moneylines, totals.
