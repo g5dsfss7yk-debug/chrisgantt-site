@@ -31,7 +31,10 @@ def refresh(season):
         if y == season or not os.path.exists(p):
             urllib.request.urlretrieve(
                 f'https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_{y}.parquet', p)
-    print('weekly player stats refreshed', flush=True)
+    urllib.request.urlretrieve(
+        f'https://github.com/nflverse/nflverse-data/releases/download/snap_counts/snap_counts_{season}.parquet',
+        os.path.join(d, f'snaps_{season}.parquet'))
+    print('weekly player stats + snap counts refreshed', flush=True)
 
 
 def main():

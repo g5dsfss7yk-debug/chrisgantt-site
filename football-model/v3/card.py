@@ -346,6 +346,48 @@ def injuries(team):
     return out
 
 
+def role_check(stat, player):
+    """ROLE CHECK (Chris's earlier rule, restored Nov 26): the projection weights past seasons, so a role change
+    is invisible to it. Flag when the projection is more than 1.5x (or under 0.67x) BOTH this season's per-game
+    average and the last-3-games average. Returns (season_avg, last3_avg, flagged)."""
+    s, pr, d = _pricer(stat)
+    m = d[d.player_display_name.str.lower() == player.lower()]
+    if m.empty:
+        return None, None, True
+    # every game he played this season (nflverse weekly rows), NOT only games where he was targeted/carried -
+    # the projection rows skip zero-target games, which inflates fringe players (bug found Nov 26)
+    src = 'td_count' if stat == 'anytime_td' else stat
+    allg = d[(d.player_id == m.player_id.iloc[-1]) & (d.season == d.season.max())]
+    # nflverse weekly rows exist only when a player records a stat; snap counts list every game he was on the field.
+    # Games with offensive snaps but no stats row count as 0 (Nov 26 fix: backups' empty games were invisible).
+    sp = os.path.join(props.ROOT, 'stats', f'snaps_{int(d.season.max())}.parquet')
+    if os.path.exists(sp):
+        sn = pd.read_parquet(sp)
+        wk = sn[(sn.player.str.lower() == player.lower()) & (sn.offense_snaps > 0)].week.unique()
+        missing = sorted(set(wk) - set(allg.week))
+        if missing:
+            z = pd.DataFrame({'week': missing})
+            for col in ('targets', 'carries', 'attempts', 'receptions', 'receiving_yards', 'rushing_yards',
+                        'passing_yards', 'td_count'):
+                z[col] = 0.0
+            allg = pd.concat([allg, z], ignore_index=True).sort_values('week')
+    if len(allg) < 3:
+        return None, None, True
+    x = next_projection(stat, player)
+    if x is None:
+        return None, None, True
+    proj = x[3] * opp_factor(stat, x[2], x[1])[1]
+    sa, l3 = float(allg[src].fillna(0).mean()), float(allg[src].fillna(0).tail(3).mean())
+    hi, lo = max(sa, l3), min(sa, l3)
+    flagged = (hi <= 0 and proj > 0) or proj > 1.5 * hi or (lo > 0 and proj < 0.67 * lo)
+    # chances come from games where he got a look; if he often gets none, they are overstated
+    opp = {'receiving_yards': allg.targets, 'receptions': allg.targets, 'rushing_yards': allg.carries,
+           'passing_yards': allg.attempts, 'anytime_td': allg.targets.fillna(0) + allg.carries.fillna(0)}[stat]
+    if (opp.fillna(0) == 0).mean() > 0.25:
+        flagged = True
+    return sa, l3, bool(flagged)
+
+
 def price_prop(player, stat, line, over=None, under=None):
     x = next_projection(stat, player)
     if x is None:
@@ -356,11 +398,15 @@ def price_prop(player, stat, line, over=None, under=None):
         print(f"{player} ({team}) is {st} on ESPN's injury list - NO PRICE (failed check)."); return
     if st:
         print(f"** {player} is {st} on ESPN's injury list - NOT VERIFIED until inactives post (~90 min before kickoff).")
-    mates = [n for n, s_ in injuries(team).items() if s_ in BAD and n != player]
+    mates = [n for n, s_ in injuries(team).items() if s_ in BAD and n != player and n in set(_pricer(stat)[2].player_display_name)]
     if mates and stat != 'passing_yards':
         print(f"** TEAMMATES OUT ({', '.join(mates)}): their targets/carries are NOT moved to {player} - projection may be low. NOT VERIFIED.")
     opp, opp_f = opp_factor(stat, team, pos)
     proj = avg * opp_f
+    sa, l3, rf = role_check(stat, player)
+    if rf:
+        print(f"** ROLE CHECK: {player} this season {sa if sa is None else round(sa, 1)}/game, last 3 {l3 if l3 is None else round(l3, 1)} - "
+              f"far from the projection. NOT VERIFIED (role changed or too few games).")
     p = pr.p_over(pos, proj, line)
     cal = FROZEN['props'][stat]
     note = 'calibrated 2023-26' if cal['pass'] else f"NOT calibrated (worst gap {cal['worst_gap']:.1%} in 2023-26)"

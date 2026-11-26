@@ -96,3 +96,8 @@ label; `v3/scoreboard.py` grades them and prints the live record by bet type nex
 6. (Nov 25, dropped requests restored - flags only, no model change.) Card: CHANGE line when DK's spread or total moved
    2+ since the opener; weather flag at gusts 15+ / rain chance 50%+ (was 20+ / 60%+). Props: TEAMMATES OUT flag.
    CLAUDE.md rule 6 lists every required pre-bet check.
+7. (Nov 26, bug + restored check.) Props rows only include games where the player got a target/carry (and nflverse
+   weekly stats have no row for games with no stats), so chances for players who often get NO look are overstated.
+   Not refit (frozen). ROLE CHECK restored as a pre-bet check in `card.role_check`: NOT VERIFIED when the projection
+   is >1.5x / <0.67x both this season's and the last-3 per-game average (every game with offensive snaps, from
+   nflverse snap counts, zeros included), or the player got no target/carry in >25% of this season's games.

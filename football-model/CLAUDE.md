@@ -33,6 +33,7 @@ Betting work: football-model/v3/README.md. Starting a NEW model? Read football-m
    Before any pick or prop, the tool output must show: (a) ESPN injury list - players Out/Doubtful/IR get NO prop and no
    parlay leg; Questionable = NOT VERIFIED; (b) starting QB checked against ESPN (Out/IR -> NOT VERIFIED); (c) teammates
    Out -> flag the players who inherit targets/carries (NOT VERIFIED); (d) line or total moved 2+ since the opener ->
-   CHANGE line; (e) weather: gusts 15+ mph or rain chance 50%+ -> flagged; (f) re-run ~90 min before kickoff when
+   CHANGE line; (g) ROLE CHECK - projection far from this season's per-game numbers, or player often gets
+   no target/carry -> NOT VERIFIED (card.role_check); (e) weather: gusts 15+ mph or rain chance 50%+ -> flagged; (f) re-run ~90 min before kickoff when
    inactives post. If a tool does not show a check, run it by hand from ESPN and say so - never give the pick without it.
    A new model/tool is not done until it does (a)-(f). Every prop or pick in an answer comes from a tool run in THIS turn.
