@@ -103,3 +103,5 @@ label; `v3/scoreboard.py` grades them and prints the live record by bet type nex
    nflverse snap counts, zeros included), or the player got no target/carry in >25% of this season's games.
 8. (Nov 26, bug fix - flag only.) TEAMMATES OUT listed every teammate on ESPN's list who appears in nflverse weekly
    stats, including defenders and backup QBs (CHI @ DET inactives). Now only RB/WR/TE/FB teammates are listed.
+9. (Nov 26, bug fix - no model change.) scoreboard.py crashed when the log's result column was all empty (read as
+   float). Column now read as text.

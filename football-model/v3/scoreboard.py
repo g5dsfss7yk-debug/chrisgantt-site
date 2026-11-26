@@ -78,7 +78,7 @@ def grade_row(r, hs, as_):
 def main():
     if not os.path.exists(LOG):
         print('No picks logged yet (run v3/card.py on game day).'); return
-    L = pd.read_csv(LOG, dtype={'event': str})
+    L = pd.read_csv(LOG, dtype={'event': str, 'result': object})   # object: an all-empty column reads as float (bug fix Nov 26)
     if 'result' not in L:
         L['result'] = np.nan
     now = pd.Timestamp.now(tz='UTC')
