@@ -105,3 +105,9 @@ label; `v3/scoreboard.py` grades them and prints the live record by bet type nex
    stats, including defenders and backup QBs (CHI @ DET inactives). Now only RB/WR/TE/FB teammates are listed.
 9. (Nov 26, bug fix - no model change.) scoreboard.py crashed when the log's result column was all empty (read as
    float). Column now read as text.
+10. (Nov 26, logging bug fix - no model change.) (a) NFL price-gap picks the card marks "NOT a bet at this price"
+   (DK juice needs > 53.9%) were logged as TESTED PICK and counted in its live record. They are now logged as
+   "NOT A BET (price)", graded separately. (b) A card re-run replaced only the markets it printed again, so a pick
+   the newer run dropped (a price gap that closed, a teaser leg whose line moved) stayed in the log. A re-run now
+   replaces all of that game's card rows. Existing log fixed the same way: 5 stale rows removed (incl. GB +2.5
+   price gap, pre-game-day), 3 rows relabelled (CHI@DET DET +1.5 -117, DEN@PIT, WAS@ARI).

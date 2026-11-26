@@ -64,7 +64,9 @@ def log_picks(rows):
     new = pd.DataFrame(rows)
     if os.path.exists(LOG):
         old = pd.read_csv(LOG, dtype={'event': str})
-        old = old[~old.set_index(['event', 'market']).index.isin(new.set_index(['event', 'market']).index)]
+        # a re-run replaces ALL of that game's card rows, so a pick the new run no longer makes (e.g. a price gap
+        # that closed) is not left behind (bug fix Nov 26). Props use 'espn:<id>' events and are not touched.
+        old = old[~old.event.isin(set(new.event))]
         new = pd.concat([old, new], ignore_index=True)
     new.to_csv(LOG, index=False)
 
@@ -177,10 +179,12 @@ def nfl_card(week=None):
             v = V4['nfl_price_gap']
             print(f"  >> PRICE GAP  {gteam} {line_txt(gline)} ({gprice:+.0f}): DK moneyline implies {h} by {imp:+.1f}, spread says {L:+.1f}. "
                   f"TESTED PICK (v4: {v['early']} / {v['late']}; not proven above break-even - {v['note'].split('; ', 1)[1]})")
+            glab = 'TESTED PICK'
             if be(gprice) > 0.539:
                 print(f"     !! at {gprice:+.0f} DK needs {be(gprice):.1%} - above the rule's 53.9% record: NOT a bet at this price")
+                glab = 'NOT A BET (price)'   # logged apart so it never counts in the TESTED PICK record (bug fix Nov 26)
             rows.append(dict(league='nfl', event=e['id'], kickoff=e['date'], game=f'{a}@{h}', market='price_gap', side=gs,
-                             pick=gteam, line=gline, price=gprice, label='TESTED PICK', model=round(imp, 2)))
+                             pick=gteam, line=gline, price=gprice, label=glab, model=round(imp, 2)))
         for ch in checks:
             print(f'  ** {ch}')
         print()
@@ -188,7 +192,7 @@ def nfl_card(week=None):
         rows += [dict(base, market='spread', side='home' if side_home else 'away', pick=sp_team, line=sp_line, price=sp_price, label=lab, model=round(pm, 2)),
                  dict(base, market='winner', side='home' if ph >= 0.5 else 'away', pick=w_team, line=np.nan, price=w_price, label=mlab if ev >= 0.03 else 'LEAN', model=round(w_p, 3)),
                  dict(base, market='total', side=t_side.lower(), pick=t_side, line=x.total_line, price=t_price, label=tlab, model=round(pt, 2))]
-    gaps = [f"{r_['pick']} {line_txt(r_['line'])}" for r_ in rows if r_['market'] == 'price_gap']
+    gaps = [f"{r_['pick']} {line_txt(r_['line'])}" for r_ in rows if r_['market'] == 'price_gap' and r_['label'] == 'TESTED PICK']
     print('TESTED PRICE GAP picks (v4):', ', '.join(gaps) if gaps else 'none')
     if teaser_legs:
         print('TESTED TEASER LEGS this card:', ', '.join(teaser_legs))
