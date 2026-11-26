@@ -101,3 +101,5 @@ label; `v3/scoreboard.py` grades them and prints the live record by bet type nex
    Not refit (frozen). ROLE CHECK restored as a pre-bet check in `card.role_check`: NOT VERIFIED when the projection
    is >1.5x / <0.67x both this season's and the last-3 per-game average (every game with offensive snaps, from
    nflverse snap counts, zeros included), or the player got no target/carry in >25% of this season's games.
+8. (Nov 26, bug fix - flag only.) TEAMMATES OUT listed every teammate on ESPN's list who appears in nflverse weekly
+   stats, including defenders and backup QBs (CHI @ DET inactives). Now only RB/WR/TE/FB teammates are listed.

@@ -398,7 +398,9 @@ def price_prop(player, stat, line, over=None, under=None):
         print(f"{player} ({team}) is {st} on ESPN's injury list - NO PRICE (failed check)."); return
     if st:
         print(f"** {player} is {st} on ESPN's injury list - NOT VERIFIED until inactives post (~90 min before kickoff).")
-    mates = [n for n, s_ in injuries(team).items() if s_ in BAD and n != player and n in set(_pricer(stat)[2].player_display_name)]
+    d_ = _pricer(stat)[2]   # skill players only (bug fix Nov 26: defenders/backup QBs were listed as teammates out)
+    skill = set(d_[d_.position.isin(['RB', 'WR', 'TE', 'FB'])].player_display_name)
+    mates = [n for n, s_ in injuries(team).items() if s_ in BAD and n != player and n in skill]
     if mates and stat != 'passing_yards':
         print(f"** TEAMMATES OUT ({', '.join(mates)}): their targets/carries are NOT moved to {player} - projection may be low. NOT VERIFIED.")
     opp, opp_f = opp_factor(stat, team, pos)
