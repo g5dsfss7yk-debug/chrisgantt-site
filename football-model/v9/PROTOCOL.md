@@ -42,3 +42,7 @@ Results: v9/RESULTS.md. Forecast amounts vs actual amounts are not tested.
    hourly forecast - HEAVY RAIN 0.30+ in, SNOW 0.5+ in snowfall or 0.10+ in at 32 F or below, HIGH WIND gusts 30+,
    FREEZING WET 0.10+ in at 36 F or below - and any bad/severe weather makes passing yds, receiving yds and
    receptions OVERS NOT VERIFIED. These flags stay until the v9 result says otherwise.
+3. (Nov 26, AFTER results.) Hook-up: S4 passes -> card ">> WEATHER UNDER (v9 S4)" when the Open-Meteo forecast has gusts
+   30+ in the game window (takes precedence over the v6 line). S6/S7/S11 print as tested notes on props. The untested
+   SEVERE WEATHER flags (amendment 2) stay. Found after the fact, NOT a pick: S8 went the other way - in heavy rain
+   rushing yards ran BELOW projection (-3.6 / -9.3 pts), not above.

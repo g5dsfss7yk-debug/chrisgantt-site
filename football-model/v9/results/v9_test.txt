@@ -1,0 +1,22 @@
+v9 weather severity test (v9/PROTOCOL.md)
+Games with game-window weather: 3896; WET1 204, HEAVY 44, COLDWET 17, GUST30 333, SNOW 9, v6 BAD 684
+
+TOTALS - UNDER at the closing total, -110 (needs 52.4% both periods, 100+ each)
+  S1 total UNDER, WET1                 EARLY 59/98 = 60.2% | LATE 58/99 = 58.6% | p=0.005 | FAIL
+  S2 total UNDER, HEAVY                EARLY 10/15 = 66.7% | LATE 16/28 = 57.1% | p=0.111 | FAIL
+  S3 total UNDER, COLDWET              EARLY 7/10 = 70.0% | LATE 3/6 = 50.0% | p=0.227 | FAIL
+  S4 total UNDER, GUST30               EARLY 93/168 = 55.4% | LATE 96/162 = 59.3% | p=0.005 | PASS
+  S13 total UNDER, SNOW                EARLY 2/4 = 50.0% | LATE 3/4 = 75.0% | p=0.363 | FAIL
+  ref total UNDER, all v6-BAD games    EARLY 209/376 = 55.6% | LATE 178/297 = 59.9% | p=0.000 | PASS
+
+PROPS - line = v3 projection; actual vs v3 chance for that side (needs +3.0 pts both periods, 100+ each)
+  S5 passing_yards UNDER, HEAVY        2019-22 n=   24 66.7% vs 52.6% (+14.1) | 2023-26 n=   27 63.0% vs 47.0% (+16.0) | p=0.022 | FAIL   [all v6-BAD: +13.6 / +18.3]
+  S6 receiving_yards UNDER, HEAVY      2019-22 n=  182 65.9% vs 58.8% (+7.1) | 2023-26 n=  212 68.9% vs 58.2% (+10.7) | p=0.000 | PASS   [all v6-BAD: +5.3 / +6.7]
+  S7 receptions UNDER, HEAVY           2019-22 n=  182 59.3% vs 54.9% (+4.5) | 2023-26 n=  212 65.1% vs 54.9% (+10.2) | p=0.002 | PASS   [all v6-BAD: +2.8 / +6.5]
+  S8 rushing_yards OVER, HEAVY         2019-22 n=   77 37.7% vs 41.3% (-3.6) | 2023-26 n=   92 31.5% vs 40.8% (-9.3) | p=0.968 | FAIL   [all v6-BAD: +1.5 / -1.5]
+  S9 passing_yards UNDER, COLDWET      2019-22 n=    3 66.7% vs 56.5% (+10.2) | 2023-26 n=    4 50.0% vs 45.5% (+4.5) | p=0.504 | FAIL   [all v6-BAD: +13.6 / +18.3]
+  S10 receptions UNDER, COLDWET        2019-22 n=   30 63.3% vs 53.8% (+9.5) | 2023-26 n=   27 51.9% vs 57.0% (-5.1) | p=0.397 | FAIL   [all v6-BAD: +2.8 / +6.5]
+  S11 passing_yards UNDER, GUST30      2019-22 n=  158 65.8% vs 51.1% (+14.7) | 2023-26 n=  100 63.0% vs 46.9% (+16.1) | p=0.000 | PASS   [all v6-BAD: +13.6 / +18.3]
+  S12 receptions UNDER, GUST30         2019-22 n= 1212 57.1% vs 55.2% (+1.9) | 2023-26 n=  734 61.3% vs 55.0% (+6.3) | p=0.001 | FAIL   [all v6-BAD: +2.8 / +6.5]
+  S14 passing_yards UNDER, SNOW        2019-22 n=    1 0.0% vs 53.7% (-53.7) | 2023-26 n=    2 50.0% vs 44.2% (+5.8) | p=0.856 | FAIL   [all v6-BAD: +13.6 / +18.3]
+  S15 receptions UNDER, SNOW           2019-22 n=   16 50.0% vs 51.6% (-1.6) | 2023-26 n=   13 61.5% vs 56.0% (+5.5) | p=0.505 | FAIL   [all v6-BAD: +2.8 / +6.5]

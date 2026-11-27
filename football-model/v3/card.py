@@ -24,6 +24,17 @@ V4 = json.load(open(os.path.join(HERE, '..', 'v4', 'frozen.json')))
 V6 = json.load(open(os.path.join(HERE, '..', 'v6', 'results', 'weather_test.json')))   # v6 weather test (v6/PROTOCOL.md)
 
 
+V9F = os.path.join(HERE, '..', 'v9', 'results', 'v9_test.json')
+V9 = json.load(open(V9F)) if os.path.exists(V9F) else {}
+
+
+def v9_passed(prefix):
+    for k, v in V9.items():
+        if k.startswith(prefix + ' ') and v.get('passes'):
+            return k, v
+    return None, None
+
+
 def v6_rec(key):
     t = V6['totals'][key]
     return f"{t['early'][0]}/{t['early'][1]} = {t['early_pct']:.1%} (2006-16) / {t['late'][0]}/{t['late'][1]} = {t['late_pct']:.1%} (2017-26)"
@@ -160,11 +171,21 @@ def nfl_card(week=None):
             lv, stxt = severe_weather(c, e['date'])
             if lv:
                 checks.append(f"SEVERE WEATHER ({stxt}). Passing yds, receiving yds and receptions OVERS are NOT VERIFIED "
-                              f"(untested flag; v9 severity test pending). Heavy weather is beyond what the tested numbers saw.")
+                              f"(v9 tested: heavy rain -> receiving yds/receptions Under, gusts 30+ -> passing yds Under; snow/freezing too few games to test).")
             elif stxt:
                 checks.append(stxt)
             cond = v6_weather(wx)
-            if cond:
+            k9, v9 = v9_passed('S4')
+            if 'HIGH WIND' in lv and k9:
+                wtot = float(od['total'])
+                up = od.get('under_odds'); up = -110.0 if up is None or np.isnan(up) else float(up)
+                low = min(v9['early_pct'], v9['late_pct'])
+                wlab = 'TESTED PICK' if be(up) <= low else 'NOT A BET (price)'
+                wline = (f"  >> WEATHER UNDER  {wtot:g} ({up:+.0f}, needs {be(up):.1%})  {wlab} (v9 S4 gusts 30+: {v9['early'][0]}/{v9['early'][1]} = "
+                         f"{v9['early_pct']:.1%} (2006-16) / {v9['late'][0]}/{v9['late'][1]} = {v9['late_pct']:.1%} (2017-26)). Forecast: {stxt}.")
+                rows.append(dict(league='nfl', event=e['id'], kickoff=e['date'], game=f'{a}@{h}', market='weather_under', side='under',
+                                 pick='Under', line=wtot, price=up, label=wlab, model=np.nan))
+            elif cond:
                 key = 'G2 WINDY' if cond == 'WINDY' else 'G3 BAD'
                 if V6['totals'][key]['passes']:
                     wtot = float(od['total'])
@@ -605,6 +626,11 @@ def price_prop(player, stat, line, over=None, under=None):
     if stat in SEV_STATS and (sev or v6_weather(wx)):
         why = f"SEVERE WEATHER ({stxt})" if sev else f"bad weather (gusts {wx.get('gust')} / rain {wx.get('precipitation')}%)"
         print(f"** {why}: OVER on {stat.replace('_', ' ')} is NOT VERIFIED (Chris, Nov 26: teams stop throwing in this weather). Under is not flagged.")
+        for key, lev, st_ in (('S6', 'HEAVY RAIN', 'receiving_yards'), ('S7', 'HEAVY RAIN', 'receptions'), ('S11', 'HIGH WIND', 'passing_yards')):
+            k9, v9 = v9_passed(key)
+            if k9 and lev in sev and stat == st_:
+                print(f"** v9 {key} TESTED ({lev}): {stat.replace('_', ' ')} went UNDER the projection {v9['early']['actual']:.0%} vs model "
+                      f"{v9['early']['predicted']:.0%} (2019-22) / {v9['late']['actual']:.0%} vs {v9['late']['predicted']:.0%} (2023-26) - lean UNDER.")
     elif stxt:
         print(f"** {stxt}")
     tq = team_qb(team)
