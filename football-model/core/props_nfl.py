@@ -9,6 +9,7 @@ STATS = {'passing_yards': ['QB'], 'rushing_yards': ['RB', 'QB'], 'receiving_yard
          'receptions': ['WR', 'TE', 'RB'], 'anytime_td': ['RB', 'WR', 'TE']}
 ADJ = ['opp', 'tt', 'key_out', 'rb_out', 'quest', 'backup', 'wind_x', 'cold_x', 'wx_missing', 'dome']
 HP_GRID = (4, 8, 16)
+LINE_FLOOR = {'rushing_yards': 1.5, 'receiving_yards': 3.5, 'receptions': 1.5}   # amendment 10 (DK's smallest logged lines)
 EARLY, LATE = (2014, 2019), (2020, 2026)
 POS = ['QB', 'RB', 'FB', 'WR', 'TE']
 CACHE = os.path.join(data.DATA, 'nfl')
@@ -153,6 +154,8 @@ def stat_rows(f, stat):
         x['line'] = np.floor(x[f'l8_{stat}']) + 0.5
     else:
         x['line'] = 0.5
+    if stat in LINE_FLOOR:
+        x = x[x.line >= LINE_FLOOR[stat]]
     return x
 
 
@@ -261,6 +264,6 @@ if __name__ == '__main__':
         txt.append(f"\nDK check (Chris's DK prices, Nov 25-27 2026, logged before kickoff): {len(z)} props matched | Brier model {bm:.4f} vs DK {bd:.4f} | "
                    f"Over hit {z.y.mean():.1%}, model said {z.model.mean():.1%}, DK said {z.dk.mean():.1%} - NOT a pass/fail (too few)")
         R['dk_check'] = dict(n=len(z), brier_model=bm, brier_dk=bd)
-    open(os.path.join(HERE, 'results', 'props_nfl.txt'), 'w').write('\n'.join(txt) + '\n')
-    json.dump(dict(HP=HP, logloss=ll, results=R), open(os.path.join(HERE, 'results', 'props_nfl.json'), 'w'), indent=1, default=float)
+    open(os.path.join(HERE, 'results', 'props_nfl_floor.txt'), 'w').write('\n'.join(txt) + '\n')
+    json.dump(dict(HP=HP, logloss=ll, results=R), open(os.path.join(HERE, 'results', 'props_nfl_floor.json'), 'w'), indent=1, default=float)
     print('\n'.join(txt))

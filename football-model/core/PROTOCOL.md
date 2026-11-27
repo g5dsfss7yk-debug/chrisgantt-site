@@ -178,3 +178,9 @@ early/late periods, freeze, checks a-k).
    DK check (forward, the only DK test possible): on v8/prices/dk_props.csv graded rows logged before kickoff
    (165 now), Brier of this model vs DK's break-even chance - printed, not a pass (too few; old rule waited for 300).
    Card checks a-k on every prop (ESPN injuries, QB, teammates out, role check, weather, too good to be true, bet cap).
+10. (Nov 27, FOUND AFTER the props result - bug.) The test line (last-8 mean rounded down to x.5) can be -0.5 or 0.5
+    yards for players with almost no touches (backup QBs, fullbacks); with a near-zero projection the ratio method
+    breaks (rushing: predicted 97%, actual 47% in that bin). DraftKings never offers such props. Fix: test lines below
+    the smallest line DK offered for that stat in Chris's logged prices are excluded (rushing 1.5, receiving 3.5,
+    receptions 1.5; passing and TD unchanged - none affected). The card applies the same floor (no prop priced below
+    it). Both runs are kept in RESULTS.md.
