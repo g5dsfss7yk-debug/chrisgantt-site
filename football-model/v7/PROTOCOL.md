@@ -48,3 +48,8 @@ Props: passes print a note on the prop line with the tested numbers; v3 chances 
 "out" comes from ESPN's inactive list and starters from this season's snap counts. Results: v7/RESULTS.md.
 
 ## Amendments
+1. (Nov 26, AFTER results.) Hook-up: passes A1, A2, A6, B1, B2, B3 print as notes on `card.py prop` (v3 chances not
+   changed). Team total = DK total/spread via ESPN for the player's next game; "out" = ESPN list Out/Doubtful/IR
+   (inactives on game day); key receivers/RBs from this season's weekly stats + snap counts (v7/live.py). The
+   TEAMMATES OUT flag stays (rule 6c); B1-B3 now give its tested direction. No game-level test passed: nothing added
+   to the game card. Found after the fact, NOT a pick: A8 (QB as 7+ dog) went the OTHER way (-7.1 / -10.2 pts).

@@ -1,0 +1,329 @@
+{
+ "A1 passing yds OVER, team total 26.5+": {
+  "early": {
+   "n": 458,
+   "hits": 217,
+   "actual": 0.4737991266375546,
+   "predicted": 0.42584583908303786
+  },
+  "late": {
+   "n": 264,
+   "hits": 140,
+   "actual": 0.5303030303030303,
+   "predicted": 0.4529231125789443
+  },
+  "gap_early": 0.04795328755451672,
+  "gap_late": 0.07737991772408598,
+  "p": 0.0008329784982282207,
+  "passes": true,
+  "side": "over"
+ },
+ "A2 passing yds UNDER, team total 19.5-": {
+  "early": {
+   "n": 412,
+   "hits": 224,
+   "actual": 0.5436893203883495,
+   "predicted": 0.4519028781608636
+  },
+  "late": {
+   "n": 483,
+   "hits": 259,
+   "actual": 0.5362318840579711,
+   "predicted": 0.4408789868927869
+  },
+  "gap_early": 0.09178644222748589,
+  "gap_late": 0.09535289716518419,
+  "p": 1.0325897803475925e-08,
+  "passes": true,
+  "side": "under"
+ },
+ "A3 rushing yds OVER, team total 26.5+": {
+  "early": {
+   "n": 1473,
+   "hits": 576,
+   "actual": 0.3910386965376782,
+   "predicted": 0.4043345107648884
+  },
+  "late": {
+   "n": 872,
+   "hits": 343,
+   "actual": 0.393348623853211,
+   "predicted": 0.4021234531774483
+  },
+  "gap_early": -0.013295814227210212,
+  "gap_late": -0.008774829324237288,
+  "p": 0.8784916305768893,
+  "passes": false,
+  "side": "over"
+ },
+ "A4 rushing yds UNDER, team total 19.5-": {
+  "early": {
+   "n": 1424,
+   "hits": 826,
+   "actual": 0.5800561797752809,
+   "predicted": 0.5832688411780872
+  },
+  "late": {
+   "n": 1651,
+   "hits": 969,
+   "actual": 0.5869170199878861,
+   "predicted": 0.5840859450531198
+  },
+  "gap_early": -0.003212661402806294,
+  "gap_late": 0.002831074934766309,
+  "p": 0.5058481916469633,
+  "passes": false,
+  "side": "under"
+ },
+ "A5 receiving yds OVER, team total 26.5+": {
+  "early": {
+   "n": 3456,
+   "hits": 1427,
+   "actual": 0.4129050925925926,
+   "predicted": 0.41246389245758935
+  },
+  "late": {
+   "n": 1920,
+   "hits": 815,
+   "actual": 0.4244791666666667,
+   "predicted": 0.4086999722941494
+  },
+  "gap_early": 0.0004412001350032613,
+  "gap_late": 0.01577919437251729,
+  "p": 0.19264989234744673,
+  "passes": false,
+  "side": "over"
+ },
+ "A6 receiving yds UNDER, team total 19.5-": {
+  "early": {
+   "n": 3377,
+   "hits": 2055,
+   "actual": 0.6085282795380516,
+   "predicted": 0.5767597880489211
+  },
+  "late": {
+   "n": 3859,
+   "hits": 2367,
+   "actual": 0.6133713397253174,
+   "predicted": 0.5779138879069886
+  },
+  "gap_early": 0.03176849148913041,
+  "gap_late": 0.03545745181832882,
+  "p": 3.364737100053361e-09,
+  "passes": true,
+  "side": "under"
+ },
+ "A7 RB rushing yds OVER, team favored 7+": {
+  "early": {
+   "n": 803,
+   "hits": 328,
+   "actual": 0.40846824408468246,
+   "predicted": 0.4028008919553289
+  },
+  "late": {
+   "n": 598,
+   "hits": 246,
+   "actual": 0.411371237458194,
+   "predicted": 0.39604162588859265
+  },
+  "gap_early": 0.005667352129353542,
+  "gap_late": 0.015329611569601331,
+  "p": 0.2354952240212443,
+  "passes": false,
+  "side": "over"
+ },
+ "A8 QB passing yds OVER, team 7+ underdog": {
+  "early": {
+   "n": 313,
+   "hits": 144,
+   "actual": 0.46006389776357826,
+   "predicted": 0.5306078892625541
+  },
+  "late": {
+   "n": 246,
+   "hits": 110,
+   "actual": 0.44715447154471544,
+   "predicted": 0.5491613424738454
+  },
+  "gap_early": -0.07054399149897583,
+  "gap_late": -0.10200687092912997,
+  "p": 0.9999738348006395,
+  "passes": false,
+  "side": "over"
+ },
+ "B1 receiving yds OVER, key receiver out": {
+  "early": {
+   "n": 1478,
+   "hits": 705,
+   "actual": 0.4769959404600812,
+   "predicted": 0.42800491625250564
+  },
+  "late": {
+   "n": 1431,
+   "hits": 683,
+   "actual": 0.4772886093640811,
+   "predicted": 0.4265282486264248
+  },
+  "gap_early": 0.04899102420757556,
+  "gap_late": 0.050760360737656274,
+  "p": 3.019702349282838e-08,
+  "passes": true,
+  "side": "over"
+ },
+ "B2 receptions OVER, key receiver out": {
+  "early": {
+   "n": 1478,
+   "hits": 771,
+   "actual": 0.5216508795669824,
+   "predicted": 0.4549244219385742
+  },
+  "late": {
+   "n": 1431,
+   "hits": 724,
+   "actual": 0.5059399021663172,
+   "predicted": 0.45702263995920617
+  },
+  "gap_early": 0.06672645762840823,
+  "gap_late": 0.04891726220711107,
+  "p": 1.9426460440286064e-10,
+  "passes": true,
+  "side": "over"
+ },
+ "B3 rushing yds OVER, key RB out": {
+  "early": {
+   "n": 291,
+   "hits": 169,
+   "actual": 0.5807560137457045,
+   "predicted": 0.4249381861310819
+  },
+  "late": {
+   "n": 188,
+   "hits": 113,
+   "actual": 0.601063829787234,
+   "predicted": 0.42339201232782464
+  },
+  "gap_early": 0.1558178276146226,
+  "gap_late": 0.1776718174594094,
+  "p": 2.3525625891807067e-13,
+  "passes": true,
+  "side": "over"
+ },
+ "C3 QB passing yds OVER, 2+ starting DBs out on defense": {
+  "early": {
+   "n": 180,
+   "hits": 90,
+   "actual": 0.5,
+   "predicted": 0.48341777731379987
+  },
+  "late": {
+   "n": 157,
+   "hits": 78,
+   "actual": 0.4968152866242038,
+   "predicted": 0.520734128192325
+  },
+  "gap_early": 0.016582222686200132,
+  "gap_late": -0.023918841568121185,
+  "p": 0.5550428686420334,
+  "passes": false,
+  "side": "over"
+ },
+ "D2 passing yds UNDER, cold 32F or less": {
+  "early": {
+   "n": 80,
+   "hits": 45,
+   "actual": 0.5625,
+   "predicted": 0.5091897640672304
+  },
+  "late": {
+   "n": 91,
+   "hits": 55,
+   "actual": 0.6043956043956044,
+   "predicted": 0.48423087428823564
+  },
+  "gap_early": 0.05331023593276962,
+  "gap_late": 0.12016473010736872,
+  "p": 0.01227788533590829,
+  "passes": false,
+  "side": "under"
+ },
+ "E1 receptions UNDER, bad weather": {
+  "early": {
+   "n": 2141,
+   "hits": 1242,
+   "actual": 0.5801027557216254,
+   "predicted": 0.5516442423485354
+  },
+  "late": {
+   "n": 1597,
+   "hits": 982,
+   "actual": 0.6149029430181591,
+   "predicted": 0.5540370407569503
+  },
+  "gap_early": 0.028458513373090022,
+  "gap_late": 0.060865902261208804,
+  "p": 1.0779909442870661e-07,
+  "passes": false,
+  "side": "under"
+ },
+ "E2 anytime TD - NO TD, bad weather": {
+  "early": {
+   "n": 2112,
+   "hits": 1654,
+   "actual": 0.7831439393939394,
+   "predicted": 0.7573263003224368
+  },
+  "late": {
+   "n": 1583,
+   "hits": 1273,
+   "actual": 0.8041692987997473,
+   "predicted": 0.7636864139765367
+  },
+  "gap_early": 0.025817639071502696,
+  "gap_late": 0.04048288482321061,
+  "p": 2.6833782991730892e-06,
+  "passes": false,
+  "side": "under"
+ },
+ "C1 total OVER, a defense with 3+ starters out": {
+  "early": [
+   37,
+   70
+  ],
+  "late": [
+   120,
+   231
+  ],
+  "early_pct": 0.5285714285714286,
+  "late_pct": 0.5194805194805194,
+  "p": 0.24460442759151238,
+  "passes": false
+ },
+ "C2 spread: team facing 3+ defensive starters out": {
+  "early": [
+   27,
+   55
+  ],
+  "late": [
+   91,
+   184
+  ],
+  "early_pct": 0.4909090909090909,
+  "late_pct": 0.4945652173913043,
+  "p": 0.602048804950795,
+  "passes": false
+ },
+ "D1 total UNDER, cold 32F or less": {
+  "early": [
+   70,
+   163
+  ],
+  "late": [
+   57,
+   115
+  ],
+  "early_pct": 0.4294478527607362,
+  "late_pct": 0.4956521739130435,
+  "p": 0.9331877661910561,
+  "passes": false
+ }
+}

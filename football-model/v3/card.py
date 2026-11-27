@@ -384,6 +384,56 @@ def injuries(team):
     return out
 
 
+def next_game(team):
+    """(ESPN event, competition, team is home) for the team's next game, or (None, None, None)."""
+    g = data.nfl_games()
+    up = g[g.result.isna() & ((g.home_team == team) | (g.away_team == team))].sort_values('gameday')
+    if up.empty:
+        return None, None, None
+    day = pd.Timestamp(up.iloc[0].gameday).strftime('%Y%m%d')
+    sb = data._get_json(f'{data.ESPN}/nfl/scoreboard?dates={day}&limit=50')
+    ab = NFLV2ESPN.get(team, team)
+    for e in sb.get('events', []):
+        c = e['competitions'][0]
+        for t in c['competitors']:
+            if t['team']['abbreviation'] == ab:
+                return e, c, t.get('homeAway') == 'home'
+    return None, None, None
+
+
+def v7_notes(player, stat, pos, team):
+    """v7 tested flags (v7/RESULTS.md) for this prop. The v3 chances are NOT changed (frozen); these are notes."""
+    sys.path.insert(0, os.path.join(HERE, '..', 'v7'))
+    import live
+    notes = []
+    e, c, home = next_game(team)
+    od = espn_odds(c) if c else None
+    if od and od.get('home_spread') is not None and od.get('total') is not None:
+        fav = -float(od['home_spread']) if home else float(od['home_spread'])     # + = this team favored
+        itt = (float(od['total']) + fav) / 2
+        for key, cond, side in (('A1', stat == 'passing_yards' and itt >= 26.5, 'OVER'), ('A2', stat == 'passing_yards' and itt <= 19.5, 'UNDER'),
+                                ('A6', stat == 'receiving_yards' and itt <= 19.5, 'UNDER')):
+            k, v = live.passed(key)
+            if cond and k:
+                notes.append(f"v7 {key} (DK team total {itt:.1f}): {stat.replace('_', ' ')} went {side} the projection "
+                             f"{live.rec_txt(v)} - lean {side}")
+    out = live.outs(injuries(team))
+    if out and stat in ('receiving_yards', 'receptions', 'rushing_yards'):
+        rec, rb = live.key_players(team, _pricer(stat)[2])
+        me = live.norm(player)
+        gone_rec = [rec[n] for n in rec if n in out and n != me]
+        gone_rb = [rb[n] for n in rb if n in out and n != me]
+        if pos in ('WR', 'TE') and gone_rec and stat in ('receiving_yards', 'receptions'):
+            k, v = live.passed('B1' if stat == 'receiving_yards' else 'B2')
+            if k:
+                notes.append(f"v7 {k.split()[0]} (key receiver out: {', '.join(gone_rec)}): teammates went OVER the projection {live.rec_txt(v)} - lean OVER")
+        if pos == 'RB' and gone_rb and stat == 'rushing_yards':
+            k, v = live.passed('B3')
+            if k:
+                notes.append(f"v7 B3 (key RB out: {', '.join(gone_rb)}): other RBs went OVER the projection {live.rec_txt(v)} - lean OVER")
+    return notes
+
+
 def weather_for(team):
     """ESPN forecast for the team's next game (None if indoor or none listed)."""
     g = data.nfl_games()
@@ -475,6 +525,8 @@ def price_prop(player, stat, line, over=None, under=None):
         else:
             print(f"** WEATHER: forecast gusts {wx.get('gust')} / rain {wx.get('precipitation')}%. v6 test found NO weather effect on {stat.replace('_', ' ')} "
                   f"vs the projection ({t['gap_early']*100:+.1f} / {t['gap_late']*100:+.1f} pts).")
+    for n_ in v7_notes(player, stat, pos, team):
+        print(f"** {n_}. The chances below do NOT include this.")
     sa, l3, rf = role_check(stat, player)
     if rf:
         print(f"** ROLE CHECK: {player} this season {sa if sa is None else round(sa, 1)}/game, last 3 {l3 if l3 is None else round(l3, 1)} - "
