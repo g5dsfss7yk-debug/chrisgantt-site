@@ -184,3 +184,11 @@ early/late periods, freeze, checks a-k).
     the smallest line DK offered for that stat in Chris's logged prices are excluded (rushing 1.5, receiving 3.5,
     receptions 1.5; passing and TD unchanged - none affected). The card applies the same floor (no prop priced below
     it). Both runs are kept in RESULTS.md.
+11. (Nov 27 ~6:05 PM CT, Chris: "test college teaser legs before the Utah game". Written BEFORE any result.)
+    College 6-point teaser legs, no model, spreads only. Four rules, nothing else tried:
+    C1 every underdog +6; C2 every favorite +6 (e.g. -10.5 -> -4.5); C3 dogs +1.5..+2.5 (the NFL rule);
+    C4 favorites -7.5..-8.5 (teased through 7 and 3). EARLY 2017-22 at the median closing line, LATE 2023-26 at
+    DraftKings only; pushes out; pick'em games out. Break-even: 73.9% per leg (2-team, -120; DK's college teaser
+    price is not checked by any tool - Chris reads it on the slip). Pass = 73.9%+ both periods, one-sided binomial
+    p < 0.05 against 73.9% (both periods together), 100+ legs each. Also printed (information, not a rule): C1/C2
+    split by spread size (under 7 / 7-14 / over 14).
