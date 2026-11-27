@@ -5595,3 +5595,5 @@ game_id,season,week,season_type,home_team,away_team,roof,weather
 2026_11_TEN_DAL,2026,11,REG,DAL,TEN,closed,"Temp: 56° F, Humidity: 78%, Wind: NW 7 mph"
 2026_12_CHI_DET,2026,12,REG,DET,CHI,dome,"Controlled Climate Temp: 68° F, Humidity: 70%, Wind: mph"
 2026_12_GB_LA,2026,12,REG,LA,GB,dome,"Clear Temp: 71° F, Humidity: 43%, Wind: SW 3 mph"
+2026_12_KC_BUF,2026,12,REG,BUF,KC,outdoors,"Rain Temp: 33° F, Humidity: 97%, Wind: NE 19 mph"
+2026_12_PHI_DAL,2026,12,REG,DAL,PHI,closed,"Temp: 53° F, Humidity: 45%, Wind: NW 6 mph"
