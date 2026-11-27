@@ -62,7 +62,7 @@ def prop_result(league, espn_id, player, market):
 
 
 def grade_row(r, hs, as_):
-    if r.market == 'total':
+    if r.market in ('total', 'weather_under'):
         t = hs + as_
         if t == r.line: return 'push'
         return 'win' if (t > r.line) == (r.side == 'over') else 'loss'

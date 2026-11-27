@@ -1,0 +1,16 @@
+v6 weather test (v6/PROTOCOL.md)
+Outdoor/open games with weather text: 4099 of 4101; WET 297, WINDY 484, BAD 724
+
+TOTALS - UNDER at the nflverse closing total, -110 (needs 52.4%), pushes out
+  G1 WET       EARLY 2006-16 74/146 = 50.7% | LATE 2017-26 95/144 = 66.0% | combined p=0.003 | FAIL
+  G2 WINDY     EARLY 2006-16 162/290 = 55.9% | LATE 2017-26 106/187 = 56.7% | combined p=0.004 | PASS
+  G3 BAD       EARLY 2006-16 220/401 = 54.9% | LATE 2017-26 188/311 = 60.5% | combined p=0.000 | PASS
+  control GOOD EARLY 2006-16 862/1774 = 48.6% | LATE 2017-26 785/1554 = 50.5% | combined p=0.728 | control
+
+PROPS in BAD games - line = v3 projection rounded to x.5; actual vs v3 predicted chance (needs +3.0 pts both periods)
+  P1 passing_yards UNDER BAD: EARLY n=277 actual 63.9% vs model 49.9% (+14.0) | LATE n=211 actual 65.9% vs model 47.9% (+18.0) | p=0.000 | PASS
+     control GOOD: EARLY actual 50.9% vs 51.0% | LATE actual 49.5% vs 48.3%
+  P2 rushing_yards OVER  BAD: EARLY n=938 actual 41.8% vs model 40.8% (+0.9) | LATE n=704 actual 39.8% vs model 40.9% (-1.1) | p=0.490 | FAIL
+     control GOOD: EARLY actual 39.8% vs 41.0% | LATE actual 39.4% vs 41.0%
+  P3 receiving_yards UNDER BAD: EARLY n=2141 actual 63.6% vs model 58.3% (+5.3) | LATE n=1597 actual 64.4% vs model 58.1% (+6.3) | p=0.000 | PASS
+     control GOOD: EARLY actual 59.4% vs 58.3% | LATE actual 59.5% vs 58.3%

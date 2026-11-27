@@ -21,6 +21,24 @@ import data, nfl, cfb, grade, props  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, '..', 'v4'))
 import pricegap  # noqa: E402
 V4 = json.load(open(os.path.join(HERE, '..', 'v4', 'frozen.json')))
+V6 = json.load(open(os.path.join(HERE, '..', 'v6', 'results', 'weather_test.json')))   # v6 weather test (v6/PROTOCOL.md)
+
+
+def v6_rec(key):
+    t = V6['totals'][key]
+    return f"{t['early'][0]}/{t['early'][1]} = {t['early_pct']:.1%} (2006-16) / {t['late'][0]}/{t['late'][1]} = {t['late_pct']:.1%} (2017-26)"
+
+
+def v6_weather(wx):
+    """Forecast -> v6 condition (amendment 2, mapped AFTER results): WINDY = gusts 25+ (the test's gust rule; ESPN
+    gives no sustained wind); BAD = WINDY or rain chance 50%+. Returns 'WINDY', 'BAD' or None."""
+    if not wx:
+        return None
+    if (wx.get('gust') or 0) >= 25:
+        return 'WINDY'
+    if (wx.get('precipitation') or 0) >= 50:
+        return 'BAD'
+    return None
 
 FROZEN = json.load(open(os.path.join(HERE, 'frozen.json')))
 LOG = os.path.join(HERE, 'picks', 'log.csv')
@@ -132,9 +150,23 @@ def nfl_card(week=None):
                 if pos in ('QB', 'RB', 'WR', 'TE') and s in BAD and tab == tm[side] and n != qn:
                     checks.append(f'{team} {pos} {n}: {s}')
         wx = summ.get('gameInfo', {}).get('weather')
+        wline = None
         if wx and not c.get('venue', {}).get('indoor'):
             if (wx.get('gust') or 0) >= 15 or (wx.get('precipitation') or 0) >= 50:
                 checks.append(f"weather (not in model): {wx.get('temperature')}F, gusts {wx.get('gust')} mph, precip {wx.get('precipitation')}%")
+            cond = v6_weather(wx)
+            if cond:
+                key = 'G2 WINDY' if cond == 'WINDY' else 'G3 BAD'
+                if V6['totals'][key]['passes']:
+                    wtot = float(od['total'])
+                    up = od.get('under_odds'); up = -110.0 if up is None or np.isnan(up) else float(up)
+                    wlab = 'TESTED PICK' if be(up) <= max(V6['totals'][key]['early_pct'], 0) and be(up) <= V6['totals'][key]['late_pct'] else 'NOT A BET (price)'
+                    wline = (f"  >> WEATHER UNDER  {wtot:g} ({up:+.0f}, needs {be(up):.1%})  {wlab} (v6 {key}: {v6_rec(key)}). "
+                             f"Tested on kickoff weather; this uses the forecast (gusts {wx.get('gust')}, rain {wx.get('precipitation')}%).")
+                    rows.append(dict(league='nfl', event=e['id'], kickoff=e['date'], game=f'{a}@{h}', market='weather_under', side='under',
+                                     pick='Under', line=wtot, price=up, label=wlab, model=np.nan))
+                    checks.append('weather props (v6): passing and receiving yards ran BELOW projection in bad weather '
+                                  '(card.py prop shows it); rushing yards did NOT run higher')
         for nm, now_, op in (('spread (home)', od['home_spread'], od.get('home_spread_open')), ('total', od['total'], od.get('total_open'))):
             if now_ is not None and op is not None and not np.isnan(op) and abs(float(now_) - op) >= 2:
                 checks.append(f'CHANGE: {nm} moved {op:+g} -> {float(now_):+g} since the opener (DK via ESPN)')
@@ -185,6 +217,8 @@ def nfl_card(week=None):
                 glab = 'NOT A BET (price)'   # logged apart so it never counts in the TESTED PICK record (bug fix Nov 26)
             rows.append(dict(league='nfl', event=e['id'], kickoff=e['date'], game=f'{a}@{h}', market='price_gap', side=gs,
                              pick=gteam, line=gline, price=gprice, label=glab, model=round(imp, 2)))
+        if wline:
+            print(wline)
         for ch in checks:
             print(f'  ** {ch}')
         print()
@@ -350,6 +384,27 @@ def injuries(team):
     return out
 
 
+def weather_for(team):
+    """ESPN forecast for the team's next game (None if indoor or none listed)."""
+    g = data.nfl_games()
+    up = g[g.result.isna() & ((g.home_team == team) | (g.away_team == team))].sort_values('gameday')
+    if up.empty:
+        return None
+    day = pd.Timestamp(up.iloc[0].gameday).strftime('%Y%m%d')
+    sb = data._get_json(f'{data.ESPN}/nfl/scoreboard?dates={day}&limit=50')
+    ab = NFLV2ESPN.get(team, team)
+    for e in sb.get('events', []):
+        c = e['competitions'][0]
+        if ab in [t['team']['abbreviation'] for t in c['competitors']]:
+            if c.get('venue', {}).get('indoor'):
+                return None
+            return data.espn_summary('nfl', e['id']).get('gameInfo', {}).get('weather')
+    return None
+
+
+V6_PROP = {'passing_yards': 'P1', 'receiving_yards': 'P3', 'rushing_yards': 'P2'}
+
+
 def role_check(stat, player):
     """ROLE CHECK (Chris's earlier rule, restored Nov 26): the projection weights past seasons, so a role change
     is invisible to it. Flag when the projection is more than 1.5x (or under 0.67x) BOTH this season's per-game
@@ -409,6 +464,17 @@ def price_prop(player, stat, line, over=None, under=None):
         print(f"** TEAMMATES OUT ({', '.join(mates)}): their targets/carries are NOT moved to {player} - projection may be low. NOT VERIFIED.")
     opp, opp_f = opp_factor(stat, team, pos)
     proj = avg * opp_f
+    wx = weather_for(team)
+    if v6_weather(wx) and stat in V6_PROP:
+        t = V6['props'][V6_PROP[stat]]
+        e_, l_ = t['early']['bad'], t['late']['bad']
+        if t['passes']:
+            print(f"** WEATHER (v6 {V6_PROP[stat]}, forecast gusts {wx.get('gust')} / rain {wx.get('precipitation')}%): in bad weather {stat.replace('_', ' ')} "
+                  f"went {t['side'].upper()} the projection {e_['actual']:.0%} (2019-22) / {l_['actual']:.0%} (2023-26) vs model "
+                  f"{e_['predicted']:.0%} / {l_['predicted']:.0%}. The chances below do NOT include weather - lean {t['side'].upper()}.")
+        else:
+            print(f"** WEATHER: forecast gusts {wx.get('gust')} / rain {wx.get('precipitation')}%. v6 test found NO weather effect on {stat.replace('_', ' ')} "
+                  f"vs the projection ({t['gap_early']*100:+.1f} / {t['gap_late']*100:+.1f} pts).")
     sa, l3, rf = role_check(stat, player)
     if rf:
         print(f"** ROLE CHECK: {player} this season {sa if sa is None else round(sa, 1)}/game, last 3 {l3 if l3 is None else round(l3, 1)} - "

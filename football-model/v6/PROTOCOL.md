@@ -42,3 +42,11 @@ NOT VERIFIED -> adjust note (props). Live record judged by v3/scoreboard.py. Any
 (as now). Results go in v6/RESULTS.md; this file is not edited after results exist (Amendments section only).
 
 ## Amendments
+1. (Nov 26, BEFORE any result was computed - only counts and sample texts looked at.) Parser bug: "first number after
+   Wind" picked up the temperature in texts like "windy with strong gusts ... Temp: 16". Now the first number inside
+   the "Wind:" field (up to 25 non-digit characters after "Wind:"). WET 297 games, WINDY 484, wind parsed 98%.
+2. (Nov 26, AFTER results.) Card hook-up - not tested: ESPN gives a forecast (gusts, rain chance), not the game-book
+   text. Forecast mapped to the tested conditions as: WINDY = gusts 25+ (the test's gust rule; no sustained wind in
+   ESPN's forecast) -> G2; else rain chance 50%+ -> G3 (BAD). Card prints ">> WEATHER UNDER" as TESTED PICK unless DK's
+   Under juice needs more than the lower tested rate (then NOT A BET (price)). Props print the P1/P3 result as a
+   weather note; the v3 chances are not changed (frozen). Market 'weather_under' graded like a total.
