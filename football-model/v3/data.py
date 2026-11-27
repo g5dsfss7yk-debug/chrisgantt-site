@@ -20,7 +20,10 @@ def _get_json(url, cache=None, max_age_h=None):
         if os.path.exists(p) and (max_age_h is None or time.time() - os.path.getmtime(p) < max_age_h * 3600):
             with open(p) as f:
                 return json.load(f)
-    req = urllib.request.Request(url, headers={'User-Agent': 'football-model-v3', 'Accept': 'application/json'})
+    hdr = {'User-Agent': 'football-model-v3', 'Accept': 'application/json'}
+    if url.startswith(CFBD) and os.environ.get('CFBD_API_KEY'):   # on the Pi (no session proxy adds the key)
+        hdr['Authorization'] = 'Bearer ' + os.environ['CFBD_API_KEY']
+    req = urllib.request.Request(url, headers=hdr)
     for i in range(4):
         try:
             with urllib.request.urlopen(req, timeout=60) as r:

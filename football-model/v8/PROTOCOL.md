@@ -36,3 +36,6 @@ win more than break-even? (rule fixed now; not run before 300).
 2. (Nov 26, after results.) Live inputs: team total from DK via ESPN for the player's next game (blank once a game is
    live -> 0); bad = v6 forecast mapping; outs from ESPN's list; key players from v7/live.py. 129 DK prices from Chris's
    Nov 26 8:32 AM CT screenshots back-filled into the price log (v3 chances recomputed from the same data).
+3. (Nov 27.) Removed every 'card.prop' row logged so far (test runs by Claude with made-up or simulated prices, plus
+   two real prices re-entered after kickoff). Only Chris's screenshot prices remain. Tool test runs with prices must
+   not be logged - use no --over/--under when testing.

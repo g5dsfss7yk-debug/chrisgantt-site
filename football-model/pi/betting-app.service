@@ -1,0 +1,13 @@
+[Unit]
+Description=Chris betting app (football-model)
+After=network-online.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/chrisgantt-site/football-model
+EnvironmentFile=-/etc/environment
+ExecStart=/home/pi/chrisgantt-site/football-model/.venv/bin/python pi/app.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

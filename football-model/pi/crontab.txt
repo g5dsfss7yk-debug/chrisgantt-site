@@ -1,0 +1,10 @@
+# Pi clock must be US Central:  sudo timedatectl set-timezone America/Chicago
+# Install:  crontab football-model/pi/crontab.txt   (paths assume the repo is in /home/pi/chrisgantt-site)
+SHELL=/bin/bash
+F=/home/pi/chrisgantt-site/football-model
+# Sunday 11:04 AM - game-day refresh + card (inactives post ~90 min before noon kickoffs)
+4 11 * * 0  cd $F && set -a && . /etc/environment && set +a && .venv/bin/python v5/gameday.py --hours 9 --max-credits 80 > data/pi/gameday.log 2>&1 && .venv/bin/python -c "import sys; sys.path.insert(0,'pi'); import app; app.card_job()"
+# Monday and Thursday 6:04 PM - night games
+4 18 * * 1,4 cd $F && set -a && . /etc/environment && set +a && .venv/bin/python v5/gameday.py --hours 3 --max-credits 15 > data/pi/gameday.log 2>&1 && .venv/bin/python -c "import sys; sys.path.insert(0,'pi'); import app; app.card_job()"
+# Every night 3:15 AM - grade finished games, refit the learning layer
+15 3 * * *  cd $F && .venv/bin/python v3/scoreboard.py > data/pi/scoreboard.log 2>&1

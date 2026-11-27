@@ -1,0 +1,616 @@
+{
+ "AT&T Stadium": {
+  "lat": 32.73569,
+  "lon": -97.10807,
+  "city": "Arlington",
+  "state": "TX",
+  "country": "USA",
+  "query": "76011",
+  "matched": "Arlington"
+ },
+ "Acrisure Stadium": {
+  "lat": 40.44062,
+  "lon": -79.99589,
+  "city": "Pittsburgh",
+  "state": "PA",
+  "country": "USA",
+  "query": "15212",
+  "matched": "Pittsburgh"
+ },
+ "Allianz Arena": {
+  "lat": 48.13743,
+  "lon": 11.57549,
+  "city": "Munich",
+  "state": null,
+  "country": "Germany",
+  "query": "Munich",
+  "matched": "Munich"
+ },
+ "Alltel Stadium": {
+  "lat": 30.33218,
+  "lon": -81.65565,
+  "city": "Jacksonville",
+  "state": "FL",
+  "country": "USA",
+  "query": "32202",
+  "matched": "Jacksonville"
+ },
+ "Arena Corinthians": {
+  "lat": -23.5475,
+  "lon": -46.63611,
+  "city": "Sao Paulo",
+  "state": null,
+  "country": "Brazil",
+  "query": "Sao Paulo",
+  "matched": "S\u00e3o Paulo"
+ },
+ "Arrowhead Stadium": {
+  "lat": 39.09973,
+  "lon": -94.57857,
+  "city": "Kansas City",
+  "state": "MO",
+  "country": "USA",
+  "query": "64129",
+  "matched": "Kansas City"
+ },
+ "Azteca Stadium": {
+  "lat": 19.42847,
+  "lon": -99.12766,
+  "city": "Mexico City",
+  "state": null,
+  "country": "Mexico",
+  "query": "Mexico City",
+  "matched": "Mexico City"
+ },
+ "Bank of America Stadium": {
+  "lat": 35.22709,
+  "lon": -80.84313,
+  "city": "Charlotte",
+  "state": "NC",
+  "country": "USA",
+  "query": "28202",
+  "matched": "Charlotte"
+ },
+ "Candlestick Park": {
+  "lat": 37.77493,
+  "lon": -122.41942,
+  "city": "San Francisco",
+  "state": "CA",
+  "country": "USA",
+  "query": "San Francisco",
+  "matched": "San Francisco"
+ },
+ "CenturyLink Field": {
+  "lat": 47.60621,
+  "lon": -122.33207,
+  "city": "Seattle",
+  "state": "WA",
+  "country": "USA",
+  "query": "98134",
+  "matched": "Seattle"
+ },
+ "Cleveland Browns Stadium": {
+  "lat": 41.4995,
+  "lon": -81.69541,
+  "city": "Cleveland",
+  "state": "OH",
+  "country": "USA",
+  "query": "44114",
+  "matched": "Cleveland"
+ },
+ "Cowboys Stadium": {
+  "lat": 32.73569,
+  "lon": -97.10807,
+  "city": "Arlington",
+  "state": "TX",
+  "country": "USA",
+  "query": "76011",
+  "matched": "Arlington"
+ },
+ "Deutsche Bank Park": {
+  "lat": 50.11552,
+  "lon": 8.68417,
+  "city": "Frankfurt",
+  "state": null,
+  "country": "Germany",
+  "query": "Frankfurt",
+  "matched": "Frankfurt am Main"
+ },
+ "Dolphin Stadium": {
+  "lat": 44.84124,
+  "lon": -0.58046,
+  "city": "Miami Gardens",
+  "state": "FL",
+  "country": "USA",
+  "query": "33056",
+  "matched": "Bordeaux"
+ },
+ "Empower Field at Mile High": {
+  "lat": 39.73915,
+  "lon": -104.9847,
+  "city": "Denver",
+  "state": "CO",
+  "country": "USA",
+  "query": "80204",
+  "matched": "Denver"
+ },
+ "Estadio Banorte": {
+  "lat": 19.42847,
+  "lon": -99.12766,
+  "city": "Mexico City",
+  "state": null,
+  "country": "Mexico",
+  "query": "Mexico City",
+  "matched": "Mexico City"
+ },
+ "EverBank Field": {
+  "lat": 30.33218,
+  "lon": -81.65565,
+  "city": "Jacksonville",
+  "state": "FL",
+  "country": "USA",
+  "query": "32202",
+  "matched": "Jacksonville"
+ },
+ "EverBank Stadium": {
+  "lat": 30.33218,
+  "lon": -81.65565,
+  "city": "Jacksonville",
+  "state": "FL",
+  "country": "USA",
+  "query": "32202",
+  "matched": "Jacksonville"
+ },
+ "FedExField": {
+  "lat": 38.95594,
+  "lon": -76.94553,
+  "city": "Landover",
+  "state": "MD",
+  "country": "USA",
+  "query": "20785",
+  "matched": "Hyattsville"
+ },
+ "FirstEnergy Stadium": {
+  "lat": 41.4995,
+  "lon": -81.69541,
+  "city": "Cleveland",
+  "state": "OH",
+  "country": "USA",
+  "query": "44114",
+  "matched": "Cleveland"
+ },
+ "GEHA Field at Arrowhead Stadium": {
+  "lat": 39.09973,
+  "lon": -94.57857,
+  "city": "Kansas City",
+  "state": "MO",
+  "country": "USA",
+  "query": "64129",
+  "matched": "Kansas City"
+ },
+ "Giants Stadium": {
+  "lat": 40.83399,
+  "lon": -74.09709,
+  "city": "East Rutherford",
+  "state": "NJ",
+  "country": "USA",
+  "query": "East Rutherford",
+  "matched": "East Rutherford"
+ },
+ "Gillette Stadium": null,
+ "Hard Rock Stadium": {
+  "lat": 44.84124,
+  "lon": -0.58046,
+  "city": "Miami Gardens",
+  "state": "FL",
+  "country": "USA",
+  "query": "33056",
+  "matched": "Bordeaux"
+ },
+ "Heinz Field": {
+  "lat": 40.44062,
+  "lon": -79.99589,
+  "city": "Pittsburgh",
+  "state": "PA",
+  "country": "USA",
+  "query": "15212",
+  "matched": "Pittsburgh"
+ },
+ "Highmark Stadium": {
+  "lat": 42.76756,
+  "lon": -78.74392,
+  "city": "Orchard Park",
+  "state": "NY",
+  "country": "USA",
+  "query": "14127",
+  "matched": "Orchard Park"
+ },
+ "Huntington Bank Field": {
+  "lat": 41.4995,
+  "lon": -81.69541,
+  "city": "Cleveland",
+  "state": "OH",
+  "country": "USA",
+  "query": "44114",
+  "matched": "Cleveland"
+ },
+ "Invesco Field at Mile High": {
+  "lat": 39.73915,
+  "lon": -104.9847,
+  "city": "Denver",
+  "state": "CO",
+  "country": "USA",
+  "query": "80204",
+  "matched": "Denver"
+ },
+ "Jacksonville Municipal Stadium": {
+  "lat": 30.33218,
+  "lon": -81.65565,
+  "city": "Jacksonville",
+  "state": "FL",
+  "country": "USA",
+  "query": "32202",
+  "matched": "Jacksonville"
+ },
+ "LP Field": {
+  "lat": 36.16589,
+  "lon": -86.78444,
+  "city": "Nashville",
+  "state": "TN",
+  "country": "USA",
+  "query": "37213",
+  "matched": "Nashville"
+ },
+ "Lambeau Field": {
+  "lat": 44.51916,
+  "lon": -88.01983,
+  "city": "Green Bay",
+  "state": "WI",
+  "country": "USA",
+  "query": "54304",
+  "matched": "Green Bay"
+ },
+ "Levi's Stadium": {
+  "lat": 37.35411,
+  "lon": -121.95524,
+  "city": "Santa Clara",
+  "state": "CA",
+  "country": "USA",
+  "query": "95054",
+  "matched": "Santa Clara"
+ },
+ "Lincoln Financial Field": {
+  "lat": 39.95238,
+  "lon": -75.16362,
+  "city": "Philadelphia",
+  "state": "PA",
+  "country": "USA",
+  "query": "19148",
+  "matched": "Philadelphia"
+ },
+ "Los Angeles Memorial Coliseum": {
+  "lat": 34.05223,
+  "lon": -118.24368,
+  "city": "Los Angeles",
+  "state": "CA",
+  "country": "USA",
+  "query": "90037",
+  "matched": "Los Angeles"
+ },
+ "Lucas Oil Stadium": {
+  "lat": 39.76838,
+  "lon": -86.15804,
+  "city": "Indianapolis",
+  "state": "IN",
+  "country": "USA",
+  "query": "46225",
+  "matched": "Indianapolis"
+ },
+ "Lumen Field": {
+  "lat": 47.60621,
+  "lon": -122.33207,
+  "city": "Seattle",
+  "state": "WA",
+  "country": "USA",
+  "query": "98134",
+  "matched": "Seattle"
+ },
+ "M&T Bank Stadium": {
+  "lat": 39.29038,
+  "lon": -76.61219,
+  "city": "Baltimore",
+  "state": "MD",
+  "country": "USA",
+  "query": "21230",
+  "matched": "Baltimore"
+ },
+ "Maracana Stadium": {
+  "lat": -22.90642,
+  "lon": -43.18223,
+  "city": "Rio De Janeiro",
+  "state": null,
+  "country": "Brazil",
+  "query": "Rio De Janeiro",
+  "matched": "Rio de Janeiro"
+ },
+ "McAfee Coliseum": null,
+ "Mercedes-Benz Stadium": {
+  "lat": 33.749,
+  "lon": -84.38798,
+  "city": "Atlanta",
+  "state": "GA",
+  "country": "USA",
+  "query": "30313",
+  "matched": "Atlanta"
+ },
+ "MetLife Stadium": {
+  "lat": 40.83399,
+  "lon": -74.09709,
+  "city": "East Rutherford",
+  "state": "NJ",
+  "country": "USA",
+  "query": "07073",
+  "matched": "East Rutherford"
+ },
+ "Monster Park": {
+  "lat": 37.77493,
+  "lon": -122.41942,
+  "city": "San Francisco",
+  "state": "CA",
+  "country": "USA",
+  "query": "94124",
+  "matched": "San Francisco"
+ },
+ "NRG Stadium": {
+  "lat": 29.76328,
+  "lon": -95.36327,
+  "city": "Houston",
+  "state": "TX",
+  "country": "USA",
+  "query": "77054",
+  "matched": "Houston"
+ },
+ "New Era Field": {
+  "lat": 42.76756,
+  "lon": -78.74392,
+  "city": "Orchard Park",
+  "state": "NY",
+  "country": "USA",
+  "query": "14127",
+  "matched": "Orchard Park"
+ },
+ "New Meadowlands Stadium": {
+  "lat": 40.83399,
+  "lon": -74.09709,
+  "city": "East Rutherford",
+  "state": "NJ",
+  "country": "USA",
+  "query": "07073",
+  "matched": "East Rutherford"
+ },
+ "Nissan Stadium": {
+  "lat": 36.16589,
+  "lon": -86.78444,
+  "city": "Nashville",
+  "state": "TN",
+  "country": "USA",
+  "query": "37213",
+  "matched": "Nashville"
+ },
+ "Northwest Stadium": {
+  "lat": 38.95594,
+  "lon": -76.94553,
+  "city": "Landover",
+  "state": "MD",
+  "country": "USA",
+  "query": "20785",
+  "matched": "Hyattsville"
+ },
+ "O.co Coliseum": {
+  "lat": 37.80437,
+  "lon": -122.2708,
+  "city": "Oakland",
+  "state": "CA",
+  "country": "USA",
+  "query": "94621",
+  "matched": "Oakland"
+ },
+ "Oakland-Alameda County Coliseum": {
+  "lat": 37.80437,
+  "lon": -122.2708,
+  "city": "Oakland",
+  "state": "CA",
+  "country": "USA",
+  "query": "94621",
+  "matched": "Oakland"
+ },
+ "Paul Brown Stadium": {
+  "lat": 39.12711,
+  "lon": -84.51439,
+  "city": "Cincinnati",
+  "state": "OH",
+  "country": "USA",
+  "query": "45202",
+  "matched": "Cincinnati"
+ },
+ "Paycor Stadium": {
+  "lat": 39.12711,
+  "lon": -84.51439,
+  "city": "Cincinnati",
+  "state": "OH",
+  "country": "USA",
+  "query": "45202",
+  "matched": "Cincinnati"
+ },
+ "Qualcomm Stadium": {
+  "lat": 32.71571,
+  "lon": -117.16472,
+  "city": "San Diego",
+  "state": "CA",
+  "country": "USA",
+  "query": "San Diego",
+  "matched": "San Diego"
+ },
+ "Qwest Field": {
+  "lat": 47.60621,
+  "lon": -122.33207,
+  "city": "Seattle",
+  "state": "WA",
+  "country": "USA",
+  "query": "98134",
+  "matched": "Seattle"
+ },
+ "Ralph Wilson Stadium": {
+  "lat": 42.76756,
+  "lon": -78.74392,
+  "city": "Orchard Park",
+  "state": "NY",
+  "country": "USA",
+  "query": "14127",
+  "matched": "Orchard Park"
+ },
+ "Raymond James Stadium": {
+  "lat": 27.94752,
+  "lon": -82.45843,
+  "city": "Tampa",
+  "state": "FL",
+  "country": "USA",
+  "query": "33607",
+  "matched": "Tampa"
+ },
+ "Reliant Stadium": {
+  "lat": 29.76328,
+  "lon": -95.36327,
+  "city": "Houston",
+  "state": "TX",
+  "country": "USA",
+  "query": "77054",
+  "matched": "Houston"
+ },
+ "Ring Central Coliseum": {
+  "lat": 37.80437,
+  "lon": -122.2708,
+  "city": "Oakland",
+  "state": "CA",
+  "country": "USA",
+  "query": "94621",
+  "matched": "Oakland"
+ },
+ "Soldier Field": {
+  "lat": 41.85003,
+  "lon": -87.65005,
+  "city": "Chicago",
+  "state": "IL",
+  "country": "USA",
+  "query": "60605",
+  "matched": "Chicago"
+ },
+ "Sports Authority Field at Mile High": {
+  "lat": 39.73915,
+  "lon": -104.9847,
+  "city": "Denver",
+  "state": "CO",
+  "country": "USA",
+  "query": "80204",
+  "matched": "Denver"
+ },
+ "State Farm Stadium": {
+  "lat": 33.53865,
+  "lon": -112.18599,
+  "city": "Glendale",
+  "state": "AZ",
+  "country": "USA",
+  "query": "85305",
+  "matched": "Glendale"
+ },
+ "StubHub Center": {
+  "lat": 33.83141,
+  "lon": -118.28202,
+  "city": "Carson",
+  "state": "CA",
+  "country": "USA",
+  "query": "90746",
+  "matched": "Carson"
+ },
+ "Sun Life Stadium": {
+  "lat": 44.84124,
+  "lon": -0.58046,
+  "city": "Miami Gardens",
+  "state": "FL",
+  "country": "USA",
+  "query": "33056",
+  "matched": "Bordeaux"
+ },
+ "TCF Bank Stadium": {
+  "lat": 44.97997,
+  "lon": -93.26384,
+  "city": "Minneapolis",
+  "state": "MN",
+  "country": "USA",
+  "query": "55455",
+  "matched": "Minneapolis"
+ },
+ "TIAA Bank Stadium": {
+  "lat": 30.33218,
+  "lon": -81.65565,
+  "city": "Jacksonville",
+  "state": "FL",
+  "country": "USA",
+  "query": "32202",
+  "matched": "Jacksonville"
+ },
+ "Texas Stadium": {
+  "lat": 32.81402,
+  "lon": -96.94889,
+  "city": "Irving",
+  "state": "TX",
+  "country": "USA",
+  "query": "Irving",
+  "matched": "Irving"
+ },
+ "Tottenham Hotspur Stadium": {
+  "lat": 51.50853,
+  "lon": -0.12574,
+  "city": "London",
+  "state": null,
+  "country": "England",
+  "query": "London",
+  "matched": "London"
+ },
+ "Tottenham Stadium": {
+  "lat": 51.50853,
+  "lon": -0.12574,
+  "city": "London",
+  "state": null,
+  "country": "England",
+  "query": "London",
+  "matched": "London"
+ },
+ "Twickenham Stadium": {
+  "lat": 51.50853,
+  "lon": -0.12574,
+  "city": "London",
+  "state": null,
+  "country": "England",
+  "query": "London",
+  "matched": "London"
+ },
+ "University of Phoenix Stadium": {
+  "lat": 33.53865,
+  "lon": -112.18599,
+  "city": "Glendale",
+  "state": "AZ",
+  "country": "USA",
+  "query": "85305",
+  "matched": "Glendale"
+ },
+ "Wembley Stadium": {
+  "lat": 51.50853,
+  "lon": -0.12574,
+  "city": "London",
+  "state": null,
+  "country": "England",
+  "query": "London",
+  "matched": "London"
+ }
+}
