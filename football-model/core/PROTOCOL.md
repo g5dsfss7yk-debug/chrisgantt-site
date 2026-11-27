@@ -79,3 +79,10 @@ NFL protocol is added here as an amendment BEFORE any NFL result, with the same 
 early/late periods, freeze, checks a-k).
 
 ## Amendments
+1. (Nov 27, BEFORE any result - implementation details, nothing run yet.) (a) "Games ago" for the rating weights =
+   weekly slates ago (one slate per regular-season week; all bowls/playoffs = one slate per season). (b) Fumble-return
+   TDs are flagged neither pass nor rush in cfbfastR and only 8% are flagged turnover (audit, 2023): they are counted as
+   offense plays, as turnovers and as return TDs. (c) Winner p-value = one-sided t-test that the mean profit per $1
+   bet is above 0 (both periods combined). (d) The game fit uses the median closing line in every season (more games);
+   bets in LATE are still graded only at the DraftKings line. (e) cfbfastR 2026 play-by-play currently ends at week 12;
+   the live card prints the last week its ratings include.

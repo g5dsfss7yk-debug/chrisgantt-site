@@ -1,0 +1,23 @@
+College data audit (cfbfastR play-by-play, CFBD lines)
+season  games  fbs-g  plays/g  EPA na  wp na  lines    DK DK tot max wk
+  2014    850    811      186    2.4%   2.4%    865     0      0     15
+  2015    863    822      186    2.5%   2.5%    832     0      0     15
+  2016    857    816      185    2.5%   2.5%    866     0      0     15
+  2017    869    829      183    2.5%   2.5%    874     0      0     15
+  2018    881    842      182    2.3%   2.3%    869     0      0     15
+  2019    887    847      180    2.5%   2.5%    881     0      0     15
+  2020    550    523      182    2.4%   2.4%    567     0      0     15
+  2021    887    849      184    2.6%   2.5%    887     0      0     15
+  2022   1459    854      173    2.9%   2.9%   1459     0      0     15
+  2023   1494    910      170    2.9%   2.9%   1413   754    646     15
+  2024   1609    919      172    2.7%   2.7%   1557   811    810     16
+  2025   1657    933      177    2.8%   1.8%   1597   813    811     16
+  2026   1537    822      177    4.2%   0.0%   1553  1553   1553     12
+
+Sign: corr(CFBD home spread, home margin) = -0.710 (negative = '-7 means home favored', as documented)
+Favorite by the line wins 75.8% of 14145 games
+Duplicate game/provider line rows: 0
+Games listed in two seasons: 0
+pbp games with a CFBD line row: 13848 of 14400; FBS-vs-FBS games 2023-26 with a DK spread: 2969 of 3092
+
+Player-game rows: 316512; seasons 2014-2026; 2026 max week 12
