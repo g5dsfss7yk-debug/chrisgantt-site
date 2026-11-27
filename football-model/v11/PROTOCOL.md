@@ -28,3 +28,12 @@ Bet types: spread all games / edge 1+ / edge 2+; total all games / edge 1+ / edg
 Everything is printed next to v3 on the same games. Nothing else is tried.
 
 ## Amendments
+1. (Nov 26, BEFORE any v11 result - nothing was run.) Chris: "I meant build one model that covers everything."
+   v11a and v11b are MERGED into ONE game model:
+   SPREAD_X = v3 + [backup_h - backup_a, recout_h - recout_a, rbout_h - rbout_a, dout_h - dout_a, yds_h - yds_a]
+   TOTAL_X  = v3 + [gustx, rainx, coldx, backup_h + backup_a, recout_h + recout_a, rbout_h + rbout_a, dout_h + dout_a, yds_h + yds_a]
+   Because props yardage starts in 2013, the ONE model is fit from 2013 and tested EARLY 2014-18 / LATE 2019-26,
+   always next to v3 on the same games. yds = the starting QB's (most offense snaps) prior passing-yards average plus
+   every active RB/QB's prior rushing-yards average (v3 props weighted average of games BEFORE this one, no opponent
+   factor - the game model already has the defenses). Same pass and replace rules as above.
+   Props stay v8 (same inputs). One card (v11/card.py) prints games + main-player props + every check in one run.
