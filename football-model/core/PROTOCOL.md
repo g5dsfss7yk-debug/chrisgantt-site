@@ -114,3 +114,29 @@ early/late periods, freeze, checks a-k).
    information (a starter hurt early is recorded as a backup start, which the closing line did not know). The
    amendment-2 TESTED PICK labels are withdrawn until re-run. Fix: starter = the QB on the team's FIRST dropback of the
    game (known at kickoff). Everything else unchanged. The re-run decides; both runs stay in RESULTS.md.
+6. (Nov 27, NFL - written BEFORE any NFL result. Chris: "Build the NFL model next".)
+   Data (nflverse GitHub releases, free): schedules (scores, closing spread/total with juice, moneylines, roof, temp,
+   wind, rest, division), play-by-play 2006-2026, injury reports 2009-2026, depth charts 2009-2026, weekly player stats.
+   Own copies in data/core/nfl/. Lines in history are nflverse closing lines (not DraftKings - no DK history exists);
+   graded at the listed juice where present, else -110. Live: ESPN DraftKings line, injuries, weather.
+   NOTE: every NFL season has already been used by the old builds (v3-v11 used 2006-26) - there is no unseen NFL
+   period. Rules are fixed here anyway; the live scoreboard is the only clean test.
+   Periods: ratings warm up 2006-08; game-model fit from 2009 (first injury season); EARLY 2011-2017, LATE 2018-2026.
+   Same 8 opponent-adjusted stats as college (pass EPA/dropback, rush EPA/rush, success, turnovers incl. fumbles lost
+   and interceptions, sack rate, explosive 20+ yd plays, defensive return TDs, plays), win chance 5-95%, ridge
+   penalty 5, last two seasons, H in {4, 8, 16} chosen on EARLY error.
+   Plus: QB (first-dropback starter; qb_value = earlier dropback EPA / (n + 200); backup < 4 earlier starts; change
+   vs previous game); INJURIES: starters = rank-1 players on the team's depth chart from its PREVIOUS week (2025-26
+   format: latest snapshot 6+ days before kickoff); counts of offensive non-QB starters and defensive starters listed
+   Out/Doubtful (or IR) on that week's injury report, and counts listed Questionable; rest days (nflverse, cap 14);
+   division game; weather (outdoor/open only, game book): wind over 10 mph, degrees below 40 F, rain/snow in the
+   weather text, dome flag. Margin = home minus away; total = home plus away. Nothing selected or dropped.
+   Elo: not in nflverse - not used (the 8-stat ratings are the team strength). Travel: not used (no free stadium
+   coordinates without the rate-limited geocoder) - stated, not hidden.
+   Bets and pass rule: same as college (spread/total all, edge 2+, edge 4+; winner 3%+ value; 52.4% both periods,
+   p < 0.05, 100+ bets each). Bias check: share of Over picks printed.
+   Carry-over tested rules re-tested here with the same data, no model: (T) 6-pt teaser leg on every dog +1.5..+2.5
+   (needs 73.9% per leg); (P) price gap - moneyline-implied margin 1+ pt off the spread, take the spread side the
+   moneyline favors; (W) total Under when game-book wind is 15+ mph or the weather text has rain/snow. Pass = 52.4%
+   (T: 73.9%) both periods, p < 0.05, 100+ each.
+   Card checks a-k (CLAUDE.md rule 6) from ESPN on game day; props come after the game model, own amendment.
