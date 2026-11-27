@@ -37,3 +37,5 @@ Everything is printed next to v3 on the same games. Nothing else is tried.
    every active RB/QB's prior rushing-yards average (v3 props weighted average of games BEFORE this one, no opponent
    factor - the game model already has the defenses). Same pass and replace rules as above.
    Props stay v8 (same inputs). One card (v11/card.py) prints games + main-player props + every check in one run.
+2. (Nov 27, Chris OK'd, location bug fix - no model change.) Live weather input for SF home games used Santa Clara,
+   Cuba. Fixed in data/v9/geo_cache.json and the lookup in v11/live_game.py (see v3/PROTOCOL.md amendment 14).

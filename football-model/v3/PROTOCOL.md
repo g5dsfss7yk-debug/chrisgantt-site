@@ -121,3 +121,8 @@ label; `v3/scoreboard.py` grades them and prints the live record by bet type nex
    legs from the same team.
 13. (Nov 26, grading bug fix.) Box-score names with suffixes ("James Cook III") did not match logged names ("James
    Cook"), leaving props ungraded. Names are now compared without Jr/Sr/II/III.
+14. (Nov 27, Chris OK'd, location bug fix - no model change.) The live severe-weather lookup geocoded the stadium city
+   with the first Open-Meteo match worldwide: "Santa Clara" (Levi's Stadium) was Santa Clara, Cuba (22.41, -79.97), so
+   SF home games got Cuban weather. Cache entry corrected to 37.35411, -121.95524 (the US/California match, same as
+   data/v9/venues.json for Levi's Stadium). The lookup in v3/card.py and v11/live_game.py now takes 5 matches and keeps a
+   US one for a US stadium, as v9/fetch.py already did. Found after the fact, not tested.

@@ -43,8 +43,13 @@ def wx(c, kickoff):
     geo = json.load(open(GEO)) if os.path.exists(GEO) else {}
     try:
         if q not in geo:
-            r = json.load(urllib.request.urlopen('https://geocoding-api.open-meteo.com/v1/search?' + urllib.parse.urlencode({'name': q, 'count': 1}), timeout=30))
-            geo[q] = [r['results'][0]['latitude'], r['results'][0]['longitude']]
+            # count 5 + prefer a US match for a US stadium, as v9/fetch.py does (bug fix Nov 27: 'Santa Clara' with
+            # count 1 returned Santa Clara, Cuba for Levi's Stadium)
+            r = json.load(urllib.request.urlopen('https://geocoding-api.open-meteo.com/v1/search?' + urllib.parse.urlencode({'name': q, 'count': 5}), timeout=30))
+            res = r.get('results') or []
+            if a.get('country', 'USA') == 'USA':
+                res = [z for z in res if z.get('country_code') == 'US'] or res
+            geo[q] = [res[0]['latitude'], res[0]['longitude']]
             os.makedirs(os.path.dirname(GEO), exist_ok=True); json.dump(geo, open(GEO, 'w'))
         lat, lon = geo[q]
         k0 = pd.Timestamp(kickoff).tz_convert('America/New_York').floor('h').tz_localize(None)
