@@ -150,3 +150,8 @@ early/late periods, freeze, checks a-k).
    (c) Defensive return TD = return_touchdown on a pass or rush play scored by the defense (td_team = defteam);
        kick/punt return TDs (470 of 1910 flagged) are special teams and not counted.
    (d) Turnovers = interceptions + fumbles lost on the offense's plays.
+8. (Nov 27, BEFORE any NFL result.) (a) Game-level variables (wind, cold, wx_missing, dome) go only in the TOTAL
+   model; division game goes in both; neutral site in margin. (b) Price-gap rule P converts the no-vig moneyline to
+   an implied margin with SD = std(margin - closing spread) over 2006-2010 (before every test period). (c) Games
+   not yet played have no QB/injury values from history; the live card fills them from ESPN (listed starter, injury
+   report), never from the history defaults.
