@@ -1,0 +1,37 @@
+NFL data audit (nflverse)
+pbp columns missing: []
+season games final spread sp odds    ml outdoor wind na temp na wx text  pbp g epa na
+  2006   267   267    267     220   220     206      3%      3%    nan%    267   1.2%
+  2007   267   267    267     266   266     207      3%      3%    nan%    267   1.2%
+  2008   267   267    267     194   194     214      7%      7%    nan%    267   1.2%
+  2009   267   267    267     253   253     198      6%      6%    nan%    267   1.2%
+  2010   267   267    267     267   267     199      4%      4%    nan%    267   1.2%
+  2011   267   267    267     267   267     196      3%      3%    nan%    267   1.1%
+  2012   267   267    267     267   267     195      2%      2%    nan%    267   1.1%
+  2013   267   267    267     267   267     196      1%      1%    nan%    267   1.1%
+  2014   267   267    267     267   267     203      1%      1%    nan%    267   1.1%
+  2015   267   267    267     267   267     205      2%      2%    nan%    267   1.1%
+  2016   267   267    267     267   267     200      1%      1%    nan%    267   1.1%
+  2017   267   267    267     266   266     205      2%      2%    nan%    267   1.1%
+  2018   267   267    267     267   267     202      2%      2%    nan%    267   1.2%
+  2019   267   267    267     267   267     206      5%      5%    nan%    267   1.2%
+  2020   269   269    269     269   269     176      0%      0%    nan%    269   1.1%
+  2021   285   285    285     285   285     202      5%      5%    nan%    285   1.1%
+  2022   284   284    284     284   284     198     46%     46%    nan%    284   1.1%
+  2023   285   285    285     285   285     199     21%     21%    nan%    285   1.1%
+  2024   285   285    285     285   285     187      3%      3%    nan%    285   1.2%
+  2025   285   285    285     285   285     193      2%      2%    nan%    285   1.2%
+  2026   272   168    190     190   190     185     76%     76%    nan%    167   1.1%
+
+Sign: corr(spread_line, home margin) = +0.435 (positive = nflverse spread_line is the HOME team's expected margin; -spread_line is the home number like DK)
+result == home_score - away_score: 100.0%
+
+Injury rows by season: {2009.0: 4821, 2010.0: 4491, 2011.0: 4971, 2012.0: 5533, 2013.0: 5070, 2014.0: 5078, 2015.0: 5232, 2016.0: 5115, 2017.0: 5104, 2018.0: 5133, 2019.0: 5392, 2020.0: 5661, 2021.0: 5587, 2022.0: 5682, 2023.0: 5599, 2024.0: 6215, 2025.0: 6068, 2026.0: 3824}
+Report status: {nan: 32486, 'Questionable': 24401, 'Probable': 17400, 'Out': 16842, 'Doubtful': 3441, 'Note': 6}
+Depth chart 2009: 38423 rows, weeks 21, columns old
+Depth chart 2016: 36612 rows, weeks 21, columns old
+Depth chart 2024: 37312 rows, weeks 22, columns old
+Depth chart 2025: 554215 rows, snapshot days 219, columns new (dated snapshots)
+Depth chart 2026: 850699 rows, snapshot days 250, columns new (dated snapshots)
+
+Return TDs flagged: 1910; on pass/rush plays: 1440; interceptions 9683, fumbles lost 6560

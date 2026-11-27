@@ -145,10 +145,81 @@ def espn(path):
     return get_json(f'{ESPN}/{path}')
 
 
+# ================================================================ NFL (amendment 6)
+NFL = os.path.join(DATA, 'nfl')
+NFLV = 'https://github.com/nflverse/nflverse-data/releases/download'
+NFL_PBP_COLS = ['game_id', 'season', 'week', 'season_type', 'game_date', 'posteam', 'defteam', 'home_team', 'away_team',
+                'play_type', 'pass', 'rush', 'sack', 'qb_dropback', 'epa', 'success', 'yards_gained', 'interception',
+                'fumble_lost', 'return_touchdown', 'td_team', 'wp', 'passer_player_name', 'passer_player_id',
+                'two_point_attempt', 'play_id']
+
+
+def nfl_schedules(force=False):
+    os.makedirs(NFL, exist_ok=True)
+    p = os.path.join(NFL, 'games.csv')
+    if force or not os.path.exists(p) or time.time() - os.path.getmtime(p) > 6 * 3600:
+        _download(f'{NFLV}/schedules/games.csv', p)
+    return pd.read_csv(p)
+
+
+def _nfl_release(kind, name, y, cols=None, force=False):
+    os.makedirs(NFL, exist_ok=True)
+    out = os.path.join(NFL, f'{kind}_{y}.parquet')
+    if os.path.exists(out) and not force:
+        return out
+    raw = os.path.join(NFL, 'raw'); os.makedirs(raw, exist_ok=True)
+    rp = os.path.join(raw, f'{kind}_{y}.parquet')
+    _download(f'{NFLV}/{name.format(y=y)}', rp)
+    if cols:
+        import pyarrow.parquet as pq
+        have = set(pq.read_schema(rp).names)
+        pd.read_parquet(rp, columns=[c for c in cols if c in have]).to_parquet(out, index=False)
+        os.remove(rp)
+    else:
+        os.replace(rp, out)
+    return out
+
+
+def nfl_pbp(seasons, force_last=False):
+    last = max(seasons)
+    return pd.concat([pd.read_parquet(_nfl_release('pbp', 'pbp/play_by_play_{y}.parquet', y, NFL_PBP_COLS,
+                                                   force=force_last and y == last)) for y in seasons], ignore_index=True)
+
+
+def nfl_injuries(seasons, force_last=False):
+    last = max(seasons)
+    return pd.concat([pd.read_parquet(_nfl_release('inj', 'injuries/injuries_{y}.parquet', y, force=force_last and y == last))
+                      for y in seasons], ignore_index=True)
+
+
+def nfl_depth(y, force=False):
+    return pd.read_parquet(_nfl_release('depth', 'depth_charts/depth_charts_{y}.parquet', y, force=force))
+
+
+def nfl_weekly(seasons, force_last=False):
+    last = max(seasons)
+    return pd.concat([pd.read_parquet(_nfl_release('weekly', 'stats_player/stats_player_week_{y}.parquet', y,
+                                                   force=force_last and y == last)) for y in seasons], ignore_index=True)
+
+
+def fetch_nfl(a, b):
+    nfl_schedules(force=True)
+    for y in range(a, b + 1):
+        t = time.time(); f = y == b
+        _nfl_release('pbp', 'pbp/play_by_play_{y}.parquet', y, NFL_PBP_COLS, force=f)
+        if y >= 2009:
+            _nfl_release('inj', 'injuries/injuries_{y}.parquet', y, force=f)
+            _nfl_release('depth', 'depth_charts/depth_charts_{y}.parquet', y, force=f)
+        if y >= 2012:
+            _nfl_release('weekly', 'stats_player/stats_player_week_{y}.parquet', y, force=f)
+        print('nfl', y, f'{time.time() - t:.0f}s', flush=True)
+
+
 if __name__ == '__main__':
     os.makedirs(CFB, exist_ok=True)
     lg, a, b = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
-    assert lg == 'cfb', 'NFL data comes in the NFL step'
+    if lg == 'nfl':
+        fetch_nfl(a, b); sys.exit()
     for y in range(a, b + 1):
         t = time.time()
         fetch_cfb_pbp(y, force=True); fetch_cfb_players(y, force=(y == b)); fetch_cfb_lines(y, force=(y == b))

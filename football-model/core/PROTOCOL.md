@@ -140,3 +140,13 @@ early/late periods, freeze, checks a-k).
    moneyline favors; (W) total Under when game-book wind is 15+ mph or the weather text has rain/snow. Pass = 52.4%
    (T: 73.9%) both periods, p < 0.05, 100+ each.
    Card checks a-k (CLAUDE.md rule 6) from ESPN on game day; props come after the game model, own amendment.
+7. (Nov 27, BEFORE any NFL result - found in the NFL audit, core/results/audit_nfl.txt.)
+   (a) nflverse schedules have NO weather text column -> rain/snow cannot be built; dropped from the model and rule W
+       becomes "game-book wind 15+ mph" only. Stated, not hidden.
+   (b) Game-book wind/temp are missing for many outdoor games (2022 46%, 2023 21%, 2026 76%). A missing value is NOT
+       read as calm: wind/cold terms = 0 AND a wx_missing flag (1 per outdoor game without data) enters the total
+       model; rule W skips those games. Live: ESPN forecast gust fills wind (gusts run higher than game-book
+       sustained wind - that mapping is not tested; the card says so).
+   (c) Defensive return TD = return_touchdown on a pass or rush play scored by the defense (td_team = defteam);
+       kick/punt return TDs (470 of 1910 flagged) are special teams and not counted.
+   (d) Turnovers = interceptions + fumbles lost on the offense's plays.
