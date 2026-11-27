@@ -1,0 +1,70 @@
+{
+ "frozen_on": "2026-11-26",
+ "code_commit": "8e2486f",
+ "train": [
+  2013,
+  2022
+ ],
+ "stats": {
+  "passing_yards": {
+   "coef": {
+    "const": 1.0181929546745325,
+    "itt": -0.0016019863898233324,
+    "bad": -0.07827606104915007,
+    "rec_out": 0.0,
+    "rb_out": 0.0
+   },
+   "replaces_v3": true,
+   "calibrated": false,
+   "worst_gap": 0.03338520322181304
+  },
+  "rushing_yards": {
+   "coef": {
+    "const": 1.067467614080768,
+    "itt": -0.009630039148177368,
+    "bad": 0.0024623682019479245,
+    "rec_out": 0.0,
+    "rb_out": 0.5428778324648864
+   },
+   "replaces_v3": true,
+   "calibrated": true,
+   "worst_gap": 0.016703832826009957
+  },
+  "receiving_yards": {
+   "coef": {
+    "const": 1.0600391022881837,
+    "itt": -0.0007876406614621456,
+    "bad": -0.09461008330781855,
+    "rec_out": 0.21022867307320173,
+    "rb_out": 0.29310007924262105
+   },
+   "replaces_v3": true,
+   "calibrated": true,
+   "worst_gap": 0.024370807953441043
+  },
+  "receptions": {
+   "coef": {
+    "const": 1.0500028775222034,
+    "itt": 0.00013571759985647346,
+    "bad": -0.06743175699030833,
+    "rec_out": 0.20893242657290467,
+    "rb_out": 0.28064693448750205
+   },
+   "replaces_v3": true,
+   "calibrated": true,
+   "worst_gap": 0.026293294214594698
+  },
+  "anytime_td": {
+   "coef": {
+    "const": 0.8092809216036793,
+    "itt": 0.02016767309340939,
+    "bad": -0.042279232074207876,
+    "rec_out": 0.006557869516151102,
+    "rb_out": 0.2711142322854942
+   },
+   "replaces_v3": true,
+   "calibrated": false,
+   "worst_gap": 0.06464167146208666
+  }
+ }
+}

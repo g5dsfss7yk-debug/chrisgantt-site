@@ -157,5 +157,32 @@ def main():
     print('\nTested records (EARLY / LATE): see v3/RESULTS.md. Live record counts ONLY games the frozen model never saw.')
 
 
+PRICES = os.path.join(HERE, '..', 'v8', 'prices', 'dk_props.csv')
+PMKT = {'passing_yards': 'player_pass_yds', 'rushing_yards': 'player_rush_yds', 'receiving_yards': 'player_reception_yds',
+        'receptions': 'player_receptions', 'anytime_td': 'player_anytime_td'}
+
+
+def grade_prices():
+    """v8 DK price log: fill 'result' with the player's actual stat (or void) once the game is final."""
+    if not os.path.exists(PRICES):
+        return
+    P = pd.read_csv(PRICES, dtype=str)
+    todo = P[P.result.isna() | (P.result == '')]
+    for i, r in todo.iterrows():
+        if not r.event or r.stat not in PMKT:
+            continue
+        try:
+            v = prop_result('nfl', r.event, r.player, PMKT[r.stat])
+        except Exception:
+            v = None
+        if v is not None:
+            P.loc[i, 'result'] = str(v)
+    P.to_csv(PRICES, index=False)
+    g = P[~(P.result.isna() | (P.result == '') | (P.result == 'void'))]
+    pre = g[pd.to_datetime(g.logged_at, utc=True) < pd.to_datetime(g.kickoff, utc=True)]
+    print(f'\nv8 DK price log: {len(P)} prices, {len(g)} graded ({len(pre)} logged before kickoff; the DK test needs 300).')
+
+
 if __name__ == '__main__':
     main()
+    grade_prices()

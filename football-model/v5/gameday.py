@@ -65,6 +65,8 @@ def main():
         up = g[(g.season == season) & g.result.isna()].sort_values('gameday')
         if not up.empty:
             wk = ['--week', str(int(up.iloc[0].week))]
+    if not os.path.exists(os.path.join(ROOT, 'data', 'v8', 'pricer8.pkl')):
+        sh(['v8/freeze.py'], 'v8 props model: build frozen pricers (fresh container)')
     sh(['v3/card.py', 'nfl'] + wk, 'v3 card (free; all pre-bet checks)')
     sh(['v3/scoreboard.py'], 'scoreboard')
 

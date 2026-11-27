@@ -31,3 +31,8 @@ scoreboard grades them. After 300+ graded priced props, test: does betting when 
 win more than break-even? (rule fixed now; not run before 300).
 
 ## Amendments
+1. (Nov 26, before any v8 result.) Price-log test counts only prices logged BEFORE kickoff (a price logged after
+   kickoff is a live price). result column = the player's actual stat from the ESPN box score (void if he did not play).
+2. (Nov 26, after results.) Live inputs: team total from DK via ESPN for the player's next game (blank once a game is
+   live -> 0); bad = v6 forecast mapping; outs from ESPN's list; key players from v7/live.py. 129 DK prices from Chris's
+   Nov 26 8:32 AM CT screenshots back-filled into the price log (v3 chances recomputed from the same data).

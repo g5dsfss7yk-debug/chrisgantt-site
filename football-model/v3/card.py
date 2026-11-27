@@ -515,7 +515,8 @@ def price_prop(player, stat, line, over=None, under=None):
     opp, opp_f = opp_factor(stat, team, pos)
     proj = avg * opp_f
     wx = weather_for(team)
-    if v6_weather(wx) and stat in V6_PROP:
+    v8 = v8_chance(player, stat, pos, team, proj, line, wx)
+    if v8 is None and v6_weather(wx) and stat in V6_PROP:
         t = V6['props'][V6_PROP[stat]]
         e_, l_ = t['early']['bad'], t['late']['bad']
         if t['passes']:
@@ -525,21 +526,80 @@ def price_prop(player, stat, line, over=None, under=None):
         else:
             print(f"** WEATHER: forecast gusts {wx.get('gust')} / rain {wx.get('precipitation')}%. v6 test found NO weather effect on {stat.replace('_', ' ')} "
                   f"vs the projection ({t['gap_early']*100:+.1f} / {t['gap_late']*100:+.1f} pts).")
-    for n_ in v7_notes(player, stat, pos, team):
+    for n_ in (v7_notes(player, stat, pos, team) if v8 is None else []):
         print(f"** {n_}. The chances below do NOT include this.")
     sa, l3, rf = role_check(stat, player)
     if rf:
         print(f"** ROLE CHECK: {player} this season {sa if sa is None else round(sa, 1)}/game, last 3 {l3 if l3 is None else round(l3, 1)} - "
               f"far from the projection. NOT VERIFIED (role changed or too few games).")
-    p = pr.p_over(pos, proj, line)
+    p3 = p = pr.p_over(pos, proj, line)
     cal = FROZEN['props'][stat]
     note = 'calibrated 2023-26' if cal['pass'] else f"NOT calibrated (worst gap {cal['worst_gap']:.1%} in 2023-26)"
-    print(f"{player} ({team} {pos} vs {opp}, opponent factor {opp_f:.2f}) {stat} {line}: projection {proj:.1f}; Over {p:.1%} (fair {props.fair_american(p)}), "
-          f"Under {1 - p:.1%} (fair {props.fair_american(1 - p)}). {note}. LEAN: beating DK prices is not tested.")
+    if v8 is not None:
+        p, proj8, desc, fz = v8
+        note8 = 'calibrated 2023-26' if fz['calibrated'] else f"NOT calibrated (worst gap {fz['worst_gap']:.1%} in 2023-26)"
+        print(f"{player} ({team} {pos} vs {opp}) {stat} {line}: v8 projection {proj8:.1f} ({desc}); Over {p:.1%} (fair {props.fair_american(p)}), "
+              f"Under {1 - p:.1%} (fair {props.fair_american(1 - p)}). {note8}. [v3 was {proj:.1f}, Over {p3:.1%}] LEAN: beating DK prices is not tested.")
+    else:
+        print(f"{player} ({team} {pos} vs {opp}, opponent factor {opp_f:.2f}) {stat} {line}: projection {proj:.1f}; Over {p:.1%} (fair {props.fair_american(p)}), "
+              f"Under {1 - p:.1%} (fair {props.fair_american(1 - p)}). {note}. LEAN: beating DK prices is not tested.")
     for side, price, q in (('Over', over, p), ('Under', under, 1 - p)):
         if price is not None:
             ev = q * float(grade.dec([price])[0]) - 1
             print(f"   DK {side} {price:+.0f}: needs {be(price):.1%}, model {q:.1%} -> value {ev:+.1%}")
+    if over is not None or under is not None:
+        flags = [f for f, on in (('questionable', bool(st)), ('teammates_out', bool(mates) and stat != 'passing_yards'),
+                                 ('role_check', bool(rf)), ('weather', bool(v6_weather(wx)))) if on]
+        log_price(dict(source='card.prop', player=player, team=team, pos=pos, stat=stat, line=line, over=over, under=under,
+                       p_over_v3=round(float(p3), 4), p_over_v8=round(float(p), 4) if v8 is not None else np.nan, proj_v3=round(float(proj), 2), flags=';'.join(flags)), team)
+
+
+PRICES = os.path.join(HERE, '..', 'v8', 'prices', 'dk_props.csv')
+V8F = os.path.join(HERE, '..', 'v8', 'frozen.json'); V8P = os.path.join(HERE, '..', 'data', 'v8', 'pricer8.pkl')
+
+
+def v8_chance(player, stat, pos, team, proj, line, wx):
+    """v8 (v8/RESULTS.md): proj3 x f(team total, bad weather, key receiver out, lead RB out). Returns (p_over, proj8, inputs) or None."""
+    if not (os.path.exists(V8F) and os.path.exists(V8P)):
+        return None
+    fz = json.load(open(V8F))['stats'].get(stat)
+    if not fz or not fz['replaces_v3']:
+        return None
+    sys.path.insert(0, os.path.join(HERE, '..', 'v7'))
+    import live
+    e, c, home = next_game(team)
+    od = espn_odds(c) if c else None
+    itt = None
+    if od and od.get('home_spread') is not None and od.get('total') is not None:
+        fav = -float(od['home_spread']) if home else float(od['home_spread'])
+        itt = (float(od['total']) + fav) / 2
+    bad = 1.0 if v6_weather(wx) else 0.0
+    out = live.outs(injuries(team)); me = live.norm(player)
+    rec, rb = live.key_players(team, _pricer(stat)[2]) if out else ({}, {})
+    rec_out = [rec[n] for n in rec if n in out and n != me] if pos in ('WR', 'TE') else []
+    rb_out = [rb[n] for n in rb if n in out and n != me] if pos == 'RB' else []
+    x = {'itt': (itt - 22) if itt is not None else 0.0, 'bad': bad, 'rec_out': float(bool(rec_out)), 'rb_out': float(bool(rb_out))}
+    f = fz['coef']['const'] + sum(fz['coef'][k] * v for k, v in x.items())
+    proj8 = proj * min(max(f, 0.5), 1.5)
+    pr8 = pd.read_pickle(V8P)[stat]
+    p8 = pr8.p_over(pos, proj8, line)
+    desc = (f"team total {itt:.1f}" if itt is not None else 'team total n/a') + (', bad weather' if bad else '') + \
+           (f", key receiver out: {', '.join(rec_out)}" if rec_out else '') + (f", lead RB out: {', '.join(rb_out)}" if rb_out else '')
+    return p8, proj8, desc, fz
+
+
+def log_price(row, team):
+    """v8 DK price log (v8/PROTOCOL.md): every DK prop price priced by a tool, graded later by scoreboard.py."""
+    e, c, _ = next_game(team)
+    row = dict(logged_at=datetime.now(timezone.utc).isoformat(timespec='seconds'), event=e['id'] if e else '',
+               kickoff=e['date'] if e else '', game=e['shortName'] if e else '', **row, result='')
+    os.makedirs(os.path.dirname(PRICES), exist_ok=True)
+    new = pd.DataFrame([row])
+    if os.path.exists(PRICES):
+        old = pd.read_csv(PRICES, dtype=str)
+        same = (old.event == str(row['event'])) & (old.player == row['player']) & (old.stat == row['stat']) & (old.line.astype(float) == float(row['line']))
+        new = pd.concat([old[~same], new.astype(str)], ignore_index=True)   # latest price for the same prop wins
+    new.to_csv(PRICES, index=False)
 
 
 def team_props(team):

@@ -1,0 +1,6 @@
+context ready
+passing_yards    EARLY n=  6411 v3 0.14541 v8 0.14460 | LATE n=  6006 v3 0.15011 v8 0.14952 | v8 wins both: True | v8 worst decile gap 2023-26 3.3% (NOT calibrated) | late coef const +1.018, itt -0.002, bad -0.078, rec_out +0.000, rb_out +0.000
+rushing_yards    EARLY n= 20826 v3 0.22269 v8 0.22194 | LATE n= 19548 v3 0.21864 v8 0.21819 | v8 wins both: True | v8 worst decile gap 2023-26 1.7% (calibrated) | late coef const +1.067, itt -0.010, bad +0.002, rec_out +0.000, rb_out +0.543
+receiving_yards  EARLY n= 48867 v3 0.22272 v8 0.22229 | LATE n= 44724 v3 0.22308 v8 0.22232 | v8 wins both: True | v8 worst decile gap 2023-26 2.4% (calibrated) | late coef const +1.060, itt -0.001, bad -0.095, rec_out +0.210, rb_out +0.293
+receptions       EARLY n= 47999 v3 0.20882 v8 0.20867 | LATE n= 43912 v3 0.20517 v8 0.20449 | v8 wins both: True | v8 worst decile gap 2023-26 2.6% (calibrated) | late coef const +1.050, itt +0.000, bad -0.067, rec_out +0.209, rb_out +0.281
+anytime_td       EARLY n= 16086 v3 0.17394 v8 0.17362 | LATE n= 14730 v3 0.16925 v8 0.16893 | v8 wins both: True | v8 worst decile gap 2023-26 6.5% (NOT calibrated) | late coef const +0.809, itt +0.020, bad -0.042, rec_out +0.007, rb_out +0.271
