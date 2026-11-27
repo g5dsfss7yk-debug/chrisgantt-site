@@ -202,6 +202,12 @@ def nfl_weekly(seasons, force_last=False):
                                                    force=force_last and y == last)) for y in seasons], ignore_index=True)
 
 
+def nfl_snaps(seasons, force_last=False):
+    last = max(seasons)
+    return pd.concat([pd.read_parquet(_nfl_release('snaps', 'snap_counts/snap_counts_{y}.parquet', y,
+                                                   force=force_last and y == last)) for y in seasons], ignore_index=True)
+
+
 def fetch_nfl(a, b):
     nfl_schedules(force=True)
     for y in range(a, b + 1):
@@ -212,6 +218,8 @@ def fetch_nfl(a, b):
             _nfl_release('depth', 'depth_charts/depth_charts_{y}.parquet', y, force=f)
         if y >= 2012:
             _nfl_release('weekly', 'stats_player/stats_player_week_{y}.parquet', y, force=f)
+        if y >= 2013:
+            _nfl_release('snaps', 'snap_counts/snap_counts_{y}.parquet', y, force=f)
         print('nfl', y, f'{time.time() - t:.0f}s', flush=True)
 
 

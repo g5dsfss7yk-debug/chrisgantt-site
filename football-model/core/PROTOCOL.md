@@ -155,3 +155,26 @@ early/late periods, freeze, checks a-k).
    an implied margin with SD = std(margin - closing spread) over 2006-2010 (before every test period). (c) Games
    not yet played have no QB/injury values from history; the live card fills them from ESPN (listed starter, injury
    report), never from the history defaults.
+9. (Nov 27, NFL PROPS - written BEFORE any props result. Chris: "Build the props models". College props follow in
+   their own amendment.)
+   Stats: passing yards (starting QB = first dropback), rushing yards (RB, QB), receiving yards and receptions (WR, TE,
+   RB), anytime TD (rush or receiving TD; RB, WR, TE). No rush attempts (Chris). Data: nflverse weekly stats + snap
+   counts 2013-2026 - a player-game counts if he had 1+ offensive snap (so 0-catch games are included, not dropped).
+   Eligible: 3+ earlier games in the last two seasons.
+   Base = player's exponentially weighted mean of that stat over earlier games (last two seasons), half-life HP in
+   {4, 8, 16} games - the only tuned setting, chosen on EARLY log loss.
+   Adjustments (all in, nothing selected): actual = base x (b0 + b1 opponent factor + b2 team-total ratio + b3 key
+   receivers out + b4 lead RB out + b5 player Questionable + b6 backup QB + b7 wind over 10 + b8 cold below 40 +
+   b9 wx_missing + b10 dome). Opponent factor = opponent's weighted stat allowed to that position group / league - 1.
+   Team-total ratio = closing implied team total / league average - 1. Key receivers = team's top-2 by earlier target
+   share, lead RB = most earlier carries (Out/Doubtful on the injury report, player himself excluded).
+   Fit by least squares on EARLY 2014-2019 only, frozen, applied to LATE 2020-2026.
+   Chance Over/Under = empirical distribution of actual / prediction in EARLY, by stat and prediction tercile.
+   Anytime TD: logistic regression on log(base TD rate + 0.01) and the same adjustments, EARLY only.
+   Test (no DK prop history before Nov 2026): test line = the player's mean of his last 8 earlier games rounded to
+   x.5 (TD: 0.5). Per stat, LATE: "calibrated" if in 10 bins of predicted chance (bins with 100+ props) actual hit
+   rate is within 5 pts of predicted; "beats naive" if Brier score is lower than the naive chance (EARLY share of
+   Overs at that same kind of line) in BOTH periods. Every prop stays LEAN (not tested against DK).
+   DK check (forward, the only DK test possible): on v8/prices/dk_props.csv graded rows logged before kickoff
+   (165 now), Brier of this model vs DK's break-even chance - printed, not a pass (too few; old rule waited for 300).
+   Card checks a-k on every prop (ESPN injuries, QB, teammates out, role check, weather, too good to be true, bet cap).
