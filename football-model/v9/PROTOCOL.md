@@ -35,3 +35,10 @@ Results: v9/RESULTS.md. Forecast amounts vs actual amounts are not tested.
 ## Amendments
 1. (Nov 26, before any result.) Season-long archive requests were refused by the service (HTTP 400 / connection
    resets); fetch now asks one stadium-day at a time (cached in data/v9/raw). Same data, same window. No result seen.
+2. (Nov 26, BEFORE any result - fetch still running.) Chris: "Heavy rain, snow, high winds..." Added level SNOW =
+   rain (water equivalent) >= 0.10 in and temp <= 32 F, with tests S13 total UNDER, S14 passing yds UNDER, S15
+   receptions UNDER (same pass rules). 15 tests in all.
+   Live flags added NOW, untested, labelled so (Chris approved): card/props print SEVERE WEATHER from Open-Meteo's
+   hourly forecast - HEAVY RAIN 0.30+ in, SNOW 0.5+ in snowfall or 0.10+ in at 32 F or below, HIGH WIND gusts 30+,
+   FREEZING WET 0.10+ in at 36 F or below - and any bad/severe weather makes passing yds, receiving yds and
+   receptions OVERS NOT VERIFIED. These flags stay until the v9 result says otherwise.

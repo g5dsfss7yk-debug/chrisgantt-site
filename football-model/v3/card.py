@@ -154,6 +154,12 @@ def nfl_card(week=None):
         if wx and not c.get('venue', {}).get('indoor'):
             if (wx.get('gust') or 0) >= 15 or (wx.get('precipitation') or 0) >= 50:
                 checks.append(f"weather (not in model): {wx.get('temperature')}F, gusts {wx.get('gust')} mph, precip {wx.get('precipitation')}%")
+            lv, stxt = severe_weather(c, e['date'])
+            if lv:
+                checks.append(f"SEVERE WEATHER ({stxt}). Passing yds, receiving yds and receptions OVERS are NOT VERIFIED "
+                              f"(untested flag; v9 severity test pending). Heavy weather is beyond what the tested numbers saw.")
+            elif stxt:
+                checks.append(stxt)
             cond = v6_weather(wx)
             if cond:
                 key = 'G2 WINDY' if cond == 'WINDY' else 'G3 BAD'
@@ -434,6 +440,52 @@ def v7_notes(player, stat, pos, team):
     return notes
 
 
+GEO = os.path.join(HERE, '..', 'data', 'v9', 'geo_cache.json')
+SEV_STATS = ('passing_yards', 'receiving_yards', 'receptions')
+
+
+def severe_weather(c, kickoff_iso):
+    """Untested flags (Chris, Nov 26 - v9 severity test pending): Open-Meteo hourly FORECAST for the stadium over
+    kickoff + 3 hours. Returns (list of levels, text). Levels: HEAVY RAIN (rain 0.30+ in), SNOW (snow 0.5+ in, or
+    0.10+ in precipitation at 32F or below), HIGH WIND (gusts 30+ mph), FREEZING WET (0.10+ in at 36F or below)."""
+    import urllib.request, urllib.parse
+    v = (c or {}).get('venue', {})
+    if not v or v.get('indoor'):
+        return [], ''
+    a = v.get('address', {})
+    q = a.get('zipCode') or a.get('city')
+    if not q:
+        return [], ''
+    geo = json.load(open(GEO)) if os.path.exists(GEO) else {}
+    try:
+        if q not in geo:
+            r = json.load(urllib.request.urlopen('https://geocoding-api.open-meteo.com/v1/search?' + urllib.parse.urlencode({'name': q, 'count': 1}), timeout=30))
+            geo[q] = [r['results'][0]['latitude'], r['results'][0]['longitude']]
+            os.makedirs(os.path.dirname(GEO), exist_ok=True); json.dump(geo, open(GEO, 'w'))
+        lat, lon = geo[q]
+        k0 = pd.Timestamp(kickoff_iso).tz_convert('America/New_York').floor('h').tz_localize(None)
+        u = 'https://api.open-meteo.com/v1/forecast?' + urllib.parse.urlencode(dict(
+            latitude=lat, longitude=lon, hourly='precipitation,snowfall,temperature_2m,wind_gusts_10m', start_date=k0.strftime('%Y-%m-%d'),
+            end_date=(k0 + pd.Timedelta(hours=4)).strftime('%Y-%m-%d'), temperature_unit='fahrenheit', precipitation_unit='inch',
+            wind_speed_unit='mph', timezone='America/New_York'))
+        h = json.load(urllib.request.urlopen(u, timeout=30))['hourly']
+    except Exception as ex:
+        return [], f'severe-weather forecast not available ({ex.__class__.__name__}) - check it by hand'
+    H = pd.DataFrame(h); H['time'] = pd.to_datetime(H.time)
+    w = H[(H.time >= k0) & (H.time <= k0 + pd.Timedelta(hours=3))]
+    if w.empty:
+        return [], ''
+    rain, snow, temp, gust = w.precipitation.sum(), w.snowfall.sum(), w.temperature_2m.mean(), w.wind_gusts_10m.max()
+    lv = []
+    if rain >= 0.30: lv.append('HEAVY RAIN')
+    if snow >= 0.5 or (rain >= 0.10 and temp <= 32): lv.append('SNOW')
+    if gust >= 30: lv.append('HIGH WIND')
+    if rain >= 0.10 and temp <= 36: lv.append('FREEZING WET')
+    txt = (f"{', '.join(lv)}: forecast kickoff+3h rain {rain:.2f} in, snow {snow:.1f} in, {temp:.0f}F, gusts {gust:.0f} mph (Open-Meteo)"
+           if lv else '')
+    return lv, txt
+
+
 def weather_for(team):
     """ESPN forecast for the team's next game (None if indoor or none listed)."""
     g = data.nfl_games()
@@ -528,6 +580,13 @@ def price_prop(player, stat, line, over=None, under=None):
                   f"vs the projection ({t['gap_early']*100:+.1f} / {t['gap_late']*100:+.1f} pts).")
     for n_ in (v7_notes(player, stat, pos, team) if v8 is None else []):
         print(f"** {n_}. The chances below do NOT include this.")
+    e_, c_, _ = next_game(team)
+    sev, stxt = severe_weather(c_, e_['date']) if e_ else ([], '')
+    if stat in SEV_STATS and (sev or v6_weather(wx)):
+        why = f"SEVERE WEATHER ({stxt})" if sev else f"bad weather (gusts {wx.get('gust')} / rain {wx.get('precipitation')}%)"
+        print(f"** {why}: OVER on {stat.replace('_', ' ')} is NOT VERIFIED (Chris, Nov 26: teams stop throwing in this weather). Under is not flagged.")
+    elif stxt:
+        print(f"** {stxt}")
     sa, l3, rf = role_check(stat, player)
     if rf:
         print(f"** ROLE CHECK: {player} this season {sa if sa is None else round(sa, 1)}/game, last 3 {l3 if l3 is None else round(l3, 1)} - "
@@ -549,7 +608,7 @@ def price_prop(player, stat, line, over=None, under=None):
             print(f"   DK {side} {price:+.0f}: needs {be(price):.1%}, model {q:.1%} -> value {ev:+.1%}")
     if over is not None or under is not None:
         flags = [f for f, on in (('questionable', bool(st)), ('teammates_out', bool(mates) and stat != 'passing_yards'),
-                                 ('role_check', bool(rf)), ('weather', bool(v6_weather(wx)))) if on]
+                                 ('role_check', bool(rf)), ('weather', bool(v6_weather(wx))), ('severe', bool(sev))) if on]
         log_price(dict(source='card.prop', player=player, team=team, pos=pos, stat=stat, line=line, over=over, under=under,
                        p_over_v3=round(float(p3), 4), p_over_v8=round(float(p), 4) if v8 is not None else np.nan, proj_v3=round(float(proj), 2), flags=';'.join(flags)), team)
 

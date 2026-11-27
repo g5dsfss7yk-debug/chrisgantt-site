@@ -34,6 +34,6 @@ Betting work: football-model/v3/README.md. Starting a NEW model? Read football-m
    parlay leg; Questionable = NOT VERIFIED; (b) starting QB checked against ESPN (Out/IR -> NOT VERIFIED); (c) teammates
    Out -> flag the players who inherit targets/carries (NOT VERIFIED); (d) line or total moved 2+ since the opener ->
    CHANGE line; (g) ROLE CHECK - projection far from this season's per-game numbers, or player often gets
-   no target/carry -> NOT VERIFIED (card.role_check); (e) weather: gusts 15+ mph or rain chance 50%+ -> flagged; (f) re-run ~90 min before kickoff when
+   no target/carry -> NOT VERIFIED (card.role_check); (e) weather: gusts 15+ mph or rain chance 50%+ -> flagged; SEVERE WEATHER (Open-Meteo hourly forecast, kickoff+3h: heavy rain 0.30+ in, snow, gusts 30+, freezing wet) and any bad weather -> passing yds, receiving yds AND receptions OVERS are NOT VERIFIED (Chris, Nov 26 - he was right about KC@BUF; never put those Overs in a parlay in bad weather); (h) Chris's game-day observations (weather, injuries, how teams are playing) are a check: any pick they contradict is NOT VERIFIED - do not argue them away with averages; (f) re-run ~90 min before kickoff when
    inactives post. If a tool does not show a check, run it by hand from ESPN and say so - never give the pick without it.
    A new model/tool is not done until it does (a)-(f). Every prop or pick in an answer comes from a tool run in THIS turn.

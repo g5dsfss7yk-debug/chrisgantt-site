@@ -12,6 +12,7 @@ LEVELS = {
     'HEAVY': lambda w: w.rain >= 0.30,
     'COLDWET': lambda w: (w.rain >= 0.10) & (w.temp <= 36),
     'GUST30': lambda w: w.gust >= 30,
+    'SNOW': lambda w: (w.rain >= 0.10) & (w.temp <= 32),     # amendment 2 (before results)
 }
 
 
@@ -26,7 +27,7 @@ if __name__ == '__main__':
     G = g.merge(W, on=['game_id', 'season'])
     R, lines = {}, [f"Games with game-window weather: {len(W)}; " + ', '.join(f'{k} {int(W[k].sum())}' for k in LEVELS) + f", v6 BAD {int(W.bad.sum())}"]
     lines.append('\nTOTALS - UNDER at the closing total, -110 (needs 52.4% both periods, 100+ each)')
-    for key, lev in (('S1', 'WET1'), ('S2', 'HEAVY'), ('S3', 'COLDWET'), ('S4', 'GUST30'), ('ref', 'bad')):
+    for key, lev in (('S1', 'WET1'), ('S2', 'HEAVY'), ('S3', 'COLDWET'), ('S4', 'GUST30'), ('S13', 'SNOW'), ('ref', 'bad')):
         x = G[G[lev]].reset_index(drop=True)
         r = v7.game_result(x, x.total < x.total_line, x.total == x.total_line, (2006, 2016), (2017, 2026))
         name = f'{key} total UNDER, {lev}' if key != 'ref' else 'ref total UNDER, all v6-BAD games'
@@ -38,7 +39,8 @@ if __name__ == '__main__':
     wl = W.set_index('game_id')
     tests = [('S5', 'passing_yards', 'under', 'HEAVY'), ('S6', 'receiving_yards', 'under', 'HEAVY'), ('S7', 'receptions', 'under', 'HEAVY'),
              ('S8', 'rushing_yards', 'over', 'HEAVY'), ('S9', 'passing_yards', 'under', 'COLDWET'), ('S10', 'receptions', 'under', 'COLDWET'),
-             ('S11', 'passing_yards', 'under', 'GUST30'), ('S12', 'receptions', 'under', 'GUST30')]
+             ('S11', 'passing_yards', 'under', 'GUST30'), ('S12', 'receptions', 'under', 'GUST30'),
+             ('S14', 'passing_yards', 'under', 'SNOW'), ('S15', 'receptions', 'under', 'SNOW')]
     lines.append('\nPROPS - line = v3 projection; actual vs v3 chance for that side (needs +3.0 pts both periods, 100+ each)')
     for key, stat, side, lev in tests:
         e = v7.evals(d, stat).join(wl[[lev, 'bad']], on='game_id')
