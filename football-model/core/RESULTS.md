@@ -78,3 +78,13 @@ kickoff): Brier model 0.2290 vs DK 0.2134 - **DK's prices were more accurate tha
 the model said 38.0%, DK said 45.2% (DK's Over prices carry the vig). Too few to be final; same direction as the old
 v10 finding (DK beat the model on day 1).
 Stopped after amendment 10: further fixes after seeing results would be tuning to the test.
+
+## College 6-pt teaser legs (amendment 11; core/results/teaser_cfb.txt). Need 73.9% per leg.
+| Rule | EARLY 2017-22 | LATE 2023-26 (DK) | Result |
+|---|---|---|---|
+| C1 every dog +6 | 66.4% of 5483 | 66.9% of 3836 | FAIL |
+| C2 every favorite +6 | 64.5% of 5456 | 65.6% of 3823 | FAIL |
+| C3 dogs +1.5..+2.5 | 72.8% of 427 | 68.8% of 480 | FAIL |
+| C4 favorites -7.5..-8.5 | 69.6% of 270 | 70.7% of 246 | FAIL |
+No college teaser leg reaches 73.9% in either period; by spread size, every group is 64-70%. Big college spreads
+(over 14) teased: dogs 65.6% / 65.5%, favorites 64.3% / 65.6%.

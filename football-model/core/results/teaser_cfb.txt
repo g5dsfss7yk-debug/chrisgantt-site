@@ -1,0 +1,13 @@
+College 6-point teaser legs (amendment 11). Needs 73.9% per leg (2-team at -120).
+C1 every dog +6           EARLY 3641/5483 = 66.4% | LATE 2566/3836 = 66.9% | p=1.000 | FAIL
+C2 every favorite +6      EARLY 3517/5456 = 64.5% | LATE 2509/3823 = 65.6% | p=1.000 | FAIL
+C3 dogs +1.5..+2.5        EARLY 311/427 = 72.8% | LATE 330/480 = 68.8% | p=0.988 | FAIL
+C4 favorites -7.5..-8.5   EARLY 188/270 = 69.6% | LATE 174/246 = 70.7% | p=0.977 | FAIL
+
+Information only (not a rule): by spread size
+  C1 spread <7    EARLY 1316/1897 = 69.4% | LATE 1088/1564 = 69.6%
+  C1 spread 7-14  EARLY 1009/1581 = 63.8% | LATE 737/1141 = 64.6%
+  C1 spread >14   EARLY 1316/2005 = 65.6% | LATE 741/1131 = 65.5%
+  C2 spread <7    EARLY 1208/1880 = 64.3% | LATE 1013/1549 = 65.4%
+  C2 spread 7-14  EARLY 1018/1567 = 65.0% | LATE 754/1143 = 66.0%
+  C2 spread >14   EARLY 1291/2009 = 64.3% | LATE 742/1131 = 65.6%
