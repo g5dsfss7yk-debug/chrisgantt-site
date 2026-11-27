@@ -58,7 +58,31 @@ def prop_result(league, espn_id, player, market):
                     if a['athlete']['displayName'] == player:
                         found = True
                         total += float(str(a['stats'][k]).replace(',', '') or 0)
-    return total if found else 'void'
+    if found:
+        return total
+    # Not in the box score: ESPN lists only players with a stat, so absent != did not play (bug fix Nov 26:
+    # Flournoy PHI@DAL was graded void). Inactive on ESPN -> void; played per nflverse snap counts -> 0;
+    # snap counts not out yet -> None (stays pending).
+    for t in s.get('injuries', []):
+        for i in t.get('injuries', []):
+            if i['athlete']['displayName'] == player and i.get('status') in ('Out', 'Doubtful', 'Injured Reserve', 'Suspended'):
+                return 'void'
+    if league != 'nfl':
+        return None
+    import re
+    norm = lambda n: ' '.join(re.sub(r'\b(jr|sr|ii|iii|iv|v)\b', '', re.sub(r'[^a-z ]', '', str(n).lower())).split())
+    hdr = s['header']; season, week = hdr.get('season', {}).get('year'), hdr.get('week')
+    sp = os.path.join(os.path.dirname(LOG), '..', '..', 'data', 'v3', 'stats', f'snaps_{season}.parquet')
+    if not (season and week and os.path.exists(sp)):
+        return None
+    sn = pd.read_parquet(sp); sn = sn[sn.week == week]
+    teams = {c['team']['abbreviation'] for c in hdr['competitions'][0]['competitors']}
+    tmap = {'WSH': 'WAS', 'LAR': 'LA'}
+    sn = sn[sn.team.isin({tmap.get(t, t) for t in teams})]
+    if sn.empty:
+        return None                      # snap counts for this game not published yet
+    me = sn[sn.player.map(norm) == norm(player)]
+    return 0.0 if (not me.empty and (me.offense_snaps > 0).any()) else 'void'
 
 
 def grade_row(r, hs, as_):

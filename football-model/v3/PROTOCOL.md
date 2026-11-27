@@ -111,3 +111,6 @@ label; `v3/scoreboard.py` grades them and prints the live record by bet type nex
    the newer run dropped (a price gap that closed, a teaser leg whose line moved) stayed in the log. A re-run now
    replaces all of that game's card rows. Existing log fixed the same way: 5 stale rows removed (incl. GB +2.5
    price gap, pre-game-day), 3 rows relabelled (CHI@DET DET +1.5 -117, DEN@PIT, WAS@ARI).
+11. (Nov 26, grading bug fix - no model change.) A prop player missing from ESPN's box score was graded "void", but
+   ESPN lists only players who record a stat (PHI@DAL: Ryan Flournoy, active, 0 catches). Now: inactive on ESPN ->
+   void; played per nflverse snap counts -> graded as 0; snap counts not out yet -> stays pending.
