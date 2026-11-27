@@ -33,3 +33,5 @@ print a note with the tested numbers (v8 chances unchanged - v8 has only the yes
 Results: v9/RESULTS.md. Forecast amounts vs actual amounts are not tested.
 
 ## Amendments
+1. (Nov 26, before any result.) Season-long archive requests were refused by the service (HTTP 400 / connection
+   resets); fetch now asks one stadium-day at a time (cached in data/v9/raw). Same data, same window. No result seen.

@@ -57,30 +57,45 @@ def season_hours(lat, lon, start, end):
     return pd.DataFrame({'t': pd.to_datetime(h['time']), 'rain': h['precipitation'], 'temp': h['temperature_2m'], 'gust': h['wind_gusts_10m']}).set_index('t')
 
 
+def day_hours(lat, lon, day):
+    """One stadium-day of hourly weather, cached on disk (season-long requests were refused by the service)."""
+    raw = os.path.join(OUT, 'raw'); os.makedirs(raw, exist_ok=True)
+    fp = os.path.join(raw, f"{lat:.3f}_{lon:.3f}_{day}.json")
+    if os.path.exists(fp):
+        h = json.load(open(fp))
+    else:
+        u = ('https://archive-api.open-meteo.com/v1/archive?' + urllib.parse.urlencode(dict(
+            latitude=lat, longitude=lon, start_date=day, end_date=day, hourly='precipitation,temperature_2m,wind_gusts_10m',
+            temperature_unit='fahrenheit', precipitation_unit='inch', wind_speed_unit='mph', timezone='America/New_York')))
+        h = get(u, tries=6)['hourly']
+        json.dump(h, open(fp, 'w'))
+        time.sleep(0.8)
+    return pd.DataFrame({'t': pd.to_datetime(h['time']), 'rain': h['precipitation'], 'temp': h['temperature_2m'], 'gust': h['wind_gusts_10m']}).set_index('t')
+
+
 if __name__ == '__main__':
     g = data.nfl_games(refresh_hours=999)
     o = g[g.roof.isin(['outdoors', 'open']) & (g.season >= 2006) & g.result.notna()].copy()
     V = venues(o)
-    rows, cache = [], {}
-    for (st, season), x in o.groupby(['stadium', 'season']):
-        loc = V.get(st)
+    rows, fails = [], 0
+    for n_, (_, r) in enumerate(o.sort_values('gameday').iterrows()):
+        loc = V.get(r.stadium)
         if not loc:
             continue
-        d0, d1 = x.gameday.min(), (pd.Timestamp(x.gameday.max()) + pd.Timedelta(days=1)).strftime('%Y-%m-%d')
+        k0 = pd.Timestamp(f"{r.gameday} {r.gametime}").floor('h')
         try:
-            H = season_hours(loc['lat'], loc['lon'], d0, d1)
+            H = day_hours(loc['lat'], loc['lon'], r.gameday)
+            if k0.hour >= 21:      # window runs past midnight ET
+                H = pd.concat([H, day_hours(loc['lat'], loc['lon'], (pd.Timestamp(r.gameday) + pd.Timedelta(days=1)).strftime('%Y-%m-%d'))])
         except Exception as ex:
-            print('weather failed', st, season, ex, flush=True); continue
-        for _, r in x.iterrows():
-            k0 = pd.Timestamp(f"{r.gameday} {r.gametime}").floor('h')
-            w = H.loc[k0:k0 + pd.Timedelta(hours=3)]
-            if len(w) < 4:
-                continue
-            rows.append(dict(game_id=r.game_id, season=r.season, stadium=st, rain=float(w.rain.sum()), temp=float(w.temp.mean()),
-                             gust=float(w.gust.max())))
-        time.sleep(0.3)
-        print(st, season, len(x), flush=True)
+            fails += 1; print('weather failed', r.game_id, ex, flush=True); continue
+        w = H.loc[k0:k0 + pd.Timedelta(hours=3)].dropna()
+        if len(w) < 4:
+            continue
+        rows.append(dict(game_id=r.game_id, season=r.season, stadium=r.stadium, rain=float(w.rain.sum()), temp=float(w.temp.mean()),
+                         gust=float(w.gust.max())))
+        if n_ % 100 == 0:
+            print(n_, 'of', len(o), r.gameday, flush=True)
     W = pd.DataFrame(rows)
     W.to_csv(os.path.join(OUT, 'game_weather.csv'), index=False)
-    miss = o[~o.game_id.isin(W.game_id)]
-    print(f'wrote {len(W)} games; {len(miss)} outdoor games without weather (stadium not located or fetch failed)')
+    print(f'wrote {len(W)} games; {len(o) - len(W)} outdoor games without weather ({fails} fetch failures)')
