@@ -1,0 +1,23 @@
+core NFL game model - walk-forward (core/PROTOCOL.md amendments 6-7). Every NFL season was used by old builds.
+H= 4: EARLY MSE margin+total 359.2 (1869 games)
+H= 8: EARLY MSE margin+total 359.5 (1869 games)
+H=16: EARLY MSE margin+total 359.5 (1869 games)
+Chosen on EARLY only: H = 4. LATE run once:
+
+spread edge 0+  EARLY 900/1817 = 49.5% | LATE 1189/2336 = 50.9% | p=0.997 | LEAN        | home picks 46% / 53%
+spread edge 2+  EARLY 302/576 = 52.4% | LATE 93/176 = 52.8% | p=0.487 | LEAN        | home picks 38% / 57%
+spread edge 4+  EARLY 63/116 = 54.3% | LATE 2/5 = 40.0% | p=0.422 | LEAN        | home picks 20% / 60%
+total edge 0+   EARLY 913/1851 = 49.3% | LATE 1195/2373 = 50.4% | p=0.999 | LEAN        | Over picks 62% / 62%
+total edge 2+   EARLY 324/619 = 52.3% | LATE 180/327 = 55.0% | p=0.306 | LEAN        | Over picks 67% / 66%
+total edge 4+   EARLY 59/120 = 49.2% | LATE 4/9 = 44.4% | p=0.816 | LEAN        | Over picks 62% / 44%
+winner 3%+ val  EARLY 326/836 ROI -7.7% | LATE 204/505 ROI +4.1% | p=0.814 | LEAN
+
+Carry-over rules (no model; implied-margin SD 13.78 from 2006-10):
+  T teaser leg, dog +1.5..+2.5   EARLY 176/230 = 76.5% | LATE 310/402 = 77.1% | needs 73.9% | p=0.047 | TESTED PICK
+  P price gap 1+ pt              EARLY 502/994 = 50.5% | LATE 525/1098 = 47.8% | needs 52.4% | p=0.999 | FAIL
+  W Under, wind 15+              EARLY 90/162 = 55.6% | LATE 91/159 = 57.2% | needs 52.4% | p=0.085 | FAIL
+
+EARLY squared error, margin / total: line only 175.9 / 175.2; full model 179.4 / 179.8
+
+weights (fit 2009-2025): margin const +0.351, spread_home +0.959, neutral -0.505, div -0.385, m_pass_epa -2.144, m_rush_epa +3.548, m_success -0.581, m_turnovers -0.492, m_sack_rate +0.654, m_explosive -1.020, m_return_td -1.491, m_plays -0.017, m_qb_value +7.171, m_backup_qb -0.456, m_qb_change +0.078, m_off_out -0.258, m_def_out -0.234, m_off_q -0.128, m_def_q -0.066, m_rest +0.000
+                          total  const +18.092, total_line +0.889, wind_x -0.254, cold_x +0.011, wx_missing -1.153, dome +0.965, div -1.153, t_pass_epa +0.793, t_rush_epa +7.180, t_success -12.747, t_turnovers +0.395, t_sack_rate +1.705, t_explosive -16.707, t_return_td -2.147, t_plays +0.011, t_qb_value +3.733, t_backup_qb -0.281, t_qb_change -0.733, t_off_out +0.141, t_def_out +0.327, t_off_q -0.118, t_def_q +0.029, t_rest -0.018

@@ -41,3 +41,23 @@ EARLY squared error: margin 244.2 / total 270.4 vs line + 8 stats 243.2 / 269.8 
 
 **Bottom line: still no college TESTED PICK.** Spread edge 2+ is above break-even for the fourth build in a row
 (v2 55.2% / 54.3%; core 53.6% / 56.2%; core+all 54.0% / 54.8%) but no run has proven it.
+
+## NFL game model (amendments 6-8; `python core/nfl.py`, core/results/nfl_test.txt). Every season was used by old builds.
+H = 4 chosen on EARLY (4/8/16 nearly equal). EARLY 2011-17, LATE 2018-26, nflverse closing lines.
+| Bet | EARLY 2011-17 | LATE 2018-26 | p | Result |
+|---|---|---|---|---|
+| Spread, all games | 49.5% of 1817 | 50.9% of 2336 | 0.997 | LEAN |
+| Spread, edge 2+ | 52.4% of 576 | 52.8% of 176 | 0.487 | LEAN |
+| Spread, edge 4+ | 54.3% of 116 | 2 of 5 | | LEAN (too few) |
+| Total, all games | 49.3% of 1851 | 50.4% of 2373 | 0.999 | LEAN - 62% Overs |
+| Total, edge 2+ | 52.3% of 619 | 55.0% of 327 | 0.306 | LEAN |
+| Winner, 3%+ value | ROI -7.7% (836) | ROI +4.1% (505) | 0.814 | LEAN |
+| **T: 6-pt teaser leg, dog +1.5..+2.5** | **76.5% of 230** | **77.1% of 402** | **0.047** | **TESTED PICK** (needs 73.9%) |
+| P: price gap 1+ pt | 50.5% of 994 | 47.8% of 1098 | 0.999 | FAIL |
+| W: Under, game-book wind 15+ | 55.6% of 162 | 57.2% of 159 | 0.085 | FAIL - above break-even, not proven |
+
+EARLY squared error, margin / total: line only 175.9 / 175.2; full model 179.4 / 179.8 - the full model (8 stats,
+QB, starters out, questionable, rest, weather, division) is WORSE than the closing line alone. Largest weight:
+QB value (+7.2 margin per EPA/dropback). Only the teaser leg (a rule, no model) passes.
+Differences from the old tests: price gap failed here (old v4: 53.9% / 53.9%, a different conversion); wind Under
+here has no rain/snow (not in nflverse schedules) and only game-book wind.
