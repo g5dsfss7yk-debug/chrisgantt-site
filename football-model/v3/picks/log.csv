@@ -171,7 +171,7 @@ nfl,401873079,2026-11-26T01:00Z,GB@LA,total,over,Over,43.5,-112.0,LEAN,45.57,202
 nfl,espn:401873080,2026-11-26T21:30Z,PHI@DAL,prop_player_anytime_td,Over,Darius Cooper Over 0.5,0.5,550.0,"LEAN (v3 props, NOT calibrated)",0.275,2026-11-26T14:41:57+00:00,loss
 nfl,espn:401873081,2026-11-26T18:00Z,CHI@DET,prop_player_receptions,Over,Sione Vaki Over 1.5,1.5,270.0,"LEAN (v3 props, NOT calibrated)",0.434,2026-11-26T14:41:57+00:00,win
 nfl,espn:401873081,2026-11-26T18:00Z,CHI@DET,prop_player_receptions,Over,Kyle Monangai Over 1.5,1.5,202.0,"LEAN (v3 props, NOT calibrated)",0.434,2026-11-26T14:41:57+00:00,loss
-nfl,espn:401873080,2026-11-26T21:30Z,PHI@DAL,prop_player_receptions,Over,Ryan Flournoy Over 3.5,3.5,148.0,"LEAN (v3 props, NOT calibrated)",0.507,2026-11-26T14:41:57+00:00,
+nfl,espn:401873080,2026-11-26T21:30Z,PHI@DAL,prop_player_receptions,Over,Ryan Flournoy Over 3.5,3.5,148.0,"LEAN (v3 props, NOT calibrated)",0.507,2026-11-26T14:41:57+00:00,loss
 nfl,espn:401873082,2026-11-27T01:20Z,KC@BUF,prop_player_anytime_td,Over,Xavier Worthy Over 0.5,0.5,500.0,"LEAN (v3 props, NOT calibrated)",0.209,2026-11-26T14:41:57+00:00,
 nfl,espn:401873082,2026-11-27T01:20Z,KC@BUF,prop_player_receptions,Over,Dalton Kincaid Over 3.5,3.5,125.0,"LEAN (v3 props, NOT calibrated) NOT VERIFIED",0.534,2026-11-26T14:41:57+00:00,
 nfl,espn:401873081,2026-11-26T18:00Z,CHI@DET,prop_player_anytime_td,Over,Isaac TeSlaa Over 0.5,0.5,450.0,"LEAN (v3 props, NOT calibrated)",0.209,2026-11-26T14:41:57+00:00,loss
@@ -185,7 +185,7 @@ nfl,espn:401873081,2026-11-26T18:00Z,CHI@DET,prop_player_receptions,Over,Rome Od
 nfl,espn:401873082,2026-11-27T01:20Z,KC@BUF,prop_player_anytime_td,Over,Keon Coleman Over 0.5,0.5,475.0,"LEAN (v3 props, NOT calibrated)",0.183,2026-11-26T14:41:57+00:00,
 nfl,espn:401873082,2026-11-27T01:20Z,KC@BUF,prop_player_anytime_td,Over,Dawson Knox Over 0.5,0.5,550.0,"LEAN (v3 props, NOT calibrated)",0.16,2026-11-26T14:41:57+00:00,
 nfl,espn:401873081,2026-11-26T18:00Z,CHI@DET,prop_player_reception_yds,Over,Jameson Williams Over 59.5,59.5,-105.0,"LEAN (v3 props, calibrated)",0.523,2026-11-26T14:41:57+00:00,win
-nfl,espn:401873080,2026-11-26T21:30Z,PHI@DAL,prop_player_reception_yds,Over,Ryan Flournoy Over 30.5,30.5,-113.0,"LEAN (v3 props, calibrated)",0.629,2026-11-26T14:41:57+00:00,
+nfl,espn:401873080,2026-11-26T21:30Z,PHI@DAL,prop_player_reception_yds,Over,Ryan Flournoy Over 30.5,30.5,-113.0,"LEAN (v3 props, calibrated)",0.629,2026-11-26T14:41:57+00:00,loss
 nfl,espn:401873082,2026-11-27T01:20Z,KC@BUF,prop_player_receptions,Over,Dawson Knox Over 1.5,1.5,116.0,"LEAN (v3 props, NOT calibrated)",0.616,2026-11-26T14:41:57+00:00,
 nfl,espn:401873080,2026-11-26T21:30Z,PHI@DAL,prop_player_receptions,Over,Makai Lemon Over 3.5,3.5,115.0,"LEAN (v3 props, NOT calibrated)",0.603,2026-11-26T14:41:57+00:00,win
 nfl,espn:401873082,2026-11-27T01:20Z,KC@BUF,prop_player_reception_yds,Over,James Cook Over 8.5,8.5,-105.0,"LEAN (v3 props, calibrated)",0.599,2026-11-26T14:41:57+00:00,
