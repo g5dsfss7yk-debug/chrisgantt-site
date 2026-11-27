@@ -17,7 +17,7 @@ logged_at,event,kickoff,game,source,player,team,pos,stat,line,over,under,p_over_
 2026-11-26T14:32:00+00:00,401873081,2026-11-26T18:00Z,CHI @ DET,screenshot 8:32 CT (Chris),Rome Odunze,CHI,WR,receptions,3.5,111,,0.5067,,3.85,,6.0
 2026-11-26T14:32:00+00:00,401873081,2026-11-26T18:00Z,CHI @ DET,screenshot 8:32 CT (Chris),Kalif Raymond,CHI,WR,receptions,2.5,-126,,0.5034,,2.84,,3.0
 2026-11-26T14:32:00+00:00,401873081,2026-11-26T18:00Z,CHI @ DET,screenshot 8:32 CT (Chris),D'Andre Swift,CHI,RB,receptions,2.5,113,,0.4545,,2.67,,7.0
-2026-11-26T14:32:00+00:00,401873081,2026-11-26T18:00Z,CHI @ DET,screenshot 8:32 CT (Chris),Zavion Thomas,CHI,WR,receptions,1.5,149,,0.4505,,1.68,,
+2026-11-26T14:32:00+00:00,401873081,2026-11-26T18:00Z,CHI @ DET,screenshot 8:32 CT (Chris),Zavion Thomas,CHI,WR,receptions,1.5,149,,0.4505,,1.68,,0.0
 2026-11-26T14:32:00+00:00,401873081,2026-11-26T18:00Z,CHI @ DET,screenshot 8:32 CT (Chris),Isaac TeSlaa,DET,WR,receptions,1.5,104,,0.4505,,1.46,,0.0
 2026-11-26T14:32:00+00:00,401873081,2026-11-26T18:00Z,CHI @ DET,screenshot 8:32 CT (Chris),Kyle Monangai,CHI,RB,receptions,1.5,202,,0.4815,,1.69,,1.0
 2026-11-26T14:32:00+00:00,401873081,2026-11-26T18:00Z,CHI @ DET,screenshot 8:32 CT (Chris),Sione Vaki,DET,RB,receptions,1.5,270,,0.4344,,1.23,,2.0
@@ -46,27 +46,27 @@ logged_at,event,kickoff,game,source,player,team,pos,stat,line,over,under,p_over_
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),George Pickens,DAL,WR,receiving_yards,70.5,-111,,0.5341,,90.62,,67.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),DeVonta Smith,PHI,WR,receiving_yards,69.5,-106,,0.4319,,71.52,,200.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Darius Cooper,PHI,WR,receiving_yards,31.5,-110,,0.4218,,33.41,,14.0
-2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Ryan Flournoy,DAL,WR,receiving_yards,30.5,-113,,0.6288,,47.11,,
+2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Ryan Flournoy,DAL,WR,receiving_yards,30.5,-113,,0.6288,,47.11,,0.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Dallas Goedert,PHI,TE,receiving_yards,31.5,-111,,0.4797,,37.12,,9.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Makai Lemon,PHI,WR,receiving_yards,31.5,-110,,0.5052,,39.72,,51.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Brevyn Spann-Ford,DAL,TE,receiving_yards,15.5,-112,,0.3496,,11.76,,15.0
-2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Saquon Barkley,PHI,RB,receiving_yards,9.5,116,,0.5626,,14.37,,
+2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Saquon Barkley,PHI,RB,receiving_yards,9.5,116,,0.5626,,14.37,,0.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Will Shipley,PHI,RB,receiving_yards,6.5,-111,,0.5906,,9.33,,0.0
-2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Luke Schoonmaker,DAL,TE,receiving_yards,3.5,-107,,0.6941,,8.58,,
+2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Luke Schoonmaker,DAL,TE,receiving_yards,3.5,-107,,0.6941,,8.58,,0.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),CeeDee Lamb,DAL,WR,receptions,7.5,105,,0.4536,,8.04,,7.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),DeVonta Smith,PHI,WR,receptions,5.5,-114,,0.4474,,5.82,,11.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),George Pickens,DAL,WR,receptions,5.5,115,,0.4727,,6.08,,5.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Dallas Goedert,PHI,TE,receptions,3.5,100,,0.4949,,3.74,,1.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Makai Lemon,PHI,WR,receptions,3.5,115,,0.603,,4.35,,5.0
-2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Ryan Flournoy,DAL,WR,receptions,3.5,148,,0.5067,,3.63,,
+2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Ryan Flournoy,DAL,WR,receptions,3.5,148,,0.5067,,3.63,,0.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Darius Cooper,PHI,WR,receptions,2.5,-109,,0.4118,,2.26,,1.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Brevyn Spann-Ford,DAL,TE,receptions,2.5,168,,0.1949,,1.44,,1.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Javonte Williams,DAL,RB,receptions,1.5,-167,,0.5856,,2.18,,3.0
-2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Saquon Barkley,PHI,RB,receptions,1.5,-101,,0.4815,,1.56,,
+2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Saquon Barkley,PHI,RB,receptions,1.5,-101,,0.4815,,1.56,,0.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Will Shipley,PHI,RB,receptions,1.5,152,,0.433,,1.16,,0.0
-2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Luke Schoonmaker,DAL,TE,receptions,1.5,271,,0.3648,,1.0,,
+2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Luke Schoonmaker,DAL,TE,receptions,1.5,271,,0.3648,,1.0,,0.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),KaVontae Turpin,DAL,WR,receptions,1.5,316,,0.4505,,1.38,,1.0
-2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Zach Ertz,PHI,TE,receptions,1.5,398,,0.7915,,3.09,,
+2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Zach Ertz,PHI,TE,receptions,1.5,398,,0.7915,,3.09,,0.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Javonte Williams,DAL,RB,rushing_yards,79.5,104,,0.3131,,70.97,,101.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Saquon Barkley,PHI,RB,rushing_yards,69.5,106,,0.4226,,72.72,,7.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Joe Milton III,PHI,QB,rushing_yards,33.5,-111,,0.3642,,32.55,,15.0
@@ -79,7 +79,7 @@ logged_at,event,kickoff,game,source,player,team,pos,stat,line,over,under,p_over_
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),George Pickens,DAL,WR,anytime_td,0.5,-110,,0.3899,,0.66,,0.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Saquon Barkley,PHI,RB,anytime_td,0.5,110,,0.5114,,0.92,,0.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),DeVonta Smith,PHI,WR,anytime_td,0.5,185,,0.2982,,0.44,,2.0
-2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Ryan Flournoy,DAL,WR,anytime_td,0.5,275,,0.2694,,0.32,,
+2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Ryan Flournoy,DAL,WR,anytime_td,0.5,275,,0.2694,,0.32,,0.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Dallas Goedert,PHI,TE,anytime_td,0.5,330,,0.2063,,0.26,,0.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Brevyn Spann-Ford,DAL,TE,anytime_td,0.5,390,,0.1599,,0.1,,0.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Makai Lemon,PHI,WR,anytime_td,0.5,400,,0.1928,,0.16,,1.0
@@ -112,9 +112,9 @@ logged_at,event,kickoff,game,source,player,team,pos,stat,line,over,under,p_over_
 2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Emmett Johnson,KC,RB,rushing_yards,79.5,-114,,0.1161,,41.87,,72.0
 2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Josh Allen,BUF,QB,rushing_yards,39.5,-113,,0.2922,,33.18,,43.0
 2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Patrick Mahomes,KC,QB,rushing_yards,14.5,104,,0.5278,,17.93,,2.0
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Jaydn Ott,,,rushing_yards,5.5,-102,,,,,,
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Jaydn Ott,,,rushing_yards,5.5,-102,,,,,,0.0
 2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Ray Davis,BUF,RB,rushing_yards,4.5,-124,,0.7662,,14.05,,6.0
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Ty Johnson,BUF,RB,rushing_yards,1.5,-106,,0.8419,,8.08,,
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Ty Johnson,BUF,RB,rushing_yards,1.5,-106,,0.8419,,8.08,,0.0
 2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Emmett Johnson,KC,RB,anytime_td,0.5,-155,,0.3897,,0.61,,1.0
 2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),James Cook,BUF,RB,anytime_td,0.5,-105,,0.3897,,0.62,,1.0
 2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Rashee Rice,KC,WR,anytime_td,0.5,220,,0.2749,,0.38,,0.0
@@ -126,45 +126,45 @@ logged_at,event,kickoff,game,source,player,team,pos,stat,line,over,under,p_over_
 2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Keon Coleman,BUF,WR,anytime_td,0.5,475,,0.1825,,0.14,,0.0
 2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Xavier Worthy,KC,WR,anytime_td,0.5,500,,0.2091,,0.2,,0.0
 2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Dawson Knox,BUF,TE,anytime_td,0.5,550,,0.1599,,0.09,,0.0
-2026-11-27T18:48:18+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jaylen Waddle,DEN,WR,receptions,3.5,-132,,0.5067,0.4076,3.67,weather,
-2026-11-27T18:48:20+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jonah Coleman,DEN,RB,receptions,3.5,-111,,0.518,0.48,4.81,weather,
-2026-11-27T18:48:22+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Germie Bernard,PIT,WR,receptions,3.5,149,,0.603,0.5103,4.25,teammates_out;weather,
-2026-11-27T18:48:24+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Courtland Sutton,DEN,WR,receptions,2.5,-145,,0.5877,0.5846,3.38,weather,
-2026-11-27T18:48:26+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,DK Metcalf,PIT,WR,receptions,2.5,-136,,0.5877,0.5846,3.4,teammates_out;weather,
-2026-11-27T18:48:28+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Pat Bryant,DEN,WR,receptions,2.5,-108,,0.5034,0.4879,3.06,weather,
-2026-11-27T18:48:30+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jaylen Warren,PIT,RB,receptions,2.5,-118,,0.5095,0.4605,2.97,teammates_out;weather,
-2026-11-27T18:48:32+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Evan Engram,DEN,TE,receptions,2.5,-118,,0.4736,0.3669,2.68,weather,
-2026-11-27T18:48:34+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Pat Freiermuth,PIT,TE,receptions,2.5,106,,0.7083,0.6012,3.84,teammates_out;weather,
+2026-11-27T18:48:18+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jaylen Waddle,DEN,WR,receptions,3.5,-132,,0.5067,0.4076,3.67,weather,5.0
+2026-11-27T18:48:20+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jonah Coleman,DEN,RB,receptions,3.5,-111,,0.518,0.48,4.81,weather,8.0
+2026-11-27T18:48:22+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Germie Bernard,PIT,WR,receptions,3.5,149,,0.603,0.5103,4.25,teammates_out;weather,1.0
+2026-11-27T18:48:24+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Courtland Sutton,DEN,WR,receptions,2.5,-145,,0.5877,0.5846,3.38,weather,1.0
+2026-11-27T18:48:26+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,DK Metcalf,PIT,WR,receptions,2.5,-136,,0.5877,0.5846,3.4,teammates_out;weather,3.0
+2026-11-27T18:48:28+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Pat Bryant,DEN,WR,receptions,2.5,-108,,0.5034,0.4879,3.06,weather,4.0
+2026-11-27T18:48:30+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jaylen Warren,PIT,RB,receptions,2.5,-118,,0.5095,0.4605,2.97,teammates_out;weather,1.0
+2026-11-27T18:48:32+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Evan Engram,DEN,TE,receptions,2.5,-118,,0.4736,0.3669,2.68,weather,0.0
+2026-11-27T18:48:34+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Pat Freiermuth,PIT,TE,receptions,2.5,106,,0.7083,0.6012,3.84,teammates_out;weather,1.0
 2026-11-27T18:48:35+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Darnell Washington,PIT,TE,receptions,1.5,-150,,0.7215,0.7147,2.88,teammates_out;weather,
-2026-11-27T18:48:37+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Rico Dowdle,PIT,RB,receptions,1.5,-145,,0.6767,0.6797,2.85,teammates_out;weather,
-2026-11-27T18:48:39+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Roman Wilson,PIT,WR,receptions,1.5,-104,,0.5689,0.5751,2.07,teammates_out;weather,
-2026-11-27T18:48:41+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Adam Trautman,DEN,TE,receptions,1.5,252,,0.3919,0.3272,1.31,role_check;weather,
-2026-11-27T18:48:43+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jonah Coleman,DEN,RB,rushing_yards,74.5,-110,,0.2338,0.2414,53.23,weather,
-2026-11-27T18:48:45+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jaylen Warren,PIT,RB,rushing_yards,64.5,-112,,0.4007,0.4259,64.48,teammates_out;weather,
-2026-11-27T18:48:47+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Rico Dowdle,PIT,RB,rushing_yards,31.5,-108,,0.4912,0.529,38.87,teammates_out;weather;severe,
-2026-11-27T18:48:49+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Bo Nix,DEN,QB,rushing_yards,10.5,-111,,0.4794,0.4897,12.35,weather,
+2026-11-27T18:48:37+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Rico Dowdle,PIT,RB,receptions,1.5,-145,,0.6767,0.6797,2.85,teammates_out;weather,1.0
+2026-11-27T18:48:39+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Roman Wilson,PIT,WR,receptions,1.5,-104,,0.5689,0.5751,2.07,teammates_out;weather,1.0
+2026-11-27T18:48:41+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Adam Trautman,DEN,TE,receptions,1.5,252,,0.3919,0.3272,1.31,role_check;weather,2.0
+2026-11-27T18:48:43+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jonah Coleman,DEN,RB,rushing_yards,74.5,-110,,0.2338,0.2414,53.23,weather,26.0
+2026-11-27T18:48:45+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jaylen Warren,PIT,RB,rushing_yards,64.5,-112,,0.4007,0.4259,64.48,teammates_out;weather,46.0
+2026-11-27T18:48:47+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Rico Dowdle,PIT,RB,rushing_yards,31.5,-108,,0.4912,0.529,38.87,teammates_out;weather;severe,71.0
+2026-11-27T18:48:49+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Bo Nix,DEN,QB,rushing_yards,10.5,-111,,0.4794,0.4897,12.35,weather,7.0
 2026-11-27T18:48:52+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Mason Rudolph,PIT,QB,rushing_yards,6.5,-105,,0.5391,0.5597,9.82,teammates_out;role_check;weather,
-2026-11-27T18:48:54+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Bo Nix,DEN,QB,passing_yards,209.5,107,,0.6539,0.5908,234.02,weather,
-2026-11-27T18:48:56+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Mason Rudolph,PIT,QB,passing_yards,179.5,101,,0.7094,0.6769,210.21,role_check;weather;too_good,
-2026-11-27T18:48:58+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jaylen Waddle,DEN,WR,receiving_yards,43.5,-113,,0.4626,0.4047,47.69,weather,
-2026-11-27T18:49:00+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Pat Bryant,DEN,WR,receiving_yards,29.5,108,,0.5243,0.483,37.89,weather,
-2026-11-27T18:49:02+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,DK Metcalf,PIT,WR,receiving_yards,29.5,-107,,0.5464,0.5139,40.83,teammates_out;weather,
-2026-11-27T18:49:03+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Courtland Sutton,DEN,WR,receiving_yards,25.5,-111,,0.5805,0.548,39.04,weather,
-2026-11-27T18:49:05+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jonah Coleman,DEN,RB,receiving_yards,24.5,-103,,0.5255,0.4835,39.13,weather,
-2026-11-27T18:49:06+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Evan Engram,DEN,TE,receiving_yards,24.5,106,,0.4685,0.4238,28.67,weather,
-2026-11-27T18:49:08+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Pat Freiermuth,PIT,TE,receiving_yards,24.5,-101,,0.623,0.5813,40.2,teammates_out;weather,
-2026-11-27T18:49:10+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Germie Bernard,PIT,WR,receiving_yards,24.5,101,,0.5018,0.4621,31.7,teammates_out;weather,
+2026-11-27T18:48:54+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Bo Nix,DEN,QB,passing_yards,209.5,107,,0.6539,0.5908,234.02,weather,169.0
+2026-11-27T18:48:56+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Mason Rudolph,PIT,QB,passing_yards,179.5,101,,0.7094,0.6769,210.21,role_check;weather;too_good,142.0
+2026-11-27T18:48:58+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jaylen Waddle,DEN,WR,receiving_yards,43.5,-113,,0.4626,0.4047,47.69,weather,53.0
+2026-11-27T18:49:00+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Pat Bryant,DEN,WR,receiving_yards,29.5,108,,0.5243,0.483,37.89,weather,42.0
+2026-11-27T18:49:02+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,DK Metcalf,PIT,WR,receiving_yards,29.5,-107,,0.5464,0.5139,40.83,teammates_out;weather,36.0
+2026-11-27T18:49:03+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Courtland Sutton,DEN,WR,receiving_yards,25.5,-111,,0.5805,0.548,39.04,weather,4.0
+2026-11-27T18:49:05+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jonah Coleman,DEN,RB,receiving_yards,24.5,-103,,0.5255,0.4835,39.13,weather,46.0
+2026-11-27T18:49:06+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Evan Engram,DEN,TE,receiving_yards,24.5,106,,0.4685,0.4238,28.67,weather,0.0
+2026-11-27T18:49:08+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Pat Freiermuth,PIT,TE,receiving_yards,24.5,-101,,0.623,0.5813,40.2,teammates_out;weather,1.0
+2026-11-27T18:49:10+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Germie Bernard,PIT,WR,receiving_yards,24.5,101,,0.5018,0.4621,31.7,teammates_out;weather,58.0
 2026-11-27T18:49:12+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Darnell Washington,PIT,TE,receiving_yards,16.5,-108,,0.7124,0.625,34.5,teammates_out;weather;severe,
-2026-11-27T18:49:13+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jaylen Warren,PIT,RB,receiving_yards,19.5,-106,,0.5536,0.5205,32.69,teammates_out;weather,
-2026-11-27T18:49:15+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Roman Wilson,PIT,WR,receiving_yards,14.5,109,,0.5939,0.5593,27.0,teammates_out;weather,
-2026-11-27T18:49:16+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Troy Franklin,DEN,WR,receiving_yards,3.5,-112,,0.7796,0.7775,21.54,role_check;weather;severe;too_good,
-2026-11-27T18:49:18+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Rico Dowdle,PIT,RB,receiving_yards,9.5,-105,,0.6507,0.6286,22.56,teammates_out;weather,
-2026-11-27T18:49:20+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jonah Coleman,DEN,RB,anytime_td,0.5,-135,,0.5114,0.508,1.1,weather,
-2026-11-27T18:49:22+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jaylen Warren,PIT,RB,anytime_td,0.5,190,,0.2551,0.213,0.27,teammates_out;weather,
-2026-11-27T18:49:23+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jaylen Waddle,DEN,WR,anytime_td,0.5,320,,0.1928,0.182,0.17,weather,
-2026-11-27T18:49:25+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Rico Dowdle,PIT,RB,anytime_td,0.5,380,,0.1717,0.1751,0.17,teammates_out;weather,
-2026-11-27T18:49:27+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Courtland Sutton,DEN,WR,anytime_td,0.5,380,,0.2091,0.1843,0.22,weather,
-2026-11-27T18:49:28+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,DK Metcalf,PIT,WR,anytime_td,0.5,425,,0.1928,0.182,0.17,teammates_out;weather,
-2026-11-27T18:49:30+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Pat Bryant,DEN,WR,anytime_td,0.5,500,,0.1825,0.182,0.16,role_check;weather,
+2026-11-27T18:49:13+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jaylen Warren,PIT,RB,receiving_yards,19.5,-106,,0.5536,0.5205,32.69,teammates_out;weather,0.0
+2026-11-27T18:49:15+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Roman Wilson,PIT,WR,receiving_yards,14.5,109,,0.5939,0.5593,27.0,teammates_out;weather,37.0
+2026-11-27T18:49:16+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Troy Franklin,DEN,WR,receiving_yards,3.5,-112,,0.7796,0.7775,21.54,role_check;weather;severe;too_good,1.0
+2026-11-27T18:49:18+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Rico Dowdle,PIT,RB,receiving_yards,9.5,-105,,0.6507,0.6286,22.56,teammates_out;weather,3.0
+2026-11-27T18:49:20+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jonah Coleman,DEN,RB,anytime_td,0.5,-135,,0.5114,0.508,1.1,weather,0.0
+2026-11-27T18:49:22+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jaylen Warren,PIT,RB,anytime_td,0.5,190,,0.2551,0.213,0.27,teammates_out;weather,0.0
+2026-11-27T18:49:23+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jaylen Waddle,DEN,WR,anytime_td,0.5,320,,0.1928,0.182,0.17,weather,0.0
+2026-11-27T18:49:25+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Rico Dowdle,PIT,RB,anytime_td,0.5,380,,0.1717,0.1751,0.17,teammates_out;weather,0.0
+2026-11-27T18:49:27+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Courtland Sutton,DEN,WR,anytime_td,0.5,380,,0.2091,0.1843,0.22,weather,0.0
+2026-11-27T18:49:28+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,DK Metcalf,PIT,WR,anytime_td,0.5,425,,0.1928,0.182,0.17,teammates_out;weather,1.0
+2026-11-27T18:49:30+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Pat Bryant,DEN,WR,anytime_td,0.5,500,,0.1825,0.182,0.16,role_check;weather,0.0
 2026-11-27T18:49:31+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Darnell Washington,PIT,TE,anytime_td,0.5,550,,0.2347,0.1984,0.36,teammates_out;weather,
-2026-11-27T18:52:11+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Tyler Badie,DEN,RB,rushing_yards,4.5,-116.0,,0.5803,0.577,6.0,weather,
+2026-11-27T18:52:11+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Tyler Badie,DEN,RB,rushing_yards,4.5,-116.0,,0.5803,0.577,6.0,weather,11.0
