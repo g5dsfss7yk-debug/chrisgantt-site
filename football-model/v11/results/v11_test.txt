@@ -1,0 +1,11 @@
+v11 one combined game model (v11/PROTOCOL.md). EARLY 2014-18 | LATE 2019-26
+v11 vs v3 on the SAME games (both priced): 3287 games 2014-26
+spread edge 0+  v11 52.5% of 1146 (need 52.4%, ROI +0.3%)  | 50.8% of 2057 (need 52.4%, ROI -3.0%)  LEAN        || v3 51.6% of 1146 (need 52.4%, ROI -1.5%)  | 50.1% of 2057 (need 52.4%, ROI -4.4%) 
+spread edge 1+  v11 50.6% of 587 (need 52.4%, ROI -3.4%)   | 50.0% of 578 (need 52.4%, ROI -4.5%)   LEAN        || v3 56.1% of 189 (need 52.4%, ROI +7.1%)   | 46.8% of 325 (need 52.4%, ROI -10.7%) 
+spread edge 2+  v11 49.7% of 292 (need 52.4%, ROI -5.2%)   | 47.9% of 146 (need 52.4%, ROI -8.5%)   LEAN        || v3 42.9% of 28 (need 52.4%, ROI -18.2%)   | 39.1% of 23 (need 52.4%, ROI -25.3%)  
+total edge 0+   v11 49.6% of 1172 (need 52.4%, ROI -5.4%)  | 52.6% of 2087 (need 52.4%, ROI +0.4%)  LEAN        || v3 48.1% of 1172 (need 52.4%, ROI -8.1%)  | 51.4% of 2087 (need 52.4%, ROI -1.9%) 
+total edge 1+   v11 50.4% of 691 (need 52.4%, ROI -3.9%)   | 53.0% of 1134 (need 52.4%, ROI +1.2%)  LEAN        || v3 47.0% of 511 (need 52.4%, ROI -10.3%)  | 50.6% of 618 (need 52.4%, ROI -3.3%)  
+total edge 2+   v11 51.2% of 330 (need 52.4%, ROI -2.2%)   | 52.1% of 403 (need 52.4%, ROI -0.5%)   LEAN        || v3 49.6% of 121 (need 52.4%, ROI -5.3%)   | 50.0% of 72 (need 52.4%, ROI -4.5%)   
+v11 replaces v3 (all-games hit rate higher in BOTH periods): spreads True, totals True
+coefficients (fit 2013-25): spread const +1.751, spread_line +0.927, net +1.970, qbd +0.067, home -1.553, backup_d +0.246, recout_d -0.341, rbout_d +0.923, dout_d -0.232, yds_d +0.011
+                           total  const +7.077, total_line +0.913, exp_epa -3.189, pace2 -0.037, qbs +0.110, dome +0.674, gustx -0.144, rainx -7.251, coldx -0.001, backup_s -0.638, recout_s +0.322, rbout_s -1.446, dout_s +0.121, yds_s +0.004

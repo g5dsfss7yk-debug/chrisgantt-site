@@ -63,6 +63,14 @@ def rec(league, key):
     return lab, f"{lab} (tested {r['early']} / {r['late']})"
 
 
+def rec11(kind, key):
+    """v11 tested record (v11/RESULTS.md) for 'spread edge N+' / 'total edge N+'."""
+    r = json.load(open(os.path.join(HERE, '..', 'v11', 'results', 'v11_test.json')))['results'][key]['v11']
+    lab = 'TESTED PICK' if r['pass'] else 'LEAN'
+    f = lambda z: f"{z['pct']:.1%} of {z['n']}"
+    return lab, f"{lab} (v11 tested {f(r['early'])} 2014-18 / {f(r['late'])} 2019-26)"
+
+
 def am(x):
     try:
         return float(str(x).replace('+', ''))
@@ -204,12 +212,27 @@ def nfl_card(week=None):
         x = r.copy(); x['spread_line'] = L; x['total_line'] = float(od['total'])
         pm = float(nfl._pred(bs, x[nfl.SPREAD_X].values.astype(float)[None, :])[0])
         pt = float(nfl._pred(bt, x[nfl.TOTAL_X].values.astype(float)[None, :])[0])
+        v11txt = None
+        try:
+            sys.path.insert(0, os.path.join(HERE, '..', 'v11')); import live_game as v11g
+            fz11, res11 = v11g.load()
+            if fz11:
+                pm11, pt11, v11txt = v11g.predict(sys.modules[__name__], x, h, a, c, e['date'], fz11)
+                v3m, v3t = pm, pt
+                if res11['replaces']['spread']:
+                    pm, sd = pm11, fz11['sd']
+                if res11['replaces']['total']:
+                    pt = pt11
+        except Exception as ex:
+            v11txt = f'v11 not available ({ex.__class__.__name__}: {ex}) - v3 numbers shown'
         edge = pm - L
         side_home = edge > 0
         sp_team, sp_line = (h, -L) if side_home else (a, L)
         sp_price = od['home_spread_odds'] if side_home else od['away_spread_odds']
         key = 'spread edge 2+' if abs(edge) >= 2 else 'spread edge 1+' if abs(edge) >= 1 else 'spread edge 0+'
         lab, rtxt = rec('nfl', key)
+        if v11txt and not v11txt.startswith('v11 not'):
+            lab, rtxt = rec11('spread', key)
         ph = wp(pm, sd)
         w_team, w_p, w_price = (h, ph, od['home_ml']) if ph >= 0.5 else (a, 1 - ph, od['away_ml'])
         ev = w_p * float(grade.dec([w_price])[0]) - 1 if not np.isnan(w_price) else np.nan
@@ -218,6 +241,8 @@ def nfl_card(week=None):
         t_price = od['over_odds'] if tedge > 0 else od['under_odds']
         tkey = 'total edge 2+' if abs(tedge) >= 2 else 'total edge 1+' if abs(tedge) >= 1 else 'total edge 0+'
         tlab, ttxt = rec('nfl', tkey)
+        if v11txt and not v11txt.startswith('v11 not'):
+            tlab, ttxt = rec11('total', tkey)
         mlab, mtxt = rec('nfl', 'moneyline EV 3%+')
         print(hdr)
         print(f"  QBs (schedule): {r.get('away_qb_name')} / {r.get('home_qb_name')}")
@@ -225,6 +250,8 @@ def nfl_card(week=None):
         print(f"  WINNER  {w_team} ({w_price:+.0f}) model chance {w_p:.0%}, value at DK price {ev:+.0%}  "
               f"{'LEAN - moneyline rule (3%+ value) ' + mtxt.split(' ', 1)[1] if ev >= 0.03 else 'LEAN (under 3% value)'}")
         print(f"  TOTAL   {t_side} {x.total_line:g} ({t_price:+.0f}, needs {be(t_price):.1%})  model {pt:.1f}  {ttxt}")
+        if v11txt:
+            print(f"  {v11txt}" + (f"  [v3 had {h if v3m >= 0 else a} by {abs(v3m):.1f}, total {v3t:.1f}]" if not v11txt.startswith('v11 not') else ''))
         for dside, dteam, dline in (('home', h, -L), ('away', a, L)):
             if 1.5 <= dline <= 2.5:
                 key2 = 'teaser leg dog +1.5..+2.5, total<=44*' if x.total_line <= 44 else 'teaser leg dog +1.5..+2.5'
