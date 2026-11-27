@@ -143,7 +143,6 @@ logged_at,event,kickoff,game,source,player,team,pos,stat,line,over,under,p_over_
 2026-11-27T18:48:45+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Jaylen Warren,PIT,RB,rushing_yards,64.5,-112,,0.4007,0.4259,64.48,teammates_out;weather,
 2026-11-27T18:48:47+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Rico Dowdle,PIT,RB,rushing_yards,31.5,-108,,0.4912,0.529,38.87,teammates_out;weather;severe,
 2026-11-27T18:48:49+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Bo Nix,DEN,QB,rushing_yards,10.5,-111,,0.4794,0.4897,12.35,weather,
-2026-11-27T18:48:51+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Tyler Badie,DEN,RB,rushing_yards,4.5,-116,,0.5803,0.577,6.0,weather;severe,
 2026-11-27T18:48:52+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Mason Rudolph,PIT,QB,rushing_yards,6.5,-105,,0.5391,0.5597,9.82,teammates_out;role_check;weather,
 2026-11-27T18:48:54+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Bo Nix,DEN,QB,passing_yards,209.5,107,,0.6539,0.5908,234.02,weather,
 2026-11-27T18:48:56+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Mason Rudolph,PIT,QB,passing_yards,179.5,101,,0.7094,0.6769,210.21,role_check;weather;too_good,
@@ -168,3 +167,4 @@ logged_at,event,kickoff,game,source,player,team,pos,stat,line,over,under,p_over_
 2026-11-27T18:49:28+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,DK Metcalf,PIT,WR,anytime_td,0.5,425,,0.1928,0.182,0.17,teammates_out;weather,
 2026-11-27T18:49:30+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Pat Bryant,DEN,WR,anytime_td,0.5,500,,0.1825,0.182,0.16,role_check;weather,
 2026-11-27T18:49:31+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Darnell Washington,PIT,TE,anytime_td,0.5,550,,0.2347,0.1984,0.36,teammates_out;weather,
+2026-11-27T18:52:11+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Tyler Badie,DEN,RB,rushing_yards,4.5,-116.0,,0.5803,0.577,6.0,weather,
