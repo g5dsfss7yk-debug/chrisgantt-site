@@ -629,6 +629,14 @@ def price_prop(player, stat, line, over=None, under=None):
     else:
         print(f"{player} ({team} {pos} vs {opp}, opponent factor {opp_f:.2f}) {stat} {line}: projection {proj:.1f}; Over {p:.1%} (fair {props.fair_american(p)}), "
               f"Under {1 - p:.1%} (fair {props.fair_american(1 - p)}). {note}. LEAN: beating DK prices is not tested.")
+    LJ = os.path.join(HERE, '..', 'v10', 'learned.json')
+    if over is not None and os.path.exists(LJ):
+        lj = json.load(open(LJ))
+        if lj.get('coef'):
+            a_, b_, c_ = lj['coef']; lgt = lambda q: np.log(min(max(q, 1e-3), 1 - 1e-3) / (1 - min(max(q, 1e-3), 1 - 1e-3)))
+            pl = 1 / (1 + np.exp(-(a_ + b_ * lgt(p) + c_ * lgt(be(over)))))
+            print(f"   v10 learned Over chance {pl:.1%} (from {lj['n']} graded DK prices: weight on model {b_:.2f}, on DK {c_:.2f}) - "
+                  f"{'PROVEN' if lj.get('proven') else 'NOT yet proven, information only'}")
     too_good = False
     for side, price, q in (('Over', over, p), ('Under', under, 1 - p)):
         if price is not None:

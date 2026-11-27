@@ -42,6 +42,11 @@ PROP_STAT = {'player_pass_yds': [('passing', 'YDS')], 'player_rush_yds': [('rush
              'player_anytime_td': [('rushing', 'TD'), ('receiving', 'TD')]}
 
 
+def _nm(n):
+    import re
+    return ' '.join(re.sub(r'\b(jr|sr|ii|iii|iv|v)\b', '', re.sub(r'[^a-z ]', '', str(n).lower())).split())
+
+
 def prop_result(league, espn_id, player, market):
     """Player's stat from the ESPN box score; None if the game is not final; 'void' if he has no line in the box."""
     s = data.espn_summary('nfl' if league == 'nfl' else 'cfb', espn_id)
@@ -55,7 +60,7 @@ def prop_result(league, espn_id, player, market):
                     continue
                 k = grp['labels'].index(lab)
                 for a in grp.get('athletes', []):
-                    if a['athlete']['displayName'] == player:
+                    if _nm(a['athlete']['displayName']) == _nm(player):   # 'James Cook III' vs 'James Cook' (bug fix Nov 26)
                         found = True
                         total += float(str(a['stats'][k]).replace(',', '') or 0)
     if found:
@@ -186,3 +191,6 @@ def grade_prices():
 if __name__ == '__main__':
     main()
     grade_prices()
+    import subprocess   # v10: refit the learning layer on every graded DK price
+    r = subprocess.run([sys.executable, '-W', 'ignore', os.path.join(HERE, '..', 'v10', 'learn.py')], capture_output=True, text=True)
+    print('v10 learning layer: ' + r.stdout.strip().replace('\n', ' | '))

@@ -119,3 +119,5 @@ label; `v3/scoreboard.py` grades them and prints the live record by bet type nex
    TOO GOOD TO BE TRUE: prop chance more than 15 pts above DK's break-even -> NOT VERIFIED. PRICE CHECK: priced more than
    2 h before kickoff -> re-check price and inactives. Bet cap (rule, CLAUDE.md): at most 3 bets per game, no parlay
    legs from the same team.
+13. (Nov 26, grading bug fix.) Box-score names with suffixes ("James Cook III") did not match logged names ("James
+   Cook"), leaving props ungraded. Names are now compared without Jr/Sr/II/III.

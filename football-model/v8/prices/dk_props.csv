@@ -41,7 +41,7 @@ logged_at,event,kickoff,game,source,player,team,pos,stat,line,over,under,p_over_
 2026-11-26T14:32:00+00:00,401873081,2026-11-26T18:00Z,CHI @ DET,screenshot 8:32 CT (Chris),Isaac TeSlaa,DET,WR,anytime_td,0.5,450,,0.2694,,0.33,,0.0
 2026-11-26T14:32:00+00:00,401873081,2026-11-26T18:00Z,CHI @ DET,screenshot 8:32 CT (Chris),Sione Vaki,DET,RB,anytime_td,0.5,550,,,,0.0,,0.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Dak Prescott,DAL,QB,passing_yards,269.5,106,,0.4015,,264.06,,291.0
-2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Joe Milton III,PHI,QB,passing_yards,209.5,109,,0.434,,172.18,,
+2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Joe Milton III,PHI,QB,passing_yards,209.5,109,,0.434,,172.18,,331.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),CeeDee Lamb,DAL,WR,receiving_yards,91.5,-114,,0.4628,,105.73,,134.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),George Pickens,DAL,WR,receiving_yards,70.5,-111,,0.5341,,90.62,,67.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),DeVonta Smith,PHI,WR,receiving_yards,69.5,-106,,0.4319,,71.52,,200.0
@@ -69,7 +69,7 @@ logged_at,event,kickoff,game,source,player,team,pos,stat,line,over,under,p_over_
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Zach Ertz,PHI,TE,receptions,1.5,398,,0.7915,,3.09,,
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Javonte Williams,DAL,RB,rushing_yards,79.5,104,,0.3131,,70.97,,101.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Saquon Barkley,PHI,RB,rushing_yards,69.5,106,,0.4226,,72.72,,7.0
-2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Joe Milton III,PHI,QB,rushing_yards,33.5,-111,,0.3642,,32.55,,
+2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Joe Milton III,PHI,QB,rushing_yards,33.5,-111,,0.3642,,32.55,,15.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Jashaun Corbin,,,rushing_yards,12.5,-107,,,,,,21.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Will Shipley,PHI,RB,rushing_yards,12.5,-113,,0.5017,,16.28,,46.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Dak Prescott,DAL,QB,rushing_yards,9.5,-113,,0.535,,12.96,,19.0
@@ -84,49 +84,50 @@ logged_at,event,kickoff,game,source,player,team,pos,stat,line,over,under,p_over_
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Brevyn Spann-Ford,DAL,TE,anytime_td,0.5,390,,0.1599,,0.1,,0.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Makai Lemon,PHI,WR,anytime_td,0.5,400,,0.1928,,0.16,,1.0
 2026-11-26T14:32:00+00:00,401873080,2026-11-26T21:30Z,PHI @ DAL,screenshot 8:32 CT (Chris),Darius Cooper,PHI,WR,anytime_td,0.5,550,,0.2749,,0.4,,0.0
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Patrick Mahomes,KC,QB,passing_yards,239.5,-101,,0.5354,,242.12,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),DJ Moore,BUF,WR,receiving_yards,49.5,-111,,0.4063,,48.48,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Rashee Rice,KC,WR,receiving_yards,49.5,106,,0.5209,,59.58,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Travis Kelce,KC,TE,receiving_yards,43.5,-112,,0.4512,,45.0,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Khalil Shakir,BUF,WR,receiving_yards,39.5,-112,,0.507,,46.78,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Dalton Kincaid,BUF,TE,receiving_yards,39.5,-105,,0.5366,,53.34,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Josh Downs,KC,WR,receiving_yards,39.5,106,,0.402,,36.87,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Emmett Johnson,KC,RB,receiving_yards,30.5,-113,,0.5335,,50.06,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Keon Coleman,BUF,WR,receiving_yards,24.5,-105,,0.3916,,24.69,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Ty Johnson,BUF,RB,receiving_yards,19.5,109,,0.4755,,27.04,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),James Cook,BUF,RB,receiving_yards,8.5,-105,,0.5986,,12.71,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Rashee Rice,KC,WR,receptions,4.5,-103,,0.5583,,5.42,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Travis Kelce,KC,TE,receptions,4.5,122,,0.297,,3.62,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),DJ Moore,BUF,WR,receptions,4.5,144,,0.3266,,3.69,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Emmett Johnson,KC,RB,receptions,3.5,-128,,0.4044,,3.66,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Khalil Shakir,BUF,WR,receptions,3.5,-106,,0.5067,,3.91,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Dalton Kincaid,BUF,TE,receptions,3.5,125,,0.5335,,4.08,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Josh Downs,KC,WR,receptions,3.5,115,,0.4087,,3.39,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Ty Johnson,BUF,RB,receptions,2.5,115,,0.4545,,2.57,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Xavier Worthy,KC,WR,receptions,2.5,123,,0.5034,,2.99,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Keon Coleman,BUF,WR,receptions,2.5,153,,0.3345,,2.11,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Noah Gray,KC,TE,receptions,1.5,102,,0.47,,1.64,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),James Cook,BUF,RB,receptions,1.5,125,,0.4815,,1.5,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Cyrus Allen,KC,WR,receptions,1.5,162,,0.4345,,1.16,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),James Cook,BUF,RB,rushing_yards,89.5,-105,,0.2759,,82.58,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Emmett Johnson,KC,RB,rushing_yards,79.5,-114,,0.1161,,41.87,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Josh Allen,BUF,QB,rushing_yards,39.5,-113,,0.2922,,33.18,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Patrick Mahomes,KC,QB,rushing_yards,14.5,104,,0.5278,,17.93,,
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Patrick Mahomes,KC,QB,passing_yards,239.5,-101,,0.5354,,242.12,,174.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),DJ Moore,BUF,WR,receiving_yards,49.5,-111,,0.4063,,48.48,,15.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Rashee Rice,KC,WR,receiving_yards,49.5,106,,0.5209,,59.58,,19.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Travis Kelce,KC,TE,receiving_yards,43.5,-112,,0.4512,,45.0,,71.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Khalil Shakir,BUF,WR,receiving_yards,39.5,-112,,0.507,,46.78,,33.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Dalton Kincaid,BUF,TE,receiving_yards,39.5,-105,,0.5366,,53.34,,13.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Josh Downs,KC,WR,receiving_yards,39.5,106,,0.402,,36.87,,13.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Emmett Johnson,KC,RB,receiving_yards,30.5,-113,,0.5335,,50.06,,24.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Keon Coleman,BUF,WR,receiving_yards,24.5,-105,,0.3916,,24.69,,0.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Ty Johnson,BUF,RB,receiving_yards,19.5,109,,0.4755,,27.04,,12.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),James Cook,BUF,RB,receiving_yards,8.5,-105,,0.5986,,12.71,,8.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Rashee Rice,KC,WR,receptions,4.5,-103,,0.5583,,5.42,,2.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Travis Kelce,KC,TE,receptions,4.5,122,,0.297,,3.62,,4.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),DJ Moore,BUF,WR,receptions,4.5,144,,0.3266,,3.69,,2.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Emmett Johnson,KC,RB,receptions,3.5,-128,,0.4044,,3.66,,4.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Khalil Shakir,BUF,WR,receptions,3.5,-106,,0.5067,,3.91,,3.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Dalton Kincaid,BUF,TE,receptions,3.5,125,,0.5335,,4.08,,2.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Josh Downs,KC,WR,receptions,3.5,115,,0.4087,,3.39,,1.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Ty Johnson,BUF,RB,receptions,2.5,115,,0.4545,,2.57,,2.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Xavier Worthy,KC,WR,receptions,2.5,123,,0.5034,,2.99,,0.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Keon Coleman,BUF,WR,receptions,2.5,153,,0.3345,,2.11,,0.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Noah Gray,KC,TE,receptions,1.5,102,,0.47,,1.64,,3.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),James Cook,BUF,RB,receptions,1.5,125,,0.4815,,1.5,,1.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Cyrus Allen,KC,WR,receptions,1.5,162,,0.4345,,1.16,,1.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),James Cook,BUF,RB,rushing_yards,89.5,-105,,0.2759,,82.58,,117.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Emmett Johnson,KC,RB,rushing_yards,79.5,-114,,0.1161,,41.87,,72.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Josh Allen,BUF,QB,rushing_yards,39.5,-113,,0.2922,,33.18,,43.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Patrick Mahomes,KC,QB,rushing_yards,14.5,104,,0.5278,,17.93,,2.0
 2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Jaydn Ott,,,rushing_yards,5.5,-102,,,,,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Ray Davis,BUF,RB,rushing_yards,4.5,-124,,0.7662,,14.05,,
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Ray Davis,BUF,RB,rushing_yards,4.5,-124,,0.7662,,14.05,,6.0
 2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Ty Johnson,BUF,RB,rushing_yards,1.5,-106,,0.8419,,8.08,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Emmett Johnson,KC,RB,anytime_td,0.5,-155,,0.3897,,0.61,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),James Cook,BUF,RB,anytime_td,0.5,-105,,0.3897,,0.62,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Rashee Rice,KC,WR,anytime_td,0.5,220,,0.2749,,0.38,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Travis Kelce,KC,TE,anytime_td,0.5,225,,0.1814,,0.17,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),DJ Moore,BUF,WR,anytime_td,0.5,250,,0.2377,,0.27,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Dalton Kincaid,BUF,TE,anytime_td,0.5,285,,0.2005,,0.22,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Khalil Shakir,BUF,WR,anytime_td,0.5,290,,0.138,,0.06,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Josh Downs,KC,WR,anytime_td,0.5,300,,0.2091,,0.24,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Keon Coleman,BUF,WR,anytime_td,0.5,475,,0.1825,,0.14,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Xavier Worthy,KC,WR,anytime_td,0.5,500,,0.2091,,0.2,,
-2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Dawson Knox,BUF,TE,anytime_td,0.5,550,,0.1599,,0.09,,
-2026-11-27T01:43:08+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,card.prop,Josh Allen,BUF,QB,passing_yards,219.5,-110.0,,0.5641,0.5315,230.88,weather,
-2026-11-27T01:43:15+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,card.prop,Ray Davis,BUF,RB,rushing_yards,29.5,-110,,0.2658,0.2727,14.05,teammates_out;role_check;weather,
-2026-11-27T04:14:40+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,card.prop,Dawson Knox,BUF,TE,receptions,1.5,116.0,,0.6162,0.562,2.37,weather;severe,
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Emmett Johnson,KC,RB,anytime_td,0.5,-155,,0.3897,,0.61,,1.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),James Cook,BUF,RB,anytime_td,0.5,-105,,0.3897,,0.62,,1.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Rashee Rice,KC,WR,anytime_td,0.5,220,,0.2749,,0.38,,0.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Travis Kelce,KC,TE,anytime_td,0.5,225,,0.1814,,0.17,,0.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),DJ Moore,BUF,WR,anytime_td,0.5,250,,0.2377,,0.27,,0.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Dalton Kincaid,BUF,TE,anytime_td,0.5,285,,0.2005,,0.22,,0.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Khalil Shakir,BUF,WR,anytime_td,0.5,290,,0.138,,0.06,,0.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Josh Downs,KC,WR,anytime_td,0.5,300,,0.2091,,0.24,,0.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Keon Coleman,BUF,WR,anytime_td,0.5,475,,0.1825,,0.14,,0.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Xavier Worthy,KC,WR,anytime_td,0.5,500,,0.2091,,0.2,,0.0
+2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Dawson Knox,BUF,TE,anytime_td,0.5,550,,0.1599,,0.09,,0.0
+2026-11-27T01:43:08+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,card.prop,Josh Allen,BUF,QB,passing_yards,219.5,-110.0,,0.5641,0.5315,230.88,weather,81.0
+2026-11-27T01:43:15+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,card.prop,Ray Davis,BUF,RB,rushing_yards,29.5,-110,,0.2658,0.2727,14.05,teammates_out;role_check;weather,6.0
+2026-11-27T04:14:40+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,card.prop,Dawson Knox,BUF,TE,receptions,1.5,116.0,,0.6162,0.562,2.37,weather;severe,0.0
 2026-11-27T04:14:44+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,DK Metcalf,PIT,WR,receiving_yards,49.5,-110.0,,0.3101,0.3008,40.83,teammates_out;weather;severe,
+2026-11-27T04:34:16+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,Mason Rudolph,PIT,QB,passing_yards,189.5,-110.0,,0.6558,0.6176,210.21,role_check;weather;severe,
