@@ -146,6 +146,9 @@ def nfl_card(week=None):
                 checks.append(f'NOT VERIFIED: no starting QB listed for {team}')
             elif qn in inj and inj[qn][2] in BAD:
                 checks.append(f'NOT VERIFIED: listed QB {qn} ({team}) is {inj[qn][2]} on ESPN - QB value uses him')
+            if qn and qb_starts(qn) < 4:
+                checks.append(f'NOT VERIFIED - BACKUP QB: {qn} ({team}) has {qb_starts(qn)} starts in the data (needs 4). '
+                              f'Spread, total and {team} passing/receiving props are NOT VERIFIED (Chris, Nov 26).')
             for n, (tab, pos, s) in inj.items():
                 if pos in ('QB', 'RB', 'WR', 'TE') and s in BAD and tab == tm[side] and n != qn:
                     checks.append(f'{team} {pos} {n}: {s}')
@@ -486,6 +489,23 @@ def severe_weather(c, kickoff_iso):
     return lv, txt
 
 
+def qb_starts(name):
+    """Games with 15+ pass attempts for this QB in nflverse weekly stats (2012-now) - 'starts' for the backup-QB check."""
+    d = _pricer('passing_yards')[2]
+    return int(((d.player_display_name == name) & (d.attempts >= 15)).sum())
+
+
+def team_qb(team):
+    """Listed starting QB for the team's next game (nflverse schedule)."""
+    g = data.nfl_games()
+    up = g[g.result.isna() & ((g.home_team == team) | (g.away_team == team))].sort_values('gameday')
+    if up.empty:
+        return None
+    r = up.iloc[0]
+    q = r.home_qb_name if r.home_team == team else r.away_qb_name
+    return q if isinstance(q, str) else None
+
+
 def weather_for(team):
     """ESPN forecast for the team's next game (None if indoor or none listed)."""
     g = data.nfl_games()
@@ -587,6 +607,13 @@ def price_prop(player, stat, line, over=None, under=None):
         print(f"** {why}: OVER on {stat.replace('_', ' ')} is NOT VERIFIED (Chris, Nov 26: teams stop throwing in this weather). Under is not flagged.")
     elif stxt:
         print(f"** {stxt}")
+    tq = team_qb(team)
+    if stat in ('passing_yards', 'receiving_yards', 'receptions') and tq and qb_starts(tq) < 4:
+        print(f"** BACKUP QB: {tq} ({team}) has {qb_starts(tq)} starts in the data (needs 4) - NOT VERIFIED.")
+    if e_:
+        left = (pd.Timestamp(e_['date']) - pd.Timestamp.now(tz='UTC')).total_seconds() / 3600
+        if left > 2:
+            print(f"** PRICE CHECK: kickoff in {left:.1f} h - re-check this DK price and inactives within 2 h of kickoff.")
     sa, l3, rf = role_check(stat, player)
     if rf:
         print(f"** ROLE CHECK: {player} this season {sa if sa is None else round(sa, 1)}/game, last 3 {l3 if l3 is None else round(l3, 1)} - "
@@ -602,13 +629,19 @@ def price_prop(player, stat, line, over=None, under=None):
     else:
         print(f"{player} ({team} {pos} vs {opp}, opponent factor {opp_f:.2f}) {stat} {line}: projection {proj:.1f}; Over {p:.1%} (fair {props.fair_american(p)}), "
               f"Under {1 - p:.1%} (fair {props.fair_american(1 - p)}). {note}. LEAN: beating DK prices is not tested.")
+    too_good = False
     for side, price, q in (('Over', over, p), ('Under', under, 1 - p)):
         if price is not None:
             ev = q * float(grade.dec([price])[0]) - 1
             print(f"   DK {side} {price:+.0f}: needs {be(price):.1%}, model {q:.1%} -> value {ev:+.1%}")
+            if q - be(price) > 0.15:
+                too_good = True
+                print(f"   ** TOO GOOD TO BE TRUE: model is {100 * (q - be(price)):.0f} pts above DK's price - DK likely knows something the "
+                      f"model does not. NOT VERIFIED (Chris, Nov 26).")
     if over is not None or under is not None:
         flags = [f for f, on in (('questionable', bool(st)), ('teammates_out', bool(mates) and stat != 'passing_yards'),
-                                 ('role_check', bool(rf)), ('weather', bool(v6_weather(wx))), ('severe', bool(sev))) if on]
+                                 ('role_check', bool(rf)), ('weather', bool(v6_weather(wx))), ('severe', bool(sev)), ('too_good', too_good),
+                                 ('backup_qb', bool(tq and qb_starts(tq) < 4 and stat in ('passing_yards', 'receiving_yards', 'receptions')))) if on]
         log_price(dict(source='card.prop', player=player, team=team, pos=pos, stat=stat, line=line, over=over, under=under,
                        p_over_v3=round(float(p3), 4), p_over_v8=round(float(p), 4) if v8 is not None else np.nan, proj_v3=round(float(proj), 2), flags=';'.join(flags)), team)
 

@@ -114,3 +114,8 @@ label; `v3/scoreboard.py` grades them and prints the live record by bet type nex
 11. (Nov 26, grading bug fix - no model change.) A prop player missing from ESPN's box score was graded "void", but
    ESPN lists only players who record a stat (PHI@DAL: Ryan Flournoy, active, 0 catches). Now: inactive on ESPN ->
    void; played per nflverse snap counts -> graded as 0; snap counts not out yet -> stays pending.
+12. (Nov 26, checks added at Chris's request - flags only, no model change.) BACKUP QB: listed QB with fewer than 4
+   games of 15+ attempts in nflverse weekly stats -> spread, total and that team's passing/receiving props NOT VERIFIED.
+   TOO GOOD TO BE TRUE: prop chance more than 15 pts above DK's break-even -> NOT VERIFIED. PRICE CHECK: priced more than
+   2 h before kickoff -> re-check price and inactives. Bet cap (rule, CLAUDE.md): at most 3 bets per game, no parlay
+   legs from the same team.

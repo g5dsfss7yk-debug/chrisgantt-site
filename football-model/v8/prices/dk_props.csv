@@ -128,4 +128,5 @@ logged_at,event,kickoff,game,source,player,team,pos,stat,line,over,under,p_over_
 2026-11-26T14:32:00+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,screenshot 8:32 CT (Chris),Dawson Knox,BUF,TE,anytime_td,0.5,550,,0.1599,,0.09,,
 2026-11-27T01:43:08+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,card.prop,Josh Allen,BUF,QB,passing_yards,219.5,-110.0,,0.5641,0.5315,230.88,weather,
 2026-11-27T01:43:15+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,card.prop,Ray Davis,BUF,RB,rushing_yards,29.5,-110,,0.2658,0.2727,14.05,teammates_out;role_check;weather,
-2026-11-27T03:11:34+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,card.prop,Dawson Knox,BUF,TE,receptions,1.5,116.0,,0.6162,0.562,2.37,weather;severe,
+2026-11-27T04:14:40+00:00,401873082,2026-11-27T01:20Z,KC @ BUF,card.prop,Dawson Knox,BUF,TE,receptions,1.5,116.0,,0.6162,0.562,2.37,weather;severe,
+2026-11-27T04:14:44+00:00,401873083,2026-11-27T20:00Z,DEN @ PIT,card.prop,DK Metcalf,PIT,WR,receiving_yards,49.5,-110.0,,0.3101,0.3008,40.83,teammates_out;weather;severe,
