@@ -1,0 +1,17 @@
+core NFL props (core/PROTOCOL.md amendment 9). Test line = player's last-8 mean rounded to x.5 (TD 0.5).
+HP= 4: EARLY log loss (sum over 5 stats) 3.0892
+HP= 8: EARLY log loss (sum over 5 stats) 3.1036
+HP=16: EARLY log loss (sum over 5 stats) 3.1202
+Chosen on EARLY only: HP = 4
+
+passing_yards    EARLY n=  2924 Brier 0.2397 vs naive 0.2494 | LATE n=  3398 Brier 0.2353 vs naive 0.2486 | worst calib gap LATE 6.5 pts | NOT calibrated, beats naive | LATE Over rate 54.2% vs predicted 55.3%
+    weights x base: const +1.009, opp +0.240, tt +0.022, key_out -0.018, rb_out -0.024, quest +0.011, backup +0.173, wind_x -0.004, cold_x -0.003, wx_missing +0.027, dome +0.017
+rushing_yards    EARLY n= 11001 Brier 0.2289 vs naive 0.2356 | LATE n= 13101 Brier 0.2310 vs naive 0.2369 | worst calib gap LATE 4.3 pts | calibrated, beats naive | LATE Over rate 38.5% vs predicted 37.4%
+    weights x base: const +0.924, opp +0.184, tt +0.093, key_out -0.016, rb_out +0.351, quest -0.156, backup +0.036, wind_x +0.004, cold_x +0.005, wx_missing -0.021, dome -0.012
+receiving_yards  EARLY n= 26179 Brier 0.2309 vs naive 0.2357 | LATE n= 30892 Brier 0.2279 vs naive 0.2334 | worst calib gap LATE 17.2 pts | NOT calibrated, beats naive | LATE Over rate 37.1% vs predicted 37.7%
+    weights x base: const +0.939, opp +0.149, tt +0.080, key_out +0.092, rb_out +0.031, quest -0.131, backup -0.042, wind_x -0.002, cold_x -0.002, wx_missing +0.002, dome +0.030
+receptions       EARLY n= 20522 Brier 0.2302 vs naive 0.2393 | LATE n= 24203 Brier 0.2290 vs naive 0.2382 | worst calib gap LATE 5.1 pts | NOT calibrated, beats naive | LATE Over rate 39.1% vs predicted 39.5%
+    weights x base: const +0.955, opp +0.140, tt +0.068, key_out +0.070, rb_out +0.042, quest -0.099, backup -0.050, wind_x -0.001, cold_x -0.003, wx_missing -0.004, dome +0.024
+anytime_td       EARLY n= 29698 Brier 0.1400 vs naive 0.1502 | LATE n= 36561 Brier 0.1324 vs naive 0.1449 | worst calib gap LATE 19.6 pts | NOT calibrated, beats naive | LATE Over rate 17.6% vs predicted 17.7%
+
+DK check (Chris's DK prices, Nov 25-27 2026, logged before kickoff): 119 props matched | Brier model 0.2290 vs DK 0.2134 | Over hit 33.6%, model said 38.0%, DK said 45.2% - NOT a pass/fail (too few)

@@ -61,3 +61,20 @@ QB, starters out, questionable, rest, weather, division) is WORSE than the closi
 QB value (+7.2 margin per EPA/dropback). Only the teaser leg (a rule, no model) passes.
 Differences from the old tests: price gap failed here (old v4: 53.9% / 53.9%, a different conversion); wind Under
 here has no rain/snow (not in nflverse schedules) and only game-book wind.
+
+## NFL props (amendments 9-10; core/results/props_nfl.txt = first run, props_nfl_floor.txt = with DK line floor)
+Half-life HP = 4 chosen on EARLY. Fit on EARLY 2014-19 only, checked on LATE 2020-26. Test line = player's last-8
+mean rounded to x.5 (TD 0.5). "Naive" = the EARLY share of Overs at that kind of line.
+| Stat | Beats naive (both periods) | LATE worst calibration gap, first run / with floor | Calibrated? |
+|---|---|---|---|
+| Passing yards | yes | 6.5 / 6.5 pts | no |
+| Rushing yards | yes | 50.1 (bug: lines of -0.5/0.5 yds) / 4.3 pts | yes, with floor |
+| Receiving yards | yes | 4.8 / 17.2 pts | no (with floor) |
+| Receptions | yes | 9.4 / 5.1 pts | no (just over 5) |
+| Anytime TD | yes | 19.6 / 19.6 pts | no - under-predicts the top scorers (said 42%, hit 62%) |
+
+**DK check (the only test against real DK prices):** 119 of Chris's logged DK prices (Nov 25-27 2026, before
+kickoff): Brier model 0.2290 vs DK 0.2134 - **DK's prices were more accurate than the model.** Overs hit 33.6%;
+the model said 38.0%, DK said 45.2% (DK's Over prices carry the vig). Too few to be final; same direction as the old
+v10 finding (DK beat the model on day 1).
+Stopped after amendment 10: further fixes after seeing results would be tuning to the test.
