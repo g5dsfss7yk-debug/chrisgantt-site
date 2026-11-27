@@ -1,0 +1,16 @@
+core college game model - walk-forward (core/PROTOCOL.md)
+H= 4: EARLY MSE margin+total 513.0 (5292 games)
+H= 8: EARLY MSE margin+total 513.1 (5292 games)
+H=16: EARLY MSE margin+total 513.1 (5292 games)
+Chosen on EARLY only: H = 4. LATE run once with it:
+
+spread edge 0+  EARLY 2685/5305 = 50.6% | LATE 1938/3789 = 51.1% | p=0.999 | LEAN        | home picks 30% / 49%
+spread edge 2+  EARLY 287/535 = 53.6% | LATE 162/288 = 56.2% | p=0.114 | LEAN        | home picks 30% / 62%
+spread edge 4+  EARLY 35/70 = 50.0% | LATE 23/46 = 50.0% | p=0.729 | LEAN        | home picks 80% / 70%
+total edge 0+   EARLY 2616/5233 = 50.0% | LATE 1907/3708 = 51.4% | p=1.000 | LEAN        | Over picks 76% / 76%
+total edge 2+   EARLY 296/606 = 48.8% | LATE 159/315 = 50.5% | p=0.968 | LEAN        | Over picks 94% / 76%
+total edge 4+   EARLY 10/17 = 58.8% | LATE 21/27 = 77.8% | p=0.011 | LEAN        | Over picks 100% / 59%
+winner 3%+ val  EARLY 107/296 ROI +6.0% | LATE 132/393 ROI +0.5% | p=0.313 | LEAN
+
+weights (fit 2015-2025): margin const -0.250, spread_med +0.994, neutral +1.954, m_pass_epa -3.603, m_rush_epa +2.261, m_success +18.872, m_turnovers +1.274, m_sack_rate -7.768, m_explosive -14.839, m_return_td -0.631, m_plays -0.143
+                          total  const +3.070, total_med +0.923, t_pass_epa -0.271, t_rush_epa +1.158, t_success +5.237, t_turnovers +0.339, t_sack_rate +4.497, t_explosive -8.174, t_return_td -6.314, t_plays -0.022
