@@ -110,3 +110,7 @@ early/late periods, freeze, checks a-k).
 4. (Nov 27, BEFORE any amendment-2 result.) CFBD percent-returning has impossible values (UMass 2021 -3.1, New Mexico
    State 2021 1.7: ratios to a near-zero 2020 total). Clipped to 0..1 before the fade. Travel extremes checked: real
    overseas games (Stanford-Rice and Cal-Hawai'i in Sydney). Talent is missing for the 2014 warm-up season only.
+5. (Nov 27, FOUND AFTER the amendment-2 result.) Leak: "starter = most dropbacks in that game" uses in-game
+   information (a starter hurt early is recorded as a backup start, which the closing line did not know). The
+   amendment-2 TESTED PICK labels are withdrawn until re-run. Fix: starter = the QB on the team's FIRST dropback of the
+   game (known at kickoff). Everything else unchanged. The re-run decides; both runs stay in RESULTS.md.

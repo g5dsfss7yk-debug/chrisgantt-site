@@ -12,6 +12,7 @@ LAMBDA = 5.0
 FIRST, EARLY, LATE = 2015, (2017, 2022), (2023, 2026)
 CACHE = os.path.join(data.DATA, 'cfb')
 EXTRA = []          # amendment 2 variables, set by 'test2'
+OUTNAME = 'cfb_test2_firstqb'   # amendment 5 re-run (the leaky run is saved as cfb_test2.txt)
 EXTRA_ALL = ['qb_value', 'backup_qb', 'qb_change', 'elo', 'talent', 'returning', 'rest', 'travel']
 
 
@@ -156,11 +157,14 @@ def extras(seasons=range(2014, 2027)):
     side['travel'] = (3958.8 * 2 * np.arcsin(np.sqrt(a)) / 1000).fillna(0.0)
     # QB: starter = most dropbacks; value = shrunk earlier dropback EPA; backup < 4 earlier starts; change vs last game
     db = pb[(pb['pass'] == 1) & pb.passer_player_name.notna() & pb.pos_team.notna()]
+    db = db.assign(order=np.arange(len(db)))                          # play-by-play is in game order
+    first = db.sort_values('order').drop_duplicates(['game_id', 'pos_team'])[['game_id', 'pos_team', 'passer_player_name']]
     q = db.groupby(['game_id', 'pos_team', 'passer_player_name']).agg(n=('EPA', 'size'), epa=('EPA', 'sum')).reset_index()
     q = q.merge(gm[['game_id', 'date']], on='game_id').sort_values('date')
     q['cum_n'] = q.groupby('passer_player_name').n.cumsum() - q.n
     q['cum_epa'] = q.groupby('passer_player_name').epa.cumsum() - q.epa
-    st_ = q.sort_values('n').drop_duplicates(['game_id', 'pos_team'], keep='last').sort_values('date')
+    # amendment 5: starter = QB on the team's FIRST dropback (known at kickoff), not the one with most dropbacks
+    st_ = q.merge(first, on=['game_id', 'pos_team', 'passer_player_name']).sort_values('date')
     st_['starts_before'] = st_.groupby('passer_player_name').cumcount()
     st_['qb_value'] = st_.cum_epa / (st_.cum_n + 200)
     st_['backup_qb'] = (st_.starts_before < 4).astype(float)
@@ -344,6 +348,6 @@ if __name__ == '__main__':
         bm, _ = fit(f2[f2.season.between(FIRST, 2025)], 'margin'); bt_, _ = fit(f2[f2.season.between(FIRST, 2025)], 'total')
         txt.append('\nweights (fit 2015-2025): margin ' + ', '.join(f'{k} {v:+.3f}' for k, v in bm.items()))
         txt.append('                          total  ' + ', '.join(f'{k} {v:+.3f}' for k, v in bt_.items()))
-        open(os.path.join(HERE, 'results', 'cfb_test2.txt'), 'w').write('\n'.join(txt) + '\n')
-        json.dump(dict(H=H, results=out), open(os.path.join(HERE, 'results', 'cfb_test2.json'), 'w'), indent=1, default=float)
+        open(os.path.join(HERE, 'results', OUTNAME + '.txt'), 'w').write('\n'.join(txt) + '\n')
+        json.dump(dict(H=H, results=out), open(os.path.join(HERE, 'results', OUTNAME + '.json'), 'w'), indent=1, default=float)
         print('\n'.join(txt))
