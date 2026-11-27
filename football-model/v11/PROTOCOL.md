@@ -39,3 +39,9 @@ Everything is printed next to v3 on the same games. Nothing else is tried.
    Props stay v8 (same inputs). One card (v11/card.py) prints games + main-player props + every check in one run.
 2. (Nov 27, Chris OK'd, location bug fix - no model change.) Live weather input for SF home games used Santa Clara,
    Cuba. Fixed in data/v9/geo_cache.json and the lookup in v11/live_game.py (see v3/PROTOCOL.md amendment 14).
+3. (Nov 27, Chris asked. Written BEFORE any re-run result.) v11's weather inputs come from data/v9/game_weather.csv,
+   which had Miami home games at Bordeaux, France (v9 amendment 4). After that fix, `python v11/model.py test` is
+   re-run twice on today's data - old Miami rows (baseline), then corrected - with the features cache deleted before
+   each run. Same periods, bet types, pass and replace rules. If corrected v11 still beats v3 in BOTH periods (all
+   games) it stays on the card and v11/frozen.json is re-frozen on the corrected data; if not, the card goes back to
+   v3 for that market (spread or total), as the replace rule says. The Nov 26 numbers stay in RESULTS.md, labelled.

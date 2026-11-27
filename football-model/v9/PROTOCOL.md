@@ -46,3 +46,17 @@ Results: v9/RESULTS.md. Forecast amounts vs actual amounts are not tested.
    30+ in the game window (takes precedence over the v6 line). S6/S7/S11 print as tested notes on props. The untested
    SEVERE WEATHER flags (amendment 2) stay. Found after the fact, NOT a pick: S8 went the other way - in heavy rain
    rushing yards ran BELOW projection (-3.6 / -9.3 pts), not above.
+4. (Nov 27, Chris asked: "fix the Miami location and re-run the tests". Written BEFORE any re-run result.)
+   Bug: the three Miami stadium names (Dolphin Stadium, Sun Life Stadium, Hard Rock Stadium) were located in
+   Bordeaux, France (44.84, -0.58): zip 33056 has no US match in Open-Meteo geocoding and venues() then fell back to
+   the first match worldwide. Every other US stadium is in the US (checked: all venues.json entries).
+   Fix: those three -> Miami Gardens, FL, 25.94204, -80.2456 (Open-Meteo's US/Florida match for the city name - the
+   same point the live card uses). fetch.py: a US venue whose zip has no US match tries the city name, and a non-US
+   match is never used for a US venue. Only the 168 Miami games are re-fetched (v9/refetch.py, same source, same
+   kickoff + 3 h window); their rows in data/v9/game_weather.csv are replaced. Nothing else changes: Gillette
+   Stadium and McAfee Coliseum stay "not located" (left out, as before); levels, tests and pass rule unchanged.
+   Re-run: test_v9.py on today's data TWICE - first with the old Miami rows (baseline, so changes in nflverse data
+   since Nov 26 are not mistaken for the fix), then with the corrected rows. The corrected run decides. RESULTS.md
+   gets the corrected numbers; the Nov 26 numbers stay there, labelled "before the Miami fix".
+   Card follows the corrected result: a level that no longer passes comes off the card (S4 -> no ">> WEATHER UNDER
+   (v9 S4)"; S6/S7/S11 -> no tested prop note); a test that newly passes is NOT added without Chris asking.
