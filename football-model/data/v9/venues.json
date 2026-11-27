@@ -116,15 +116,6 @@
   "query": "Frankfurt",
   "matched": "Frankfurt am Main"
  },
- "Dolphin Stadium": {
-  "lat": 44.84124,
-  "lon": -0.58046,
-  "city": "Miami Gardens",
-  "state": "FL",
-  "country": "USA",
-  "query": "33056",
-  "matched": "Bordeaux"
- },
  "Empower Field at Mile High": {
   "lat": 39.73915,
   "lon": -104.9847,
@@ -198,15 +189,6 @@
   "matched": "East Rutherford"
  },
  "Gillette Stadium": null,
- "Hard Rock Stadium": {
-  "lat": 44.84124,
-  "lon": -0.58046,
-  "city": "Miami Gardens",
-  "state": "FL",
-  "country": "USA",
-  "query": "33056",
-  "matched": "Bordeaux"
- },
  "Heinz Field": {
   "lat": 40.44062,
   "lon": -79.99589,
@@ -532,15 +514,6 @@
   "query": "90746",
   "matched": "Carson"
  },
- "Sun Life Stadium": {
-  "lat": 44.84124,
-  "lon": -0.58046,
-  "city": "Miami Gardens",
-  "state": "FL",
-  "country": "USA",
-  "query": "33056",
-  "matched": "Bordeaux"
- },
  "TCF Bank Stadium": {
   "lat": 44.97997,
   "lon": -93.26384,
@@ -612,5 +585,32 @@
   "country": "England",
   "query": "London",
   "matched": "London"
+ },
+ "Dolphin Stadium": {
+  "lat": 25.94204,
+  "lon": -80.2456,
+  "city": "Miami Gardens",
+  "state": "FL",
+  "country": "USA",
+  "query": "Miami Gardens",
+  "matched": "Miami Gardens"
+ },
+ "Hard Rock Stadium": {
+  "lat": 25.94204,
+  "lon": -80.2456,
+  "city": "Miami Gardens",
+  "state": "FL",
+  "country": "USA",
+  "query": "Miami Gardens",
+  "matched": "Miami Gardens"
+ },
+ "Sun Life Stadium": {
+  "lat": 25.94204,
+  "lon": -80.2456,
+  "city": "Miami Gardens",
+  "state": "FL",
+  "country": "USA",
+  "query": "Miami Gardens",
+  "matched": "Miami Gardens"
  }
 }
