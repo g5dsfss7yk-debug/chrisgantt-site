@@ -11,6 +11,8 @@ H_GRID = (4, 8, 16)
 LAMBDA = 5.0
 FIRST, EARLY, LATE = 2015, (2017, 2022), (2023, 2026)
 CACHE = os.path.join(data.DATA, 'cfb')
+EXTRA = []          # amendment 2 variables, set by 'test2'
+EXTRA_ALL = ['qb_value', 'backup_qb', 'qb_change', 'elo', 'talent', 'returning', 'rest', 'travel']
 
 
 # ---------------------------------------------------------------- per team-game stats (offense's plays)
@@ -115,12 +117,75 @@ def lines(seasons):
     return med.join(dk).reset_index()
 
 
+# ---------------------------------------------------------------- amendment 2 variables (QB, Elo, talent, returning, rest, travel)
+def extras(seasons=range(2014, 2027)):
+    p = os.path.join(CACHE, 'extras.pkl')
+    if os.path.exists(p):
+        return pd.read_pickle(p)
+    pb = data.cfb_pbp(seasons)
+    gm = pb.groupby('game_id').agg(season=('season', 'first'), week=('week', 'first'), st=('season_type', 'first'),
+                                   date=('start_date', 'first'), home=('home', 'first'), away=('away', 'first'),
+                                   venue_id=('venue_id', 'first'), helo=('home_team_pregame_elo', 'first'),
+                                   aelo=('away_team_pregame_elo', 'first')).reset_index()
+    gm['date'] = pd.to_datetime(gm.date, utc=True)
+    side = pd.concat([gm.assign(team=gm.home, elo=gm.helo, is_home=1), gm.assign(team=gm.away, elo=gm.aelo, is_home=0)])
+    side = side[['game_id', 'season', 'week', 'st', 'date', 'venue_id', 'team', 'elo', 'is_home']].sort_values(['team', 'date'])
+    # Elo: missing -> team's most recent earlier Elo, else season's lowest
+    side['elo'] = side.groupby('team').elo.ffill()
+    side['elo'] = side.elo.fillna(side.groupby('season').elo.transform('min'))
+    # rest: days since previous game, cap 14; first game of a season = 14
+    prev = side.groupby('team').date.shift(); prevs = side.groupby('team').season.shift()
+    side['rest'] = ((side.date - prev).dt.total_seconds() / 86400).where(prevs == side.season).clip(upper=14).fillna(14)
+    # talent (season, team): missing -> season's lowest
+    t = data.cfb_talent(seasons)
+    side = side.merge(t, on=['season', 'team'], how='left')
+    side['talent'] = side.talent.fillna(side.groupby('season').talent.transform('min'))
+    # returning production faded by week 6 (postseason -> 0); missing -> season mean
+    r = data.cfb_returning(seasons)
+    side = side.merge(r, on=['season', 'team'], how='left')
+    side['returning'] = side.returning.clip(0, 1)                                 # amendment 4
+    side['returning'] = side.returning.fillna(side.groupby('season').returning.transform('mean'))
+    fade = np.where(side.st == 'postseason', 0.0, np.clip(1 - (side.week - 1) / 5, 0, 1))
+    side['returning'] = side.returning.fillna(0) * fade
+    # travel: team's home stadium -> game venue, miles / 1000; missing -> 0
+    th = data.cfb_team_home().dropna(subset=['tlat']).drop_duplicates('team')
+    v = data.cfb_venues().dropna(subset=['vlat'])
+    side = side.merge(th, on='team', how='left').merge(v[['venue_id', 'vlat', 'vlon']], on='venue_id', how='left')
+    la1, lo1, la2, lo2 = (np.radians(side[c].astype(float)) for c in ('tlat', 'tlon', 'vlat', 'vlon'))
+    a = np.sin((la2 - la1) / 2) ** 2 + np.cos(la1) * np.cos(la2) * np.sin((lo2 - lo1) / 2) ** 2
+    side['travel'] = (3958.8 * 2 * np.arcsin(np.sqrt(a)) / 1000).fillna(0.0)
+    # QB: starter = most dropbacks; value = shrunk earlier dropback EPA; backup < 4 earlier starts; change vs last game
+    db = pb[(pb['pass'] == 1) & pb.passer_player_name.notna() & pb.pos_team.notna()]
+    q = db.groupby(['game_id', 'pos_team', 'passer_player_name']).agg(n=('EPA', 'size'), epa=('EPA', 'sum')).reset_index()
+    q = q.merge(gm[['game_id', 'date']], on='game_id').sort_values('date')
+    q['cum_n'] = q.groupby('passer_player_name').n.cumsum() - q.n
+    q['cum_epa'] = q.groupby('passer_player_name').epa.cumsum() - q.epa
+    st_ = q.sort_values('n').drop_duplicates(['game_id', 'pos_team'], keep='last').sort_values('date')
+    st_['starts_before'] = st_.groupby('passer_player_name').cumcount()
+    st_['qb_value'] = st_.cum_epa / (st_.cum_n + 200)
+    st_['backup_qb'] = (st_.starts_before < 4).astype(float)
+    st_['prev_qb'] = st_.groupby('pos_team').passer_player_name.shift()
+    st_['qb_change'] = ((st_.prev_qb.notna()) & (st_.prev_qb != st_.passer_player_name)).astype(float)
+    side = side.merge(st_[['game_id', 'pos_team', 'passer_player_name', 'qb_value', 'backup_qb', 'qb_change']]
+                      .rename(columns={'pos_team': 'team', 'passer_player_name': 'qb'}), on=['game_id', 'team'], how='left')
+    side['qb_value'] = side.qb_value.fillna(0.0); side['backup_qb'] = side.backup_qb.fillna(1.0); side['qb_change'] = side.qb_change.fillna(0.0)
+    h = side[side.is_home == 1].set_index('game_id'); a_ = side[side.is_home == 0].set_index('game_id')
+    out = pd.DataFrame(index=h.index)
+    for x in EXTRA_ALL:
+        out[f'm_{x}'] = h[x] - a_[x].reindex(h.index)
+        out[f't_{x}'] = h[x] + a_[x].reindex(h.index)
+    out['home_qb'] = h.qb; out['away_qb'] = a_.qb.reindex(h.index)
+    out = out.reset_index()
+    out.to_pickle(p)
+    return out
+
+
 # ---------------------------------------------------------------- game model
 def design(f, kind):
     if kind == 'margin':
-        cols = ['spread_med', 'neutral'] + [f'm_{s}' for s in STATS]
+        cols = ['spread_med', 'neutral'] + [f'm_{s}' for s in STATS] + [f'm_{x}' for x in EXTRA]
     else:
-        cols = ['total_med'] + [f't_{s}' for s in STATS]
+        cols = ['total_med'] + [f't_{s}' for s in STATS] + [f't_{x}' for x in EXTRA]
     X = f[cols].astype(float).copy()
     if kind == 'margin':
         X['spread_med'] = -X['spread_med']           # home number -> expected home margin by the line
@@ -256,4 +321,29 @@ if __name__ == '__main__':
         txt.append('                          total  ' + ', '.join(f'{k} {v:+.3f}' for k, v in bt_.items()))
         open(os.path.join(HERE, 'results', 'cfb_test.txt'), 'w').write('\n'.join(txt) + '\n')
         json.dump(dict(H=H, mse=mse, results=out), open(os.path.join(HERE, 'results', 'cfb_test.json'), 'w'), indent=1, default=float)
+        print('\n'.join(txt))
+    if cmd == 'test2':
+        H = json.load(open(os.path.join(HERE, 'results', 'cfb_test.json')))['H']
+        base = build(H)
+        X = extras()
+        f = base.merge(X, on='game_id', how='left')
+        for x in EXTRA_ALL:
+            f[f'm_{x}'] = f[f'm_{x}'].fillna(0.0); f[f't_{x}'] = f[f't_{x}'].fillna(0.0)   # talent: 2014 warm-up only
+        txt = [f'core college game model + amendment 2 variables (H = {H} from the first run). LATE 2023-26 was seen once before.']
+        f0 = walk_forward(f)
+        _, ln0 = report(f0)
+        EXTRA[:] = EXTRA_ALL
+        f2 = walk_forward(f)
+        out, ln = report(f2)
+        txt.append('\nFIRST RUN (8 stats + line), same games:'); txt += ln0
+        txt.append('\nWITH ALL VARIABLES (8 stats + QB, Elo, talent, returning, rest, travel + line):'); txt += ln
+        e = lambda g: g[g.season.between(*EARLY) & g.home_score.notna() & g.pm.notna() & g.pt.notna()]
+        for name, g in (('first run', f0), ('all variables', f2)):
+            x = e(g)
+            txt.append(f"EARLY MSE {name}: margin {((x.pm - (x.home_score - x.away_score)) ** 2).mean():.1f}, total {((x.pt - (x.home_score + x.away_score)) ** 2).mean():.1f}")
+        bm, _ = fit(f2[f2.season.between(FIRST, 2025)], 'margin'); bt_, _ = fit(f2[f2.season.between(FIRST, 2025)], 'total')
+        txt.append('\nweights (fit 2015-2025): margin ' + ', '.join(f'{k} {v:+.3f}' for k, v in bm.items()))
+        txt.append('                          total  ' + ', '.join(f'{k} {v:+.3f}' for k, v in bt_.items()))
+        open(os.path.join(HERE, 'results', 'cfb_test2.txt'), 'w').write('\n'.join(txt) + '\n')
+        json.dump(dict(H=H, results=out), open(os.path.join(HERE, 'results', 'cfb_test2.json'), 'w'), indent=1, default=float)
         print('\n'.join(txt))

@@ -107,3 +107,6 @@ early/late periods, freeze, checks a-k).
    FBS-vs-FBS games but missing for ~85-99% of games with an FCS team. Missing Elo = the team's most recent earlier
    Elo; if none, the lowest Elo seen that season. Talent starts in 2015 (2014 is warm-up only). Rest: first game of a
    season = 14. Travel: team or venue without coordinates = 0. QB with no earlier dropbacks: qb_value 0, backup_qb 1.
+4. (Nov 27, BEFORE any amendment-2 result.) CFBD percent-returning has impossible values (UMass 2021 -3.1, New Mexico
+   State 2021 1.7: ratios to a near-zero 2020 total). Clipped to 0..1 before the fade. Travel extremes checked: real
+   overseas games (Stanford-Rice and Cal-Hawai'i in Sydney). Talent is missing for the 2014 warm-up season only.
