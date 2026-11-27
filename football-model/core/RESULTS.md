@@ -22,3 +22,22 @@ stats only (no line) 383.3 / 310.2. Adding any single stat to the line (pass or 
 sack rate, explosive plays, return TDs, pace) changed the error by less than 0.2 - none beat the line alone.
 Meaning: the closing line already prices team strength, defense, takeaways and pass rush; this model's ratings add
 nothing on top of it. The old "spread edge 2+" idea came out above 52.4% again (53.6% / 56.2%) but is not proven.
+
+## College + all variables (amendments 2-5; core/results/cfb_test2_firstqb.txt). LATE was seen once before.
+Added: QB (value, backup, change), Elo, talent, returning production, rest, travel - with the 8 stats and the line.
+| Bet | EARLY 2017-22 | LATE 2023-26 | p | Result |
+|---|---|---|---|---|
+| Spread, all games | 50.6% of 5305 | 52.8% of 3789 | 0.959 | LEAN |
+| Spread, edge 2+ | 54.0% of 1064 | 54.8% of 438 | 0.078 | LEAN - above 52.4% both periods, not proven |
+| Spread, edge 4+ | 55.8% of 181 | 48.0% of 50 | | LEAN (too few late) |
+| Total, all games | 50.3% of 5233 | 52.1% of 3708 | | LEAN - 70% / 68% Overs |
+| Total, edge 2+ | 47.2% of 869 | 55.3% of 349 | | LEAN |
+| Winner, 3%+ value | ROI +19.8% (342) | ROI +0.7% (480) | 0.063 | LEAN |
+EARLY squared error: margin 244.2 / total 270.4 vs line + 8 stats 243.2 / 269.8 vs line alone 243.3 / 269.3.
+
+**Withdrawn run (leak, amendment 5):** with "starter = most dropbacks" (in-game information) spread edge 2+ was
+53.9% / 57.0% (p=0.008) and winner ROI +16.4% / +7.7% (p=0.011) - both "passed". With the starter known at kickoff
+(first dropback) both fail. That run is NOT a result; kept in core/results/cfb_test2.txt only as the record.
+
+**Bottom line: still no college TESTED PICK.** Spread edge 2+ is above break-even for the fourth build in a row
+(v2 55.2% / 54.3%; core 53.6% / 56.2%; core+all 54.0% / 54.8%) but no run has proven it.
