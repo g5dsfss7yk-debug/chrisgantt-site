@@ -86,3 +86,20 @@ early/late periods, freeze, checks a-k).
    bet is above 0 (both periods combined). (d) The game fit uses the median closing line in every season (more games);
    bets in LATE are still graded only at the DraftKings line. (e) cfbfastR 2026 play-by-play currently ends at week 12;
    the live card prints the last week its ratings include.
+2. (Nov 27, Chris: "this model isn't just based on defense" -> add everything else. Written BEFORE any result with
+   these variables. NOTE: LATE 2023-26 was already looked at once (amendment-free run above), so a pass here is
+   weaker evidence than a first look; the live scoreboard is the clean test.)
+   Added to the college game model, on top of the 8 stats (H stays 4, chosen on EARLY):
+   - QB (play-by-play passer names, 2014+): starter = most dropbacks for the team in that game. qb_value = his
+     dropback EPA in all EARLIER games, shrunk: sum / (dropbacks + 200). backup_qb = 1 if fewer than 4 earlier starts.
+     qb_change = 1 if the starter differs from the team's previous game.
+   - Elo: CFBD pregame Elo for each team (in the play-by-play).
+   - Talent: CFBD team talent composite for the season (missing - mostly FCS - = that season's lowest value).
+   - Returning production: CFBD percent of last season's PPA returning, faded out by week 6:
+     value x max(0, 1 - (week - 1) / 5) (missing = season mean).
+   - Rest: days since the team's previous game, capped at 14.
+   - Travel: miles (/1000) from the team's home stadium to the game venue (CFBD venues + team locations).
+   Every variable enters MARGIN as home minus away and TOTAL as home plus away. Nothing is selected or dropped.
+   Weather: history is not available today (Open-Meteo archive rate-limited; CFBD weather is a paid feature) - it is
+   added later in its own amendment, before its result. Injuries: no free college data - not possible.
+   Same bets, same pass rule, results printed next to the first run (8 stats only) on the same games.
