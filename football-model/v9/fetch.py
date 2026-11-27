@@ -82,11 +82,12 @@ if __name__ == '__main__':
         loc = V.get(r.stadium)
         if not loc:
             continue
-        k0 = pd.Timestamp(f"{r.gameday} {r.gametime}").floor('h')
+        day = pd.Timestamp(r.gameday).strftime('%Y-%m-%d')    # gameday is a Timestamp (bug: sent with 00:00:00)
+        k0 = pd.Timestamp(f"{day} {r.gametime}").floor('h')
         try:
-            H = day_hours(loc['lat'], loc['lon'], r.gameday)
+            H = day_hours(loc['lat'], loc['lon'], day)
             if k0.hour >= 21:      # window runs past midnight ET
-                H = pd.concat([H, day_hours(loc['lat'], loc['lon'], (pd.Timestamp(r.gameday) + pd.Timedelta(days=1)).strftime('%Y-%m-%d'))])
+                H = pd.concat([H, day_hours(loc['lat'], loc['lon'], (pd.Timestamp(day) + pd.Timedelta(days=1)).strftime('%Y-%m-%d'))])
         except Exception as ex:
             fails += 1; print('weather failed', r.game_id, ex, flush=True); continue
         w = H.loc[k0:k0 + pd.Timedelta(hours=3)].dropna()
