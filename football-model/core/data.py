@@ -14,7 +14,8 @@ PS_URL = 'https://raw.githubusercontent.com/sportsdataverse/cfbfastR-data/main/p
 PBP_COLS = ['game_id', 'season', 'week', 'season_type', 'start_date', 'neutral_site', 'venue_id', 'home', 'away',
             'home_team_division', 'away_team_division', 'pos_team', 'def_pos_team', 'play_type', 'rush', 'pass', 'sack',
             'EPA', 'success', 'yards_gained', 'turnover', 'wp_before', 'pos_team_score', 'def_pos_team_score',
-            'passer_player_name', 'rusher_player_name', 'receiver_player_name', 'period']
+            'passer_player_name', 'rusher_player_name', 'receiver_player_name', 'period',
+            'home_team_pregame_elo', 'away_team_pregame_elo']
 RETURN_TD = {'Interception Return Touchdown', 'Fumble Return Touchdown', 'Fumble Recovery (Opponent) Touchdown'}
 
 
@@ -97,6 +98,37 @@ def fetch_cfb_lines(y, force=False):
     return out
 
 
+def cfbd_cached(path, name, force=False):
+    """One CFBD call, cached forever under data/core/cfb/cfbd/ (free plan: calls are scarce)."""
+    d = os.path.join(CFB, 'cfbd'); os.makedirs(d, exist_ok=True)
+    p = os.path.join(d, name + '.json')
+    if os.path.exists(p) and not force:
+        return json.load(open(p))
+    x = get_json(f'{CFBD}/{path}')
+    json.dump(x, open(p, 'w'))
+    return x
+
+
+def cfb_talent(seasons):
+    return pd.DataFrame([dict(season=r['year'], team=r['team'], talent=float(r['talent'])) for y in seasons
+                         for r in cfbd_cached(f'talent?year={y}', f'talent_{y}')])
+
+
+def cfb_returning(seasons):
+    return pd.DataFrame([dict(season=r['season'], team=r['team'], returning=r.get('percentPPA')) for y in seasons
+                         for r in cfbd_cached(f'player/returning?year={y}', f'returning_{y}')])
+
+
+def cfb_venues():
+    return pd.DataFrame([dict(venue_id=v['id'], vlat=v.get('latitude'), vlon=v.get('longitude'), dome=v.get('dome'))
+                         for v in cfbd_cached('venues', 'venues')])
+
+
+def cfb_team_home():
+    return pd.DataFrame([dict(team=t['school'], tlat=(t.get('location') or {}).get('latitude'),
+                              tlon=(t.get('location') or {}).get('longitude')) for t in cfbd_cached('teams', 'teams')])
+
+
 def cfb_pbp(seasons):
     return pd.concat([pd.read_parquet(fetch_cfb_pbp(y)) for y in seasons], ignore_index=True)
 
@@ -119,5 +151,7 @@ if __name__ == '__main__':
     assert lg == 'cfb', 'NFL data comes in the NFL step'
     for y in range(a, b + 1):
         t = time.time()
-        fetch_cfb_pbp(y, force=(y == b)); fetch_cfb_players(y, force=(y == b)); fetch_cfb_lines(y, force=(y == b))
+        fetch_cfb_pbp(y, force=True); fetch_cfb_players(y, force=(y == b)); fetch_cfb_lines(y, force=(y == b))
+        cfb_talent([y]); cfb_returning([y])
         print(y, f'{time.time() - t:.0f}s', flush=True)
+    cfb_venues(); cfb_team_home()

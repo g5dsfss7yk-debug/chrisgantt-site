@@ -103,3 +103,7 @@ early/late periods, freeze, checks a-k).
    Weather: history is not available today (Open-Meteo archive rate-limited; CFBD weather is a paid feature) - it is
    added later in its own amendment, before its result. Injuries: no free college data - not possible.
    Same bets, same pass rule, results printed next to the first run (8 stats only) on the same games.
+3. (Nov 27, BEFORE any amendment-2 result - fill rules found in the data check.) CFBD pregame Elo is complete for
+   FBS-vs-FBS games but missing for ~85-99% of games with an FCS team. Missing Elo = the team's most recent earlier
+   Elo; if none, the lowest Elo seen that season. Talent starts in 2015 (2014 is warm-up only). Rest: first game of a
+   season = 14. Travel: team or venue without coordinates = 0. QB with no earlier dropbacks: qb_value 0, backup_qb 1.
