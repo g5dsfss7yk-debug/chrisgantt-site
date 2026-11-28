@@ -301,3 +301,14 @@ early/late periods, freeze, checks a-k).
 25. (Nov 28, AFTER the amendment-24 result.) College card: totals SLATE-CENTERED (won by the rule: 51.8% / 51.7%,
     49% / 50% Overs). NFL card: stays on amendment-22 centering (slate version lost: 49.8% / 50.7%). The college card
     must be run on the whole day's slate (the median is taken over the games in the run).
+26. (Nov 28, Chris: "fix the home team bias in spreads". Written BEFORE any result.) Live: the Nov 28 college card
+    picked home teams on 72% of spreads; tests showed home shares up to 73-89% (college 2023-26). Two CENTERED
+    SPREAD versions, spread edge = model margin - margin implied by the line:
+      R rolling: edge - median(edge) over the previous N games before this week (N = 400 college, 100 NFL);
+      S slate:   edge - median(edge) over all games of the same week (known before kickoff).
+    Base margins unchanged (college: all-seasons fit + in-season recalibration; NFL: all-seasons fit). Judged on
+    college 2020-22 (median line) / 2023-26 (DK) and NFL 2021-23 / 2024-26: spread edge 0 / 2 / 4, home share and hit
+    rate, weeks 9+, season by season. A version qualifies if home share is 40-60% in both periods and weeks 9+ AND its
+    all-games hit rate is not lower than the current version's in either period. If both qualify, the higher combined
+    all-games hit rate wins; if none qualifies, the card keeps the current spreads and says so. Winner rows stay LEAN
+    unless they pass the usual rule.
