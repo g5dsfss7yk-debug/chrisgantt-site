@@ -1,0 +1,13 @@
+Portal-era ratings (amendment 20): previous-season games weighted k in the college ratings.
+k=1.0: 2024 squared error margin+total 504.0
+k=0.5: 2024 squared error margin+total 504.3
+k=0.25: 2024 squared error margin+total 504.3
+Chosen on 2024: k = 1.0. 2025-2026 checked once vs k = 1:
+
+k=1.0 (current):
+  spread edge 0+  2025-26: 1209/2256 = 53.6% | home share 68%
+  spread edge 2+  2025-26: 144/263 = 54.8% | home share 89%
+  total  edge 0+  2025-26: 1159/2280 = 50.8% | Over share 63%
+  total  edge 2+  2025-26: 279/542 = 51.5% | Over share 72%
+
+Card switches to k = 1.0? NO (needs better spread AND total all-games hit rate in 2025-26 than k = 1)

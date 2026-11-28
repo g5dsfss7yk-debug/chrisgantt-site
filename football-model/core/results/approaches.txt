@@ -25,17 +25,17 @@ CURRENT card model:
 2 CLASSIFIER, trained on all earlier seasons:
   spread chance 53%+  286/591 = 48.4% | 250/500 = 50.0% | p=0.986 | LEAN        | home share 41% / 41%
   spread chance 55%+  200/428 = 46.7% | 161/332 = 48.5% | p=0.997 | LEAN        | home share 39% / 38%
-  spread chance 57%+  107/227 = 47.1% | 73/154 = 47.4% | p=0.981 | LEAN        | home share 39% / 45%
+  spread chance 58%+  107/227 = 47.1% | 73/154 = 47.4% | p=0.981 | LEAN        | home share 39% / 45%
   total  chance 53%+  307/605 = 50.7% | 239/473 = 50.5% | p=0.881 | LEAN        | Over share 39% / 34%
   total  chance 55%+  236/455 = 51.9% | 166/334 = 49.7% | p=0.803 | LEAN        | Over share 36% / 33%
-  total  chance 57%+  142/275 = 51.6% | 96/188 = 51.1% | p=0.683 | LEAN        | Over share 34% / 30%
+  total  chance 58%+  142/275 = 51.6% | 96/188 = 51.1% | p=0.683 | LEAN        | Over share 34% / 30%
 2 CLASSIFIER, trained on last 3 seasons:
   spread chance 53%+  330/682 = 48.4% | 281/599 = 46.9% | p=1.000 | LEAN        | home share 38% / 57%
   spread chance 55%+  290/598 = 48.5% | 231/505 = 45.7% | p=1.000 | LEAN        | home share 37% / 57%
-  spread chance 57%+  211/444 = 47.5% | 172/382 = 45.0% | p=1.000 | LEAN        | home share 36% / 59%
+  spread chance 58%+  211/444 = 47.5% | 172/382 = 45.0% | p=1.000 | LEAN        | home share 36% / 59%
   total  chance 53%+  362/695 = 52.1% | 311/612 = 50.8% | p=0.753 | LEAN        | Over share 44% / 45%
   total  chance 55%+  300/580 = 51.7% | 279/524 = 53.2% | p=0.500 | LEAN        | Over share 43% / 47%
-  total  chance 57%+  242/444 = 54.5% | 220/420 = 52.4% | p=0.275 | LEAN        | Over share 40% / 48%
+  total  chance 58%+  242/444 = 54.5% | 220/420 = 52.4% | p=0.275 | LEAN        | Over share 40% / 48%
 
 ===== COLLEGE (periods 2020-2022 / 2023-2026)
 CURRENT card model:
@@ -62,14 +62,14 @@ CURRENT card model:
 2 CLASSIFIER, trained on all earlier seasons:
   spread chance 53%+  911/1789 = 50.9% | 692/1403 = 49.3% | p=0.994 | LEAN        | home share 39% / 43%
   spread chance 55%+  630/1226 = 51.4% | 386/772 = 50.0% | p=0.921 | LEAN        | home share 39% / 47%
-  spread chance 57%+  340/667 = 51.0% | 169/327 = 51.7% | p=0.784 | LEAN        | home share 37% / 51%
+  spread chance 58%+  340/667 = 51.0% | 169/327 = 51.7% | p=0.784 | LEAN        | home share 37% / 51%
   total  chance 53%+  896/1751 = 51.2% | 572/1132 = 50.5% | p=0.946 | LEAN        | Over share 40% / 55%
   total  chance 55%+  638/1215 = 52.5% | 313/630 = 49.7% | p=0.776 | LEAN        | Over share 38% / 50%
-  total  chance 57%+  342/655 = 52.2% | 141/275 = 51.3% | p=0.624 | LEAN        | Over share 33% / 51%
+  total  chance 58%+  342/655 = 52.2% | 141/275 = 51.3% | p=0.624 | LEAN        | Over share 33% / 51%
 2 CLASSIFIER, trained on last 3 seasons:
   spread chance 53%+  1022/2003 = 51.0% | 1230/2426 = 50.7% | p=0.981 | LEAN        | home share 50% / 51%
   spread chance 55%+  788/1534 = 51.4% | 854/1692 = 50.5% | p=0.958 | LEAN        | home share 49% / 52%
-  spread chance 57%+  479/955 = 50.2% | 457/919 = 49.7% | p=0.984 | LEAN        | home share 49% / 50%
+  spread chance 58%+  479/955 = 50.2% | 457/919 = 49.7% | p=0.984 | LEAN        | home share 49% / 50%
   total  chance 53%+  1083/2073 = 52.2% | 1281/2554 = 50.2% | p=0.964 | LEAN        | Over share 51% / 56%
   total  chance 55%+  868/1665 = 52.1% | 908/1822 = 49.8% | p=0.960 | LEAN        | Over share 51% / 57%
-  total  chance 57%+  609/1125 = 54.1% | 533/1059 = 50.3% | p=0.550 | LEAN        | Over share 48% / 59%
+  total  chance 58%+  609/1125 = 54.1% | 533/1059 = 50.3% | p=0.550 | LEAN        | Over share 48% / 59%

@@ -144,3 +144,12 @@ passes for spreads 2+ points off the line; the era fit and the classifier do not
 HONEST CAUTION: this run had about 60 tests; at p < 0.05 two or three passes are expected from luck alone. What is more
 convincing than any one p-value: college spreads 2+ points off the line have been above 52.4% in EVERY build
 (v2 55.2/54.3; core 53.6/56.2; all variables 54.0/54.8; recent 56.1/54.8; recalibrated 56.3/54.7).
+
+## Portal-era ratings (amendment 20; core/results/portal.txt)
+Evidence (team strength only): season-to-season carry-over of college team strength fell from r = 0.49-0.60
+(2017-23, most years) to 0.40 / 0.45 / 0.39 in 2024 / 2025 / 2026 - Chris's transfer-portal point holds in the data.
+Down-weighting last season's games (k = 0.5, 0.25) did NOT help: 2024 error 504.0 (k=1) vs 504.3 / 504.3 - chosen k = 1,
+card unchanged. Reason: by late season the ratings are already nearly all current-season (half-life 4 weeks); the
+portal matters most in weeks 1-4. Next angle: incoming/outgoing transfer value (CFBD portal data) for early weeks.
+Found after the fact: in 2025-26 the college card model picks home teams on 68% of spreads (89% at edge 2+) and is
+over the DK total on 63% of games (72% at edge 2+), while Overs hit 48-49% - a late-season Over lean.
