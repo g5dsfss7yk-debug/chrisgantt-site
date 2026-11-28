@@ -22,7 +22,8 @@ def model():
     cfb.EXTRA[:] = cfb.EXTRA_ALL
     cfb.TOTAL_MODE = 'median'          # amendment 14: removes the Over lean in college totals
     tr = f[f.season.between(cfb.FIRST, 2025)]
-    bm, sd = cfb.fit(tr, 'margin'); bt, _ = cfb.fit(tr, 'total')
+    bm, sd = cfb.fit(tr, 'margin')
+    bt, _ = cfb.fit(f[f.season.between(2023, 2025)], 'total')       # amendment 17: last 3 seasons, median total model
     return H, bm, bt, sd
 
 
@@ -147,8 +148,16 @@ def main(ids):
         wt = hn if ph >= 0.5 else an; wp_ = max(ph, 1 - ph); wml = hml if ph >= 0.5 else aml
         val = wp_ - be(float(wml)) if wml else float('nan')
         print(f"  WINNER  {wt} ({wml}) model chance {wp_:.0%}, value at DK price {val:+.0%}  LEAN ({rec('winner 3%+ value') if False else 'winner 3%+ value: ROI +19.8% / +0.7%, not proven'})")
-        ou = 'Over' if pt > tot else 'Under'; tkey = 'total edge 2+' if abs(pt - tot) >= 2 else 'total edge 0+'
-        print(f"  TOTAL   {ou} {tot:g} ({ovo if ou == 'Over' else uno})  model {pt:.1f}  LEAN ({rec(tkey)}; median total model - Over lean removed (amendment 14))")
+        ou = 'Over' if pt > tot else 'Under'
+        RC = json.load(open(os.path.join(HERE, 'results', 'recent.json')))
+        if abs(pt - tot) >= 2:
+            r_ = RC['COLLEGE|LAST 3 seasons only|total|2']
+            lab = (f"TESTED PICK (college total 2+ pts off the line, last-3-season fit: {r_['p1'][0] / r_['p1'][1]:.1%} of {r_['p1'][1]} 2020-22 / "
+                   f"{r_['p2'][0] / r_['p2'][1]:.1%} of {r_['p2'][1]} 2023-26; must hold up live)")
+        else:
+            r_ = RC['COLLEGE|LAST 3 seasons only|total|0']
+            lab = f"LEAN (under 2 pts off the line: {r_['p1'][0] / r_['p1'][1]:.1%} / {r_['p2'][0] / r_['p2'][1]:.1%})"
+        print(f"  TOTAL   {ou} {tot:g} ({ovo if ou == 'Over' else uno})  model {pt:.1f}, edge {abs(pt - tot):.1f}  {lab}")
         print(f"  inputs: QB value {side['away']['qb_value']:+.3f}/{side['home']['qb_value']:+.3f}, Elo {side['away']['elo']:.0f}/{side['home']['elo']:.0f}, "
               f"talent {side['away']['talent']:.0f}/{side['home']['talent']:.0f}, rest {side['away']['rest']:.0f}/{side['home']['rest']:.0f} days, "
               f"travel {side['away']['travel'] * 1000:.0f} mi (away/home)")
@@ -180,7 +189,7 @@ def main(ids):
                                         ('winner', 'home' if ph >= .5 else 'away', wt, None, wml, round(wp_, 3)),
                                         ('total', ou.lower(), ou, tot, ovo if ou == 'Over' else uno, round(pt, 2))):
             rows.append(dict(league='cfb', event=eid, kickoff=comp['date'], game=f'{an}@{hn}', market=mk, side=sd_, pick=pk, line=ln,
-                             price=pr, label='LEAN' + (' edge2+' if mk == 'spread' and e2 else ''), model=ex,
+                             price=pr, label=('TESTED PICK' if mk == 'total' and abs(pt - tot) >= 2 else 'LEAN' + (' edge2+' if mk == 'spread' and e2 else '')), model=ex,
                              logged_at=now.isoformat(timespec='seconds'), result=None))
     if rows:
         os.makedirs(os.path.dirname(LOG), exist_ok=True)

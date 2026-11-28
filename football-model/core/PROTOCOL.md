@@ -236,3 +236,7 @@ early/late periods, freeze, checks a-k).
     Judged on recent seasons only, two periods: NFL 2021-2023 / 2024-2026; college 2020-2022 (median line) /
     2023-2026 (DraftKings). Compared with the current all-seasons fit on exactly the same games. Bets: spread and
     total edge 0/2/4, winner 3%+ value; pass = 52.4%+ both periods, p < 0.05, 100+ each. Season-by-season printed.
+17. (Nov 28, AFTER the amendment-16 result - card wiring only.) College card: totals come from the last-3-season,
+    median total model; a total 2+ points off the DK line is labelled TESTED PICK with its record (53.1% / 57.2%);
+    under 2 points stays LEAN. College spreads and winners stay on the all-seasons fit (recent-only did not improve
+    them). NFL stays all-seasons for everything.

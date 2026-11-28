@@ -1,0 +1,290 @@
+{
+ "NFL|ALL seasons (current)|spread|0": {
+  "p1": [
+   417,
+   826
+  ],
+  "p2": [
+   378,
+   726
+  ],
+  "p": 0.8296755382776972,
+  "passes": false
+ },
+ "NFL|ALL seasons (current)|spread|2": {
+  "p1": [
+   21,
+   40
+  ],
+  "p2": [
+   6,
+   17
+  ],
+  "p": 0.8141742893153882,
+  "passes": false
+ },
+ "NFL|ALL seasons (current)|spread|4": {
+  "p1": [
+   0,
+   0
+  ],
+  "p2": [
+   0,
+   0
+  ],
+  "p": 1.0,
+  "passes": false
+ },
+ "NFL|ALL seasons (current)|total|0": {
+  "p1": [
+   415,
+   844
+  ],
+  "p2": [
+   378,
+   735
+  ],
+  "p": 0.9606595021227713,
+  "passes": false
+ },
+ "NFL|ALL seasons (current)|total|2": {
+  "p1": [
+   66,
+   123
+  ],
+  "p2": [
+   56,
+   103
+  ],
+  "p": 0.3413867848849176,
+  "passes": false
+ },
+ "NFL|ALL seasons (current)|total|4": {
+  "p1": [
+   2,
+   5
+  ],
+  "p2": [
+   1,
+   1
+  ],
+  "p": 0.7001034141847142,
+  "passes": false
+ },
+ "NFL|LAST 3 seasons only|spread|0": {
+  "p1": [
+   407,
+   826
+  ],
+  "p2": [
+   357,
+   726
+  ],
+  "p": 0.994272226177776,
+  "passes": false
+ },
+ "NFL|LAST 3 seasons only|spread|2": {
+  "p1": [
+   111,
+   226
+  ],
+  "p2": [
+   92,
+   185
+  ],
+  "p": 0.8980526086991956,
+  "passes": false
+ },
+ "NFL|LAST 3 seasons only|spread|4": {
+  "p1": [
+   10,
+   25
+  ],
+  "p2": [
+   11,
+   27
+  ],
+  "p": 0.9696492384238533,
+  "passes": false
+ },
+ "NFL|LAST 3 seasons only|total|0": {
+  "p1": [
+   418,
+   844
+  ],
+  "p2": [
+   366,
+   735
+  ],
+  "p": 0.9865130845444927,
+  "passes": false
+ },
+ "NFL|LAST 3 seasons only|total|2": {
+  "p1": [
+   200,
+   407
+  ],
+  "p2": [
+   162,
+   296
+  ],
+  "p": 0.6981067170694115,
+  "passes": false
+ },
+ "NFL|LAST 3 seasons only|total|4": {
+  "p1": [
+   67,
+   138
+  ],
+  "p2": [
+   37,
+   68
+  ],
+  "p": 0.732537112219901,
+  "passes": false
+ },
+ "COLLEGE|ALL seasons (current)|spread|0": {
+  "p1": [
+   1411,
+   2740
+  ],
+  "p2": [
+   1999,
+   3789
+  ],
+  "p": 0.6140272525705309,
+  "passes": false
+ },
+ "COLLEGE|ALL seasons (current)|spread|2": {
+  "p1": [
+   162,
+   289
+  ],
+  "p2": [
+   240,
+   438
+  ],
+  "p": 0.06347726843180893,
+  "passes": false
+ },
+ "COLLEGE|ALL seasons (current)|spread|4": {
+  "p1": [
+   16,
+   30
+  ],
+  "p2": [
+   24,
+   50
+  ],
+  "p": 0.7063041058625035,
+  "passes": false
+ },
+ "COLLEGE|ALL seasons (current)|total|0": {
+  "p1": [
+   1382,
+   2751
+  ],
+  "p2": [
+   1912,
+   3708
+  ],
+  "p": 0.9883231270383842,
+  "passes": false
+ },
+ "COLLEGE|ALL seasons (current)|total|2": {
+  "p1": [
+   274,
+   538
+  ],
+  "p2": [
+   282,
+   532
+  ],
+  "p": 0.6244085226418692,
+  "passes": false
+ },
+ "COLLEGE|ALL seasons (current)|total|4": {
+  "p1": [
+   20,
+   39
+  ],
+  "p2": [
+   24,
+   38
+  ],
+  "p": 0.2363926111216761,
+  "passes": false
+ },
+ "COLLEGE|LAST 3 seasons only|spread|0": {
+  "p1": [
+   1373,
+   2740
+  ],
+  "p2": [
+   2012,
+   3789
+  ],
+  "p": 0.8184146464422322,
+  "passes": false
+ },
+ "COLLEGE|LAST 3 seasons only|spread|2": {
+  "p1": [
+   178,
+   349
+  ],
+  "p2": [
+   463,
+   855
+  ],
+  "p": 0.28971956290499784,
+  "passes": false
+ },
+ "COLLEGE|LAST 3 seasons only|spread|4": {
+  "p1": [
+   16,
+   28
+  ],
+  "p2": [
+   50,
+   93
+  ],
+  "p": 0.35195323025479835,
+  "passes": false
+ },
+ "COLLEGE|LAST 3 seasons only|total|0": {
+  "p1": [
+   1417,
+   2751
+  ],
+  "p2": [
+   1903,
+   3708
+  ],
+  "p": 0.9473652179508398,
+  "passes": false
+ },
+ "COLLEGE|LAST 3 seasons only|total|2": {
+  "p1": [
+   663,
+   1249
+  ],
+  "p2": [
+   507,
+   887
+  ],
+  "p": 0.014761448211938944,
+  "passes": true
+ },
+ "COLLEGE|LAST 3 seasons only|total|4": {
+  "p1": [
+   204,
+   391
+  ],
+  "p2": [
+   43,
+   74
+  ],
+  "p": 0.3960025966037386,
+  "passes": false
+ }
+}

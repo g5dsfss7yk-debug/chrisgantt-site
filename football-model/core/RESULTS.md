@@ -117,3 +117,15 @@ around between runs (amendment 12 with other seasons: 50.7% / 56.8%) - noise unt
 | NFL totals, edge 2+ | 52.3% / 55.0%, Overs 67% / 66% | 51.1% / 52.0%, Overs 53% / **20%** |
 College: the median fix removes the Over lean (LATE 50% Overs) at the same hit rate. NFL: it OVER-corrects in
 2018-26 (37% Overs, 20% at edge 2+) - the bias flips to Unders; rule says NOT fixed. Nothing passes as a tested pick.
+
+## Recent-seasons-only fit (amendment 16; core/results/recent.txt). Weights fit on the last 3 seasons.
+| | All seasons (current) | Last 3 seasons only |
+|---|---|---|
+| NFL spread, all games, 2021-23 / 2024-26 | 50.5% / 52.1% | 49.3% / 49.2% |
+| NFL total, all games | 49.2% / 51.4% | 49.5% / 49.8% |
+| College spread, all games, 2020-22 / 2023-26 | 51.5% / 52.8% | 50.1% / 53.1% |
+| College spread, edge 2+ | 56.1% of 289 / 54.8% of 438 | 51.0% / 54.2% |
+| **College total, edge 2+** | 50.9% / 53.0% | **53.1% of 1249 / 57.2% of 887, p=0.015 - TESTED PICK** (Overs 56% / 65%) |
+NFL: recent-only is worse on every line - it stays on the all-seasons fit. College: the total edge 2+ rule passes with
+the last-3-season fit (median total model). CAUTION: 2023-26 college games have been looked at in several runs today,
+and many bet types were tested - one pass among many can be luck. It must hold up on new games (live scoreboard).
