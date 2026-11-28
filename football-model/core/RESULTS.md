@@ -107,3 +107,13 @@ WORSE: EARLY squared error margin 179.1 -> 182.0 (with the line), 189.8 -> 192.9
 (all games 50.0% / 49.8% -> 48.8% / 49.5%). Nothing passes. The only number above 60%: no-line total edge 7+
 (62.2% / 61.2% without player values; 54.2% / 67.2% with) - 74-138 bets, under the 100-per-period rule, and it moves
 around between runs (amendment 12 with other seasons: 50.7% / 56.8%) - noise until it holds on new games.
+
+## Totals Over-bias fix (amendment 14; core/results/totals_fix.txt). Chosen on EARLY: M (median regression), both leagues.
+| | Original (least squares) | Median fix |
+|---|---|---|
+| College totals, all games | 50.3% / 52.1%, Overs 70% / 68% | 50.7% / 51.6%, Overs 45% / 50% - **bias fixed** |
+| College totals, edge 2+ | 47.2% / 55.3%, Overs 89% / 74% | 50.3% / 53.0%, Overs 40% / 47% |
+| NFL totals, all games | 49.3% / 50.4%, Overs 62% / 62% | 50.6% / 51.3%, Overs 55% / **37%** |
+| NFL totals, edge 2+ | 52.3% / 55.0%, Overs 67% / 66% | 51.1% / 52.0%, Overs 53% / **20%** |
+College: the median fix removes the Over lean (LATE 50% Overs) at the same hit rate. NFL: it OVER-corrects in
+2018-26 (37% Overs, 20% at edge 2+) - the bias flips to Unders; rule says NOT fixed. Nothing passes as a tested pick.

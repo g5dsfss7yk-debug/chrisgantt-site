@@ -1,0 +1,31 @@
+Totals Over-bias fix (amendment 14). Spreads unchanged.
+
+===== COLLEGE (2017-22 median line / 2023-26 DK)
+ols (original):
+  total edge 0+  EARLY 2634/5233 = 50.3% Over share 70% | LATE 1932/3708 = 52.1% Over share 68% | p=0.994 | LEAN
+  total edge 2+  EARLY 410/869 = 47.2% Over share 89% | LATE 193/349 = 55.3% Over share 74% | p=0.980 | LEAN
+  total edge 4+  EARLY 33/77 = 42.9% Over share 97% | LATE 24/33 = 72.7% Over share 52% | p=0.587 | LEAN
+median <- CHOSEN on EARLY:
+  total edge 0+  EARLY 2651/5233 = 50.7% Over share 45% | LATE 1912/3708 = 51.6% Over share 50% | p=0.995 | LEAN
+  total edge 2+  EARLY 648/1289 = 50.3% Over share 40% | LATE 282/532 = 53.0% Over share 47% | p=0.877 | LEAN
+  total edge 4+  EARLY 73/159 = 45.9% Over share 40% | LATE 24/38 = 63.2% Over share 39% | p=0.831 | LEAN
+offset:
+  total edge 0+  EARLY 2596/5233 = 49.6% Over share 67% | LATE not run (not chosen)
+  total edge 2+  EARLY 377/811 = 46.5% Over share 88% | LATE not run (not chosen)
+  total edge 4+  EARLY 33/68 = 48.5% Over share 99% | LATE not run (not chosen)
+Bias fixed (LATE Over share 40-60%)? YES (50%) - chosen: median
+
+===== NFL (2011-17 / 2018-26)
+ols (original):
+  total edge 0+  EARLY 913/1851 = 49.3% Over share 62% | LATE 1195/2373 = 50.4% Over share 62% | p=0.999 | LEAN
+  total edge 2+  EARLY 324/619 = 52.3% Over share 67% | LATE 180/327 = 55.0% Over share 66% | p=0.306 | LEAN
+  total edge 4+  EARLY 59/120 = 49.2% Over share 62% | LATE 4/9 = 44.4% Over share 44% | p=0.816 | LEAN
+median <- CHOSEN on EARLY:
+  total edge 0+  EARLY 937/1851 = 50.6% Over share 55% | LATE 1217/2373 = 51.3% Over share 37% | p=0.967 | LEAN
+  total edge 2+  EARLY 409/800 = 51.1% Over share 53% | LATE 340/654 = 52.0% Over share 20% | p=0.759 | LEAN
+  total edge 4+  EARLY 120/232 = 51.7% Over share 54% | LATE 47/86 = 54.7% Over share 7% | p=0.506 | LEAN
+offset:
+  total edge 0+  EARLY 921/1851 = 49.8% Over share 65% | LATE not run (not chosen)
+  total edge 2+  EARLY 322/628 = 51.3% Over share 74% | LATE not run (not chosen)
+  total edge 4+  EARLY 57/118 = 48.3% Over share 62% | LATE not run (not chosen)
+Bias fixed (LATE Over share 40-60%)? NO (37%) - chosen: median

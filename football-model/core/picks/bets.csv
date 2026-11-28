@@ -1,2 +1,2 @@
 logged_at,league,event,game,bet_type,legs,price,stake,source,result
-2026-11-28T00:46:53+00:00,cfb,401858544,Minnesota@Wisconsin,teaser,Wisconsin -8.5; Over 36.5,,5,Chris (placed on DK; stake $5 per Chris; teaser price not given),"win (Chris reports; final 28-5, total 33 - at Over 36.5 that leg would lose, so the slip lines must be the teased ones)"
+2026-11-28T00:46:53+00:00,cfb,401858544,Minnesota@Wisconsin,teaser,Wisconsin -2.5; Over 30.5 (teased from -8.5 / 36.5),-115,5,"Chris DK slip DK639314213928369058, placed 2026-11-27 6:09:53 PM CT",win - paid $9.34 on $5 (DK slip); final 28-5
