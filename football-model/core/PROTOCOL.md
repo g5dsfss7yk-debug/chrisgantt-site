@@ -270,3 +270,8 @@ early/late periods, freeze, checks a-k).
     recalibration; total last-3 median). k chosen on 2024 (all-games spread + total squared error), then 2025-2026
     checked ONCE. Bets: spread/total all games and edge 2+, Over share printed. The card switches to the chosen k
     only if it beats k = 1 on 2025-26 on BOTH spread and total all-games hit rate. Rating window stays two seasons.
+21. (Nov 28, bug fix - Chris: "fix the QB data bug".) cfbfastR's 2026 play-by-play had passer names on 1% of pass
+    plays (new play-text format "#18 A.Snelsire pass ..."). core/data.py now fills missing passers from cfbfastR's
+    player file (full names) matched on game, team, quarter, clock, down, distance, yard line when under half are
+    named: 2026 -> 85% named, 88% of team-game starters. 2026 QB inputs (value, starts, backup, change) were wrong
+    before this fix in the card and in the 2026 part of every test; the tested college rules get re-checked with it.

@@ -45,13 +45,48 @@ def fetch_cfb_pbp(y, force=False):
     _download(PBP_URL.format(y=y), rp)
     import pyarrow.parquet as pq
     have = set(pq.read_schema(rp).names)
-    p = pd.read_parquet(rp, columns=[c for c in PBP_COLS if c in have])
+    KEYS = ['clock_minutes', 'clock_seconds', 'down', 'distance', 'yards_to_goal']
+    p = pd.read_parquet(rp, columns=[c for c in PBP_COLS + KEYS if c in have])
     if 'season' not in p:
         p['season'] = y
+    p = _fill_passers(p, y)
+    p = p.drop(columns=[c for c in KEYS if c in p and c not in PBP_COLS])
     p['return_td'] = p.play_type.isin(RETURN_TD).astype(float)
     p.to_parquet(out, index=False)
     os.remove(rp)
     return out
+
+
+def _fill_passers(p, y):
+    """Bug fix Nov 28 2026: cfbfastR's 2026 play-by-play has passer names on ~1% of pass plays (the play text format
+    changed to '#18 A.Snelsire pass ...'). When fewer than half the pass plays are named, fill the passer from
+    cfbfastR's player file (full names, same style as earlier seasons), matched on game, team, quarter, clock, down,
+    distance and yard line. Prints the coverage before and after."""
+    pas = p['pass'] == 1
+    before = p.loc[pas, 'passer_player_name'].notna().mean() if pas.any() else 1.0
+    if before >= 0.5:
+        return p
+    raw = os.path.join(CFB, 'raw'); os.makedirs(raw, exist_ok=True)
+    rp = os.path.join(raw, f'ps_fill_{y}.parquet')
+    _download(PS_URL.format(y=y), rp)
+    s = pd.read_parquet(rp)
+    os.remove(rp)
+    s['passer'] = s.completion_player.fillna(s.incompletion_player).fillna(s.sack_taken_player).fillna(s.interception_thrown_player)
+    k = ['game_id', 'team', 'period', 'clock_minutes', 'clock_seconds', 'down', 'distance', 'yards_to_goal']
+    s = s[s.passer.notna()][k + ['passer']]
+    for c in k:
+        s[c] = pd.to_numeric(s[c], errors='coerce') if c not in ('team',) else s[c]
+    s = s.drop_duplicates(k)
+    q = p.loc[pas, ['game_id', 'pos_team', 'period', 'clock_minutes', 'clock_seconds', 'down', 'distance', 'yards_to_goal']].copy()
+    q = q.rename(columns={'pos_team': 'team'})
+    for c in k:
+        if c != 'team':
+            q[c] = pd.to_numeric(q[c], errors='coerce')
+    q = q.reset_index().merge(s, on=k, how='left').drop_duplicates('index').set_index('index')
+    p.loc[q.index, 'passer_player_name'] = p.loc[q.index, 'passer_player_name'].fillna(q.passer)
+    after = p.loc[pas, 'passer_player_name'].notna().mean()
+    print(f'{y}: passer names on pass plays {before:.0%} -> {after:.0%} (filled from the player file)', flush=True)
+    return p
 
 
 def fetch_cfb_players(y, force=False):
