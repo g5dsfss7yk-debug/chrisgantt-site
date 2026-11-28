@@ -203,3 +203,16 @@ early/late periods, freeze, checks a-k).
     as before (52.4% both periods, p < 0.05, 100+ each). LATE periods were seen before (college once, NFL by every
     old build) - a pass is weaker evidence; the live scoreboard is the clean test. Results printed next to the
     with-line model on the same games.
+13. (Nov 28, Chris: "C" = better player data. Written BEFORE any result.) NFL only (college has no injury data).
+    Replace "how many starters are out" with "how much value is out". Player value = exponentially weighted per-game
+    average over his EARLIER games (last two seasons, half-life 8 games), nflverse weekly stats 2012+:
+      offense (RB/WR/TE/FB): receiving EPA + rushing EPA per game;
+      defense (DL/LB/DB): sacks + 0.5 QB hits + interceptions + 0.5 passes defended + 0.5 tackles for loss + forced
+      fumbles per game (weights fixed here, not fitted);
+      offensive line: no individual stats exist - count of depth-chart OL starters out (previous week's chart).
+    Team-game variables: off_val_out / def_val_out = sum of values of the team's players listed Out or Doubtful that
+    week (matched by player id); off_val_q / def_val_q = same for Questionable; ol_out. QB stays as before.
+    Added to the all-variables NFL model (with the line - the most accurate one) as home-minus-away (margin) and
+    home-plus-away (total). Because player stats start in 2012: fit from 2013, EARLY 2014-2017, LATE 2018-2026, and the
+    model WITHOUT the player values is re-run on exactly the same seasons for the comparison. Same bets (edge 0/2/4/7)
+    and pass rule. Also printed: the same with no line (amendment 12). PFR pressure data starts 2018 - not used.
