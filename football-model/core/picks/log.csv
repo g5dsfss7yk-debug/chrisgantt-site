@@ -1,7 +1,7 @@
 league,event,kickoff,game,market,side,pick,line,price,label,model,logged_at,result
-cfb,401856756,2026-11-28T00:30Z,Texas@Texas A&M,spread,away,Texas,-10.5,-108.0,LEAN,-11.32,2026-11-27T23:54:39+00:00,
-cfb,401856756,2026-11-28T00:30Z,Texas@Texas A&M,winner,away,Texas,,-455.0,LEAN,0.768,2026-11-27T23:54:39+00:00,
-cfb,401856756,2026-11-28T00:30Z,Texas@Texas A&M,total,over,Over,41.5,-110.0,LEAN,42.55,2026-11-27T23:54:39+00:00,
+cfb,401856756,2026-11-28T00:30Z,Texas@Texas A&M,spread,away,Texas,-10.5,-108.0,LEAN,-11.32,2026-11-27T23:54:39+00:00,loss
+cfb,401856756,2026-11-28T00:30Z,Texas@Texas A&M,winner,away,Texas,,-455.0,LEAN,0.768,2026-11-27T23:54:39+00:00,win
+cfb,401856756,2026-11-28T00:30Z,Texas@Texas A&M,total,over,Over,41.5,-110.0,LEAN,42.55,2026-11-27T23:54:39+00:00,loss
 cfb,401858544,2026-11-28T00:30Z,Minnesota@Wisconsin,spread,home,Wisconsin,-9.5,-108.0,LEAN,10.45,2026-11-27T23:54:39+00:00,win
 cfb,401858544,2026-11-28T00:30Z,Minnesota@Wisconsin,winner,home,Wisconsin,,-340.0,LEAN,0.75,2026-11-27T23:54:39+00:00,win
 cfb,401858544,2026-11-28T00:30Z,Minnesota@Wisconsin,total,over,Over,37.5,-110.0,LEAN,39.98,2026-11-27T23:54:39+00:00,loss
