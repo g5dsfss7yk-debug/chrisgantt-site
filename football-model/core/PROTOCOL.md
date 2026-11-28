@@ -228,3 +228,11 @@ early/late periods, freeze, checks a-k).
 15. (Nov 28, Chris's choice after amendment 14: "I don't like the unders, old models picked them a lot and did not
     cover".) NFL totals stay on the ORIGINAL least-squares model (Over share 62%; 49.3% / 50.4%), not the median fix
     (37% Overs on 2018-26; 50.6% / 51.3%). College totals: median fix (50% Overs) unless Chris says otherwise.
+16. (Nov 28, Chris: "An 8 year gap from 2018 to 2026... the league has changed a lot... I do not think comparing those
+    gaps are reasonable" -> "yes test recent seasons only". Written BEFORE any result.)
+    RECENT-ONLY fit: the model weights for season S are fit on seasons S-3..S-1 only (3 seasons, Chris's number - not
+    tuned). Everything else as now: NFL with-line all-variables model (H=4; totals original least squares, Chris's
+    choice); college with-line all-variables model (H=4, first-dropback QB; totals median, amendment 14).
+    Judged on recent seasons only, two periods: NFL 2021-2023 / 2024-2026; college 2020-2022 (median line) /
+    2023-2026 (DraftKings). Compared with the current all-seasons fit on exactly the same games. Bets: spread and
+    total edge 0/2/4, winner 3%+ value; pass = 52.4%+ both periods, p < 0.05, 100+ each. Season-by-season printed.

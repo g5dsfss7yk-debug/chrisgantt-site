@@ -9,6 +9,7 @@ from cfb import ratings_for_slate, pval, ml_profit, STATS, H_GRID
 FIRST_FIT, EARLY, LATE = 2009, (2011, 2017), (2018, 2026)
 LINE_FREE = False   # amendment 12
 TOTAL_MODE = 'ols'  # amendment 14: 'ols' | 'median' | 'offset'
+WINDOW = None       # amendment 16: fit on the last N seasons only (None = all)
 CACHE = os.path.join(data.DATA, 'nfl')
 EXTRA = ['qb_value', 'backup_qb', 'qb_change', 'off_out', 'def_out', 'off_q', 'def_q', 'rest']
 GAME = ['wind_x', 'cold_x', 'wx_missing', 'dome', 'div']        # game-level: total model (div also in margin)
@@ -203,7 +204,7 @@ def fit(f, kind):
 def walk_forward(f):
     f = f.copy(); f['pm'] = np.nan; f['pt'] = np.nan; f['sd'] = np.nan
     for S in range(FIRST_FIT + 1, 2027):
-        tr, te = f[f.season.between(FIRST_FIT, S - 1)], f.season == S
+        tr, te = f[f.season.between(FIRST_FIT if WINDOW is None else max(FIRST_FIT, S - WINDOW), S - 1)], f.season == S
         bm, sd = fit(tr, 'margin'); bt, _ = fit(tr, 'total')
         f.loc[te, 'pm'] = design(f[te], 'margin').values @ bm.values
         f.loc[te, 'pt'] = design(f[te], 'total').values @ bt.values

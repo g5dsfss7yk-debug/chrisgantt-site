@@ -14,6 +14,7 @@ CACHE = os.path.join(data.DATA, 'cfb')
 EXTRA = []          # amendment 2 variables, set by 'test2'
 LINE_FREE = False   # amendment 12
 TOTAL_MODE = 'ols'  # amendment 14: 'ols' | 'median' | 'offset'
+WINDOW = None       # amendment 16: fit on the last N seasons only (None = all)
 OUTNAME = 'cfb_test2_firstqb'   # amendment 5 re-run (the leaky run is saved as cfb_test2.txt)
 EXTRA_ALL = ['qb_value', 'backup_qb', 'qb_change', 'elo', 'talent', 'returning', 'rest', 'travel']
 
@@ -228,7 +229,7 @@ def predict(f, b, kind):
 def walk_forward(f):
     f = f.copy(); f['pm'] = np.nan; f['pt'] = np.nan; f['sd'] = np.nan
     for S in range(FIRST + 1, 2027):
-        tr, te = f[(f.season < S) & (f.season >= FIRST)], f.season == S
+        tr, te = f[(f.season < S) & (f.season >= (FIRST if WINDOW is None else max(FIRST, S - WINDOW)))], f.season == S
         if tr.empty or not te.any():
             continue
         bm, sd = fit(tr, 'margin'); bt_, _ = fit(tr, 'total')
