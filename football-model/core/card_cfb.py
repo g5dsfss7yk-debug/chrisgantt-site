@@ -20,6 +20,7 @@ def model():
     for x in cfb.EXTRA_ALL:
         f[f'm_{x}'] = f[f'm_{x}'].fillna(0.0); f[f't_{x}'] = f[f't_{x}'].fillna(0.0)
     cfb.EXTRA[:] = cfb.EXTRA_ALL
+    cfb.TOTAL_MODE = 'median'          # amendment 14: removes the Over lean in college totals
     tr = f[f.season.between(cfb.FIRST, 2025)]
     bm, sd = cfb.fit(tr, 'margin'); bt, _ = cfb.fit(tr, 'total')
     return H, bm, bt, sd
@@ -147,7 +148,7 @@ def main(ids):
         val = wp_ - be(float(wml)) if wml else float('nan')
         print(f"  WINNER  {wt} ({wml}) model chance {wp_:.0%}, value at DK price {val:+.0%}  LEAN ({rec('winner 3%+ value') if False else 'winner 3%+ value: ROI +19.8% / +0.7%, not proven'})")
         ou = 'Over' if pt > tot else 'Under'; tkey = 'total edge 2+' if abs(pt - tot) >= 2 else 'total edge 0+'
-        print(f"  TOTAL   {ou} {tot:g} ({ovo if ou == 'Over' else uno})  model {pt:.1f}  LEAN ({rec(tkey)}; most college total leans are Overs)")
+        print(f"  TOTAL   {ou} {tot:g} ({ovo if ou == 'Over' else uno})  model {pt:.1f}  LEAN ({rec(tkey)}; median total model - Over lean removed (amendment 14))")
         print(f"  inputs: QB value {side['away']['qb_value']:+.3f}/{side['home']['qb_value']:+.3f}, Elo {side['away']['elo']:.0f}/{side['home']['elo']:.0f}, "
               f"talent {side['away']['talent']:.0f}/{side['home']['talent']:.0f}, rest {side['away']['rest']:.0f}/{side['home']['rest']:.0f} days, "
               f"travel {side['away']['travel'] * 1000:.0f} mi (away/home)")
