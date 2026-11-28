@@ -18,12 +18,13 @@ Betting work: football-model/core/HANDOFF.md (the old v3 README is retired). Sta
    core/RESULTS.md). Run on GAME DAY only (Chris does not bet early). Every game gets a spread, winner and total pick,
    labelled TESTED PICK or LEAN with its tested record - give picks, do not answer "no bet"; skip only a failed check.
    College card: `python football-model/core/card_cfb.py ESPN_EVENT_ID ...`. NFL card: `core/card_nfl.py` (see HANDOFF).
-   TESTED PICKs (core): college spread 2+ pts off the DK line, in-season recalibrated (56.3% / 54.7%); college total
-   2+ pts off the DK line, last-3-season median model (53.1% / 57.2%); NFL 6-pt teaser leg on every dog +1.5..+2.5
-   (76.5% / 77.1%, needs 73.9%). These passed among many tests (luck is possible) - judge them on the live record.
+   TESTED PICK (core): only the NFL 6-pt teaser leg on every dog +1.5..+2.5 (76.5% / 77.1%, needs 73.9%). The two
+   college tested picks were WITHDRAWN Nov 28 after the 2026 QB data fix (they no longer pass). Everything else is a LEAN.
    Failed in core: college teasers (64-73%), NFL price gap, NFL wind Under, line-free models, player-value model.
-   Chris's choices: NFL totals use the original model (leans Over) - he does not want Under-leaning fixes; college
-   totals use the median model (about 50/50). Props: core/props_nfl.py - every prop is a LEAN (DK's prices beat the
+   TOTALS ARE BALANCED (Chris, Nov 28: "balanced and accurate ... without favoring one over the other"): college
+   totals are slate-centered (run the college card on the WHOLE day's slate); NFL totals are centered on the model's
+   recent drift - about 50/50 Overs/Unders and slightly more accurate in testing (core/RESULTS.md).
+   Props: core/props_nfl.py - every prop is a LEAN (DK's prices beat the
    model on 119 logged prices); log every DK price Chris sends (Overs and Unders). Chris's placed bets go in
    core/picks/bets.csv with the real stake and DK slip; card picks in core/picks/log.csv.
 6. **Pre-bet checks - built into the tools, never skipped, carried into ANY rebuild (Chris has asked for these repeatedly).**
