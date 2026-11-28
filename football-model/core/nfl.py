@@ -7,6 +7,7 @@ import data
 from cfb import ratings_for_slate, pval, ml_profit, STATS, H_GRID
 
 FIRST_FIT, EARLY, LATE = 2009, (2011, 2017), (2018, 2026)
+LINE_FREE = False   # amendment 12
 CACHE = os.path.join(data.DATA, 'nfl')
 EXTRA = ['qb_value', 'backup_qb', 'qb_change', 'off_out', 'def_out', 'off_q', 'def_q', 'rest']
 GAME = ['wind_x', 'cold_x', 'wx_missing', 'dome', 'div']        # game-level: total model (div also in margin)
@@ -169,10 +170,14 @@ def extras():
 def design(f, kind):
     if kind == 'margin':
         cols = ['spread_home', 'neutral', 'div'] + [f'm_{s}' for s in STATS] + [f'm_{x}' for x in EXTRA]
+        if LINE_FREE:
+            cols = cols[1:]                                   # amendment 12: no line
     else:
         cols = ['total_line'] + GAME + [f't_{s}' for s in STATS] + [f't_{x}' for x in EXTRA]
+        if LINE_FREE:
+            cols = cols[1:]
     X = f[cols].astype(float).copy()
-    if kind == 'margin':
+    if kind == 'margin' and 'spread_home' in X:
         X['spread_home'] = -X['spread_home']
     X.insert(0, 'const', 1.0)
     return X

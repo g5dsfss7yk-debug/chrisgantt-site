@@ -12,6 +12,7 @@ LAMBDA = 5.0
 FIRST, EARLY, LATE = 2015, (2017, 2022), (2023, 2026)
 CACHE = os.path.join(data.DATA, 'cfb')
 EXTRA = []          # amendment 2 variables, set by 'test2'
+LINE_FREE = False   # amendment 12
 OUTNAME = 'cfb_test2_firstqb'   # amendment 5 re-run (the leaky run is saved as cfb_test2.txt)
 EXTRA_ALL = ['qb_value', 'backup_qb', 'qb_change', 'elo', 'talent', 'returning', 'rest', 'travel']
 
@@ -188,10 +189,14 @@ def extras(seasons=range(2014, 2027)):
 def design(f, kind):
     if kind == 'margin':
         cols = ['spread_med', 'neutral'] + [f'm_{s}' for s in STATS] + [f'm_{x}' for x in EXTRA]
+        if LINE_FREE:
+            cols = cols[1:]                                   # amendment 12: no line
     else:
         cols = ['total_med'] + [f't_{s}' for s in STATS] + [f't_{x}' for x in EXTRA]
+        if LINE_FREE:
+            cols = cols[1:]
     X = f[cols].astype(float).copy()
-    if kind == 'margin':
+    if kind == 'margin' and 'spread_med' in X:
         X['spread_med'] = -X['spread_med']           # home number -> expected home margin by the line
     X.insert(0, 'const', 1.0)
     return X

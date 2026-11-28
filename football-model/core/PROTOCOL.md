@@ -192,3 +192,14 @@ early/late periods, freeze, checks a-k).
     price is not checked by any tool - Chris reads it on the slip). Pass = 73.9%+ both periods, one-sided binomial
     p < 0.05 against 73.9% (both periods together), 100+ legs each. Also printed (information, not a rule): C1/C2
     split by spread size (under 7 / 7-14 / over 14).
+12. (Nov 28, Chris: "These model fail will happen all the time if you keep basing of DK lines" -> "yes build the
+    line-free version". Written BEFORE any result.)
+    LINE-FREE game models, college and NFL: identical to the all-variables models (college: amendments 2-5, leak-free
+    QB; NFL: amendments 6-8) but with NO betting line anywhere in the model - no closing spread, total or moneyline
+    as an input. The model makes its own margin and total; only the bets are graded against the line (that is what
+    pays). Rating memory H in {4, 8, 16} re-chosen on EARLY squared error of the line-free model.
+    Bets: spread and total at edge 0+ / 2+ / 4+ / 7+ (7+ added because a line-free model disagrees with the line by
+    more); winner where the model chance beats the moneyline break-even by 3+ pts. Same periods, lines and pass rule
+    as before (52.4% both periods, p < 0.05, 100+ each). LATE periods were seen before (college once, NFL by every
+    old build) - a pass is weaker evidence; the live scoreboard is the clean test. Results printed next to the
+    with-line model on the same games.
