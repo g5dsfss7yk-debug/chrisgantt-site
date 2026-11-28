@@ -1,0 +1,43 @@
+Centered spreads (amendment 26): R rolling median, S same-week median of the spread edge.
+
+===== COLLEGE (2020-22 / 2023-26 DK)
+CURRENT:
+  spread edge 0+  1388/2740 = 50.7% home 35% | 2018/3789 = 53.3% home 62% | p=0.651 | LEAN
+  spread edge 2+  187/332 = 56.3% home 27% | 315/586 = 53.8% home 73% | p=0.088 | LEAN
+  spread edge 4+  14/27 = 51.9% home 70% | 29/60 = 48.3% home 80% | p=0.746 | LEAN
+  weeks 9+: home 48%, hit 52.0%
+  by season (home share / hit): 2020: 19% H / 49.4% | 2021: 41% H / 47.4% | 2022: 37% H / 53.3% | 2023: 48% H / 54.5% | 2024: 56% H / 51.6% | 2025: 77% H / 51.1% | 2026: 64% H / 54.7%
+R rolling:
+  spread edge 0+  1423/2740 = 51.9% home 47% | 1997/3789 = 52.7% home 48% | p=0.517 | LEAN
+  spread edge 2+  151/284 = 53.2% home 54% | 274/512 = 53.5% home 57% | p=0.300 | LEAN
+  spread edge 4+  17/28 = 60.7% home 96% | 32/65 = 49.2% home 80% | p=0.520 | LEAN
+  weeks 9+: home 44%, hit 52.7%
+  by season (home share / hit): 2020: 34% H / 50.7% | 2021: 55% H / 51.0% | 2022: 48% H / 53.0% | 2023: 51% H / 54.7% | 2024: 53% H / 52.7% | 2025: 54% H / 49.9% | 2026: 40% H / 53.2%
+S slate:
+  spread edge 0+  1420/2740 = 51.8% home 50% | 1966/3789 = 51.9% home 50% | p=0.812 | LEAN
+  spread edge 2+  131/249 = 52.6% home 56% | 253/461 = 54.9% home 53% | p=0.195 | LEAN
+  spread edge 4+  16/25 = 64.0% home 92% | 29/57 = 50.9% home 58% | p=0.368 | LEAN
+  weeks 9+: home 50%, hit 52.7%
+  by season (home share / hit): 2020: 49% H / 54.3% | 2021: 49% H / 48.6% | 2022: 50% H / 53.0% | 2023: 49% H / 55.1% | 2024: 50% H / 49.9% | 2025: 49% H / 49.5% | 2026: 50% H / 52.6%
+Qualifies: none -> card uses: CURRENT (no version qualified)
+
+===== NFL (2021-23 / 2024-26)
+CURRENT:
+  spread edge 0+  417/826 = 50.5% home 46% | 378/726 = 52.1% home 57% | p=0.830 | LEAN
+  spread edge 2+  21/40 = 52.5% home 40% | 6/17 = 35.3% home 47% | p=0.814 | LEAN
+  spread edge 4+  0/0 = 0.0% home nan% | 0/0 = 0.0% home nan% | p=1.000 | LEAN
+  weeks 9+: home 49%, hit 51.4%
+  by season (home share / hit): 2021: 44% H / 50.5% | 2022: 39% H / 47.8% | 2023: 54% H / 53.1% | 2024: 57% H / 52.3% | 2025: 52% H / 49.3% | 2026: 64% H / 56.5%
+R rolling:
+  spread edge 0+  420/826 = 50.8% home 51% | 384/726 = 52.9% home 50% | p=0.690 | LEAN
+  spread edge 2+  23/47 = 48.9% home 55% | 4/18 = 22.2% home 33% | p=0.970 | LEAN
+  spread edge 4+  0/0 = 0.0% home nan% | 0/0 = 0.0% home nan% | p=1.000 | LEAN
+  weeks 9+: home 49%, hit 52.2%
+  by season (home share / hit): 2021: 51% H / 51.2% | 2022: 47% H / 46.7% | 2023: 54% H / 54.6% | 2024: 51% H / 52.7% | 2025: 50% H / 49.3% | 2026: 50% H / 59.6%
+S slate:
+  spread edge 0+  415/826 = 50.2% home 49% | 374/726 = 51.5% home 49% | p=0.896 | LEAN
+  spread edge 2+  23/45 = 51.1% home 51% | 5/19 = 26.3% home 16% | p=0.935 | LEAN
+  spread edge 4+  0/0 = 0.0% home nan% | 0/0 = 0.0% home nan% | p=1.000 | LEAN
+  weeks 9+: home 49%, hit 51.7%
+  by season (home share / hit): 2021: 49% H / 52.3% | 2022: 48% H / 44.2% | 2023: 49% H / 54.2% | 2024: 49% H / 52.0% | 2025: 49% H / 47.9% | 2026: 50% H / 57.1%
+Qualifies: R rolling -> card uses: R rolling

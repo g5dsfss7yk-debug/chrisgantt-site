@@ -164,3 +164,8 @@ Centered edge 2+: college 52.2% / 55.4% (p=0.14), NFL 55.4% / 50.6% - LEAN. Ever
 ## Re-check with corrected 2026 QB data (amendment 23) - college tested picks WITHDRAWN
 College spread 2+ recalibrated: 56.3% / 53.8% (p=0.088, was 54.7% p=0.042). College total 2+ last-3: 53.1% / 53.9%
 (p=0.148, was 57.2% p=0.015). Both now LEAN. Only NFL teaser leg remains a TESTED PICK.
+
+## Centered spreads (amendment 26; core/results/balance_spread.txt)
+College: current 50.7% / 53.3% (home 35% / 62%); rolling 51.9% / 52.7% (home 47% / 48%); slate 51.8% / 51.9% (home
+50% / 50%) - balanced but lower in 2023-26, so by the rule none qualifies. NFL: current 50.5% / 52.1% (home 46% / 57%);
+ROLLING 50.8% / 52.9% (home 51% / 50%) - qualifies, NFL card switched. All LEAN.

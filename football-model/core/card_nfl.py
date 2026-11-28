@@ -25,7 +25,10 @@ def model():
     c2 = f[(f.season == 2026) & f.total.notna() & f.total_line.notna()].sort_values('gameday').tail(100)
     c2 = c2[nfl.design(c2, 'total').notna().all(axis=1)]
     tmed = float(np.median(nfl.design(c2, 'total').values @ bt.values - c2.total_line.values)) if len(c2) >= 50 else 0.0
-    return H, bm, bt, sd, tmed
+    c3 = f[(f.season == 2026) & f.result.notna() & f.spread_line.notna()].sort_values('gameday').tail(100)
+    c3 = c3[nfl.design(c3, 'margin').notna().all(axis=1)]
+    smed = float(np.median(nfl.design(c3, 'margin').values @ bm.values - c3.spread_line.values)) if len(c3) >= 50 else 0.0
+    return H, bm, bt, sd, tmed, smed
 
 
 def live_ratings(H):
@@ -60,7 +63,7 @@ def last_starter(team):
 
 
 def main(week=None):
-    H, bm, bt, sd, tmed = model()
+    H, bm, bt, sd, tmed, smed = model()
     R, lastwk = live_ratings(H)
     T = json.load(open(os.path.join(HERE, 'results', 'nfl_test.json')))['results']
     rec = lambda k: f"tested {T[k]['early'][0] / max(T[k]['early'][1], 1):.1%} of {T[k]['early'][1]} 2011-17 / {T[k]['late'][0] / max(T[k]['late'][1], 1):.1%} of {T[k]['late'][1]} 2018-26"
@@ -149,10 +152,10 @@ def main(week=None):
         nfl.TOTAL_MODE = 'ols'
         pm = float((nfl.design(fr, 'margin').values @ bm.values)[0]); pt = float((nfl.design(fr, 'total').values @ bt.values)[0])
         ph = 0.5 * (1 + erf(pm / (sd * sqrt(2))))
-        edge = pm - (-sp)
+        edge = pm - (-sp) - smed                      # amendment 27: rolling-centered spread (home bias removed)
         spt, spl, spp = (hn, sp, hsp) if edge > 0 else (an, -sp, asp)
         key = 'spread edge 4+' if abs(edge) >= 4 else 'spread edge 2+' if abs(edge) >= 2 else 'spread edge 0+'
-        print(f"  SPREAD  {spt} {spl:+g} ({spp})  model: {hn if pm > 0 else an} by {abs(pm):.1f}, edge {abs(edge):.1f}  LEAN ({rec(key)})")
+        print(f"  SPREAD  {spt} {spl:+g} ({spp})  model: {hn if pm > 0 else an} by {abs(pm):.1f}, centered edge {abs(edge):.1f} (drift {smed:+.1f} removed)  LEAN ({rec(key)})")
         wt = hn if ph >= .5 else an; wp_ = max(ph, 1 - ph); wml = hml if ph >= .5 else aml
         val = wp_ - be(float(wml)) if wml else float('nan')
         print(f"  WINNER  {wt} ({wml}) model chance {wp_:.0%}, value at DK price {val:+.0%}  LEAN (winner 3%+ value: ROI -7.7% / +4.1%)")

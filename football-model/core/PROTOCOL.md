@@ -312,3 +312,6 @@ early/late periods, freeze, checks a-k).
     all-games hit rate is not lower than the current version's in either period. If both qualify, the higher combined
     all-games hit rate wins; if none qualifies, the card keeps the current spreads and says so. Winner rows stay LEAN
     unless they pass the usual rule.
+27. (Nov 28, AFTER the amendment-26 result.) NFL card: spreads ROLLING-centered (qualified: 50.8% / 52.9%, home 51% /
+    50%). College: no version qualified (balanced but 2023-26 hit 52.7% / 51.9% vs current 53.3%) - card keeps the
+    current spreads, home lean shown by the bias check; Chris to decide whether to trade that for balance.
