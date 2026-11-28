@@ -13,7 +13,14 @@ CENTERED:
   total edge 4+  160/309 = 51.8% Overs 53% | 55/90 = 61.1% Overs 22% | p=0.294 | LEAN
   weeks 9+: Overs 49%, hit 52.1% (2552 games)
   by season (Over share / hit): 2020: 47% O / 52.2% | 2021: 49% O / 50.8% | 2022: 57% O / 52.3% | 2023: 35% O / 52.1% | 2024: 55% O / 53.2% | 2025: 55% O / 50.9% | 2026: 50% O / 49.5%
+SLATE-CENTERED:
+  total edge 0+  1426/2751 = 51.8% Overs 49% | 1918/3708 = 51.7% Overs 50% | p=0.847 | LEAN
+  total edge 2+  550/1057 = 52.0% Overs 49% | 447/802 = 55.7% Overs 42% | p=0.149 | LEAN
+  total edge 4+  117/217 = 53.9% Overs 42% | 32/54 = 59.3% Overs 33% | p=0.215 | LEAN
+  weeks 9+: Overs 49%, hit 52.1% (2552 games)
+  by season (Over share / hit): 2020: 49% O / 51.3% | 2021: 49% O / 52.5% | 2022: 50% O / 51.6% | 2023: 49% O / 54.0% | 2024: 50% O / 52.1% | 2025: 49% O / 51.4% | 2026: 50% O / 50.7%
 FIXED by the rule (40-60% Overs both periods and weeks 9+, all-games hit not lower)? YES
+SLATE-CENTERED replaces CENTERED on the cards (amendment 24 rule)? YES
 
 ===== NFL (2021-23 / 2024-26)
 CURRENT (raw edge):
@@ -28,4 +35,11 @@ CENTERED:
   total edge 4+  2/4 = 50.0% Overs 0% | 0/0 = 0.0% Overs nan% | p=0.723 | LEAN
   weeks 9+: Overs 46%, hit 52.1% (863 games)
   by season (Over share / hit): 2021: 55% O / 50.0% | 2022: 53% O / 53.4% | 2023: 49% O / 50.2% | 2024: 46% O / 48.6% | 2025: 53% O / 56.5% | 2026: 49% O / 45.8%
+SLATE-CENTERED:
+  total edge 0+  420/844 = 49.8% Overs 49% | 373/735 = 50.7% Overs 49% | p=0.961 | LEAN
+  total edge 2+  51/93 = 54.8% Overs 38% | 33/64 = 51.6% Overs 50% | p=0.422 | LEAN
+  total edge 4+  1/3 = 33.3% Overs 0% | 0/0 = 0.0% Overs nan% | p=0.892 | LEAN
+  weeks 9+: Overs 49%, hit 51.1% (863 games)
+  by season (Over share / hit): 2021: 49% O / 50.4% | 2022: 49% O / 50.2% | 2023: 50% O / 48.8% | 2024: 49% O / 51.8% | 2025: 49% O / 53.0% | 2026: 49% O / 42.5%
 FIXED by the rule (40-60% Overs both periods and weeks 9+, all-games hit not lower)? YES
+SLATE-CENTERED replaces CENTERED on the cards (amendment 24 rule)? NO

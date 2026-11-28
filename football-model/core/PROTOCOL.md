@@ -298,3 +298,6 @@ early/late periods, freeze, checks a-k).
     Same periods, bets and comparison as amendment 22 (vs current raw and vs amendment-22 centered). Replaces
     amendment 22 on the cards only if Over share is 40-60% in both periods and weeks 9+ AND its all-games hit rate
     is not lower than amendment 22's in either period.
+25. (Nov 28, AFTER the amendment-24 result.) College card: totals SLATE-CENTERED (won by the rule: 51.8% / 51.7%,
+    49% / 50% Overs). NFL card: stays on amendment-22 centering (slate version lost: 49.8% / 50.7%). The college card
+    must be run on the whole day's slate (the median is taken over the games in the run).

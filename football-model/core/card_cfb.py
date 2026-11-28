@@ -111,10 +111,12 @@ def main(ids):
     print(f"core COLLEGE card - {now:%Y-%m-%d %H:%M} UTC. DK lines from ESPN (DraftKings). No college pick passed with corrected data (amendment 23): every pick is a LEAN.")
     print(f"** Ratings use play-by-play through 2026 week {lastwk} only (the free data has not added later weeks).")
     print(f"** In-season recalibration: margin {corr:+.2f} pts (from {ncorr} games this season), amendment 19.")
-    print(f"** Totals are CENTERED (amendment 22): the model's recent drift vs DK totals is {tmed:+.1f} pts and is removed, so Overs and Unders are balanced.")
     print("** No college injury list exists (ESPN: none) - injuries and starting lineups are NOT checked by any tool: check by hand.\n")
-    rows = []
+    rows, tot_items = [], []
     bias = dict(over=0, total=0, fav=0, spread=0, home=0)
+    import io, contextlib
+    buf = io.StringIO()
+    _ctx = contextlib.redirect_stdout(buf); _ctx.__enter__()
     for eid in ids:
         sm = get(f'{E}/summary?event={eid}')
         comp = sm['header']['competitions'][0]
@@ -176,13 +178,9 @@ def main(ids):
         wt = hn if ph >= 0.5 else an; wp_ = max(ph, 1 - ph); wml = hml if ph >= 0.5 else aml
         val = wp_ - be(float(wml)) if wml else float('nan')
         print(f"  WINNER  {wt} ({wml}) model chance {wp_:.0%}, value at DK price {val:+.0%}  LEAN ({rec('winner 3%+ value') if False else 'winner 3%+ value: ROI +19.8% / +0.7%, not proven'})")
-        ce = (pt - tot) - tmed
-        ou = 'Over' if ce > 0 else 'Under'
-        BL = json.load(open(os.path.join(HERE, 'results', 'balance.json')))
-        r_ = BL['COLLEGE (2020-22 median line / 2023-26 DK)|CENTERED|' + ('2' if abs(ce) >= 2 else '0')]
-        lab = (f"LEAN (centered, {'2+ pts' if abs(ce) >= 2 else 'under 2 pts'} off: {r_['p1'][0] / r_['p1'][1]:.1%} 2020-22 / "
-               f"{r_['p2'][0] / r_['p2'][1]:.1%} 2023-26)")
-        print(f"  TOTAL   {ou} {tot:g} ({ovo if ou == 'Over' else uno})  model {pt:.1f} - drift {tmed:+.1f} = centered edge {ce:+.1f}  {lab}")
+        k_ = len(tot_items)                                   # amendment 24/25: total printed after the slate median is known
+        tot_items.append(dict(pt=pt, tot=tot, ovo=ovo, uno=uno, eid=eid, kickoff=comp['date'], game=f'{an}@{hn}'))
+        print(f"<<TOTAL_{k_}>>")
         print(f"  inputs: QB value {side['away']['qb_value']:+.3f}/{side['home']['qb_value']:+.3f}, Elo {side['away']['elo']:.0f}/{side['home']['elo']:.0f}, "
               f"talent {side['away']['talent']:.0f}/{side['home']['talent']:.0f}, rest {side['away']['rest']:.0f}/{side['home']['rest']:.0f} days, "
               f"travel {side['away']['travel'] * 1000:.0f} mi (away/home)")
@@ -211,14 +209,33 @@ def main(ids):
         else:
             checks.append('weather: no ESPN forecast - check by hand')
         checks.append('BET CAP: at most 3 bets on this game; never two parlay legs from the same team')
-        bias['total'] += 1; bias['over'] += ou == 'Over'; bias['spread'] += 1; bias['fav'] += sp_line < 0; bias['home'] += sp_team == hn
+        bias['spread'] += 1; bias['fav'] += sp_line < 0; bias['home'] += sp_team == hn
         print('  ' + '\n  '.join('** ' + c for c in checks) + '\n')
         for mk, sd_, pk, ln, pr, ex in (('spread', 'home' if edge > 0 else 'away', sp_team, sp_line, sp_price, round(pm, 2)),
-                                        ('winner', 'home' if ph >= .5 else 'away', wt, None, wml, round(wp_, 3)),
-                                        ('total', ou.lower(), ou, tot, ovo if ou == 'Over' else uno, round(pt, 2))):
+                                        ('winner', 'home' if ph >= .5 else 'away', wt, None, wml, round(wp_, 3))):
             rows.append(dict(league='cfb', event=eid, kickoff=comp['date'], game=f'{an}@{hn}', market=mk, side=sd_, pick=pk, line=ln,
                              price=pr, label='LEAN', model=ex,
                              logged_at=now.isoformat(timespec='seconds'), result=None))
+    _ctx.__exit__(None, None, None)
+    # amendment 24/25: slate-centered totals = (model - line) - median(model - line) over this run's games
+    med = float(np.median([t['pt'] - t['tot'] for t in tot_items])) if tot_items else 0.0
+    BL = json.load(open(os.path.join(HERE, 'results', 'balance.json')))
+    text = buf.getvalue()
+    for k_, t in enumerate(tot_items):
+        ce = (t['pt'] - t['tot']) - med
+        ou = 'Over' if ce > 0 else 'Under'
+        r_ = BL['COLLEGE (2020-22 median line / 2023-26 DK)|SLATE-CENTERED|' + ('2' if abs(ce) >= 2 else '0')]
+        lab = (f"LEAN (slate-centered, {'2+ pts' if abs(ce) >= 2 else 'under 2 pts'} off: {r_['p1'][0] / r_['p1'][1]:.1%} 2020-22 / "
+               f"{r_['p2'][0] / r_['p2'][1]:.1%} 2023-26)")
+        text = text.replace(f"<<TOTAL_{k_}>>", f"  TOTAL   {ou} {t['tot']:g} ({t['ovo'] if ou == 'Over' else t['uno']})  model {t['pt']:.1f}, "
+                                              f"slate gap {med:+.1f} -> edge {ce:+.1f}  {lab}")
+        bias['total'] += 1; bias['over'] += ou == 'Over'
+        rows.append(dict(league='cfb', event=t['eid'], kickoff=t['kickoff'], game=t['game'], market='total', side=ou.lower(), pick=ou,
+                         line=t['tot'], price=t['ovo'] if ou == 'Over' else t['uno'], label='LEAN', model=round(t['pt'], 2),
+                         logged_at=now.isoformat(timespec='seconds'), result=None))
+    print(f"** Totals are SLATE-CENTERED (amendment 24/25): median model-vs-DK gap across these {len(tot_items)} games = {med:+.1f} pts, removed "
+          "so Overs/Unders are balanced. Run the card on the WHOLE day's slate.\n")
+    print(text, end='')
     if bias['total']:
         b = lambda k, n: bias[k] / max(bias[n], 1)
         flags = [nm for nm, v in (('Overs', b('over', 'total')), ('favorites', b('fav', 'spread')), ('home teams', b('home', 'spread'))) if v > .65 or v < .35]
