@@ -1,4 +1,4 @@
-core COLLEGE card - 2026-11-28 16:36 UTC. DK lines from ESPN (DraftKings). Tested: totals and spreads 2+ pts off the line; everything else is a LEAN.
+core COLLEGE card - 2026-11-28 16:37 UTC. DK lines from ESPN (DraftKings). Tested: totals and spreads 2+ pts off the line; everything else is a LEAN.
 ** Ratings use play-by-play through 2026 week 12 only (the free data has not added later weeks).
 ** In-season recalibration: margin +0.37 pts (from 1470 games this season), amendment 19.
 ** No college injury list exists (ESPN: none) - injuries and starting lineups are NOT checked by any tool: check by hand.
@@ -116,7 +116,7 @@ Illinois @ Northwestern  Sat Nov 28 11:30 AM CT
   ** Illinois QB: Katin Houser (most passes in last game: Iowa Hawkeyes at Illinois Fighting Illini; 31 starts in the data) - starter NOT confirmed (no college injury/lineup data)
   ** CHANGE: spread (home) moved +3.5 -> -5.5 since the opener (DK via ESPN)
   ** CHANGE: total moved 52.5 -> 47.5 since the opener (DK via ESPN)
-  ** weather (ESPN forecast): 44F, gusts 13 mph, precip 25%
+  ** weather (ESPN forecast): 47F, gusts 11 mph, precip 25%
   ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
 
 LSU @ Arkansas  Sat Nov 28 11:45 AM CT
