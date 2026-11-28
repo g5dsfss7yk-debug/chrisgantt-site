@@ -120,7 +120,7 @@ def cfb_returning(seasons):
 
 
 def cfb_venues():
-    return pd.DataFrame([dict(venue_id=v['id'], vlat=v.get('latitude'), vlon=v.get('longitude'), dome=v.get('dome'))
+    return pd.DataFrame([dict(venue_id=v['id'], name=v.get('name'), vlat=v.get('latitude'), vlon=v.get('longitude'), dome=v.get('dome'))
                          for v in cfbd_cached('venues', 'venues')])
 
 

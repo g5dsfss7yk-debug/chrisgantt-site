@@ -85,7 +85,7 @@ def main(ids):
     T2 = json.load(open(os.path.join(HERE, 'results', 'cfb_test2_firstqb.json')))['results']
     rec = lambda k: f"tested {T2[k]['early'][0] / max(T2[k]['early'][1], 1):.1%} of {T2[k]['early'][1]} 2017-22 / {T2[k]['late'][0] / max(T2[k]['late'][1], 1):.1%} of {T2[k]['late'][1]} 2023-26"
     now = datetime.now(timezone.utc)
-    print(f"core COLLEGE card - {now:%Y-%m-%d %H:%M} UTC. DK lines from ESPN (DraftKings). NOTHING in college passed its test: every pick is a LEAN.")
+    print(f"core COLLEGE card - {now:%Y-%m-%d %H:%M} UTC. DK lines from ESPN (DraftKings). Tested: totals 2+ pts off the line (last-3-season fit); everything else is a LEAN.")
     print(f"** Ratings use play-by-play through 2026 week {lastwk} only (the free data has not added later weeks).")
     print("** No college injury list exists (ESPN: none) - injuries and starting lineups are NOT checked by any tool: check by hand.\n")
     rows = []
@@ -172,8 +172,10 @@ def main(ids):
             checks.append('line move vs opener: not available on ESPN - check by hand')
         v = comp.get('venue') or sm.get('gameInfo', {}).get('venue', {})
         wx = sm.get('gameInfo', {}).get('weather')
-        if sm.get('gameInfo', {}).get('venue', {}).get('indoor'):
-            pass
+        vn = (sm.get('gameInfo', {}).get('venue', {}) or {}).get('fullName', '')
+        dm = data.cfb_venues(); dm = dm[dm.name.fillna('').str.lower() == vn.lower()]
+        if sm.get('gameInfo', {}).get('venue', {}).get('indoor') or (len(dm) and bool(dm.dome.iloc[0])):
+            checks.append(f'weather: {vn} is a dome (ESPN/CFBD) - not a factor')
         elif wx:
             g_, pr_ = wx.get('gust') or 0, wx.get('precipitation') or 0
             msg = f"weather (ESPN forecast): {wx.get('temperature')}F, gusts {g_} mph, precip {pr_}%"
