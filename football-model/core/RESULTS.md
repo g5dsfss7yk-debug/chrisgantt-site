@@ -88,3 +88,15 @@ Stopped after amendment 10: further fixes after seeing results would be tuning t
 | C4 favorites -7.5..-8.5 | 69.6% of 270 | 70.7% of 246 | FAIL |
 No college teaser leg reaches 73.9% in either period; by spread size, every group is 64-70%. Big college spreads
 (over 14) teased: dogs 65.6% / 65.5%, favorites 64.3% / 65.6%.
+
+## LINE-FREE game models (amendment 12; core/results/linefree.txt). No betting line in the model.
+| | College 2017-22 / 2023-26 (DK) | NFL 2011-17 / 2018-26 |
+|---|---|---|
+| Spread, all games | 49.7% / 51.3% | 51.8% / 51.2% |
+| Spread, edge 4+ | 49.9% / 52.5% | 52.4% / 53.6% |
+| Spread, edge 7+ | 50.6% of 1290 / 52.5% of 981 | 55.2% of 125 / 58.0% of 69 (p=0.163, too few to prove) |
+| Total, all games | 50.4% / 50.9% (68% Overs) | 51.1% / 50.5% |
+| Winner, 3%+ value | ROI -0.1% / -8.8% | ROI -2.2% / -5.9% |
+**Nothing passes.** Without the line the models predict scores worse (college squared error margin 287.5 vs 244.9
+with the line; NFL 188.6 vs 179.4) and pick no more winners against the spread. Line-free college totals lean Over
+68-79% of the time. Only possible lead: NFL line-free spread edge 7+ (55.2% / 58.0%), 194 bets in total - not proven.

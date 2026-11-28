@@ -1,0 +1,57 @@
+LINE-FREE game models (amendment 12): no betting line in the model; bets graded at the line.
+
+===== COLLEGE (2017-22 median line / 2023-26 DraftKings)
+H= 4: EARLY squared error margin+total 598.2
+H= 8: EARLY squared error margin+total 596.5
+H=16: EARLY squared error margin+total 598.3
+Chosen on EARLY: H = 8
+
+LINE-FREE: EARLY squared error margin 287.5, total 309.0
+  spread edge 0+  EARLY 2634/5305 = 49.7% | LATE 1945/3789 = 51.3% | p=1.000 | LEAN        | home share LATE 55%
+  spread edge 2+  EARLY 1872/3780 = 49.5% | LATE 1430/2758 = 51.8% | p=0.999 | LEAN        | home share LATE 56%
+  spread edge 4+  EARLY 1255/2513 = 49.9% | LATE 972/1852 = 52.5% | p=0.967 | LEAN        | home share LATE 56%
+  spread edge 7+  EARLY 653/1290 = 50.6% | LATE 515/981 = 52.5% | p=0.828 | LEAN        | home share LATE 56%
+  total  edge 0+  EARLY 2640/5234 = 50.4% | LATE 1888/3708 = 50.9% | p=1.000 | LEAN        | Over share LATE 68%
+  total  edge 2+  EARLY 2043/4028 = 50.7% | LATE 1376/2722 = 50.6% | p=0.998 | LEAN        | Over share LATE 72%
+  total  edge 4+  EARLY 1496/2932 = 51.0% | LATE 945/1855 = 50.9% | p=0.975 | LEAN        | Over share LATE 75%
+  total  edge 7+  EARLY 846/1611 = 52.5% | LATE 437/851 = 51.4% | p=0.620 | LEAN        | Over share LATE 79%
+  winner 3%+   EARLY 307/887 ROI -0.1% | LATE 780/2318 ROI -8.8% | p=0.981 | LEAN
+
+with the line (as before): EARLY squared error margin 244.9, total 270.4
+  spread edge 0+  EARLY 2701/5305 = 50.9% | LATE 2033/3789 = 53.7% | p=0.748 | LEAN        | home share LATE 48%
+  spread edge 2+  EARLY 522/986 = 52.9% | LATE 223/402 = 55.5% | p=0.178 | LEAN        | home share LATE 57%
+  spread edge 4+  EARLY 90/166 = 54.2% | LATE 26/51 = 51.0% | p=0.404 | LEAN        | home share LATE 67%
+  spread edge 7+  EARLY 4/12 = 33.3% | LATE 3/6 = 50.0% | p=0.917 | LEAN        | home share LATE 50%
+  total  edge 0+  EARLY 2604/5233 = 49.8% | LATE 1941/3708 = 52.3% | p=0.999 | LEAN        | Over share LATE 65%
+  total  edge 2+  EARLY 364/768 = 47.4% | LATE 187/343 = 54.5% | p=0.971 | LEAN        | Over share LATE 73%
+  total  edge 4+  EARLY 37/74 = 50.0% | LATE 21/30 = 70.0% | p=0.278 | LEAN        | Over share LATE 57%
+  total  edge 7+  EARLY 4/4 = 100.0% | LATE 0/1 = 0.0% | p=0.219 | LEAN        | Over share LATE 100%
+  winner 3%+   EARLY 125/331 ROI +13.1% | LATE 144/454 ROI -3.2% | p=0.260 | LEAN
+
+===== NFL (2011-17 / 2018-26 closing lines)
+H= 4: EARLY squared error margin+total 373.6
+H= 8: EARLY squared error margin+total 374.1
+H=16: EARLY squared error margin+total 376.1
+Chosen on EARLY: H = 4
+
+LINE-FREE: EARLY squared error margin 188.6, total 185.0
+  spread edge 0+  EARLY 942/1817 = 51.8% | LATE 1197/2336 = 51.2% | p=0.879 | LEAN        | home share LATE 51%
+  spread edge 2+  EARLY 545/1061 = 51.4% | LATE 619/1206 = 51.3% | p=0.848 | LEAN        | home share LATE 53%
+  spread edge 4+  EARLY 263/502 = 52.4% | LATE 239/446 = 53.6% | p=0.379 | LEAN        | home share LATE 55%
+  spread edge 7+  EARLY 69/125 = 55.2% | LATE 40/69 = 58.0% | p=0.163 | LEAN        | home share LATE 48%
+  total  edge 0+  EARLY 946/1851 = 51.1% | LATE 1199/2373 = 50.5% | p=0.983 | LEAN        | Over share LATE 56%
+  total  edge 2+  EARLY 510/970 = 52.6% | LATE 580/1170 = 49.6% | p=0.916 | LEAN        | Over share LATE 59%
+  total  edge 4+  EARLY 221/393 = 56.2% | LATE 205/409 = 50.1% | p=0.355 | LEAN        | Over share LATE 59%
+  total  edge 7+  EARLY 37/73 = 50.7% | LATE 21/37 = 56.8% | p=0.511 | LEAN        | Over share LATE 57%
+  winner 3%+   EARLY 506/1289 ROI -2.2% | LATE 523/1467 ROI -5.9% | p=0.939 | LEAN
+
+with the line (as before): EARLY squared error margin 179.4, total 179.8
+  spread edge 0+  EARLY 900/1817 = 49.5% | LATE 1189/2336 = 50.9% | p=0.997 | LEAN        | home share LATE 53%
+  spread edge 2+  EARLY 302/576 = 52.4% | LATE 93/176 = 52.8% | p=0.487 | LEAN        | home share LATE 57%
+  spread edge 4+  EARLY 63/116 = 54.3% | LATE 2/5 = 40.0% | p=0.422 | LEAN        | home share LATE 60%
+  spread edge 7+  EARLY 12/17 = 70.6% | LATE 0/0 = 0.0% | p=0.103 | LEAN        | home share LATE nan%
+  total  edge 0+  EARLY 913/1851 = 49.3% | LATE 1195/2373 = 50.4% | p=0.999 | LEAN        | Over share LATE 62%
+  total  edge 2+  EARLY 324/619 = 52.3% | LATE 180/327 = 55.0% | p=0.306 | LEAN        | Over share LATE 66%
+  total  edge 4+  EARLY 59/120 = 49.2% | LATE 4/9 = 44.4% | p=0.816 | LEAN        | Over share LATE 44%
+  total  edge 7+  EARLY 8/15 = 53.3% | LATE 0/1 = 0.0% | p=0.671 | LEAN        | Over share LATE 0%
+  winner 3%+   EARLY 326/836 ROI -7.7% | LATE 204/505 ROI +4.1% | p=0.814 | LEAN
