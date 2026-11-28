@@ -1,0 +1,635 @@
+core COLLEGE card - 2026-11-28 04:56 UTC. DK lines from ESPN (DraftKings). Tested: totals and spreads 2+ pts off the line; everything else is a LEAN.
+** Ratings use play-by-play through 2026 week 12 only (the free data has not added later weeks).
+** In-season recalibration: margin +0.37 pts (from 1470 games this season), amendment 19.
+** No college injury list exists (ESPN: none) - injuries and starting lineups are NOT checked by any tool: check by hand.
+
+Notre Dame @ Syracuse  Sat Nov 28 11:00 AM CT
+  SPREAD  Syracuse +25.5 (-110.0)  model: Notre Dame by 25.0, edge 0.5  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Notre Dame (-2800) model chance 95%, value at DK price -2%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 53.5 (-112.0)  model 55.6, edge 2.1  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.092/-0.117, Elo 2082/1351, talent 953/746, rest 7/7 days, travel 523 mi (away/home)
+  ** Syracuse QB: Malachi Nelson (most passes in last game: Syracuse Orange at Boston College Eagles; 7 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Notre Dame QB: CJ Carr (most passes in last game: SMU Mustangs at Notre Dame Fighting Irish; 11 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: spread (home) moved +21 -> +25.5 since the opener (DK via ESPN)
+  ** weather: JMA Wireless Dome is a dome (ESPN/CFBD) - not a factor
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Boston College @ Miami  Sat Nov 28 11:00 AM CT
+  SPREAD  Miami -24.5 (-108.0)  model: Miami by 26.4, edge 1.9  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Miami (-2800) model chance 96%, value at DK price -1%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 54.5 (-108.0)  model 58.1, edge 3.6  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.060/+0.273, Elo 1360/1993, talent 660/886, rest 7/7 days, travel 1243 mi (away/home)
+  ** Miami QB: Darian Mensah (most passes in last game: Virginia Tech Hokies at Miami Hurricanes; 26 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Boston College QB: Mason McKenzie (most passes in last game: Syracuse Orange at Boston College Eagles; 3 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Mason McKenzie has 3 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: spread (home) moved -26.5 -> -24.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 72F, gusts 6 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Louisville @ Kentucky  Sat Nov 28 11:00 AM CT
+  SPREAD  Kentucky +3 (-118.0)  model: Louisville by 3.0, edge 0.0  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Louisville (-142) model chance 58%, value at DK price -1%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 53.5 (-110.0)  model 53.9, edge 0.4  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.049/-0.003, Elo 1758/1572, talent 740/787, rest 7/7 days, travel 69 mi (away/home)
+  ** Kentucky QB: Kenny Minchey (most passes in last game: Kentucky Wildcats at Missouri Tigers; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Kenny Minchey has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Louisville QB: Lincoln Kienholz (most passes in last game: Pittsburgh Panthers at Louisville Cardinals; 2 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Lincoln Kienholz has 2 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: spread (home) moved -1.5 -> +3 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 47F, gusts 24 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Michigan @ Ohio State  Sat Nov 28 11:00 AM CT
+  SPREAD  Ohio State -10.5 (-105.0)  model: Ohio State by 10.9, edge 0.4  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Ohio State (-425) model chance 76%, value at DK price -5%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 37.5 (-105.0)  model 43.5, edge 6.0  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.110/+0.093, Elo 1677/1966, talent 890/964, rest 7/7 days, travel 161 mi (away/home)
+  ** Ohio State QB: Luke Fahey (most passes in last game: Ohio State Buckeyes at Nebraska Cornhuskers; 2 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Luke Fahey has 2 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Michigan QB: Bryce Underwood (most passes in last game: UCLA Bruins at Michigan Wolverines; 8 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: spread (home) moved -14 -> -10.5 since the opener (DK via ESPN)
+  ** CHANGE: total moved 46.5 -> 37.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 42F, gusts 17 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+NC State @ North Carolina  Sat Nov 28 11:00 AM CT
+  SPREAD  North Carolina -5.5 (-110.0)  model: North Carolina by 6.1, edge 0.6  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  North Carolina (-225) model chance 65%, value at DK price -4%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 53.5 (-108.0)  model 56.5, edge 3.0  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.154/+0.000, Elo 1405/1535, talent 757/768, rest 7/7 days, travel 20 mi (away/home)
+  ** North Carolina QB: Travis Burgess (most passes in last game: North Carolina Tar Heels at Virginia Cavaliers; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Travis Burgess has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** NC State QB: CJ Bailey (most passes in last game: NC State Wolfpack at Florida State Seminoles; 16 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: spread (home) moved +1.5 -> -5.5 since the opener (DK via ESPN)
+  ** CHANGE: total moved 55.5 -> 53.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 56F, gusts 21 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+UConn @ Wyoming  Sat Nov 28 11:00 AM CT
+  SPREAD  Wyoming +3.5 (-115.0)  model: UConn by 1.6, edge 1.9  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  UConn (-170) model chance 54%, value at DK price -9%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 44.5 (-112.0)  model 48.2, edge 3.7  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.095/-0.005, Elo 1493/1383, talent 653/528, rest 7/8 days, travel 1694 mi (away/home)
+  ** Wyoming QB: Landon Sims (most passes in last game: New Mexico Lobos at Wyoming Cowboys; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Landon Sims has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** UConn QB: Kalieb Osborne (most passes in last game: Old Dominion Monarchs at UConn Huskies; 2 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Kalieb Osborne has 2 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: total moved 49.5 -> 44.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 40F, gusts 27 mph, precip 49% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Navy @ Charlotte  Sat Nov 28 11:00 AM CT
+  SPREAD  Charlotte +16.5 (-108.0)  model: Navy by 15.6, edge 0.9  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Navy (-800) model chance 84%, value at DK price -5%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 54.5 (-105.0)  model 55.3, edge 0.8  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.050/+0.014, Elo 1495/1065, talent 196/577, rest 7/7 days, travel 345 mi (away/home)
+  ** Charlotte QB: Conner Harrell (most passes in last game: Charlotte 49ers at Tulsa Golden Hurricane; 6 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Navy QB: Jackson Gutierrez (most passes in last game: Memphis Tigers at Navy Midshipmen; 2 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Jackson Gutierrez has 2 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** weather (ESPN forecast): 55F, gusts 14 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Central Michigan @ Ball State  Sat Nov 28 11:00 AM CT
+  SPREAD  Central Michigan -3.5 (-112.0)  model: Central Michigan by 3.5, edge 0.0  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Central Michigan (-180) model chance 59%, value at DK price -5%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 50.5 (-118.0)  model 51.6, edge 1.1  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value -0.089/+0.012, Elo 1319/1073, talent 540/564, rest 10/11 days, travel 235 mi (away/home)
+  ** Ball State QB: Keldric Luster (most passes in last game: Ball State Cardinals at Ohio Bobcats; 2 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Keldric Luster has 2 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Central Michigan QB: Jadyn Glasser (most passes in last game: Central Michigan Chippewas at Buffalo Bulls; 3 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Jadyn Glasser has 3 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: spread (home) moved +6.5 -> +3.5 since the opener (DK via ESPN)
+  ** CHANGE: total moved 46.5 -> 50.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 44F, gusts 23 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Louisiana Tech @ Georgia Southern  Sat Nov 28 11:00 AM CT
+  SPREAD  Georgia Southern -1.5 (-115.0)  model: Georgia Southern by 2.1, edge 0.6  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Georgia Southern (-125) model chance 55%, value at DK price -0%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 53.5 (-112.0)  model 54.8, edge 1.3  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.016/+0.137, Elo 1475/1526, talent 543/634, rest 7/7 days, travel 633 mi (away/home)
+  ** Georgia Southern QB: Max Johnson (most passes in last game: Georgia Southern Eagles at Troy Trojans; 27 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Louisiana Tech QB: Blake Baker (most passes in last game: Arkansas State Red Wolves at Louisiana Tech Bulldogs; 6 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: total moved 50.5 -> 53.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 56F, gusts 14 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Illinois @ Northwestern  Sat Nov 28 11:30 AM CT
+  SPREAD  Illinois +3.5 (-112.0)  model: Northwestern by 2.2, edge 1.3  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Northwestern (-166) model chance 56%, value at DK price -7%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 48.5 (-112.0)  model 52.1, edge 3.6  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.081/-0.098, Elo 1602/1731, talent 704/688, rest 7/7 days, travel 139 mi (away/home)
+  ** Northwestern QB: Nicco Marchiol (most passes in last game: Northwestern Wildcats at Minnesota Golden Gophers; 8 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Illinois QB: Katin Houser (most passes in last game: Iowa Hawkeyes at Illinois Fighting Illini; 25 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: spread (home) moved +3.5 -> -3.5 since the opener (DK via ESPN)
+  ** CHANGE: total moved 52.5 -> 48.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 52F, gusts 0 mph, precip 25%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+LSU @ Arkansas  Sat Nov 28 11:45 AM CT
+  SPREAD  LSU -14.5 (-105.0)  model: LSU by 14.8, edge 0.3  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  LSU (-625) model chance 83%, value at DK price -3%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 49.5 (-112.0)  model 49.9, edge 0.4  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.049/+0.041, Elo 1899/1589, talent 932/745, rest 7/7 days, travel 427 mi (away/home)
+  ** Arkansas QB: KJ Jackson (most passes in last game: Arkansas Razorbacks at Texas Longhorns; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: KJ Jackson has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** LSU QB: Sam Leavitt (most passes in last game: LSU Tigers at Tennessee Volunteers; 20 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: total moved 47.5 -> 49.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 55F, gusts 10 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Florida Atlantic @ East Carolina  Sat Nov 28 12:00 PM CT
+  SPREAD  East Carolina -1.5 (-108.0)  model: East Carolina by 1.8, edge 0.3  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  East Carolina (-118) model chance 55%, value at DK price +0%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Under 58.5 (-118.0)  model 57.9, edge 0.6  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.073/-0.030, Elo 1383/1425, talent 593/624, rest 7/7 days, travel 657 mi (away/home)
+  ** East Carolina QB: Emory Williams (most passes in last game: East Carolina Pirates at Army Black Knights; 3 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Emory Williams has 3 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Florida Atlantic QB: Caden Veltkamp (most passes in last game: South Florida Bulls at Florida Atlantic Owls; 20 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: total moved 55.5 -> 58.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 59F, gusts 20 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Kennesaw State @ Western Kentucky  Sat Nov 28 12:00 PM CT
+  SPREAD  Western Kentucky +3.5 (-112.0)  model: Kennesaw State by 2.9, edge 0.6  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Kennesaw State (-170) model chance 57%, value at DK price -6%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Under 53.5 (-105.0)  model 51.5, edge 2.0  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.000/-0.141, Elo 1295/1265, talent 503/612, rest 7/7 days, travel 230 mi (away/home)
+  ** Western Kentucky QB: Brock Glenn (most passes in last game: Western Kentucky Hilltoppers at Liberty Flames; 9 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Kennesaw State QB: Landon Varnes (most passes in last game: Florida International Panthers at Kennesaw State Owls; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Landon Varnes has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: spread (home) moved +1.5 -> +3.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 54F, gusts 21 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Marshall @ UL Monroe  Sat Nov 28 12:00 PM CT
+  SPREAD  Marshall -6.5 (-112.0)  model: Marshall by 6.9, edge 0.4  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Marshall (-230) model chance 67%, value at DK price -3%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 51.5 (-108.0)  model 53.0, edge 1.5  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.026/+0.020, Elo 1367/1033, talent 595/505, rest 7/7 days, travel 678 mi (away/home)
+  ** UL Monroe QB: Austin Carlisle (most passes in last game: UL Monroe Warhawks at App State Mountaineers; 1 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Austin Carlisle has 1 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Marshall QB: Carlos Del Rio-Wilson (most passes in last game: Georgia State Panthers at Marshall Thundering Herd; 6 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: spread (home) moved +4 -> +6.5 since the opener (DK via ESPN)
+  ** CHANGE: total moved 49.5 -> 51.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 66F, gusts 23 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Southern Miss @ Old Dominion  Sat Nov 28 12:00 PM CT
+  SPREAD  Old Dominion -5.5 (-110.0)  model: Old Dominion by 5.8, edge 0.3  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Old Dominion (-218) model chance 64%, value at DK price -4%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 49.5 (-108.0)  model 50.6, edge 1.1  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value -0.065/+0.012, Elo 1193/1203, talent 603/544, rest 7/7 days, travel 837 mi (away/home)
+  ** Old Dominion QB: Jaxon Potter (most passes in last game: Old Dominion Monarchs at UConn Huskies; 3 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Jaxon Potter has 3 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Southern Miss QB: John White (most passes in last game: South Alabama Jaguars at Southern Miss Golden Eagles; 2 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: John White has 2 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** weather (ESPN forecast): 58F, gusts 28 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+UCF @ Colorado  Sat Nov 28 01:00 PM CT
+  SPREAD  Colorado -2.5 (-108.0)  model: Colorado by 4.2, edge 1.7  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Colorado (-130) model chance 61%, value at DK price +4%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 47.5 (-112.0)  model 50.8, edge 3.3  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.007/-0.083, Elo 1404/1313, talent 672/732, rest 8/7 days, travel 1576 mi (away/home)
+  ** Colorado QB: Isaac Wilson (most passes in last game: Colorado Buffaloes at Cincinnati Bearcats; 8 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** UCF QB: Alonza Barnett III (most passes in last game: Iowa State Cyclones at UCF Knights; 21 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: total moved 50.5 -> 47.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 53F, gusts 14 mph, precip 14%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Kansas State @ Iowa State  Sat Nov 28 01:00 PM CT
+  SPREAD  Kansas State +4 (-102.0)  model: Iowa State by 3.5, edge 0.5  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Iowa State (-192) model chance 59%, value at DK price -7%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 52.5 (-110.0)  model 55.1, edge 2.6  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.000/+0.049, Elo 1462/1609, talent 719/670, rest 7/8 days, travel 249 mi (away/home)
+  ** Iowa State QB: Jaylen Raynor (most passes in last game: Iowa State Cyclones at UCF Knights; 32 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Kansas State QB: Dillon Duff (most passes in last game: Arizona Wildcats at Kansas State Wildcats; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Dillon Duff has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: total moved 54.5 -> 52.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 52F, gusts 14 mph, precip 19%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Army @ Rice  Sat Nov 28 01:00 PM CT
+  SPREAD  Rice +4.5 (-108.0)  model: Army by 4.5, edge 0.0  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Army (-198) model chance 61%, value at DK price -5%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 46.5 (-110.0)  model 50.8, edge 4.3  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.030/+0.000, Elo 1571/1117, talent 304/590, rest 7/9 days, travel 1444 mi (away/home)
+  ** Rice QB: Gael Ochoa (most passes in last game: Rice Owls at Temple Owls; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Gael Ochoa has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Army QB: Cale Hellums (most passes in last game: East Carolina Pirates at Army Black Knights; 5 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: spread (home) moved +7.5 -> +4.5 since the opener (DK via ESPN)
+  ** CHANGE: total moved 50.5 -> 46.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 71F, gusts 22 mph, precip 2% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Coastal Carolina @ James Madison  Sat Nov 28 01:00 PM CT
+  SPREAD  James Madison -17.5 (-108.0)  model: James Madison by 18.7, edge 1.2  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  James Madison (-950) model chance 89%, value at DK price -2%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Under 54.5 (-105.0)  model 53.1, edge 1.4  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.044/+0.000, Elo 1277/1798, talent 574/588, rest 7/14 days, travel 321 mi (away/home)
+  ** James Madison QB: JC Evans (most passes in last game: James Madison Dukes at UConn Huskies; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: JC Evans has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Coastal Carolina QB: Deuce Bailey (most passes in last game: Coastal Carolina Chanticleers at Louisiana Ragin' Cajuns; 4 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: spread (home) moved -13.5 -> -17.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 56F, gusts 13 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Louisiana @ Georgia State  Sat Nov 28 01:00 PM CT
+  SPREAD  Georgia State +4.5 (-108.0)  model: Louisiana by 3.6, edge 0.9  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Louisiana (-198) model chance 59%, value at DK price -7%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 55.5 (-105.0)  model 56.2, edge 0.7  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value -0.003/-0.002, Elo 1492/1340, talent 591/574, rest 7/7 days, travel 510 mi (away/home)
+  ** Georgia State QB: Ayden Pereira (most passes in last game: Georgia State Panthers at Marshall Thundering Herd; 14 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Louisiana QB: Lunch Winfield (most passes in last game: Coastal Carolina Chanticleers at Louisiana Ragin' Cajuns; 4 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** weather (ESPN forecast): 59F, gusts 15 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Liberty @ Missouri State  Sat Nov 28 01:00 PM CT
+  SPREAD  Liberty -18.5 (-105.0)  model: Liberty by 19.1, edge 0.6  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Liberty (-1000) model chance 89%, value at DK price -2%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Under 52.5 (-108.0)  model 52.5, edge 0.0  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value -0.014/-0.001, Elo 1834/1235, talent 633/550, rest 7/7 days, travel 775 mi (away/home)
+  ** Missouri State QB: Henry Belin IV (most passes in last game: Missouri State Bears at Jacksonville State Gamecocks; 2 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Henry Belin IV has 2 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Liberty QB: Deshawn Purdie (most passes in last game: Western Kentucky Hilltoppers at Liberty Flames; 8 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: spread (home) moved +14.5 -> +18.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 56F, gusts 8 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Sam Houston @ Florida International  Sat Nov 28 01:00 PM CT
+  SPREAD  Florida International -11.5 (-110.0)  model: Florida International by 12.9, edge 1.4  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Florida International (-470) model chance 80%, value at DK price -3%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 41.5 (-105.0)  model 46.0, edge 4.5  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.058/+0.150, Elo 1063/1328, talent 554/608, rest 7/7 days, travel 984 mi (away/home)
+  ** Florida International QB: JJ Kohl (most passes in last game: Florida International Panthers at Kennesaw State Owls; 5 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Sam Houston QB: Mason Holtzclaw (most passes in last game: Middle Tennessee Blue Raiders at Sam Houston Bearkats; 1 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Mason Holtzclaw has 1 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: total moved 39.5 -> 41.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 74F, gusts 0 mph, precip 4%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+New Mexico State @ Middle Tennessee  Sat Nov 28 01:00 PM CT
+  SPREAD  New Mexico State +3 (100.0)  model: Middle Tennessee by 2.0, edge 1.0  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Middle Tennessee (-166) model chance 55%, value at DK price -7%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 51.5 (-102.0)  model 52.8, edge 1.3  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.062/+0.051, Elo 1225/1183, talent 460/572, rest 7/7 days, travel 1190 mi (away/home)
+  ** Middle Tennessee QB: Roman Gagliano (most passes in last game: Middle Tennessee Blue Raiders at Sam Houston Bearkats; 2 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Roman Gagliano has 2 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** New Mexico State QB: Trey Hedden (most passes in last game: Delaware Blue Hens at New Mexico State Aggies; 16 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** weather (ESPN forecast): 58F, gusts 20 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+South Carolina @ Clemson  Sat Nov 28 02:00 PM CT
+  SPREAD  South Carolina -6.5 (-112.0)  model: South Carolina by 8.3, edge 1.8  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  South Carolina (-250) model chance 70%, value at DK price -1%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 42.5 (-112.0)  model 45.9, edge 3.4  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.060/-0.036, Elo 1756/1504, talent 863/863, rest 7/8 days, travel 115 mi (away/home)
+  ** Clemson QB: Trent Pearman (most passes in last game: Clemson Tigers at Duke Blue Devils; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Trent Pearman has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** South Carolina QB: LaNorris Sellers (most passes in last game: Georgia Bulldogs at South Carolina Gamecocks; 19 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: spread (home) moved -3 -> +6.5 since the opener (DK via ESPN)
+  ** CHANGE: total moved 53.5 -> 42.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 62F, gusts 16 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Virginia @ Virginia Tech  Sat Nov 28 02:00 PM CT
+  SPREAD  Virginia Tech -3 (-108.0)  model: Virginia Tech by 3.9, edge 0.9  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Virginia Tech (-155) model chance 60%, value at DK price -1%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 50.5 (-115.0)  model 53.4, edge 2.9  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.107/+0.012, Elo 1581/1400, talent 700/769, rest 7/7 days, travel 118 mi (away/home)
+  ** Virginia Tech QB: Ethan Grunkemeyer (most passes in last game: Virginia Tech Hokies at Miami Hurricanes; 2 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Ethan Grunkemeyer has 2 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Virginia QB: Beau Pribula (most passes in last game: North Carolina Tar Heels at Virginia Cavaliers; 8 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: total moved 53.5 -> 50.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 54F, gusts 10 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Troy @ Arkansas State  Sat Nov 28 02:00 PM CT
+  SPREAD  Troy +3.5 (-108.0)  model: Arkansas State by 2.6, edge 0.9  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Arkansas State (-185) model chance 57%, value at DK price -8%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 46.5 (-110.0)  model 49.2, edge 2.7  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.118/-0.006, Elo 1305/1298, talent 596/606, rest 7/7 days, travel 389 mi (away/home)
+  ** Arkansas State QB: Trey Owens (most passes in last game: Arkansas State Red Wolves at Louisiana Tech Bulldogs; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Trey Owens has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Troy QB: Goose Crowder (most passes in last game: Georgia Southern Eagles at Troy Trojans; 8 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** weather (ESPN forecast): 61F, gusts 14 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Georgia Tech @ Georgia  Sat Nov 28 02:30 PM CT
+  SPREAD  Georgia Tech +35.5 (-110.0)  model: Georgia by 34.9, edge 0.6  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Georgia (-8000) model chance 99%, value at DK price +0%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 55.5 (-108.0)  model 57.0, edge 1.5  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.000/+0.068, Elo 1342/2160, talent 752/1004, rest 7/7 days, travel 60 mi (away/home)
+  ** Georgia QB: Gunner Stockton (most passes in last game: Georgia Bulldogs at South Carolina Gamecocks; 11 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Georgia Tech QB: Grady Adamson (most passes in last game: Wake Forest Demon Deacons at Georgia Tech Yellow Jackets; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Grady Adamson has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** weather (ESPN forecast): 61F, gusts 16 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Duke @ Wake Forest  Sat Nov 28 02:30 PM CT
+  SPREAD  Duke +14.5 (-112.0)  model: Wake Forest by 13.8, edge 0.7  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Wake Forest (-650) model chance 81%, value at DK price -5%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 55.5 (-102.0)  model 56.7, edge 1.2  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.045/+0.111, Elo 1822/1986, talent 668/681, rest 8/7 days, travel 74 mi (away/home)
+  ** Wake Forest QB: Gio Lopez (most passes in last game: Wake Forest Demon Deacons at Georgia Tech Yellow Jackets; 19 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Duke QB: Walker Eget (most passes in last game: Clemson Tigers at Duke Blue Devils; 14 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: spread (home) moved -10.5 -> -14.5 since the opener (DK via ESPN)
+  ** CHANGE: total moved 52.5 -> 55.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 61F, gusts 12 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+USC @ UCLA  Sat Nov 28 02:30 PM CT
+  SPREAD  UCLA +4.5 (-105.0)  model: USC by 4.2, edge 0.3  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  USC (-205) model chance 61%, value at DK price -7%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 46.5 (-108.0)  model 49.4, edge 2.9  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.195/+0.111, Elo 1802/1757, talent 899/774, rest 7/7 days, travel 12 mi (away/home)
+  ** UCLA QB: Ty Dieffenbach (most passes in last game: UCLA Bruins at Michigan Wolverines; 7 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** USC QB: Jayden Maiava (most passes in last game: Maryland Terrapins at USC Trojans; 23 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: spread (home) moved +11.5 -> +4.5 since the opener (DK via ESPN)
+  ** CHANGE: total moved 55.5 -> 46.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 69F, gusts 5 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Cincinnati @ BYU  Sat Nov 28 02:30 PM CT
+  SPREAD  BYU -16.5 (-112.0)  model: BYU by 17.5, edge 1.0  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  BYU (-800) model chance 87%, value at DK price -2%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 55.5 (-105.0)  model 58.4, edge 2.9  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.001/+0.051, Elo 1505/1755, talent 634/689, rest 7/7 days, travel 1439 mi (away/home)
+  ** BYU QB: Bear Bachmeier (most passes in last game: BYU Cougars at Kansas Jayhawks; 6 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Cincinnati QB: JC French IV (most passes in last game: Colorado Buffaloes at Cincinnati Bearcats; 9 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: spread (home) moved -12.5 -> -16.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 48F, gusts 13 mph, precip 1%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+SMU @ Stanford  Sat Nov 28 02:30 PM CT
+  SPREAD  Stanford +7.5 (-115.0)  model: SMU by 7.3, edge 0.2  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  SMU (-285) model chance 68%, value at DK price -6%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 60.5 (-115.0)  model 63.3, edge 2.8  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.153/-0.027, Elo 1668/1229, talent 764/706, rest 7/7 days, travel 1464 mi (away/home)
+  ** Stanford QB: Davis Warren (most passes in last game: Stanford Cardinal at California Golden Bears; 11 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** SMU QB: Kevin Jennings (most passes in last game: SMU Mustangs at Notre Dame Fighting Irish; 24 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: spread (home) moved +10 -> +7.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 63F, gusts 6 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Penn State @ Maryland  Sat Nov 28 02:30 PM CT
+  SPREAD  Maryland +7.5 (-115.0)  model: Penn State by 6.3, edge 1.2  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Penn State (-290) model chance 66%, value at DK price -9%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 48.5 (-108.0)  model 53.2, edge 4.7  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.141/+0.067, Elo 1798/1329, talent 774/720, rest 7/7 days, travel 135 mi (away/home)
+  ** Maryland QB: Malik Washington (most passes in last game: Maryland Terrapins at USC Trojans; 9 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Penn State QB: Rocco Becht (most passes in last game: Rutgers Scarlet Knights at Penn State Nittany Lions; 38 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** weather (ESPN forecast): 57F, gusts 28 mph, precip 1% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Tulane @ South Florida  Sat Nov 28 02:30 PM CT
+  SPREAD  South Florida -6.5 (-108.0)  model: South Florida by 7.4, edge 0.9  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  South Florida (-238) model chance 68%, value at DK price -2%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 44.5 (-105.0)  model 46.1, edge 1.6  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.000/-0.085, Elo 1283/1615, talent 665/704, rest 7/7 days, travel 480 mi (away/home)
+  ** South Florida QB: Luke Kromenhoek (most passes in last game: South Florida Bulls at Florida Atlantic Owls; 3 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Luke Kromenhoek has 3 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Tulane QB: Trace Johnson (most passes in last game: North Texas Mean Green at Tulane Green Wave; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Trace Johnson has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: spread (home) moved -8.5 -> -6.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 67F, gusts 6 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+UTEP @ Northern Illinois  Sat Nov 28 02:30 PM CT
+  SPREAD  Northern Illinois -4.5 (-108.0)  model: Northern Illinois by 4.9, edge 0.4  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Northern Illinois (-192) model chance 62%, value at DK price -3%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 50.5 (-112.0)  model 54.8, edge 4.3  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value -0.006/+0.237, Elo 1020/1055, talent 586/537, rest 8/7 days, travel 1202 mi (away/home)
+  ** Northern Illinois QB: Taron Dickens (most passes in last game: Northern Illinois Huskies at North Dakota State Bison; 10 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** UTEP QB: Raymond Moore III (most passes in last game: UTEP Miners at Air Force Falcons; 1 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Raymond Moore III has 1 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** weather (ESPN forecast): 51F, gusts 24 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Massachusetts @ Bowling Green  Sat Nov 28 02:30 PM CT
+  SPREAD  Massachusetts +3 (100.0)  model: Bowling Green by 2.8, edge 0.2  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Bowling Green (-162) model chance 57%, value at DK price -5%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 41.5 (-108.0)  model 44.6, edge 3.1  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.044/+0.000, Elo 1122/1220, talent 526/568, rest 10/8 days, travel 574 mi (away/home)
+  ** Bowling Green QB: Austin Novosad (most passes in last game: Bowling Green Falcons at Toledo Rockets; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Austin Novosad has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Massachusetts QB: Logan Inagawa (most passes in last game: Akron Zips at Massachusetts Minutemen; 2 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Logan Inagawa has 2 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: total moved 43.5 -> 41.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 43F, gusts 23 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Jacksonville State @ Delaware  Sat Nov 28 02:30 PM CT
+  SPREAD  Jacksonville State +2.5 (-105.0)  model: Delaware by 2.2, edge 0.3  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Delaware (-142) model chance 56%, value at DK price -3%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 57.5 (-118.0)  model 58.5, edge 1.0  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.041/+0.033, Elo 1515/1400, talent 603/483, rest 7/7 days, travel 685 mi (away/home)
+  ** Delaware QB: Nick Minicucci (most passes in last game: Delaware Blue Hens at New Mexico State Aggies; 13 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Jacksonville State QB: Caden Creel (most passes in last game: Missouri State Bears at Jacksonville State Gamecocks; 4 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** weather (ESPN forecast): 54F, gusts 25 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+UAB @ North Texas  Sat Nov 28 03:00 PM CT
+  SPREAD  North Texas -2.5 (-115.0)  model: North Texas by 4.0, edge 1.5  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  North Texas (-142) model chance 60%, value at DK price +2%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 45.5 (-105.0)  model 45.8, edge 0.3  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.154/+0.033, Elo 1368/1612, talent 606/602, rest 7/7 days, travel 598 mi (away/home)
+  ** North Texas QB: Chris Jimerson Jr. (most passes in last game: North Texas Mean Green at Tulane Green Wave; 1 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Chris Jimerson Jr. has 1 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** UAB QB: Ryder Burton (most passes in last game: UTSA Roadrunners at UAB Blazers; 2 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Ryder Burton has 2 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: spread (home) moved -4.5 -> -2.5 since the opener (DK via ESPN)
+  ** CHANGE: total moved 48.5 -> 45.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 70F, gusts 31 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Oklahoma @ Missouri  Sat Nov 28 03:15 PM CT
+  SPREAD  Missouri -1.5 (-115.0)  model: Missouri by 2.5, edge 1.0  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Missouri (-125) model chance 56%, value at DK price +1%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 41.5 (-112.0)  model 45.0, edge 3.5  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.179/+0.017, Elo 1676/1767, talent 851/808, rest 7/7 days, travel 382 mi (away/home)
+  ** Missouri QB: Austin Simmons (most passes in last game: Kentucky Wildcats at Missouri Tigers; 5 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Oklahoma QB: John Mateer (most passes in last game: Texas A&M Aggies at Oklahoma Sooners; 21 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** weather (ESPN forecast): 53F, gusts 6 mph, precip 1%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Michigan State @ Rutgers  Sat Nov 28 03:15 PM CT
+  SPREAD  Rutgers +2.5 (-105.0)  model: Michigan State by 2.1, edge 0.4  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Michigan State (-135) model chance 55%, value at DK price -2%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 45.5 (-110.0)  model 49.7, edge 4.2  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.000/+0.036, Elo 1444/1304, talent 685/709, rest 8/7 days, travel 539 mi (away/home)
+  ** Rutgers QB: AJ Surace (most passes in last game: Rutgers Scarlet Knights at Penn State Nittany Lions; 1 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: AJ Surace has 1 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Michigan State QB: Kayd Coffman (most passes in last game: Oregon Ducks at Michigan State Spartans; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Kayd Coffman has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: total moved 48.5 -> 45.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 51F, gusts 28 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Boise State @ Colorado State  Sat Nov 28 05:00 PM CT
+  SPREAD  Boise State -21 (-118.0)  model: Boise State by 22.6, edge 1.6  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Boise State (-1800) model chance 93%, value at DK price -2%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Under 76.5 (-105.0)  model 74.6, edge 1.9  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.164/+0.048, Elo 1714/970, talent 641/640, rest 7/7 days, travel 606 mi (away/home)
+  ** Colorado State QB: Hauss Hejny (most passes in last game: Colorado State Rams at Fresno State Bulldogs; 2 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Hauss Hejny has 2 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Boise State QB: Maddux Madsen (most passes in last game: San Diego State Aztecs at Boise State Broncos; 25 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** weather (ESPN forecast): 37F, gusts 31 mph, precip 52% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Kansas @ Oklahoma State  Sat Nov 28 05:15 PM CT
+  SPREAD  Oklahoma State -6 (-105.0)  model: Oklahoma State by 7.6, edge 1.6  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Oklahoma State (-225) model chance 69%, value at DK price -0%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Under 65.5 (-115.0)  model 64.4, edge 1.1  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.021/+0.173, Elo 1577/1557, talent 685/673, rest 7/7 days, travel 220 mi (away/home)
+  ** Oklahoma State QB: Drew Mestemaker (most passes in last game: Oklahoma State Cowboys at Arizona State Sun Devils; 9 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Kansas QB: Isaiah Marshall (most passes in last game: BYU Cougars at Kansas Jayhawks; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Isaiah Marshall has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: total moved 67.5 -> 65.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 60F, gusts 17 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+San Diego State @ Washington State  Sat Nov 28 05:30 PM CT
+  SPREAD  Washington State -3 (-105.0)  model: Washington State by 5.0, edge 2.0  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Washington State (-148) model chance 63%, value at DK price +3%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 46.5 (-118.0)  model 49.8, edge 3.3  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.020/+0.015, Elo 1313/1577, talent 609/630, rest 7/7 days, travel 964 mi (away/home)
+  ** Washington State QB: Owen Eshelman (most passes in last game: Washington State Cougars at Texas State Bobcats; 1 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Owen Eshelman has 1 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** San Diego State QB: Stone Saunders (most passes in last game: San Diego State Aztecs at Boise State Broncos; 1 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Stone Saunders has 1 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: spread (home) moved +3 -> -3 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 42F, gusts 12 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Tennessee @ Vanderbilt  Sat Nov 28 06:00 PM CT
+  SPREAD  Vanderbilt +13.5 (-110.0)  model: Tennessee by 13.4, edge 0.1  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Tennessee (-550) model chance 81%, value at DK price -4%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 43.5 (-105.0)  model 45.6, edge 2.1  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.009/+0.064, Elo 1879/1549, talent 886/727, rest 7/7 days, travel 162 mi (away/home)
+  ** Vanderbilt QB: Jared Curtis (most passes in last game: Vanderbilt Commodores at Florida Gators; 3 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Jared Curtis has 3 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Tennessee QB: George MacIntyre (most passes in last game: LSU Tigers at Tennessee Volunteers; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: George MacIntyre has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: spread (home) moved +3 -> +13.5 since the opener (DK via ESPN)
+  ** CHANGE: total moved 57.5 -> 43.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 52F, gusts 9 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Purdue @ Indiana  Sat Nov 28 06:00 PM CT
+  SPREAD  Indiana -23.5 (-108.0)  model: Indiana by 23.7, edge 0.2  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Indiana (-2400) model chance 94%, value at DK price -2%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 52.5 (-110.0)  model 54.5, edge 2.0  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value -0.042/-0.103, Elo 1408/2061, talent 698/735, rest 7/7 days, travel 89 mi (away/home)
+  ** Indiana QB: Grant Wilson (most passes in last game: Indiana Hoosiers at Washington Huskies; 14 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Purdue QB: Ryan Browne (most passes in last game: Wisconsin Badgers at Purdue Boilermakers; 9 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** weather (ESPN forecast): 42F, gusts 7 mph, precip 4%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Auburn @ Alabama  Sat Nov 28 06:30 PM CT
+  SPREAD  Alabama -14.5 (-110.0)  model: Alabama by 15.4, edge 0.9  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Alabama (-675) model chance 84%, value at DK price -3%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 50.5 (-110.0)  model 51.1, edge 0.6  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.006/+0.039, Elo 1618/1984, talent 828/974, rest 7/7 days, travel 127 mi (away/home)
+  ** Alabama QB: Austin Mack (most passes in last game: Chattanooga Mocs at Alabama Crimson Tide; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Austin Mack has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Auburn QB: Tristan Ti'a (most passes in last game: Samford Bulldogs at Auburn Tigers; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Tristan Ti'a has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: spread (home) moved -10 -> -14.5 since the opener (DK via ESPN)
+  ** CHANGE: total moved 52.5 -> 50.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 55F, gusts 5 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Washington @ Oregon  Sat Nov 28 06:30 PM CT
+  SPREAD  Oregon -13.5 (-112.0)  model: Oregon by 13.6, edge 0.1  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Oregon (-625) model chance 81%, value at DK price -5%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 51.5 (-102.0)  model 54.4, edge 2.9  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.182/+0.062, Elo 1722/1890, talent 778/984, rest 7/8 days, travel 251 mi (away/home)
+  ** Oregon QB: Dylan Raiola (most passes in last game: Oregon Ducks at Michigan State Spartans; 22 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Washington QB: Demond Williams Jr. (most passes in last game: Indiana Hoosiers at Washington Huskies; 10 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: spread (home) moved -15.5 -> -13.5 since the opener (DK via ESPN)
+  ** CHANGE: total moved 54.5 -> 51.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 50F, gusts 6 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Pittsburgh @ California  Sat Nov 28 06:30 PM CT
+  SPREAD  California +9.5 (-110.0)  model: Pittsburgh by 9.0, edge 0.5  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Pittsburgh (-355) model chance 72%, value at DK price -6%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 47.5 (-110.0)  model 48.6, edge 1.1  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value -0.006/+0.001, Elo 1611/1209, talent 675/752, rest 7/7 days, travel 2248 mi (away/home)
+  ** California QB: Jaron-Keawe Sagapolutele (most passes in last game: Stanford Cardinal at California Golden Bears; 8 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Pittsburgh QB: Holden Geriner (most passes in last game: Pittsburgh Panthers at Louisville Cardinals; 2 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Holden Geriner has 2 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: spread (home) moved -7.5 -> +9.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 59F, gusts 9 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Arizona State @ Arizona  Sat Nov 28 08:00 PM CT
+  SPREAD  Arizona -9.5 (-108.0)  model: Arizona by 9.9, edge 0.4  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Arizona (-325) model chance 74%, value at DK price -3%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 53.5 (-115.0)  model 54.8, edge 1.3  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.000/+0.116, Elo 1477/1800, talent 722/700, rest 7/7 days, travel 101 mi (away/home)
+  ** Arizona QB: Noah Fifita (most passes in last game: Arizona Wildcats at Kansas State Wildcats; 29 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Arizona State QB: Jake Fette (most passes in last game: Oklahoma State Cowboys at Arizona State Sun Devils; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Jake Fette has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: spread (home) moved -4.5 -> -9.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 62F, gusts 5 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Nevada @ UNLV  Sat Nov 28 08:00 PM CT
+  SPREAD  UNLV -5.5 (-110.0)  model: UNLV by 6.1, edge 0.6  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  UNLV (-225) model chance 65%, value at DK price -4%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 44.5 (-110.0)  model 48.0, edge 3.5  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.030/-0.114, Elo 1362/1482, talent 550/696, rest 7/7 days, travel 348 mi (away/home)
+  ** UNLV QB: Jackson Arnold (most passes in last game: UNLV Rebels at San José State Spartans; 17 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Nevada QB: AJ Bianco (most passes in last game: Hawai'i Rainbow Warriors at Nevada Wolf Pack; 3 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: AJ Bianco has 3 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** weather: Allegiant Stadium is a dome (ESPN/CFBD) - not a factor
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Baylor @ Houston  Sat Nov 28 08:30 PM CT
+  SPREAD  Baylor +3.5 (-115.0)  model: Houston by 3.2, edge 0.3  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Houston (-175) model chance 58%, value at DK price -6%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 55.5 (-112.0)  model 56.9, edge 1.4  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value -0.043/+0.000, Elo 1697/1574, talent 723/696, rest 7/7 days, travel 165 mi (away/home)
+  ** Houston QB: Keisean Henderson (most passes in last game: Houston Cougars at West Virginia Mountaineers; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Keisean Henderson has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** Baylor QB: DJ Lagway (most passes in last game: Texas Tech Red Raiders at Baylor Bears; 14 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** weather (ESPN forecast): 68F, gusts 27 mph, precip 0% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Texas State @ Utah State  Sat Nov 28 08:30 PM CT
+  SPREAD  Utah State +7.5 (-115.0)  model: Texas State by 6.9, edge 0.6  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Texas State (-305) model chance 67%, value at DK price -8%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 52.5 (-108.0)  model 54.9, edge 2.4  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.121/+0.005, Elo 1569/1358, talent 625/544, rest 7/7 days, travel 1127 mi (away/home)
+  ** Utah State QB: McCae Hillstead (most passes in last game: Utah State Aggies at Oregon State Beavers; 5 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Texas State QB: Brad Jackson (most passes in last game: Washington State Cougars at Texas State Bobcats; 8 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** weather (ESPN forecast): 35F, gusts 5 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Oregon State @ Fresno State  Sat Nov 28 09:00 PM CT
+  SPREAD  Oregon State +3 (-112.0)  model: Fresno State by 2.4, edge 0.6  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Fresno State (-148) model chance 56%, value at DK price -4%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Under 58.5 (-105.0)  model 58.0, edge 0.5  LEAN (under 2 pts off the line: 51.5% / 51.3%)
+  inputs: QB value +0.002/+0.041, Elo 1523/1634, talent 636/610, rest 7/7 days, travel 566 mi (away/home)
+  ** Fresno State QB: Jayden Mandal (most passes in last game: Colorado State Rams at Fresno State Bulldogs; 4 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Oregon State QB: Maalik Murphy (most passes in last game: Utah State Aggies at Oregon State Beavers; 21 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** CHANGE: total moved 56.5 -> 58.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 53F, gusts 5 mph, precip 0%
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+Sacramento State @ Hawai'i  Sat Nov 28 10:00 PM CT
+  SPREAD  Hawai'i -13.5 (-112.0)  model: Hawai'i by 15.2, edge 1.7  LEAN (under 2 pts off the line: 50.7% / 53.3%)
+  WINNER  Hawai'i (-575) model chance 84%, value at DK price -2%  LEAN (winner 3%+ value: ROI +19.8% / +0.7%, not proven)
+  TOTAL   Over 39.5 (-112.0)  model 43.1, edge 3.6  TESTED PICK (college total 2+ pts off the line, last-3-season fit: 53.1% of 1249 2020-22 / 57.2% of 887 2023-26; must hold up live)
+  inputs: QB value +0.000/+0.164, Elo 1063/1401, talent 561/557, rest 14/7 days, travel 2462 mi (away/home)
+  ** Hawai'i QB: Micah Alejado (most passes in last game: Hawai'i Rainbow Warriors at Nevada Wolf Pack; 7 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** Sacramento State QB: Brian Salazar Jr. (most passes in last game: Sacramento State Hornets at Central Michigan Chippewas; 0 starts in the data) - starter NOT confirmed (no college injury/lineup data)
+  ** NOT VERIFIED - BACKUP QB: Brian Salazar Jr. has 0 starts in the data (needs 4) - spread/total NOT VERIFIED
+  ** CHANGE: total moved 44.5 -> 39.5 since the opener (DK via ESPN)
+  ** weather (ESPN forecast): 74F, gusts 16 mph, precip 6% - BAD WEATHER: passing/receiving/receptions Overs NOT VERIFIED
+  ** BET CAP: at most 3 bets on this game; never two parlay legs from the same team
+
+BIAS CHECK (rule 7b): Overs 87% of totals, favorites 55% and home teams 70% of spread picks  << past 65% one way: Overs, home teams
