@@ -129,3 +129,18 @@ College: the median fix removes the Over lean (LATE 50% Overs) at the same hit r
 NFL: recent-only is worse on every line - it stays on the all-seasons fit. College: the total edge 2+ rule passes with
 the last-3-season fit (median total model). CAUTION: 2023-26 college games have been looked at in several runs today,
 and many bet types were tested - one pass among many can be luck. It must hold up on new games (live scoreboard).
+
+## Different angles (amendment 18; core/results/approaches.txt). Recent periods: NFL 2021-23 / 2024-26, college 2020-22 / 2023-26.
+(The printed "57%+" rows are the 58% threshold - label rounding only.)
+| | NFL | College |
+|---|---|---|
+| Current card model, spread edge 2+ | 52.5% of 40 / 35.3% of 17 | 56.1% of 289 / 54.8% of 438 (p=0.063) |
+| 1a era fit, spread edge 2+ | 47.3% / 45.0% | 56.1% / 53.5% |
+| **1b in-season recalibration, spread edge 2+** | 50.8% / 37.3% | **56.3% of 332 / 54.7% of 570, p=0.042 - TESTED PICK** |
+| 1b, total edge 2+ | 53.2% / 55.4% (too few) | 52.2% / 54.7% |
+| 2 classifier (best rows) | totals 58%+: 54.5% / 52.4%, last-3 training | totals 58%+: 54.1% / 50.3% |
+NFL: nothing passes - the classifier picked spreads worse than a coin flip (45-48%). College: in-season recalibration
+passes for spreads 2+ points off the line; the era fit and the classifier do not help.
+HONEST CAUTION: this run had about 60 tests; at p < 0.05 two or three passes are expected from luck alone. What is more
+convincing than any one p-value: college spreads 2+ points off the line have been above 52.4% in EVERY build
+(v2 55.2/54.3; core 53.6/56.2; all variables 54.0/54.8; recent 56.1/54.8; recalibrated 56.3/54.7).

@@ -108,7 +108,7 @@ def run(name, mod, f, P, ym, yt, mw, tw, tmode, era):
             for thr, (a, b) in c.items():
                 p = cfb.pval(a[0] + b[0], a[1] + b[1])
                 ok = a[1] >= 100 and b[1] >= 100 and a[0] / max(a[1], 1) >= .524 and b[0] / max(b[1], 1) >= .524 and p < .05
-                txt.append(f"  {kind:6s} chance {int(thr * 100)}%+  {a[0]}/{a[1]} = {a[0] / max(a[1], 1):.1%} | {b[0]}/{b[1]} = {b[0] / max(b[1], 1):.1%} | "
+                txt.append(f"  {kind:6s} chance {round(thr * 100)}%+  {a[0]}/{a[1]} = {a[0] / max(a[1], 1):.1%} | {b[0]}/{b[1]} = {b[0] / max(b[1], 1):.1%} | "
                            f"p={p:.3f} | {'TESTED PICK' if ok else 'LEAN':11s} | {'home' if kind == 'spread' else 'Over'} share {a[2]:.0%} / {b[2]:.0%}")
                 res[f'{name}|2|{lab}|{kind}|{thr}'] = dict(p1=a[:2], p2=b[:2], p=p, passes=ok)
 

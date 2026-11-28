@@ -24,7 +24,12 @@ def model():
     tr = f[f.season.between(cfb.FIRST, 2025)]
     bm, sd = cfb.fit(tr, 'margin')
     bt, _ = cfb.fit(f[f.season.between(2023, 2025)], 'total')       # amendment 17: last 3 seasons, median total model
-    return H, bm, bt, sd
+    # amendment 19: in-season recalibration of the margin = sum of this season's errors so far / (games + 100)
+    cur = f[(f.season == 2026) & f.home_score.notna()]
+    cur = cur[cfb.design(cur, 'margin').notna().all(axis=1)]
+    err = (cur.home_score - cur.away_score) - cfb.design(cur, 'margin').values @ bm.values
+    corr = float(err.sum() / (len(err) + 100))
+    return H, bm, bt, sd, corr, len(err)
 
 
 def live_ratings(H):
@@ -78,15 +83,16 @@ def qb_hist(qb):
 
 
 def main(ids):
-    H, bm, bt, sd = model()
+    H, bm, bt, sd, corr, ncorr = model()
     R, lastwk = live_ratings(H)
     tal = data.cfb_talent([2026]).set_index('team').talent
     th = data.cfb_team_home().dropna(subset=['tlat']).drop_duplicates('team').set_index('team')
     T2 = json.load(open(os.path.join(HERE, 'results', 'cfb_test2_firstqb.json')))['results']
     rec = lambda k: f"tested {T2[k]['early'][0] / max(T2[k]['early'][1], 1):.1%} of {T2[k]['early'][1]} 2017-22 / {T2[k]['late'][0] / max(T2[k]['late'][1], 1):.1%} of {T2[k]['late'][1]} 2023-26"
     now = datetime.now(timezone.utc)
-    print(f"core COLLEGE card - {now:%Y-%m-%d %H:%M} UTC. DK lines from ESPN (DraftKings). Tested: totals 2+ pts off the line (last-3-season fit); everything else is a LEAN.")
+    print(f"core COLLEGE card - {now:%Y-%m-%d %H:%M} UTC. DK lines from ESPN (DraftKings). Tested: totals and spreads 2+ pts off the line; everything else is a LEAN.")
     print(f"** Ratings use play-by-play through 2026 week {lastwk} only (the free data has not added later weeks).")
+    print(f"** In-season recalibration: margin {corr:+.2f} pts (from {ncorr} games this season), amendment 19.")
     print("** No college injury list exists (ESPN: none) - injuries and starting lineups are NOT checked by any tool: check by hand.\n")
     rows = []
     for eid in ids:
@@ -137,14 +143,20 @@ def main(ids):
         for x in cfb.EXTRA_ALL:
             row[f'm_{x}'] = side['home'][x] - side['away'][x]; row[f't_{x}'] = side['home'][x] + side['away'][x]
         fr = pd.DataFrame([row])
-        pm = float(cfb.predict(fr, bm, 'margin').iloc[0]); pt = float(cfb.predict(fr, bt, 'total').iloc[0])
+        pm = float(cfb.predict(fr, bm, 'margin').iloc[0]) + corr; pt = float(cfb.predict(fr, bt, 'total').iloc[0])
         ph = 0.5 * (1 + erf(pm / (sd * sqrt(2))))
         exp = -sp; edge = pm - exp
         sp_team, sp_line, sp_price = (hn, sp, hsp) if edge > 0 else (an, -sp, asp)
         e2 = abs(edge) >= 2
-        key = 'spread edge 4+' if abs(edge) >= 4 else 'spread edge 2+' if e2 else 'spread edge 0+'
-        print(f"  SPREAD  {sp_team} {sp_line:+g} ({sp_price})  model: {hn if pm > 0 else an} by {abs(pm):.1f}, edge {abs(edge):.1f}  LEAN ({rec(key)})"
-              + ("  << edge 2+: the strongest college lean, NOT proven" if e2 else ''))
+        AP = json.load(open(os.path.join(HERE, 'results', 'approaches.json')))
+        if e2:
+            r_ = AP['COLLEGE|1b|spread|2']
+            lab = (f"TESTED PICK (college spread 2+ pts off the line, recalibrated: {r_['p1'][0] / r_['p1'][1]:.1%} of {r_['p1'][1]} 2020-22 / "
+                   f"{r_['p2'][0] / r_['p2'][1]:.1%} of {r_['p2'][1]} 2023-26; one of ~60 tests - must hold up live)")
+        else:
+            r_ = AP['COLLEGE|1b|spread|0']
+            lab = f"LEAN (under 2 pts off the line: {r_['p1'][0] / r_['p1'][1]:.1%} / {r_['p2'][0] / r_['p2'][1]:.1%})"
+        print(f"  SPREAD  {sp_team} {sp_line:+g} ({sp_price})  model: {hn if pm > 0 else an} by {abs(pm):.1f}, edge {abs(edge):.1f}  {lab}")
         wt = hn if ph >= 0.5 else an; wp_ = max(ph, 1 - ph); wml = hml if ph >= 0.5 else aml
         val = wp_ - be(float(wml)) if wml else float('nan')
         print(f"  WINNER  {wt} ({wml}) model chance {wp_:.0%}, value at DK price {val:+.0%}  LEAN ({rec('winner 3%+ value') if False else 'winner 3%+ value: ROI +19.8% / +0.7%, not proven'})")
@@ -191,7 +203,7 @@ def main(ids):
                                         ('winner', 'home' if ph >= .5 else 'away', wt, None, wml, round(wp_, 3)),
                                         ('total', ou.lower(), ou, tot, ovo if ou == 'Over' else uno, round(pt, 2))):
             rows.append(dict(league='cfb', event=eid, kickoff=comp['date'], game=f'{an}@{hn}', market=mk, side=sd_, pick=pk, line=ln,
-                             price=pr, label=('TESTED PICK' if mk == 'total' and abs(pt - tot) >= 2 else 'LEAN' + (' edge2+' if mk == 'spread' and e2 else '')), model=ex,
+                             price=pr, label=('TESTED PICK' if (mk == 'total' and abs(pt - tot) >= 2) or (mk == 'spread' and e2) else 'LEAN'), model=ex,
                              logged_at=now.isoformat(timespec='seconds'), result=None))
     if rows:
         os.makedirs(os.path.dirname(LOG), exist_ok=True)

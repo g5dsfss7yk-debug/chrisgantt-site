@@ -256,3 +256,6 @@ early/late periods, freeze, checks a-k).
       on the last 3 seasons. Bet the side with chance >= 53%, 55%, 58% (three fixed thresholds).
     Judged on the recent periods: NFL 2021-23 / 2024-26; college 2020-22 / 2023-26 (DK). Pass = 52.4%+ both
     periods, p < 0.05, 100+ bets each. Over share printed. Compared with the current card models on the same games.
+19. (Nov 28, AFTER the amendment-18 result - card wiring only.) College card spreads: in-season recalibration (1b)
+    on the all-seasons margin model; a spread 2+ points off the DK line is labelled TESTED PICK (56.3% / 54.7%,
+    with the multiple-testing caution printed). Totals unchanged (amendment 17). NFL unchanged.
