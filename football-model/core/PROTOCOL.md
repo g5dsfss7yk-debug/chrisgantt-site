@@ -275,3 +275,14 @@ early/late periods, freeze, checks a-k).
     player file (full names) matched on game, team, quarter, clock, down, distance, yard line when under half are
     named: 2026 -> 85% named, 88% of team-game starters. 2026 QB inputs (value, starts, backup, change) were wrong
     before this fix in the card and in the 2026 part of every test; the tested college rules get re-checked with it.
+22. (Nov 28, Chris: "make this model make a balanced and accurate choice on an over or an under without favoring
+    one over the other". Written BEFORE any result.) CENTERED TOTALS: the total edge becomes
+    (model total - line) - median of (model total - line) over the previous N games (games before this one's week),
+    N = 400 college / 100 NFL (about two to three weeks of games) - removes the model's recent drift, so Overs and
+    Unders come only from games that stand out against it. Base totals unchanged: college last-3-season median model,
+    NFL original least squares. Judged on the recent periods (college 2020-22 / 2023-26 DK; NFL 2021-23 / 2024-26):
+    total edge 0 / 2 / 4 with the centered edge, Over share and hit rate, season by season, and weeks 1-8 vs 9+.
+    Counts as FIXED only if the Over share is 40-60% in both periods AND weeks 9+ AND the all-games hit rate is not
+    lower than the current version's in either period. If it is fixed, the cards switch to it; a centered total
+    2+ points off is a TESTED PICK only under the usual pass rule. Chris's Nov 28 instruction replaces amendment 15
+    (he now wants balance in both leagues, not an Over lean).
