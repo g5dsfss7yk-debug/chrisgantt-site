@@ -1,5 +1,7 @@
 """Chris's betting app for the Raspberry Pi (one card: v11 games + tested picks + every check; v8 props; scoreboard).
 python pi/app.py  ->  open http://<pi-address>:8080 on your phone (same Wi-Fi)."""
+import sys as _sys
+_sys.exit('RETIRED Nov 28 2026 - Chris: "There should be no old models picking anything". Use football-model/core/ (core/HANDOFF.md).')
 import os, sys, html, subprocess, threading, json
 from datetime import datetime
 from flask import Flask, request

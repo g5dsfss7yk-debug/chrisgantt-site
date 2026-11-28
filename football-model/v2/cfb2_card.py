@@ -3,6 +3,8 @@ Nov 24: "the model needs to lean one way or the other"). Spread at edge 2+ pts =
 / 54.3% of 361, 2018-22 / 2023-26); under 2 pts = LEAN (all games 50.1% / 52.0%, about a coin flip).
 Total = LEAN (all games 50.8% / 50.9%; no tested college total from this model). Lines: DraftKings via CollegeFootballData (no odds-API credits), or --line.
     PYTHONPATH=. python v2/cfb2_card.py --date 2026-11-28 [--line "Iowa=-7.5"]"""
+import sys as _sys
+_sys.exit('RETIRED Nov 28 2026 - Chris: "There should be no old models picking anything". Use football-model/core/ (core/HANDOFF.md).')
 import argparse, json, sys, urllib.request
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))

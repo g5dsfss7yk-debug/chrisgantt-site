@@ -8,6 +8,8 @@
 4. Scoreboard (grades finished picks, props included).
 Everything prints; the caller summarizes it for Chris.
 """
+import sys as _sys
+_sys.exit('RETIRED Nov 28 2026 - Chris: "There should be no old models picking anything". Use football-model/core/ (core/HANDOFF.md).')
 import argparse, os, subprocess, sys, urllib.request
 from datetime import datetime
 

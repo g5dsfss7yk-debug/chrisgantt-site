@@ -5,6 +5,8 @@ saved to picks/rungs_v2/).
 
     python v2/props_card.py --before 13:05 [--min-edge 0.03]
 """
+import sys as _sys
+_sys.exit('RETIRED Nov 28 2026 - Chris: "There should be no old models picking anything". Use football-model/core/ (core/HANDOFF.md).')
 import argparse, re, sys, unicodedata
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))

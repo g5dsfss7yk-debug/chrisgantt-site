@@ -9,6 +9,8 @@
 Labels: TESTED PICK = passed v3/PROTOCOL.md in both periods. LEAN = did not pass (shown with its record).
 Every printed pick is written to v3/picks/log.csv (latest game-day run before kickoff wins).
 """
+import sys as _sys
+_sys.exit('RETIRED Nov 28 2026 - Chris: "There should be no old models picking anything". Use football-model/core/ (core/HANDOFF.md).')
 import argparse, json, os, sys
 from datetime import datetime, timezone
 from math import erf, sqrt

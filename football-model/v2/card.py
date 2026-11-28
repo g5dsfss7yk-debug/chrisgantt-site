@@ -3,6 +3,8 @@ each with the tested record of its size bucket (walk-forward, v2/test_nfl.py, te
 
     python v2/card.py [--week N] [--before HH:MM]   (ET kickoff cutoff, e.g. 13:05 for early games)
 """
+import sys as _sys
+_sys.exit('RETIRED Nov 28 2026 - Chris: "There should be no old models picking anything". Use football-model/core/ (core/HANDOFF.md).')
 import argparse, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))

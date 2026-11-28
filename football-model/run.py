@@ -7,6 +7,8 @@
   python run.py props --team SF --odds "George Kittle=+120"   # anytime TD chances
   python run.py lineup --team DAL     # starters at every position and missing regulars
 """
+import sys as _sys
+_sys.exit('RETIRED Nov 28 2026 - Chris: "There should be no old models picking anything". Use football-model/core/ (core/HANDOFF.md).')
 from __future__ import annotations
 
 import argparse
