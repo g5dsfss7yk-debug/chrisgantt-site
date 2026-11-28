@@ -225,3 +225,6 @@ early/late periods, freeze, checks a-k).
     Original (least squares) printed beside. Choice between M and O: higher EARLY all-games total hit rate; LATE run
     once with it. Bias counts as fixed if the LATE Over share is 40-60%. Same bets (edge 0/2/4) and pass rule; a
     total is a TESTED PICK only under the usual rule. The card uses the chosen fix from then on.
+15. (Nov 28, Chris's choice after amendment 14: "I don't like the unders, old models picked them a lot and did not
+    cover".) NFL totals stay on the ORIGINAL least-squares model (Over share 62%; 49.3% / 50.4%), not the median fix
+    (37% Overs on 2018-26; 50.6% / 51.3%). College totals: median fix (50% Overs) unless Chris says otherwise.
