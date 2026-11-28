@@ -8,6 +8,7 @@ from cfb import ratings_for_slate, pval, ml_profit, STATS, H_GRID
 
 FIRST_FIT, EARLY, LATE = 2009, (2011, 2017), (2018, 2026)
 LINE_FREE = False   # amendment 12
+TOTAL_MODE = 'ols'  # amendment 14: 'ols' | 'median' | 'offset'
 CACHE = os.path.join(data.DATA, 'nfl')
 EXTRA = ['qb_value', 'backup_qb', 'qb_change', 'off_out', 'def_out', 'off_q', 'def_q', 'rest']
 GAME = ['wind_x', 'cold_x', 'wx_missing', 'dome', 'div']        # game-level: total model (div also in margin)
@@ -186,7 +187,16 @@ def design(f, kind):
 def fit(f, kind):
     y = f.result if kind == 'margin' else f.total
     X = design(f, kind); ok = X.notna().all(axis=1) & y.notna()
-    b, *_ = np.linalg.lstsq(X[ok].values, y[ok].values, rcond=None)
+    if kind == 'total' and TOTAL_MODE == 'median' and ok.any():          # amendment 14 M
+        from sklearn.linear_model import QuantileRegressor
+        q = QuantileRegressor(quantile=0.5, alpha=0.0, fit_intercept=False, solver='highs').fit(X[ok].values, y[ok].values)
+        b = q.coef_
+    elif kind == 'total' and TOTAL_MODE == 'offset' and 'total_line' in X and ok.any():   # amendment 14 O
+        Xo = X.drop(columns='total_line')
+        bo, *_ = np.linalg.lstsq(Xo[ok].values, (y - X['total_line'])[ok].values, rcond=None)
+        b = pd.Series(bo, Xo.columns).reindex(X.columns).fillna(1.0).values
+    else:
+        b, *_ = np.linalg.lstsq(X[ok].values, y[ok].values, rcond=None)
     return pd.Series(b, X.columns), float(np.std(y[ok].values - X[ok].values @ b))
 
 

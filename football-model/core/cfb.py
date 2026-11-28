@@ -13,6 +13,7 @@ FIRST, EARLY, LATE = 2015, (2017, 2022), (2023, 2026)
 CACHE = os.path.join(data.DATA, 'cfb')
 EXTRA = []          # amendment 2 variables, set by 'test2'
 LINE_FREE = False   # amendment 12
+TOTAL_MODE = 'ols'  # amendment 14: 'ols' | 'median' | 'offset'
 OUTNAME = 'cfb_test2_firstqb'   # amendment 5 re-run (the leaky run is saved as cfb_test2.txt)
 EXTRA_ALL = ['qb_value', 'backup_qb', 'qb_change', 'elo', 'talent', 'returning', 'rest', 'travel']
 
@@ -205,7 +206,16 @@ def design(f, kind):
 def fit(f, kind):
     y = (f.home_score - f.away_score) if kind == 'margin' else (f.home_score + f.away_score)
     X = design(f, kind); ok = X.notna().all(axis=1) & y.notna()
-    b, *_ = np.linalg.lstsq(X[ok].values, y[ok].values, rcond=None)
+    if kind == 'total' and TOTAL_MODE == 'median' and ok.any():          # amendment 14 M
+        from sklearn.linear_model import QuantileRegressor
+        q = QuantileRegressor(quantile=0.5, alpha=0.0, fit_intercept=False, solver='highs').fit(X[ok].values, y[ok].values)
+        b = q.coef_
+    elif kind == 'total' and TOTAL_MODE == 'offset' and 'total_med' in X and ok.any():   # amendment 14 O
+        Xo = X.drop(columns='total_med')
+        bo, *_ = np.linalg.lstsq(Xo[ok].values, (y - X['total_med'])[ok].values, rcond=None)
+        b = pd.Series(bo, Xo.columns).reindex(X.columns).fillna(1.0).values
+    else:
+        b, *_ = np.linalg.lstsq(X[ok].values, y[ok].values, rcond=None)
     sd = float(np.std(y[ok].values - X[ok].values @ b))
     return pd.Series(b, X.columns), sd
 

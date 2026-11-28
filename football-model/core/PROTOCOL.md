@@ -216,3 +216,12 @@ early/late periods, freeze, checks a-k).
     home-plus-away (total). Because player stats start in 2012: fit from 2013, EARLY 2014-2017, LATE 2018-2026, and the
     model WITHOUT the player values is re-run on exactly the same seasons for the comparison. Same bets (edge 0/2/4/7)
     and pass rule. Also printed: the same with no line (amendment 12). PFR pressure data starts 2018 - not used.
+14. (Nov 28, Chris: "fix the over bias in the totals". Written BEFORE any result.) Tested Over shares: college
+    65-79%, NFL 56-66%. Two fixes for the TOTAL model only (spreads unchanged), college and NFL with-line
+    all-variables models (college H=4 first-dropback QB; NFL H=4):
+      M (median): fit the total by median (50th percentile) regression instead of least squares - the pick then
+         compares the TYPICAL total to the line, not the average (totals have a long high tail).
+      O (offset): the line's weight is fixed at 1 and the model predicts only (total - line) from the other inputs.
+    Original (least squares) printed beside. Choice between M and O: higher EARLY all-games total hit rate; LATE run
+    once with it. Bias counts as fixed if the LATE Over share is 40-60%. Same bets (edge 0/2/4) and pass rule; a
+    total is a TESTED PICK only under the usual rule. The card uses the chosen fix from then on.
