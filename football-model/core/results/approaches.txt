@@ -39,37 +39,37 @@ CURRENT card model:
 
 ===== COLLEGE (periods 2020-2022 / 2023-2026)
 CURRENT card model:
-  spread edge 0+  1411/2740 = 51.5% | 1999/3789 = 52.8% | p=0.614 | LEAN        | home share 34% / 49%
-  spread edge 2+  162/289 = 56.1% | 240/438 = 54.8% | p=0.063 | LEAN        | home share 30% / 56%
+  spread edge 0+  1411/2740 = 51.5% | 1978/3789 = 52.2% | p=0.791 | LEAN        | home share 34% / 49%
+  spread edge 2+  162/289 = 56.1% | 235/442 = 53.2% | p=0.159 | LEAN        | home share 30% / 56%
   spread edge 4+  16/30 = 53.3% | 24/50 = 48.0% | p=0.706 | LEAN        | home share 70% / 72%
-  total  edge 0+  1417/2751 = 51.5% | 1903/3708 = 51.3% | p=0.947 | LEAN        | Over share 53% / 59%
-  total  edge 2+  663/1249 = 53.1% | 507/887 = 57.2% | p=0.015 | TESTED PICK | Over share 56% / 65%
-  total  edge 4+  204/391 = 52.2% | 43/74 = 58.1% | p=0.396 | LEAN        | Over share 59% / 51%
+  total  edge 0+  1417/2751 = 51.5% | 1858/3708 = 50.1% | p=0.997 | LEAN        | Over share 53% / 65%
+  total  edge 2+  663/1249 = 53.1% | 608/1127 = 53.9% | p=0.148 | LEAN        | Over share 56% / 76%
+  total  edge 4+  204/391 = 52.2% | 67/120 = 55.8% | p=0.404 | LEAN        | Over share 59% / 76%
 1a ERA FIT (era from 2023):
-  spread edge 0+  1411/2740 = 51.5% | 2005/3789 = 52.9% | p=0.556 | LEAN        | home share 34% / 59%
-  spread edge 2+  162/289 = 56.1% | 515/963 = 53.5% | p=0.124 | LEAN        | home share 30% / 69%
-  spread edge 4+  16/30 = 53.3% | 78/146 = 53.4% | p=0.424 | LEAN        | home share 70% / 81%
-  total  edge 0+  1417/2751 = 51.5% | 1898/3708 = 51.2% | p=0.959 | LEAN        | Over share 53% / 59%
-  total  edge 2+  663/1249 = 53.1% | 635/1170 = 54.3% | p=0.111 | LEAN        | Over share 56% / 64%
-  total  edge 4+  204/391 = 52.2% | 135/248 = 54.4% | p=0.386 | LEAN        | Over share 59% / 55%
+  spread edge 0+  1411/2740 = 51.5% | 1983/3789 = 52.3% | p=0.754 | LEAN        | home share 34% / 59%
+  spread edge 2+  162/289 = 56.1% | 538/999 = 53.9% | p=0.085 | LEAN        | home share 30% / 70%
+  spread edge 4+  16/30 = 53.3% | 80/154 = 51.9% | p=0.554 | LEAN        | home share 70% / 82%
+  total  edge 0+  1417/2751 = 51.5% | 1854/3708 = 50.0% | p=0.998 | LEAN        | Over share 53% / 65%
+  total  edge 2+  663/1249 = 53.1% | 736/1411 = 52.2% | p=0.428 | LEAN        | Over share 56% / 73%
+  total  edge 4+  204/391 = 52.2% | 159/294 = 54.1% | p=0.393 | LEAN        | Over share 59% / 65%
 1b IN-SEASON RECALIBRATION:
-  spread edge 0+  1388/2740 = 50.7% | 2021/3789 = 53.3% | p=0.623 | LEAN        | home share 35% / 62%
-  spread edge 2+  187/332 = 56.3% | 312/570 = 54.7% | p=0.042 | TESTED PICK | home share 27% / 73%
+  spread edge 0+  1388/2740 = 50.7% | 2018/3789 = 53.3% | p=0.651 | LEAN        | home share 35% / 62%
+  spread edge 2+  187/332 = 56.3% | 315/586 = 53.8% | p=0.088 | LEAN        | home share 27% / 73%
   spread edge 4+  14/27 = 51.9% | 29/60 = 48.3% | p=0.746 | LEAN        | home share 70% / 80%
-  total  edge 0+  1399/2751 = 50.9% | 1916/3708 = 51.7% | p=0.959 | LEAN        | Over share 55% / 61%
-  total  edge 2+  643/1231 = 52.2% | 494/903 = 54.7% | p=0.214 | LEAN        | Over share 55% / 69%
-  total  edge 4+  189/347 = 54.5% | 46/77 = 59.7% | p=0.115 | LEAN        | Over share 52% / 61%
+  total  edge 0+  1399/2751 = 50.9% | 1890/3708 = 51.0% | p=0.992 | LEAN        | Over share 55% / 61%
+  total  edge 2+  644/1231 = 52.3% | 528/994 = 53.1% | p=0.406 | LEAN        | Over share 55% / 70%
+  total  edge 4+  189/347 = 54.5% | 60/95 = 63.2% | p=0.054 | LEAN        | Over share 52% / 68%
 2 CLASSIFIER, trained on all earlier seasons:
-  spread chance 53%+  911/1789 = 50.9% | 692/1403 = 49.3% | p=0.994 | LEAN        | home share 39% / 43%
-  spread chance 55%+  630/1226 = 51.4% | 386/772 = 50.0% | p=0.921 | LEAN        | home share 39% / 47%
-  spread chance 58%+  340/667 = 51.0% | 169/327 = 51.7% | p=0.784 | LEAN        | home share 37% / 51%
-  total  chance 53%+  896/1751 = 51.2% | 572/1132 = 50.5% | p=0.946 | LEAN        | Over share 40% / 55%
-  total  chance 55%+  638/1215 = 52.5% | 313/630 = 49.7% | p=0.776 | LEAN        | Over share 38% / 50%
-  total  chance 58%+  342/655 = 52.2% | 141/275 = 51.3% | p=0.624 | LEAN        | Over share 33% / 51%
+  spread chance 53%+  911/1789 = 50.9% | 683/1382 = 49.4% | p=0.992 | LEAN        | home share 39% / 42%
+  spread chance 55%+  632/1236 = 51.1% | 384/775 = 49.5% | p=0.956 | LEAN        | home share 38% / 45%
+  spread chance 58%+  344/668 = 51.5% | 172/339 = 50.7% | p=0.779 | LEAN        | home share 37% / 49%
+  total  chance 53%+  896/1751 = 51.2% | 567/1145 = 49.5% | p=0.980 | LEAN        | Over share 40% / 54%
+  total  chance 55%+  638/1216 = 52.5% | 323/645 = 50.1% | p=0.752 | LEAN        | Over share 38% / 51%
+  total  chance 58%+  342/655 = 52.2% | 127/260 = 48.8% | p=0.766 | LEAN        | Over share 33% / 52%
 2 CLASSIFIER, trained on last 3 seasons:
-  spread chance 53%+  1022/2003 = 51.0% | 1230/2426 = 50.7% | p=0.981 | LEAN        | home share 50% / 51%
-  spread chance 55%+  788/1534 = 51.4% | 854/1692 = 50.5% | p=0.958 | LEAN        | home share 49% / 52%
-  spread chance 58%+  479/955 = 50.2% | 457/919 = 49.7% | p=0.984 | LEAN        | home share 49% / 50%
-  total  chance 53%+  1083/2073 = 52.2% | 1281/2554 = 50.2% | p=0.964 | LEAN        | Over share 51% / 56%
-  total  chance 55%+  868/1665 = 52.1% | 908/1822 = 49.8% | p=0.960 | LEAN        | Over share 51% / 57%
-  total  chance 58%+  609/1125 = 54.1% | 533/1059 = 50.3% | p=0.550 | LEAN        | Over share 48% / 59%
+  spread chance 53%+  1022/2003 = 51.0% | 1244/2469 = 50.4% | p=0.990 | LEAN        | home share 50% / 53%
+  spread chance 55%+  789/1535 = 51.4% | 862/1717 = 50.2% | p=0.970 | LEAN        | home share 50% / 54%
+  spread chance 58%+  479/955 = 50.2% | 473/926 = 51.1% | p=0.943 | LEAN        | home share 49% / 55%
+  total  chance 53%+  1085/2074 = 52.3% | 1319/2609 = 50.6% | p=0.930 | LEAN        | Over share 51% / 61%
+  total  chance 55%+  869/1661 = 52.3% | 950/1911 = 49.7% | p=0.963 | LEAN        | Over share 51% / 65%
+  total  chance 58%+  604/1121 = 53.9% | 577/1152 = 50.1% | p=0.671 | LEAN        | Over share 48% / 68%

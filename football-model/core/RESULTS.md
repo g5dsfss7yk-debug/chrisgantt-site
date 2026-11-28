@@ -153,3 +153,14 @@ card unchanged. Reason: by late season the ratings are already nearly all curren
 portal matters most in weeks 1-4. Next angle: incoming/outgoing transfer value (CFBD portal data) for early weeks.
 Found after the fact: in 2025-26 the college card model picks home teams on 68% of spreads (89% at edge 2+) and is
 over the DK total on 63% of games (72% at edge 2+), while Overs hit 48-49% - a late-season Over lean.
+
+## Centered totals (amendment 22; core/results/balance.txt) - Over lean FIXED, both leagues
+| | Over share before -> centered | All-games hit before -> centered |
+|---|---|---|
+| College 2020-22 / 2023-26 | 53% / 65% -> 52% / 50% (weeks 9+: 63% -> 49%) | 51.5% / 50.1% -> 51.8% / 51.1% |
+| NFL 2021-23 / 2024-26 | 68% / 70% -> 52% / 49% (weeks 9+: 69% -> 46%) | 49.2% / 51.4% -> 51.2% / 51.7% |
+Centered edge 2+: college 52.2% / 55.4% (p=0.14), NFL 55.4% / 50.6% - LEAN. Every season 2020-26 is 35-57% Overs.
+
+## Re-check with corrected 2026 QB data (amendment 23) - college tested picks WITHDRAWN
+College spread 2+ recalibrated: 56.3% / 53.8% (p=0.088, was 54.7% p=0.042). College total 2+ last-3: 53.1% / 53.9%
+(p=0.148, was 57.2% p=0.015). Both now LEAN. Only NFL teaser leg remains a TESTED PICK.

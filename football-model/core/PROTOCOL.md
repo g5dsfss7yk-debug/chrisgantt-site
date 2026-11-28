@@ -286,3 +286,15 @@ early/late periods, freeze, checks a-k).
     lower than the current version's in either period. If it is fixed, the cards switch to it; a centered total
     2+ points off is a TESTED PICK only under the usual pass rule. Chris's Nov 28 instruction replaces amendment 15
     (he now wants balance in both leagues, not an Over lean).
+23. (Nov 28, AFTER results.) (a) Amendment 21 re-check with corrected 2026 QB data: college spread 2+ recalibrated
+    56.3% / 53.8% (p=0.088) and college total 2+ last-3 median 53.1% / 53.9% (p=0.148) NO LONGER PASS -> both
+    TESTED labels withdrawn; every college pick is a LEAN. (b) Amendment 22 centered totals FIXED the lean in both
+    leagues by the rule -> both cards use centered totals from now on (replaces amendment 15's NFL Over-leaning
+    choice, per Chris's Nov 28 instruction). Centered college median N = 400 games of this season (DK totals); NFL
+    N = 100. The only core TESTED PICK left: NFL 6-pt teaser leg on dogs +1.5..+2.5.
+24. (Nov 28 ~11 AM CT, written BEFORE any result.) Found live: with amendment 22 the Nov 28 early college slate was
+    still 87% Overs (season drift only +0.6). SLATE-CENTERED totals: edge = (model - line) - median(model - line)
+    over all games of the SAME week (known before kickoff: model and lines). Balanced on every card by design.
+    Same periods, bets and comparison as amendment 22 (vs current raw and vs amendment-22 centered). Replaces
+    amendment 22 on the cards only if Over share is 40-60% in both periods and weeks 9+ AND its all-games hit rate
+    is not lower than amendment 22's in either period.

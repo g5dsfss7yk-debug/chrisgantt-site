@@ -42,9 +42,10 @@ def run(name, f, N, P, line_early, line_late, total_col, wk_col, date_col):
         if len(prev) >= N // 2:
             cen[idx] = np.median(prev)
     f['edge_raw'] = raw; f['edge_c'] = raw - cen
+    f['edge_s'] = raw - raw.groupby(key).transform('median')        # amendment 24: same-week median
     res_ = f[total_col] - f.ln
     txt.append(f'\n===== {name}')
-    for lab, col in (('CURRENT (raw edge)', 'edge_raw'), ('CENTERED', 'edge_c')):
+    for lab, col in (('CURRENT (raw edge)', 'edge_raw'), ('CENTERED', 'edge_c'), ('SLATE-CENTERED', 'edge_s')):
         txt.append(f'{lab}:')
         for t in (0, 2, 4):
             out = []
@@ -73,6 +74,11 @@ def run(name, f, N, P, line_early, line_late, total_col, wk_col, date_col):
         all(c[k][0] / c[k][1] >= r[k][0] / r[k][1] for k in ('p1', 'p2'))
     txt.append(f"FIXED by the rule (40-60% Overs both periods and weeks 9+, all-games hit not lower)? {'YES' if fixed else 'NO'}")
     res[f'{name}|fixed'] = fixed
+    sl = res[f'{name}|SLATE-CENTERED|0']
+    better = all(0.40 <= o <= 0.60 for o in sl['over']) and 0.40 <= res[f'{name}|SLATE-CENTERED|wk9']['over'] <= 0.60 and \
+        all(sl[k][0] / sl[k][1] >= c[k][0] / c[k][1] for k in ('p1', 'p2'))
+    txt.append(f"SLATE-CENTERED replaces CENTERED on the cards (amendment 24 rule)? {'YES' if better else 'NO'}")
+    res[f'{name}|slate_wins'] = better
 
 
 cfb.EXTRA[:] = cfb.EXTRA_ALL

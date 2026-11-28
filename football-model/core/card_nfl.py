@@ -22,7 +22,10 @@ def model():
     nfl.TOTAL_MODE = 'ols'                      # amendment 15: Chris keeps the original total model
     tr = f[f.season.between(nfl.FIRST_FIT, 2025)]
     bm, sd = nfl.fit(tr, 'margin'); bt, _ = nfl.fit(tr, 'total')
-    return H, bm, bt, sd
+    c2 = f[(f.season == 2026) & f.total.notna() & f.total_line.notna()].sort_values('gameday').tail(100)
+    c2 = c2[nfl.design(c2, 'total').notna().all(axis=1)]
+    tmed = float(np.median(nfl.design(c2, 'total').values @ bt.values - c2.total_line.values)) if len(c2) >= 50 else 0.0
+    return H, bm, bt, sd, tmed
 
 
 def live_ratings(H):
@@ -57,7 +60,7 @@ def last_starter(team):
 
 
 def main(week=None):
-    H, bm, bt, sd = model()
+    H, bm, bt, sd, tmed = model()
     R, lastwk = live_ratings(H)
     T = json.load(open(os.path.join(HERE, 'results', 'nfl_test.json')))['results']
     rec = lambda k: f"tested {T[k]['early'][0] / max(T[k]['early'][1], 1):.1%} of {T[k]['early'][1]} 2011-17 / {T[k]['late'][0] / max(T[k]['late'][1], 1):.1%} of {T[k]['late'][1]} 2018-26"
@@ -67,7 +70,7 @@ def main(week=None):
     sb = get(f'{E}/scoreboard?limit=50{q}')
     now = datetime.now(timezone.utc)
     print(f"core NFL card - {now:%Y-%m-%d %H:%M} UTC. DK lines/injuries/weather from ESPN. TESTED: teaser leg (dog +1.5..+2.5); everything else LEAN.")
-    print(f"** Ratings use play-by-play through 2026 week {lastwk}. Totals: original model (leans Over - Chris's choice, amendment 15).\n")
+    print(f"** Ratings use play-by-play through 2026 week {lastwk}. Totals CENTERED (amendment 22/23): recent drift {tmed:+.1f} pts removed - Overs/Unders balanced.\n")
     rows, bias = [], dict(over=0, total=0, fav=0, spread=0, home=0)
     for e in sb.get('events', []):
         comp = e['competitions'][0]; st = comp['status']['type']['name']
@@ -153,9 +156,12 @@ def main(week=None):
         wt = hn if ph >= .5 else an; wp_ = max(ph, 1 - ph); wml = hml if ph >= .5 else aml
         val = wp_ - be(float(wml)) if wml else float('nan')
         print(f"  WINNER  {wt} ({wml}) model chance {wp_:.0%}, value at DK price {val:+.0%}  LEAN (winner 3%+ value: ROI -7.7% / +4.1%)")
-        ou = 'Over' if pt > tot else 'Under'
-        tkey = 'total edge 4+' if abs(pt - tot) >= 4 else 'total edge 2+' if abs(pt - tot) >= 2 else 'total edge 0+'
-        print(f"  TOTAL   {ou} {tot:g} ({ovo if ou == 'Over' else uno})  model {pt:.1f}  LEAN ({rec(tkey)})")
+        ce = (pt - tot) - tmed
+        ou = 'Over' if ce > 0 else 'Under'
+        BL = json.load(open(os.path.join(HERE, 'results', 'balance.json')))
+        r_ = BL['NFL (2021-23 / 2024-26)|CENTERED|' + ('2' if abs(ce) >= 2 else '0')]
+        print(f"  TOTAL   {ou} {tot:g} ({ovo if ou == 'Over' else uno})  model {pt:.1f} - drift {tmed:+.1f} = centered edge {ce:+.1f}  "
+              f"LEAN (centered: {r_['p1'][0] / max(r_['p1'][1], 1):.1%} 2021-23 / {r_['p2'][0] / max(r_['p2'][1], 1):.1%} 2024-26)")
         # teaser leg: dog +1.5..+2.5
         dog = (hn, sp) if sp > 0 else (an, -sp)
         tz = json.load(open(os.path.join(HERE, 'results', 'nfl_test.json')))['results']['T']
@@ -188,7 +194,7 @@ def main(week=None):
         os.makedirs(os.path.dirname(LOG), exist_ok=True)
         new = pd.DataFrame(rows)
         if os.path.exists(LOG):
-            old = pd.read_csv(LOG, dtype={'event': str}); old = old[~old.event.isin(set(new.event))]
+            old = pd.read_csv(LOG, dtype={'event': str}); old = old[~old.event.isin(set(new.event)) | old.market.eq('chris_read')]   # Chris's reads are never replaced
             new = pd.concat([old, new], ignore_index=True)
         new.to_csv(LOG, index=False)
 

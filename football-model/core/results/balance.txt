@@ -1,0 +1,31 @@
+Centered totals (amendment 22): edge = (model - line) - median(model - line) over the previous N games.
+
+===== COLLEGE (2020-22 median line / 2023-26 DK)
+CURRENT (raw edge):
+  total edge 0+  1417/2751 = 51.5% Overs 53% | 1858/3708 = 50.1% Overs 65% | p=0.997 | LEAN
+  total edge 2+  663/1249 = 53.1% Overs 56% | 608/1127 = 53.9% Overs 76% | p=0.148 | LEAN
+  total edge 4+  204/391 = 52.2% Overs 59% | 67/120 = 55.8% Overs 76% | p=0.404 | LEAN
+  weeks 9+: Overs 63%, hit 50.7% (2552 games)
+  by season (Over share / hit): 2020: 43% O / 52.0% | 2021: 40% O / 51.8% | 2022: 66% O / 51.1% | 2023: 48% O / 52.9% | 2024: 55% O / 52.7% | 2025: 67% O / 48.3% | 2026: 77% O / 48.5%
+CENTERED:
+  total edge 0+  1425/2751 = 51.8% Overs 52% | 1893/3708 = 51.1% Overs 50% | p=0.953 | LEAN
+  total edge 2+  596/1142 = 52.2% Overs 54% | 510/921 = 55.4% Overs 44% | p=0.140 | LEAN
+  total edge 4+  160/309 = 51.8% Overs 53% | 55/90 = 61.1% Overs 22% | p=0.294 | LEAN
+  weeks 9+: Overs 49%, hit 52.1% (2552 games)
+  by season (Over share / hit): 2020: 47% O / 52.2% | 2021: 49% O / 50.8% | 2022: 57% O / 52.3% | 2023: 35% O / 52.1% | 2024: 55% O / 53.2% | 2025: 55% O / 50.9% | 2026: 50% O / 49.5%
+FIXED by the rule (40-60% Overs both periods and weeks 9+, all-games hit not lower)? YES
+
+===== NFL (2021-23 / 2024-26)
+CURRENT (raw edge):
+  total edge 0+  415/844 = 49.2% Overs 68% | 378/735 = 51.4% Overs 70% | p=0.961 | LEAN
+  total edge 2+  66/123 = 53.7% Overs 76% | 56/103 = 54.4% Overs 92% | p=0.341 | LEAN
+  total edge 4+  2/5 = 40.0% Overs 60% | 1/1 = 100.0% Overs 100% | p=0.700 | LEAN
+  weeks 9+: Overs 69%, hit 49.8% (863 games)
+  by season (Over share / hit): 2021: 61% O / 49.3% | 2022: 79% O / 51.2% | 2023: 65% O / 47.0% | 2024: 68% O / 52.1% | 2025: 72% O / 52.6% | 2026: 69% O / 45.3%
+CENTERED:
+  total edge 0+  432/844 = 51.2% Overs 52% | 380/735 = 51.7% Overs 49% | p=0.788 | LEAN
+  total edge 2+  56/101 = 55.4% Overs 37% | 42/83 = 50.6% Overs 42% | p=0.437 | LEAN
+  total edge 4+  2/4 = 50.0% Overs 0% | 0/0 = 0.0% Overs nan% | p=0.723 | LEAN
+  weeks 9+: Overs 46%, hit 52.1% (863 games)
+  by season (Over share / hit): 2021: 55% O / 50.0% | 2022: 53% O / 53.4% | 2023: 49% O / 50.2% | 2024: 46% O / 48.6% | 2025: 53% O / 56.5% | 2026: 49% O / 45.8%
+FIXED by the rule (40-60% Overs both periods and weeks 9+, all-games hit not lower)? YES
