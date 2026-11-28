@@ -100,3 +100,10 @@ No college teaser leg reaches 73.9% in either period; by spread size, every grou
 **Nothing passes.** Without the line the models predict scores worse (college squared error margin 287.5 vs 244.9
 with the line; NFL 188.6 vs 179.4) and pick no more winners against the spread. Line-free college totals lean Over
 68-79% of the time. Only possible lead: NFL line-free spread edge 7+ (55.2% / 58.0%), 194 bets in total - not proven.
+
+## NFL player value out (amendment 13; core/results/players_nfl.txt). Fit from 2013; EARLY 2014-17, LATE 2018-26.
+Adding player value out (skill-player EPA, defender impact plays, OL starters out, Questionable value) made the model
+WORSE: EARLY squared error margin 179.1 -> 182.0 (with the line), 189.8 -> 192.9 (no line). Spread hit rates fell
+(all games 50.0% / 49.8% -> 48.8% / 49.5%). Nothing passes. The only number above 60%: no-line total edge 7+
+(62.2% / 61.2% without player values; 54.2% / 67.2% with) - 74-138 bets, under the 100-per-period rule, and it moves
+around between runs (amendment 12 with other seasons: 50.7% / 56.8%) - noise until it holds on new games.

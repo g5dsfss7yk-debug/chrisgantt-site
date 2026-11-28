@@ -118,7 +118,7 @@ if __name__ == '__main__':
                     res[f"{'noline' if lf else 'line'}|{label}|{kind}|{t}"] = dict(early=a, late=b, p=p, passes=ok)
             we, wl = nfl.winner_bets(f, E), nfl.winner_bets(f, L)
             txt.append(f"  winner 3%+   EARLY ROI {we[2].mean():+.1%} ({we[1]}) | LATE ROI {wl[2].mean():+.1%} ({wl[1]})")
-            if label.startswith('WITH') and not lf:
+            if label == 'WITH player values' and not lf:
                 bm, _ = nfl.fit(f[f.season.between(2013, 2025)], 'margin')
                 txt.append('  margin weights for the new variables: ' + ', '.join(f'{c} {bm[f"m_{c}"]:+.3f}' for c in NEW))
     nfl.LINE_FREE = False; nfl.EXTRA[:] = old_extra

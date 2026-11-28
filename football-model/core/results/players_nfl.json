@@ -1,0 +1,386 @@
+{
+ "line|WITHOUT player values|spread|0": {
+  "early": [
+   519,
+   1039
+  ],
+  "late": [
+   1163,
+   2336
+  ],
+  "p": 0.9986437216965139,
+  "passes": false
+ },
+ "line|WITHOUT player values|spread|2": {
+  "early": [
+   225,
+   456
+  ],
+  "late": [
+   120,
+   240
+  ],
+  "p": 0.9374148833609568,
+  "passes": false
+ },
+ "line|WITHOUT player values|spread|4": {
+  "early": [
+   70,
+   138
+  ],
+  "late": [
+   5,
+   11
+  ],
+  "p": 0.7214778044235429,
+  "passes": false
+ },
+ "line|WITHOUT player values|spread|7": {
+  "early": [
+   10,
+   17
+  ],
+  "late": [
+   0,
+   0
+  ],
+  "p": 0.3888141467977599,
+  "passes": false
+ },
+ "line|WITHOUT player values|total|0": {
+  "early": [
+   528,
+   1059
+  ],
+  "late": [
+   1193,
+   2373
+  ],
+  "p": 0.9961096099882492,
+  "passes": false
+ },
+ "line|WITHOUT player values|total|2": {
+  "early": [
+   263,
+   519
+  ],
+  "late": [
+   270,
+   528
+  ],
+  "p": 0.8408645064722624,
+  "passes": false
+ },
+ "line|WITHOUT player values|total|4": {
+  "early": [
+   107,
+   189
+  ],
+  "late": [
+   17,
+   42
+  ],
+  "p": 0.3735341043542814,
+  "passes": false
+ },
+ "line|WITHOUT player values|total|7": {
+  "early": [
+   20,
+   41
+  ],
+  "late": [
+   0,
+   1
+  ],
+  "p": 0.7808972144315229,
+  "passes": false
+ },
+ "line|WITH player values|spread|0": {
+  "early": [
+   507,
+   1039
+  ],
+  "late": [
+   1157,
+   2336
+  ],
+  "p": 0.999852102981218,
+  "passes": false
+ },
+ "line|WITH player values|spread|2": {
+  "early": [
+   241,
+   502
+  ],
+  "late": [
+   154,
+   310
+  ],
+  "p": 0.9852761634077202,
+  "passes": false
+ },
+ "line|WITH player values|spread|4": {
+  "early": [
+   95,
+   200
+  ],
+  "late": [
+   6,
+   19
+  ],
+  "p": 0.9730685332842919,
+  "passes": false
+ },
+ "line|WITH player values|spread|7": {
+  "early": [
+   16,
+   28
+  ],
+  "late": [
+   0,
+   0
+  ],
+  "p": 0.378415747971874,
+  "passes": false
+ },
+ "line|WITH player values|total|0": {
+  "early": [
+   529,
+   1059
+  ],
+  "late": [
+   1205,
+   2373
+  ],
+  "p": 0.9866923007440532,
+  "passes": false
+ },
+ "line|WITH player values|total|2": {
+  "early": [
+   258,
+   516
+  ],
+  "late": [
+   310,
+   587
+  ],
+  "p": 0.7360953719516259,
+  "passes": false
+ },
+ "line|WITH player values|total|4": {
+  "early": [
+   102,
+   196
+  ],
+  "late": [
+   22,
+   49
+  ],
+  "p": 0.7339353031741304,
+  "passes": false
+ },
+ "line|WITH player values|total|7": {
+  "early": [
+   21,
+   42
+  ],
+  "late": [
+   0,
+   1
+  ],
+  "p": 0.7327720021496508,
+  "passes": false
+ },
+ "noline|WITHOUT player values|spread|0": {
+  "early": [
+   507,
+   1039
+  ],
+  "late": [
+   1199,
+   2336
+  ],
+  "p": 0.9850485262562851,
+  "passes": false
+ },
+ "noline|WITHOUT player values|spread|2": {
+  "early": [
+   333,
+   655
+  ],
+  "late": [
+   607,
+   1186
+  ],
+  "p": 0.8800517981053122,
+  "passes": false
+ },
+ "noline|WITHOUT player values|spread|4": {
+  "early": [
+   174,
+   342
+  ],
+  "late": [
+   245,
+   475
+  ],
+  "p": 0.7495449790302721,
+  "passes": false
+ },
+ "noline|WITHOUT player values|spread|7": {
+  "early": [
+   52,
+   106
+  ],
+  "late": [
+   43,
+   76
+  ],
+  "p": 0.5516935859024378,
+  "passes": false
+ },
+ "noline|WITHOUT player values|total|0": {
+  "early": [
+   520,
+   1059
+  ],
+  "late": [
+   1178,
+   2373
+  ],
+  "p": 0.9997171527942192,
+  "passes": false
+ },
+ "noline|WITHOUT player values|total|2": {
+  "early": [
+   303,
+   622
+  ],
+  "late": [
+   605,
+   1212
+  ],
+  "p": 0.9938280718808387,
+  "passes": false
+ },
+ "noline|WITHOUT player values|total|4": {
+  "early": [
+   146,
+   284
+  ],
+  "late": [
+   246,
+   479
+  ],
+  "p": 0.7265872091541252,
+  "passes": false
+ },
+ "noline|WITHOUT player values|total|7": {
+  "early": [
+   46,
+   74
+  ],
+  "late": [
+   30,
+   49
+  ],
+  "p": 0.02258269515793789,
+  "passes": false
+ },
+ "noline|WITH player values|spread|0": {
+  "early": [
+   499,
+   1039
+  ],
+  "late": [
+   1204,
+   2336
+  ],
+  "p": 0.9885402029919979,
+  "passes": false
+ },
+ "noline|WITH player values|spread|2": {
+  "early": [
+   346,
+   665
+  ],
+  "late": [
+   616,
+   1209
+  ],
+  "p": 0.8282035159599754,
+  "passes": false
+ },
+ "noline|WITH player values|spread|4": {
+  "early": [
+   185,
+   372
+  ],
+  "late": [
+   248,
+   489
+  ],
+  "p": 0.898597903294195,
+  "passes": false
+ },
+ "noline|WITH player values|spread|7": {
+  "early": [
+   63,
+   138
+  ],
+  "late": [
+   50,
+   88
+  ],
+  "p": 0.7850374101210137,
+  "passes": false
+ },
+ "noline|WITH player values|total|0": {
+  "early": [
+   512,
+   1059
+  ],
+  "late": [
+   1173,
+   2373
+  ],
+  "p": 0.9999502638453825,
+  "passes": false
+ },
+ "noline|WITH player values|total|2": {
+  "early": [
+   311,
+   641
+  ],
+  "late": [
+   604,
+   1214
+  ],
+  "p": 0.9962535055435162,
+  "passes": false
+ },
+ "noline|WITH player values|total|4": {
+  "early": [
+   145,
+   282
+  ],
+  "late": [
+   245,
+   484
+  ],
+  "p": 0.8050403618762288,
+  "passes": false
+ },
+ "noline|WITH player values|total|7": {
+  "early": [
+   45,
+   83
+  ],
+  "late": [
+   41,
+   61
+  ],
+  "p": 0.046463994760175396,
+  "passes": false
+ }
+}

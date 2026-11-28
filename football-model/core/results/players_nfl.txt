@@ -1,0 +1,46 @@
+NFL player value out (amendment 13). Fit from 2013; EARLY 2014-17, LATE 2018-26; H = 4.
+
+with the line - WITHOUT player values: EARLY squared error margin 179.1, total 186.3
+  spread edge 0+  EARLY 519/1039 = 50.0% | LATE 1163/2336 = 49.8% | p=0.999 | LEAN
+  spread edge 2+  EARLY 225/456 = 49.3% | LATE 120/240 = 50.0% | p=0.937 | LEAN
+  spread edge 4+  EARLY 70/138 = 50.7% | LATE 5/11 = 45.5% | p=0.721 | LEAN
+  spread edge 7+  EARLY 10/17 = 58.8% | LATE 0/0 = 0.0% | p=0.389 | LEAN
+  total  edge 0+  EARLY 528/1059 = 49.9% | LATE 1193/2373 = 50.3% | p=0.996 | LEAN
+  total  edge 2+  EARLY 263/519 = 50.7% | LATE 270/528 = 51.1% | p=0.841 | LEAN
+  total  edge 4+  EARLY 107/189 = 56.6% | LATE 17/42 = 40.5% | p=0.374 | LEAN
+  total  edge 7+  EARLY 20/41 = 48.8% | LATE 0/1 = 0.0% | p=0.781 | LEAN
+  winner 3%+   EARLY ROI -5.4% (591) | LATE ROI +3.5% (604)
+
+with the line - WITH player values: EARLY squared error margin 182.0, total 187.4
+  spread edge 0+  EARLY 507/1039 = 48.8% | LATE 1157/2336 = 49.5% | p=1.000 | LEAN
+  spread edge 2+  EARLY 241/502 = 48.0% | LATE 154/310 = 49.7% | p=0.985 | LEAN
+  spread edge 4+  EARLY 95/200 = 47.5% | LATE 6/19 = 31.6% | p=0.973 | LEAN
+  spread edge 7+  EARLY 16/28 = 57.1% | LATE 0/0 = 0.0% | p=0.378 | LEAN
+  total  edge 0+  EARLY 529/1059 = 50.0% | LATE 1205/2373 = 50.8% | p=0.987 | LEAN
+  total  edge 2+  EARLY 258/516 = 50.0% | LATE 310/587 = 52.8% | p=0.736 | LEAN
+  total  edge 4+  EARLY 102/196 = 52.0% | LATE 22/49 = 44.9% | p=0.734 | LEAN
+  total  edge 7+  EARLY 21/42 = 50.0% | LATE 0/1 = 0.0% | p=0.733 | LEAN
+  winner 3%+   EARLY ROI -2.1% (636) | LATE ROI +1.9% (679)
+  margin weights for the new variables: off_val_out -0.210, def_val_out +0.086, off_val_q -0.063, def_val_q -0.078, ol_out +0.320
+
+NO LINE - WITHOUT player values: EARLY squared error margin 189.8, total 190.9
+  spread edge 0+  EARLY 507/1039 = 48.8% | LATE 1199/2336 = 51.3% | p=0.985 | LEAN
+  spread edge 2+  EARLY 333/655 = 50.8% | LATE 607/1186 = 51.2% | p=0.880 | LEAN
+  spread edge 4+  EARLY 174/342 = 50.9% | LATE 245/475 = 51.6% | p=0.750 | LEAN
+  spread edge 7+  EARLY 52/106 = 49.1% | LATE 43/76 = 56.6% | p=0.552 | LEAN
+  total  edge 0+  EARLY 520/1059 = 49.1% | LATE 1178/2373 = 49.6% | p=1.000 | LEAN
+  total  edge 2+  EARLY 303/622 = 48.7% | LATE 605/1212 = 49.9% | p=0.994 | LEAN
+  total  edge 4+  EARLY 146/284 = 51.4% | LATE 246/479 = 51.4% | p=0.727 | LEAN
+  total  edge 7+  EARLY 46/74 = 62.2% | LATE 30/49 = 61.2% | p=0.023 | LEAN
+  winner 3%+   EARLY ROI -3.7% (771) | LATE ROI -5.4% (1492)
+
+NO LINE - WITH player values: EARLY squared error margin 192.9, total 192.3
+  spread edge 0+  EARLY 499/1039 = 48.0% | LATE 1204/2336 = 51.5% | p=0.989 | LEAN
+  spread edge 2+  EARLY 346/665 = 52.0% | LATE 616/1209 = 51.0% | p=0.828 | LEAN
+  spread edge 4+  EARLY 185/372 = 49.7% | LATE 248/489 = 50.7% | p=0.899 | LEAN
+  spread edge 7+  EARLY 63/138 = 45.7% | LATE 50/88 = 56.8% | p=0.785 | LEAN
+  total  edge 0+  EARLY 512/1059 = 48.3% | LATE 1173/2373 = 49.4% | p=1.000 | LEAN
+  total  edge 2+  EARLY 311/641 = 48.5% | LATE 604/1214 = 49.8% | p=0.996 | LEAN
+  total  edge 4+  EARLY 145/282 = 51.4% | LATE 245/484 = 50.6% | p=0.805 | LEAN
+  total  edge 7+  EARLY 45/83 = 54.2% | LATE 41/61 = 67.2% | p=0.046 | LEAN
+  winner 3%+   EARLY ROI -3.9% (792) | LATE ROI -5.5% (1490)
