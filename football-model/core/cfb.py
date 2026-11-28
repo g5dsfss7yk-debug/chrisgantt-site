@@ -15,6 +15,7 @@ EXTRA = []          # amendment 2 variables, set by 'test2'
 LINE_FREE = False   # amendment 12
 TOTAL_MODE = 'ols'  # amendment 14: 'ols' | 'median' | 'offset'
 WINDOW = None       # amendment 16: fit on the last N seasons only (None = all)
+PREV_K = 1.0        # amendment 20: weight of previous-season games in the ratings
 OUTNAME = 'cfb_test2_firstqb'   # amendment 5 re-run (the leaky run is saved as cfb_test2.txt)
 EXTRA_ALL = ['qb_value', 'backup_qb', 'qb_change', 'elo', 'talent', 'returning', 'rest', 'travel']
 
@@ -57,6 +58,8 @@ def ratings_for_slate(hist, H, idx_now):
     n, k = len(hist), len(teams)
     oi, di = teams.get_indexer(hist.team), teams.get_indexer(hist.defteam)
     w = 0.5 ** ((idx_now - hist.slate_i.values) / H)
+    if PREV_K != 1.0 and 'season' in hist:                 # amendment 20: down-weight last season's games
+        w = w * np.where(hist.season.values < hist.season.max(), PREV_K, 1.0)
     rows = np.repeat(np.arange(n), 3)
     cols = np.column_stack([oi, k + di, np.full(n, 2 * k)]).ravel()
     vals = np.column_stack([np.ones(n), np.ones(n), hist['loc'].values.astype(float)]).ravel()
@@ -77,7 +80,7 @@ def ratings_for_slate(hist, H, idx_now):
 
 
 def build(H, seasons=range(2014, 2027)):
-    p = os.path.join(CACHE, f'features_H{H}.pkl')
+    p = os.path.join(CACHE, f'features_H{H}.pkl' if PREV_K == 1.0 else f'features_H{H}_k{PREV_K}.pkl')
     if os.path.exists(p):
         return pd.read_pickle(p)
     tg = team_games(seasons)

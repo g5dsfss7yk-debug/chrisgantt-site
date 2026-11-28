@@ -62,9 +62,23 @@ def last_game_qb(team_id):
     return (best[0] if best else None), d, e.get('name')
 
 
+from functools import lru_cache
+
+
+@lru_cache(maxsize=None)
+def _pbp(seasons):
+    return data.cfb_pbp(list(seasons))
+
+
+@lru_cache(maxsize=None)
+def _first_passers():
+    pb = _pbp(tuple(range(2014, 2027)))
+    return pb[(pb['pass'] == 1) & pb.passer_player_name.notna()].drop_duplicates(['game_id', 'pos_team'])
+
+
 def team_state(name):
     """From the play-by-play history: latest Elo, the QB history, talent, home location."""
-    pb = data.cfb_pbp([2025, 2026])
+    pb = _pbp((2025, 2026))
     g = pb.groupby('game_id').agg(date=('start_date', 'first'), home=('home', 'first'), away=('away', 'first'),
                                   he=('home_team_pregame_elo', 'first'), ae=('away_team_pregame_elo', 'first')).sort_values('date')
     x = g[(g.home == name) | (g.away == name)]
@@ -74,10 +88,10 @@ def team_state(name):
 
 
 def qb_hist(qb):
-    pb = data.cfb_pbp(range(2014, 2027))
+    pb = _pbp(tuple(range(2014, 2027)))
     db = pb[(pb['pass'] == 1) & (pb.passer_player_name == qb)]
     n, s = len(db), float(db.EPA.sum())
-    first = pb[(pb['pass'] == 1) & pb.passer_player_name.notna()].drop_duplicates(['game_id', 'pos_team'])
+    first = _first_passers()
     starts = int((first.passer_player_name == qb).sum())
     return s / (n + 200), starts, n
 
@@ -95,6 +109,7 @@ def main(ids):
     print(f"** In-season recalibration: margin {corr:+.2f} pts (from {ncorr} games this season), amendment 19.")
     print("** No college injury list exists (ESPN: none) - injuries and starting lineups are NOT checked by any tool: check by hand.\n")
     rows = []
+    bias = dict(over=0, total=0, fav=0, spread=0, home=0)
     for eid in ids:
         sm = get(f'{E}/summary?event={eid}')
         comp = sm['header']['competitions'][0]
@@ -198,6 +213,7 @@ def main(ids):
         else:
             checks.append('weather: no ESPN forecast - check by hand')
         checks.append('BET CAP: at most 3 bets on this game; never two parlay legs from the same team')
+        bias['total'] += 1; bias['over'] += ou == 'Over'; bias['spread'] += 1; bias['fav'] += sp_line < 0; bias['home'] += sp_team == hn
         print('  ' + '\n  '.join('** ' + c for c in checks) + '\n')
         for mk, sd_, pk, ln, pr, ex in (('spread', 'home' if edge > 0 else 'away', sp_team, sp_line, sp_price, round(pm, 2)),
                                         ('winner', 'home' if ph >= .5 else 'away', wt, None, wml, round(wp_, 3)),
@@ -205,6 +221,11 @@ def main(ids):
             rows.append(dict(league='cfb', event=eid, kickoff=comp['date'], game=f'{an}@{hn}', market=mk, side=sd_, pick=pk, line=ln,
                              price=pr, label=('TESTED PICK' if (mk == 'total' and abs(pt - tot) >= 2) or (mk == 'spread' and e2) else 'LEAN'), model=ex,
                              logged_at=now.isoformat(timespec='seconds'), result=None))
+    if bias['total']:
+        b = lambda k, n: bias[k] / max(bias[n], 1)
+        flags = [nm for nm, v in (('Overs', b('over', 'total')), ('favorites', b('fav', 'spread')), ('home teams', b('home', 'spread'))) if v > .65 or v < .35]
+        print(f"BIAS CHECK (rule 7b): Overs {b('over', 'total'):.0%} of totals, favorites {b('fav', 'spread'):.0%} and home teams "
+              f"{b('home', 'spread'):.0%} of spread picks" + (f"  << past 65% one way: {', '.join(flags)}" if flags else ''))
     if rows:
         os.makedirs(os.path.dirname(LOG), exist_ok=True)
         new = pd.DataFrame(rows)

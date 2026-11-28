@@ -259,3 +259,14 @@ early/late periods, freeze, checks a-k).
 19. (Nov 28, AFTER the amendment-18 result - card wiring only.) College card spreads: in-season recalibration (1b)
     on the all-seasons margin model; a spread 2+ points off the DK line is labelled TESTED PICK (56.3% / 54.7%,
     with the multiple-testing caution printed). Totals unchanged (amendment 17). NFL unchanged.
+20. (Nov 28 ~11 PM CT, Chris: "you are averaging instead of seeing how a team changes from year to year, especially
+    in CFB where the transfer portal has drastically changed CFB in the last 2 years". Written BEFORE any result.)
+    Evidence checked first (team strength only, no betting results): correlation of a team's season EPA margin with
+    the previous season fell from 0.49-0.60 (2017-2023, most years) to 0.40 / 0.45 / 0.39 (2024 / 2025 / 2026).
+    Also found AFTER earlier results (stated, not used to choose anything): the college total model is above the DK
+    line on 66-67% of games from week 9 on in 2025-26 while Overs hit 48-49%; Saturday Nov 28's card had 87% Overs.
+    TEST - portal-era ratings: in the college ratings, games from the PREVIOUS season are multiplied by k
+    (k = 1 current, 0.5, 0.25). Everything else as the current card (H = 4; margin all-seasons fit + in-season
+    recalibration; total last-3 median). k chosen on 2024 (all-games spread + total squared error), then 2025-2026
+    checked ONCE. Bets: spread/total all games and edge 2+, Over share printed. The card switches to the chosen k
+    only if it beats k = 1 on 2025-26 on BOTH spread and total all-games hit rate. Rating window stays two seasons.
