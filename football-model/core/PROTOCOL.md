@@ -240,3 +240,19 @@ early/late periods, freeze, checks a-k).
     median total model; a total 2+ points off the DK line is labelled TESTED PICK with its record (53.1% / 57.2%);
     under 2 points stays LEAN. College spreads and winners stay on the all-seasons fit (recent-only did not improve
     them). NFL stays all-seasons for everything.
+18. (Nov 28, Chris: "Maybe you need to look at it in different ways" -> "try 1 and 2". Written BEFORE any result.
+    Era evidence checked first from plays/points per game only, no betting results: college FBS plays/game fell from
+    179.7 (2022) to 175.6 (2023) and stayed lower, totals and points fell with it -> college era starts 2023.
+    NFL has no single clean break (points 43.8 in 2022 after 46.0 in 2021; plays drift down 2024-25) -> NFL era
+    starts 2022 (first season of the lower-scoring run).)
+    APPROACH 1 - follow the changes (base = the current card models: college margin all-seasons, college total
+    last-3 median; NFL all-seasons least squares):
+      1a ERA FIT: weights for season S fit only on seasons of the same era before S; if there is none yet, last 3.
+      1b IN-SEASON RECALIBRATION: margin and total predictions get + (sum of this model's errors on games earlier
+         in the SAME season) / (games + 100), so the model adjusts within weeks when the game changes.
+    APPROACH 2 - predict the bet result directly: gradient-boosted trees (sklearn HistGradientBoosting, settings
+      fixed now: depth 3, learning rate 0.05, 200 rounds, min 50 games per leaf) trained on "home covered?" and
+      "Over hit?" (pushes out) from every model input plus the line. Variants: trained on all earlier seasons, or
+      on the last 3 seasons. Bet the side with chance >= 53%, 55%, 58% (three fixed thresholds).
+    Judged on the recent periods: NFL 2021-23 / 2024-26; college 2020-22 / 2023-26 (DK). Pass = 52.4%+ both
+    periods, p < 0.05, 100+ bets each. Over share printed. Compared with the current card models on the same games.
